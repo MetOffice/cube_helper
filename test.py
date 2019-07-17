@@ -45,8 +45,11 @@ class TestIrisCmipWrapper(unittest.TestCase):
         dataset = Dataset('data/')
         for filename in dataset.data_filelist:
             self.assertTrue(isinstance(filename, str))
+        self.assertTrue(isinstance(dataset.loaded_cubes, list))
 
-
+        cube_class_test = iris.load_cube('data/pr_Amon_HadGEM2-ES_rcp26_r1i1p1_200512-203011.nc')
+        for cube in dataset.loaded_cubes:
+            self.assertEqual(type(cube), type(cube_class_test))
 
 
 
