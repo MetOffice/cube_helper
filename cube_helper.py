@@ -12,7 +12,6 @@ class CubeHelper(object):
 	def __init__(self, opt_constraint = None, opt_filetype = ".nc"):
 		self.opt_constraint = opt_constraint
 		self.opt_filetype = opt_filetype
-		self.data_filelist = []
 		self.loaded_cubes = []
 		self.cube_list = None
 		self.combined_cube = None
@@ -58,14 +57,14 @@ class CubeHelper(object):
 	def load_from_filelist(self, data_filelist):
 		if self.is_loaded == True:
 			print('\n\nCubes already loaded\n\n')
-		self.data_filelist = data_filelist
-		for filename in self.data_filelist:
+
+		for filename in data_filelist:
 			if filename.endswith(self.opt_filetype):
 				break
 			else:
 				print('\n\nThe selected filetype is not present in data_filelist\n\n')
 
-		for filename in self.data_filelist:
+		for filename in data_filelist:
 			if self.opt_constraint == None:
 				try:
 					self.loaded_cubes.append(iris.load_cube(filename))
@@ -102,7 +101,12 @@ class CubeHelper(object):
 
 	#get units of resultant cube
 	def get_units(self):
-		return self.units
+		if not self.is_loaded:
+			print('\n\nCubes musted be loaded first.')
+		if self.is_concatenated:
+			return self.units
+		else:
+			return self.loaded_cubes[0].units
 
 	def concatenate_cube(self):
 		if self.is_loaded and self.is_unified:
