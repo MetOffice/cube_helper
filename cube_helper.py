@@ -14,7 +14,7 @@ class CubeHelper(object):
 		self.opt_filetype = opt_filetype
 		self.loaded_cubes = []
 		self.cube_list = None
-		self.combined_cube = None
+		self.concatenated_cube = None
 		self.units = ''
 		self.long_name = ''
 		self.standard_name = ''
@@ -22,20 +22,18 @@ class CubeHelper(object):
 		self.is_loaded = False
 		self.is_concatenated = False
 
+	def reset_helper(self, opt_constraint = None, opt_filetype = ".nc"):
+		self.__init__(opt_constraint, opt_filetype)
+
 	"""
 	returns a string representation, will only work when load_cube(), unify_cube()
 	and concatenate have been called
 	"""
-
-	def reset_helper(self, opt_constraint = None, opt_filetype = ".nc"):
-		self.__init__(opt_constraint, opt_filetype)
-
-
 	def __repr__(self):
 		if self.is_concatenated == False:
 			return 'Cube has not been combined'.format(self=self)
 		else:
-			return '{self.combined_cube}'.format(self=self)
+			return '{self.concatenated_cube}'.format(self=self)
 
 	#loads from a given directory, this method will load all specified file type
 	def load_from_dir(self, dir):
@@ -93,11 +91,14 @@ class CubeHelper(object):
 
 	#get the resultant cube of a merger
 	def get_combined_cube(self):
-		return self.combined_cube
+		return self.concatenated_cube
 
 	#get the list of loaded cubes as a CubeList
 	def get_cubelist(self):
 		return self.cube_list
+
+	def get_loaded_cubes(self):
+		return self.loaded_cubes
 
 	#get units of resultant cube
 	def get_units(self):
@@ -110,10 +111,10 @@ class CubeHelper(object):
 
 	def concatenate_cube(self):
 		if self.is_loaded and self.is_unified:
-			self.combined_cube = self.cube_list.concatenate_cube()
-			self.units = self.combined_cube.units
-			self.long_name = self.combined_cube.long_name
-			self.standard_name = self.combined_cube.standard_name
+			self.concatenated_cube = self.cube_list.concatenate_cube()
+			self.units = self.concatenated_cube.units
+			self.long_name = self.concatenated_cube.long_name
+			self.standard_name = self.concatenated_cube.standard_name
 			self.is_concatenated = True
 		else:
 			print('\n\nCubes must be loaded and unified (in that order) before concatenation\n\n')
@@ -121,7 +122,7 @@ class CubeHelper(object):
 	def concatenate(self):
 		if self.is_loaded and self.is_unified:
 			self.cube_list = iris.cube.CubeList(self.loaded_cubes)
-			self.combined_cube = self.cube_list.concatenate()
+			self.concatenated_cube = self.cube_list.concatenate()
 		else:
 			print('\n\nCubes must be loaded and unified (in that order) before concatenation\n\n')
 
@@ -129,7 +130,7 @@ class CubeHelper(object):
 	def merge_cube(self):
 		if self.is_loaded and self.is_unified:
 			self.cube_list = iris.cube.CubeList(self.loaded_cubes)
-			self.combined_cube = self.cube_list.merge_cube()
+			self.concatenated_cube = self.cube_list.merge_cube()
 
 		else:
 			print('\n\nCubes must be loaded and unified (in that order) before merger\n\n')
@@ -138,7 +139,7 @@ class CubeHelper(object):
 	def merge(self):
 		if self.is_loaded and self.is_unified:
 			self.cube_list = iris.cube.CubeList(self.loaded_cubes)
-			self.combined_cube = self.cube_list.merge()
+			self.concatenated_cube = self.cube_list.merge()
 		else:
 			print('\n\nCubes must be loaded and unified (in that order) before merger\n\n')
 
@@ -149,5 +150,24 @@ class CubeHelper(object):
 	def collapse_dimension(self, dimension):
 		for index, cube in enumerate(self.loaded_cubes):
 			self.loaded_cubes[index] = cube.collapsed(dimension, iris.analysis.MEAN)
+		self.cube_list = iris.cube.CubeList(self.loaded_cubes)
 
-
+	def remove_attributes(self):
+		attributes = ['further_info_url', 'initialization_index', 'mo_runid',
+					  'table_info', 'variant_label', 'CDO', 'parent_activity_id',
+					  'parent_simulation_id', 'original_name', 'contact',
+					  'branch_method', 'variant_info', 'CDI', 'references',
+					  'parent_mip_era', 'data_specs_version', 'grid', 'institution',
+					  'institution_id', 'nominal_resolution', 'source', 'source_id',
+					  'title', 'license', 'cmor_version', 'branch_time_in_parent',
+					  'branch_time_in_child', 'parent_time_units', 'member_id',
+					  'parent_source_id', 'parent_variant_label', 'grid_label',
+					  'source_type', 'run_variant', 'branch_time', 'creation_date',
+					  'history', 'tracking_id', 'realm', 'nco_openmp_thread_number',
+					  'parent_experiment_id', 'name', 'EXPID', 'realization_index',
+					  'physics_index', 'forcing_index']
+		for index, cube in enumerate(self.loaded_cubes):
+			for key in attributes:
+				cube.attributes[key] = ''
+				self.loaded_cubes[index] = cube
+		self.cube_list = iris.cube.CubeList(self.loaded_cubes)
