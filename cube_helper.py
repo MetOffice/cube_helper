@@ -5,11 +5,12 @@ from libs.utils import equalise_attributes, unify_time_units
 
 
 class CubeHelper(object):
-	"""
-	initialises class, where constraints and filetypes can be specified. data_file list
-	is a list of cube filepaths or filenames to be manipulated.
-	"""
+
 	def __init__(self, opt_constraint = None, opt_filetype = ".nc"):
+		"""
+		initialises class, where constraints and filetypes can be specified. data_file list
+		is a list of cube filepaths or filenames to be manipulated.
+		"""
 		self.opt_constraint = opt_constraint
 		self.opt_filetype = opt_filetype
 		self.loaded_cubes = []
@@ -23,20 +24,28 @@ class CubeHelper(object):
 		self.is_concatenated = False
 
 	def reset_helper(self, opt_constraint = None, opt_filetype = ".nc"):
+		"""
+		resets the objects by recalling the init method
+		"""
 		self.__init__(opt_constraint, opt_filetype)
 
-	"""
-	returns a string representation, will only work when load_cube(), unify_cube()
-	and concatenate have been called
-	"""
+
 	def __repr__(self):
 		if self.is_concatenated == False:
 			return 'Cube has not been combined'.format(self=self)
 		else:
 			return '{self.concatenated_cube}'.format(self=self)
 
-	#loads from a given directory, this method will load all specified file type
+
 	def load_from_dir(self, dir):
+		"""
+		Loads a set of cubes from a given directory, single cubes are loaded and
+		appended into an iterable as well as being loaded into a cubelist.
+
+		:param string dir: directory to load data from
+		:return iris.cube.CubleList: CubeList loaded form directory
+		:return list loaded cubes: List of loaded cubes (needed to manipulate metadata etc)
+		"""
 		if self.is_loaded == True:
 			print('\n\nCubes already loaded\n\n')
 
@@ -51,8 +60,16 @@ class CubeHelper(object):
 		self.is_loaded = True
 
 
-	#takes a custom list as an argument
+
 	def load_from_filelist(self, data_filelist):
+		"""
+		Loads a set of cubes from a given directory, single cubes are loaded and
+		appended into an iterable as well as being loaded into a cubelist.
+
+		:param list data_filelist: directory to load data from
+		:return iris.cube.CubleList: CubeList loaded from file list
+		:return list loaded_cubes: List of loaded cubes (needed to manipulate metadata etc)
+		"""
 		if self.is_loaded == True:
 			print('\n\nCubes already loaded\n\n')
 
@@ -74,13 +91,19 @@ class CubeHelper(object):
 				except:
 					pass
 
-		#make sure multiple loading parameters aren't called
 		self.is_loaded = True
 		if not self.loaded_cubes:
 			print('\n\nThe selected cubes have not loaded correctly\n\n')
 		self.cube_list = iris.cube.CubeList(self.loaded_cubes)
 
+
+
 	def unify_cube(self):
+		"""
+		Equalises the attributes and time units for appropriate merger or concatonation.
+
+		:return list loaded_cubes: Cubes with equalised attributes reloaded into loaded_list
+		"""
 		if self.is_loaded:
 			unify_time_units(self.loaded_cubes)
 			equalise_attributes(self.loaded_cubes)
@@ -89,8 +112,13 @@ class CubeHelper(object):
 			print('\n\nCubes must be loaded before unification\n\n')
 
 
-	#get the resultant cube of a merger
+
 	def get_combined_cube(self):
+		"""
+		Returns the concatenated_cube if cube_list has been concatenated.
+
+		:return iris.cube.Cube: concatenated resultant cube
+		"""
 		return self.concatenated_cube
 
 	#get the list of loaded cubes as a CubeList
