@@ -1,5 +1,6 @@
 import os
 import iris
+from cube_equaliser import CubeEqualiser
 
 class CubeSet(object):
 
@@ -10,6 +11,8 @@ class CubeSet(object):
 		"""
 		self.loaded_cubes = loaded_cubes
 		self.cube_list = iris.cube.CubeList(loaded_cubes)
+		CubeEqualiser.equalise_attributes(self.loaded_cubes)
+		CubeEqualiser.unify_time_units(self.loaded_cubes)
 
 
 	def __repr__(self):
