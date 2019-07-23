@@ -2,12 +2,15 @@ import os
 import iris
 from cube_dataset import CubeSet
 from cube_loader import CubeLoader
+from cube_equaliser import remove_attributes, equalise_attributes, unify_time_units
 
 
 class CubeHelper(object):
 
-    def __init__(self, directory, opt_filetype = ".nc", opt_constraints = None,):
+    def __init__(self, directory, opt_filetype = ".nc", opt_constraints = None):
         self.directory = directory
+        self.opt_filetype = opt_filetype
+        self.opt_constraints = opt_constraints
         if type(directory) == str:
             loaded_cubes = CubeLoader.load_from_dir(directory, opt_constraints, opt_filetype)
             self.cube_dataset = CubeSet(loaded_cubes)
@@ -17,27 +20,26 @@ class CubeHelper(object):
         else:
             print("cube input parameters invalid")
 
-    def concatenate(self):
+    def concatenated(self):
         return self.cube_dataset.cube_list.concatenate()
 
-    def concatenate_cube(self):
+    def concatenated_cube(self):
         return self.cube_dataset.cube_list.concatenate_cube()
 
-    def merge_cube(self):
+    def merged_cube(self):
         return self.cube_dataset.cube_list.merge_cube()
 
-    def merge(self):
+    def merged(self):
         return self.cube_dataset.cube_list.merge()
 
     def convert_units(self, unit):
         for cube in self.cube_dataset.loaded_cubes:
             cube.convert_units(unit)
 
-    # def collapse_dimension(self, dimension):
-    # 	for index, cube in enumerate(self.cube_dataset.loaded_cubes):
-    #
-    # 	self.cube_dataset.loaded_cubes[index] = cube.collapsed(dimension, iris.analysis.MEAN)
-    # 	self.cube_list = iris.cube.CubeList(self.cube_dataset.loaded_cubes)
-    #
-    # def remove_attributes(self, cubes):
-    # 	self.cube_list = CubeEqualiser.remove_attributes(cubes)
+    def collapsed_dimension(self, dimension):
+        for index, cube in enumerate(self.cube_dataset.loaded_cubes):
+            self.cube_dataset.loaded_cubes[index] = cube.collapsed(dimension, iris.analysis.MEAN)
+            return iris.cube.CubeList(self.cube_dataset.loaded_cubes)
+
+    def remove_attributes(self, cubes):
+        remove_attributes(cubes)
