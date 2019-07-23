@@ -31,6 +31,7 @@ def unify_time_units(cubes):
 				epoch = epochs.setdefault(time_coord.units.calendar, time_coord.units.origin)
 				new_unit = cf_units.Unit(epoch, time_coord.units.calendar)
 				time_coord.convert_units(new_unit)
+	return cubes
 
 
 def remove_attributes(cubes):
@@ -39,4 +40,10 @@ def remove_attributes(cubes):
 		for key in attributes_list:
 			cube.attributes[key] = ''
 			cubes[index] = cube
-	return iris.cube.CubeList(cubes)
+	return cubes
+
+
+def unify_data_type(cubes):
+	for cube in cubes:
+		cube.data = np.float32(cube.data)
+	return cubes
