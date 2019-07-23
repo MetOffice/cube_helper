@@ -8,13 +8,11 @@ class CubeHelper(object):
 
 	def __init__(self, directory, opt_filetype = ".nc", opt_constraints = None,):
 		self.directory = directory
-		self.opt_filetype = opt_filetype
-        self.opt_constraints = opt_constraints
 		if type(dir) == str:
-			loaded_cubes = CubeLoader.load_from_dir(self.directory)
+			loaded_cubes = CubeLoader.load_from_dir(self.directory, opt_filetype, opt_constraints)
 			self.cube_dataset = CubeSet(loaded_cubes)
 		elif type([]):
-			loaded_cubes = CubeLoader.load_from_filelist(self.directory)
+			loaded_cubes = CubeLoader.load_from_filelist(self.directory, opt_filetype, opt_constraints)
 			self.cube_dataset = CubeSet(loaded_cubes)
 		else:
 			print("cube input parameters invalid")
@@ -38,13 +36,14 @@ class CubeHelper(object):
 		return self.cube_dataset.cube_list.merge()
 
 	def convert_units(self, unit):
-		for cube in self.loaded_cubes:
+		for cube in self.cube_dataset.loaded_cubes:
 			cube.convert_units(unit)
 
-	def collapse_dimension(self, dimension):
-		for index, cube in enumerate(self.loaded_cubes):
-			self.loaded_cubes[index] = cube.collapsed(dimension, iris.analysis.MEAN)
-		self.cube_list = iris.cube.CubeList(self.loaded_cubes)
-
-	def remove_attributes(self, cubes):
-		self.cube_list = CubeEqualiser.remove_attributes(cubes)
+	# def collapse_dimension(self, dimension):
+	# 	for index, cube in enumerate(self.cube_dataset.loaded_cubes):
+    #
+	# 	self.cube_dataset.loaded_cubes[index] = cube.collapsed(dimension, iris.analysis.MEAN)
+	# 	self.cube_list = iris.cube.CubeList(self.cube_dataset.loaded_cubes)
+    #
+	# def remove_attributes(self, cubes):
+	# 	self.cube_list = CubeEqualiser.remove_attributes(cubes)
