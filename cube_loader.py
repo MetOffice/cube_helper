@@ -5,26 +5,26 @@ import iris
 class CubeLoader(object):
 
 
-	def load_from_dir(self, dir, opt_filetype='.nc', opt_constraint=None):
+	def load_from_dir(self, directory, opt_filetype='.nc', opt_constraint=None):
 		"""
 		Loads a set of cubes from a given directory, single cubes are loaded and
 		appended into an iterable as well as being loaded into a cubelist.
 
-		:param string dir: directory to load data from
+		:param string directory: directory to load data from
 		:return iris.cube.CubleList: CubeList loaded form directory
 		:return list loaded cubes: List of loaded cubes (needed to manipulate metadata etc)
 		"""
 		if opt_constraint == None:
 			loaded_cubes = []
-			for path in os.listdir(dir):
-				full_path = os.path.join(dir, path)
+			for path in os.listdir(directory):
+				full_path = os.path.join(directory, path)
 				if os.path.isfile(full_path) and full_path.endswith(opt_filetype):
 					loaded_cubes.append(iris.load_cube(full_path))
 			return loaded_cubes
 		else:
 			loaded_cubes = []
-			for path in os.listdir(dir):
-				full_path = os.path.join(dir, path)
+			for path in os.listdir(directory):
+				full_path = os.path.join(directory, path)
 				if os.path.isfile(full_path) and full_path.endswith(opt_filetype):
 					loaded_cubes.append(iris.load_cube(full_path, opt_constraint))
 			return loaded_cubes
