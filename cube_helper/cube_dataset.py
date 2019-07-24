@@ -1,6 +1,6 @@
 import os
 import iris
-from cube_equaliser import equalise_attributes, unify_time_units
+from cube_helper.cube_helper.cube_equaliser import equalise_attributes, unify_time_units
 
 class CubeSet(object):
 
