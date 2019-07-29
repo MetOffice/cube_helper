@@ -20,10 +20,6 @@ class TestCubeHelper(unittest.TestCase):
                                             'test_data/air_temp/air_temp_5.pp']
         example_case = CubeHelp(filelist, opt_filetype='.pp')
         self.assertEqual(type(example_case.directory), list)
-        single_load = iris.load_cube('test_data/air_temp/air_temp_1.pp')
-        single_case = CubeHelp(single_load, opt_filetype='.pp')
-        self.assertEqual(len(single_case.cube_dataset.loaded_cubes), 1)
-
     # def test_concatenated_cube(self):
     #     example_case = CubeHelp('test_data/north_sea_ice', opt_filetype='.pp')
     #     self.assertEqual(type(example_case.cube_dataset.cube_list), iris.cube.CubeList)
@@ -53,6 +49,13 @@ class TestCubeHelper(unittest.TestCase):
         example_case.convert_units('celsius')
         for cube in example_case.cube_dataset.loaded_cubes:
             self.assertEqual(cube.units, 'celsius')
+
+    def test_collapsed_dimension(self):
+        example_case = CubeHelp('test_data/north_sea_ice', opt_filetype='.pp')
+        example_case.collapsed_dimension('longitude')
+        for cube in example_case.cube_dataset.loaded_cubes:
+            self.assertEqual(cube.ndim, 1)
+
 
 if __name__ == "__main__":
     unittest.main()
