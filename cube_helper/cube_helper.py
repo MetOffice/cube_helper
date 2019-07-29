@@ -50,13 +50,13 @@ class CubeHelp(object):
 		"""
 		:return self.cube_dataset.cube_list.merge_cube(): The merged cube of the cube_dataset
 		"""
-		return self.cube_dataset.cube_list.merge_cube(unique=False)
+		return self.cube_dataset.cube_list.merge_cube()
 
 	def merged(self):
 		"""
 		:return self.cube_dataset.cube_list.merge(): The merged cubes of the cube_dataset
 		"""
-		return self.cube_dataset.cube_list.merge(unique=False)
+		return self.cube_dataset.cube_list.merge()
 
 	def convert_units(self, unit):
 		"""
