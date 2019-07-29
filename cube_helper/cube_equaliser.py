@@ -7,7 +7,9 @@ import cf_units
 
 
 def equalise_attributes(cubes):
-	# Work out which attributes are identical across all the cubes.
+	"""
+	:param cubes: Cubes to be equalised
+	"""
 	common_keys = list(cubes[0].attributes.keys())
 	for cube in cubes[1:]:
 		cube_keys = list(cube.attributes.keys())

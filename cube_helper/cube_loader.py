@@ -4,6 +4,7 @@ import iris
 
 class CubeLoader(object):
 
+
 	@staticmethod
 	def load_from_dir(directory, opt_constraint=None, opt_filetype='.nc'):
 		"""
