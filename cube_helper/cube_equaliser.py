@@ -10,6 +10,7 @@ def equalise_attributes(cubes):
 	"""
 	:param cubes: Cubes to be equalised
 	"""
+	uncommon_keys = []
 	common_keys = list(cubes[0].attributes.keys())
 	for cube in cubes[1:]:
 		cube_keys = list(cube.attributes.keys())
@@ -22,8 +23,10 @@ def equalise_attributes(cubes):
 	for cube in cubes:
 		for key in list(cube.attributes.keys()):
 			if key not in common_keys:
+				uncommon_keys.append(cube.attributes[key])
 				del cube.attributes[key]
-
+	uncommon_keys = list(set(uncommon_keys))
+	return uncommon_keys
 
 def unify_time_units(cubes):
 	epochs = {}
