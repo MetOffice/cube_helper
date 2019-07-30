@@ -3,7 +3,7 @@ import sys
 import iris
 from cube_loader import CubeLoader
 from cube_equaliser import remove_attributes, unify_data_type, unify_time_units, equalise_attributes
-from cube_dataset import CubeSet
+from cube_dataset import CubeDataset
 
 
 class CubeHelp(object):
@@ -26,13 +26,13 @@ class CubeHelp(object):
 			if not loaded_cubes:
 				print("No cubes found")
 			else:
-				self.cube_dataset = CubeSet(loaded_cubes)
+				self.cube_dataset = CubeDataset(loaded_cubes)
 		elif type(directory) == type([]):
 			loaded_cubes = CubeLoader.load_from_filelist(directory, opt_constraints, opt_filetype)
 			if not loaded_cubes:
 				print("No cubes found")
 			else:
-				self.cube_dataset = CubeSet(loaded_cubes)
+				self.cube_dataset = CubeDataset(loaded_cubes)
 
 	def equalise(self):
 		equalise_attributes(self.cube_dataset.cube_list)
