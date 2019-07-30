@@ -31,6 +31,14 @@ class TestCubeEqualiser(unittest.TestCase):
             for key in keys:
                 self.assertEqual(cube.attributes[key], '')
 
+    def test_unify_data_type(self):
+        filepath = 'test_data/air_temp'
+        test_load = CubeLoader.load_from_dir(filepath, opt_filetype='.pp')
+        test_load_datatype = test_load[0].dtype
+        unify_data_type(test_load)
+        self.assertEqual(test_load_datatype,'float32')
+
+
 
 if __name__ == "__main__":
     unittest.main()
