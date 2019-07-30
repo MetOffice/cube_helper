@@ -14,11 +14,11 @@ class TestCubeLoader(unittest.TestCase):
                     'test_data/air_temp/air_temp_3.pp', 'test_data/air_temp/air_temp_4.pp'
                                                         'test_data/air_temp/air_temp_5.pp']
         example_case = CubeLoader.load_from_filelist(filelist, opt_filetype='.pp')
-        self.assertEqual(type(example_case), list)
+        self.assertEqual(type(example_case), iris.cube.CubeList)
 
     def test_load_from_dir(self):
         example_case = CubeLoader.load_from_dir('test_data/air_temp', opt_filetype='.pp')
-        self.assertEqual(type(example_case), list)
+        self.assertEqual(type(example_case), iris.cube.CubeList)
 
 
 if __name__ == "__main__":
