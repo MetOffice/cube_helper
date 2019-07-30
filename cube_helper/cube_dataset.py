@@ -4,8 +4,7 @@ class CubeSet(iris.cube.CubeList):
 
 	def __init__(self, loaded_cubes):
 		"""
-		initialises class. data_file list
-		is a list of cube filepaths or filenames to be manipulated.
+		initialises class. inherits from CubeList.
 		"""
 		self.cube_list = iris.cube.CubeList(loaded_cubes)
 
