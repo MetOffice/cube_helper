@@ -9,10 +9,7 @@ class CubeSet(object):
 		initialises class. data_file list
 		is a list of cube filepaths or filenames to be manipulated.
 		"""
-
 		self.cube_list = iris.cube.CubeList(loaded_cubes)
-		self.unique_attributes = equalise_attributes(loaded_cubes)
-		unify_time_units(loaded_cubes)
 		self.loaded_cubes = loaded_cubes
 
 	def __repr__(self):
@@ -21,6 +18,10 @@ class CubeSet(object):
 		:return: formatted CubeList
 		"""
 		return '{self.cube_list}'.format(self=self)
+
+	def append(self, other):
+		self.loaded_cubes.extend(other.loaded_cubes)
+		self.cube_list = iris.cube.CubeList(self.loaded_cubes)
 
 
 

@@ -25,8 +25,6 @@ def equalise_attributes(cubes):
 			if key not in common_keys:
 				uncommon_keys.append(cube.attributes[key])
 				del cube.attributes[key]
-	uncommon_keys = list(set(uncommon_keys))
-	return uncommon_keys
 
 def unify_time_units(cubes):
 	"""
