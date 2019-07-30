@@ -9,9 +9,8 @@ from cube_dataset import CubeSet
 class CubeHelp(object):
 	"""
 	A wrapper class to implement methods provided by cube_equaliliser
+	and cube_loader.
 	"""
-
-
 	def __init__(self, directory, opt_filetype = ".nc", opt_constraints = None):
 		"""
 		:param directory: The directory or list containing the set of cubes
@@ -35,6 +34,10 @@ class CubeHelp(object):
 				self.cube_dataset = CubeSet(loaded_cubes)
 
 	def equalise(self):
+		"""
+		Calls  equalise_attributes and unify_time_units to allow merge/concat
+		:return: equalised cubes
+		"""
 		equalise_attributes(self.cube_dataset.cube_list)
 		unify_time_units(self.cube_dataset.cube_list)
 
