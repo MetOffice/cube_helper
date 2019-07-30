@@ -2,7 +2,7 @@ import os
 import sys
 import iris
 from cube_loader import CubeLoader
-from cube_equaliser import remove_attributes
+from cube_equaliser import remove_attributes, unify_data_type, unify_time_units, equalise_attributes
 from cube_dataset import CubeSet
 
 
@@ -33,6 +33,12 @@ class CubeHelp(object):
 				print("No cubes found")
 			else:
 				self.cube_dataset = CubeSet(loaded_cubes)
+
+	def equalise(self):
+		equalise_attributes(self.cube_dataset.loaded_cubes)
+		unify_time_units(self.cube_dataset.loaded_cubes)
+		self.cube_dataset.cube_list = iris.cube.CubeList(self.cube_dataset.loaded_cubes)
+
 
 	def concatenated(self):
 		"""
@@ -77,3 +83,10 @@ class CubeHelp(object):
 
 	def remove_attributes(self):
 		remove_attributes(self.cube_dataset.loaded_cubes)
+
+
+	def unify_data_type(self):
+		unify_data_type(self.cube_dataset.loaded_cubes)
+
+	def add_to_dataset(self, other_cubes):
+		self.cube_dataset.append(other_cubes)
