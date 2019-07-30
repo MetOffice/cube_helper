@@ -13,7 +13,6 @@ class TestCubeHelper(unittest.TestCase):
 		example_case = CubeHelp('test_data/air_temp', opt_constraints='air_temperature', opt_filetype='.pp')
 		self.assertEqual(example_case.directory, 'test_data/air_temp')
 		self.assertEqual(example_case.opt_constraints, 'air_temperature')
-		self.assertEqual(type(example_case.cube_dataset.loaded_cubes), list)
 		self.assertEqual(type(example_case.cube_dataset.cube_list), iris.cube.CubeList)
 		filelist = ['test_data/air_temp/air_temp_1.pp','test_data/air_temp/air_temp_2.pp',
 					'test_data/air_temp/air_temp_3.pp','test_data/air_temp/air_temp_4.pp'
@@ -25,6 +24,7 @@ class TestCubeHelper(unittest.TestCase):
 		filepath = '/project/champ/data/CMIP6/CMIP/MOHC/HadGEM3-GC31-LL/piControl/r1i1p1f1/Amon/tasmin/gn/v20190628'
 		example_case = CubeHelp(filepath)
 		self.assertEqual(type(example_case.cube_dataset.cube_list), iris.cube.CubeList)
+		example_case.equalise()
 		test_method = example_case.concatenated_cube()
 		self.assertEqual(type(test_method), iris.cube.Cube)
 		self.assertEqual(test_method.ndim, 3)
