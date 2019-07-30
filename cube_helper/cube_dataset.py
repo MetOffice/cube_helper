@@ -2,7 +2,7 @@ import os
 import iris
 from cube_equaliser import equalise_attributes, unify_time_units
 
-class CubeSet(object):
+class CubeSet(iris.cube.CubeList):
 
 	def __init__(self, loaded_cubes):
 		"""
@@ -10,7 +10,6 @@ class CubeSet(object):
 		is a list of cube filepaths or filenames to be manipulated.
 		"""
 		self.cube_list = iris.cube.CubeList(loaded_cubes)
-		self.loaded_cubes = loaded_cubes
 
 	def __repr__(self):
 		"""
@@ -19,9 +18,6 @@ class CubeSet(object):
 		"""
 		return '{self.cube_list}'.format(self=self)
 
-	def append(self, other):
-		self.loaded_cubes.extend(other.loaded_cubes)
-		self.cube_list = iris.cube.CubeList(self.loaded_cubes)
 
 
 
