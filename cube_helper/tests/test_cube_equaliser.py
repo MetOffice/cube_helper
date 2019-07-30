@@ -13,6 +13,15 @@ class TestCubeEqualiser(unittest.TestCase):
         for cubes in test_load:
             self.assertEqual(cubes.attributes, test_load[0].attributes)
 
+    def test_unify_time_units(self):
+        filepath = 'test_data/air_temp'
+        test_load = CubeLoader.load_from_dir(filepath, opt_filetype='.pp')
+        unify_time_units(test_load)
+        for index,cube in enumerate(test_load):
+            for time_coords in cube.coords():
+                if time_coords.units.is_time_reference():
+                    self.assertEqual(cube[index].units.calendar, cube[index-1].units.calendar)
+
 
 if __name__ == "__main__":
     unittest.main()
