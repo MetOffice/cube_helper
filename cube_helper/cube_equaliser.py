@@ -29,6 +29,9 @@ def equalise_attributes(cubes):
 	return uncommon_keys
 
 def unify_time_units(cubes):
+	"""
+	:param cubes: Cubes to be unified
+	"""
 	epochs = {}
 	for cube in cubes:
 		for time_coord in cube.coords():
@@ -40,6 +43,12 @@ def unify_time_units(cubes):
 
 
 def remove_attributes(cubes):
+	"""
+	strips cubes of ALL attributes and metadata. Aux coords should
+	be unaffected.
+	:param cubes: Cubes to be stripped of attributes
+	:return: cubes: after attributes have been removed
+	"""
 	attributes_list = list(cubes[0].attributes.keys())
 	for index, cube in enumerate(cubes):
 		for key in attributes_list:
@@ -49,6 +58,11 @@ def remove_attributes(cubes):
 
 
 def unify_data_type(cubes):
+	"""
+	Casts datatypes in iris numpy array to be of the same datatype
+	:param cubes: To be unified in datatypes
+	:return cubes: uniformly cast cubes
+	"""
 	for cube in cubes:
 		cube.data = np.float32(cube.data)
 	return cubes
