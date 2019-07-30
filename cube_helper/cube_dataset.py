@@ -16,6 +16,10 @@ class CubeSet(object):
 		self.loaded_cubes = loaded_cubes
 
 	def __repr__(self):
+		"""
+		prettify the set of cubes (CubeSet)
+		:return: formatted CubeList
+		"""
 		return '{self.cube_list}'.format(self=self)
 
 
