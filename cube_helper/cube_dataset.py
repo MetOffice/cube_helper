@@ -1,8 +1,6 @@
-import os
 import iris
-from cube_equaliser import equalise_attributes, unify_time_units
 
-class CubeDataset(iris.cube.CubeList):
+class CubeSet(iris.cube.CubeList):
 
 	def __init__(self, loaded_cubes):
 		"""
