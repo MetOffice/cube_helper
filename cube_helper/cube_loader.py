@@ -20,14 +20,14 @@ class CubeLoader(object):
 				full_path = os.path.join(directory, path)
 				if os.path.isfile(full_path) and full_path.endswith(opt_filetype):
 					loaded_cubes.append(iris.load_cube(full_path))
-			return loaded_cubes
+			return iris.cube.CubeList(loaded_cubes)
 		else:
 			loaded_cubes = []
 			for path in os.listdir(directory):
 				full_path = os.path.join(directory, path)
 				if os.path.isfile(full_path) and full_path.endswith(opt_filetype):
 					loaded_cubes.append(iris.load_cube(full_path, opt_constraint))
-			return loaded_cubes
+			return iris.cube.CubeList(loaded_cubes)
 
 	@staticmethod
 	def load_from_filelist(data_filelist, opt_constraint=None, opt_filetype='.nc'):
@@ -56,6 +56,4 @@ class CubeLoader(object):
 					loaded_cubes.append(iris.load_cube(filename, opt_constraint))
 				except:
 					pass
-
-		return loaded_cubes
-
+		return iris.cube.CubeList(loaded_cubes)
