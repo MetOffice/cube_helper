@@ -35,9 +35,8 @@ class CubeHelp(object):
 				self.cube_dataset = CubeSet(loaded_cubes)
 
 	def equalise(self):
-		equalise_attributes(self.cube_dataset.loaded_cubes)
-		unify_time_units(self.cube_dataset.loaded_cubes)
-		self.cube_dataset.cube_list = iris.cube.CubeList(self.cube_dataset.loaded_cubes)
+		equalise_attributes(self.cube_dataset.cube_list)
+		unify_time_units(self.cube_dataset.cube_list)
 
 
 	def concatenated(self):
@@ -68,25 +67,23 @@ class CubeHelp(object):
 		"""
 		:param unit: The approved unit to convert to.
 		"""
-		for cube in self.cube_dataset.loaded_cubes:
+		for cube in self.cube_dataset.cube_list:
 			cube.convert_units(unit)
 
 	def collapsed_dimension(self, dimension):
 		"""
 		:param dimension: the dimension of the cube to collapse
 		"""
-		for index, cube in enumerate(self.cube_dataset.loaded_cubes):
-			self.cube_dataset.loaded_cubes[index] = cube.collapsed(dimension, iris.analysis.MEAN)
-
-		self.cube_dataset.cube_list = iris.cube.CubeList(self.cube_dataset.loaded_cubes)
+		for index, cube in enumerate(self.cube_dataset.cube_list):
+			self.cube_dataset.cube_list[index] = cube.collapsed(dimension, iris.analysis.MEAN)
 
 
 	def remove_attributes(self):
-		remove_attributes(self.cube_dataset.loaded_cubes)
+		remove_attributes(self.cube_dataset.cube_list)
 
 
 	def unify_data_type(self):
-		unify_data_type(self.cube_dataset.loaded_cubes)
+		unify_data_type(self.cube_dataset.cube_list)
 
 	def add_to_dataset(self, other_cubes):
 		self.cube_dataset.append(other_cubes)
