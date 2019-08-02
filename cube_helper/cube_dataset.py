@@ -17,6 +17,3 @@ class CubeSet(iris.cube.CubeList):
 
 
 
-
-
-

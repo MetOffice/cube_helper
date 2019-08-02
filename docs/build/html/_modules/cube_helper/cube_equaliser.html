@@ -1,0 +1,260 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>cube_helper.cube_equaliser &mdash; cube_helper 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> cube_helper
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">cube_helper</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>cube_helper.cube_equaliser</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for cube_helper.cube_equaliser</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">iris</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">cf_units</span>
+
+
+
+
+<div class="viewcode-block" id="equalise_attributes"><a class="viewcode-back" href="../../cube_helper.html#cube_helper.cube_equaliser.equalise_attributes">[docs]</a><span class="k">def</span> <span class="nf">equalise_attributes</span><span class="p">(</span><span class="n">cubes</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	:param cubes: Cubes to be equalised</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="n">uncommon_keys</span> <span class="o">=</span> <span class="p">[]</span>
+	<span class="n">common_keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">cubes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">attributes</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+	<span class="k">for</span> <span class="n">cube</span> <span class="ow">in</span> <span class="n">cubes</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+		<span class="n">cube_keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">cube</span><span class="o">.</span><span class="n">attributes</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+		<span class="n">common_keys</span> <span class="o">=</span> <span class="p">[</span>
+			<span class="n">key</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">common_keys</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">key</span> <span class="ow">in</span> <span class="n">cube_keys</span> <span class="ow">and</span>
+				<span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">cube</span><span class="o">.</span><span class="n">attributes</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">==</span> <span class="n">cubes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">attributes</span><span class="p">[</span><span class="n">key</span><span class="p">]))]</span>
+
+	<span class="c1"># Remove all the other attributes.</span>
+	<span class="k">for</span> <span class="n">cube</span> <span class="ow">in</span> <span class="n">cubes</span><span class="p">:</span>
+		<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">cube</span><span class="o">.</span><span class="n">attributes</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+			<span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">common_keys</span><span class="p">:</span>
+				<span class="n">uncommon_keys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cube</span><span class="o">.</span><span class="n">attributes</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+				<span class="k">del</span> <span class="n">cube</span><span class="o">.</span><span class="n">attributes</span><span class="p">[</span><span class="n">key</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="unify_time_units"><a class="viewcode-back" href="../../cube_helper.html#cube_helper.cube_equaliser.unify_time_units">[docs]</a><span class="k">def</span> <span class="nf">unify_time_units</span><span class="p">(</span><span class="n">cubes</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	:param cubes: Cubes to be unified</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="n">epochs</span> <span class="o">=</span> <span class="p">{}</span>
+	<span class="k">for</span> <span class="n">cube</span> <span class="ow">in</span> <span class="n">cubes</span><span class="p">:</span>
+		<span class="k">for</span> <span class="n">time_coord</span> <span class="ow">in</span> <span class="n">cube</span><span class="o">.</span><span class="n">coords</span><span class="p">():</span>
+			<span class="k">if</span> <span class="n">time_coord</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">is_time_reference</span><span class="p">():</span>
+				<span class="n">epoch</span> <span class="o">=</span> <span class="n">epochs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">time_coord</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">calendar</span><span class="p">,</span> <span class="n">time_coord</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">origin</span><span class="p">)</span>
+				<span class="n">new_unit</span> <span class="o">=</span> <span class="n">cf_units</span><span class="o">.</span><span class="n">Unit</span><span class="p">(</span><span class="n">epoch</span><span class="p">,</span> <span class="n">time_coord</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">calendar</span><span class="p">)</span>
+				<span class="n">time_coord</span><span class="o">.</span><span class="n">convert_units</span><span class="p">(</span><span class="n">new_unit</span><span class="p">)</span>
+	<span class="k">return</span> <span class="n">cubes</span></div>
+
+
+<div class="viewcode-block" id="remove_attributes"><a class="viewcode-back" href="../../cube_helper.html#cube_helper.cube_equaliser.remove_attributes">[docs]</a><span class="k">def</span> <span class="nf">remove_attributes</span><span class="p">(</span><span class="n">cubes</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	strips cubes of ALL attributes and metadata. Aux coords should</span>
+<span class="sd">	be unaffected.</span>
+<span class="sd">	:param cubes: Cubes to be stripped of attributes</span>
+<span class="sd">	:return: cubes: after attributes have been removed</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="n">attributes_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">cubes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">attributes</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+	<span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">cube</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">cubes</span><span class="p">):</span>
+		<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">attributes_list</span><span class="p">:</span>
+			<span class="n">cube</span><span class="o">.</span><span class="n">attributes</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+			<span class="n">cubes</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">cube</span>
+	<span class="k">return</span> <span class="n">cubes</span></div>
+
+
+<div class="viewcode-block" id="unify_data_type"><a class="viewcode-back" href="../../cube_helper.html#cube_helper.cube_equaliser.unify_data_type">[docs]</a><span class="k">def</span> <span class="nf">unify_data_type</span><span class="p">(</span><span class="n">cubes</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Casts datatypes in iris numpy array to be of the same datatype</span>
+<span class="sd">	:param cubes: To be unified in datatypes</span>
+<span class="sd">	:return cubes: uniformly cast cubes</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">for</span> <span class="n">cube</span> <span class="ow">in</span> <span class="n">cubes</span><span class="p">:</span>
+		<span class="n">cube</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">(</span><span class="n">cube</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+	<span class="k">return</span> <span class="n">cubes</span></div>
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, James Bedwell
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
