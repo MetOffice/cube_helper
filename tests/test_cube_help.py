@@ -1,8 +1,9 @@
 import sys
-sys.path.append('/net/home/h01/jbedwell/Downloads/cube_helper/cube_helper')
+import os
+sys.path.insert(0, os.path.abspath('../'))
 import unittest
 import iris
-from cube_helper import CubeHelp
+from cube_helper.cube_help import CubeHelp
 
 
 
