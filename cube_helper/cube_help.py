@@ -33,6 +33,9 @@ class CubeHelp(object):
 			else:
 				self.cube_dataset = CubeSet(loaded_cubes)
 
+	def __repr__(self):
+		return '{self.cube_dataset.cube_list}'.format(self=self)
+
 	def equalise(self):
 		"""
 		Calls  equalise_attributes and unify_time_units to allow merge/concat
