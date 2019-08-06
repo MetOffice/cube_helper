@@ -156,7 +156,12 @@ class CubeHelp(object):
 
 
 	def unify_data_type(self):
-		unify_data_type(self.cube_dataset.cube_list)
+		"""
+		Unifies the datatype of the cube_dataset data to a common type. Datatype must be compatible
+		For conversion, Currently only converts to float32 but other datatypes to soon be supported.
 
-	def add_to_dataset(self, other_cubes):
-		self.cube_dataset.append(other_cubes)
+		Returns:
+			The cube_dataset with identicle datatypes in each cube.
+
+		"""
+		unify_data_type(self.cube_dataset.cube_list)
