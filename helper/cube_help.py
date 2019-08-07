@@ -1,9 +1,7 @@
-import os
-import sys
 import iris
-from cube_loader import CubeLoader
-from cube_equaliser import remove_attributes, unify_data_type, unify_time_units, equalise_attributes
-from cube_dataset import CubeSet
+from cube_helper.helper.libs import cube_loader
+from cube_helper.helper.libs.cube_equaliser import remove_attributes, unify_data_type, unify_time_units, equalise_attributes
+from cube_helper.helper.libs.cube_dataset import CubeSet
 
 
 class CubeHelp(object):
@@ -16,7 +14,7 @@ class CubeHelp(object):
 			opt_filetype (optional): a string specifying the expected type of files found in the dataset
 			opt_constraints (optional): a string specifying any constraints you wish to load the dataset with.
 			cube_dataset: a CubeList containing the datasets you wish to manipulate/analyse. An instance of the
-							CubeSet object, which in itself is a custom CubeList
+						  CubeSet object, which in itself is a custom CubeList
 	"""
 	def __init__(self, directory, opt_filetype = ".nc", opt_constraints = None):
 		"""
@@ -35,13 +33,13 @@ class CubeHelp(object):
 		self.opt_filetype = opt_filetype
 		self.opt_constraints = opt_constraints
 		if type(directory) == str:
-			loaded_cubes = CubeLoader.load_from_dir(directory, opt_constraints, opt_filetype)
+			loaded_cubes = cube_loader.CubeLoader.load_from_dir(directory, opt_constraints, opt_filetype)
 			if not loaded_cubes:
 				print("No cubes found")
 			else:
 				self.cube_dataset = CubeSet(loaded_cubes)
 		elif type(directory) == type([]):
-			loaded_cubes = CubeLoader.load_from_filelist(directory, opt_constraints, opt_filetype)
+			loaded_cubes = cube_loader.CubeLoader.load_from_filelist(directory, opt_constraints, opt_filetype)
 			if not loaded_cubes:
 				print("No cubes found")
 			else:
@@ -72,6 +70,7 @@ class CubeHelp(object):
 		cube_dataset itself but instead returns it's concatenated form as a CubeList. This function
 		Makes use of iris' concatenate() function, as a result it will concatenate the cube_dataset
 		Into the smallest CubeList possible. Not suitable for cubes of only 2 dimensions.
+
 		Returns:
 			A concatenated CubeList of the cube_dataset
 		"""
