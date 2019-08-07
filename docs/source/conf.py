@@ -19,14 +19,14 @@ sys.path.insert(0, os.path.abspath('../..'))
 
 # -- Project information -----------------------------------------------------
 
-project = 'cube_helper'
+project = 'Cube Helper'
 copyright = '2019, James Bedwell'
 author = 'James Bedwell'
 
 # The short X.Y version
 version = ''
 # The full version, including alpha/beta/rc tags
-release = '0.0.1'
+release = 'v0.0.1'
 
 
 # -- General configuration ---------------------------------------------------
@@ -76,7 +76,7 @@ pygments_style = None
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = "sphinx_rtd_theme"
+html_theme = 'alabaster'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -103,7 +103,7 @@ html_static_path = ['_static']
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'cube_helperdoc'
+htmlhelp_basename = 'CubeHelperdoc'
 
 
 # -- Options for LaTeX output ------------------------------------------------
@@ -130,7 +130,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'cube_helper.tex', 'cube\\_helper Documentation',
+    (master_doc, 'CubeHelper.tex', 'Cube Helper Documentation',
      'James Bedwell', 'manual'),
 ]
 
@@ -140,7 +140,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'cube_helper', 'cube_helper Documentation',
+    (master_doc, 'cubehelper', 'Cube Helper Documentation',
      [author], 1)
 ]
 
@@ -151,8 +151,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'cube_helper', 'cube_helper Documentation',
-     author, 'cube_helper', 'One line description of project.',
+    (master_doc, 'CubeHelper', 'Cube Helper Documentation',
+     author, 'CubeHelper', 'One line description of project.',
      'Miscellaneous'),
 ]
 
