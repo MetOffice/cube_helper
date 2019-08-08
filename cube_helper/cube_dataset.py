@@ -1,6 +1,9 @@
 import iris
 
 class CubeSet(iris.cube.CubeList):
+	"""
+	A custome CubeList object that will be operated on as a dataset.
+	"""
 
 	def __init__(self, loaded_cubes):
 		"""
@@ -11,7 +14,6 @@ class CubeSet(iris.cube.CubeList):
 	def __repr__(self):
 		"""
 		prettify the set of cubes (CubeSet)
-		:return: formatted CubeList
 		"""
 		return '{self.cube_list}'.format(self=self)
 
