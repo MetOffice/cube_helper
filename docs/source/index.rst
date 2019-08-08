@@ -1,9 +1,9 @@
-.. cube_helper documentation master file, created by
-   sphinx-quickstart on Fri Aug  2 16:18:46 2019.
+.. Cube Helper documentation master file, created by
+   sphinx-quickstart on Wed Aug  7 12:02:38 2019.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to cube_helper's documentation!
+Welcome to Cube Helper's documentation!
 =======================================
 
 .. toctree::
