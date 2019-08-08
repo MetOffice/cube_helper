@@ -1,7 +1,7 @@
-cube_helper
-===========
+helper
+======
 
 .. toctree::
    :maxdepth: 4
 
-   cube_helper
+   helper
