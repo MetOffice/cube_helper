@@ -1,7 +1,8 @@
 import iris
-from cube_helper.helper.libs import cube_loader
-from cube_helper.helper.libs.cube_equaliser import remove_attributes, unify_data_type, unify_time_units, equalise_attributes
-from cube_helper.helper.libs.cube_dataset import CubeSet
+from cube_helper.cube_loader import CubeLoader
+from cube_helper.cube_dataset import CubeSet
+from cube_helper.cube_equaliser import remove_attributes, unify_data_type, \
+	unify_time_units, equalise_attributes
 
 
 class CubeHelp(object):
@@ -33,13 +34,13 @@ class CubeHelp(object):
 		self.opt_filetype = opt_filetype
 		self.opt_constraints = opt_constraints
 		if type(directory) == str:
-			loaded_cubes = cube_loader.CubeLoader.load_from_dir(directory, opt_constraints, opt_filetype)
+			loaded_cubes = CubeLoader.load_from_dir(directory, opt_constraints, opt_filetype)
 			if not loaded_cubes:
 				print("No cubes found")
 			else:
 				self.cube_dataset = CubeSet(loaded_cubes)
 		elif type(directory) == type([]):
-			loaded_cubes = cube_loader.CubeLoader.load_from_filelist(directory, opt_constraints, opt_filetype)
+			loaded_cubes = CubeLoader.load_from_filelist(directory, opt_constraints, opt_filetype)
 			if not loaded_cubes:
 				print("No cubes found")
 			else:
