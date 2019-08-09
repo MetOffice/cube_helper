@@ -192,3 +192,6 @@ class CubeHelp(object):
 
         """
         unify_data_type(self.cube_dataset.cube_list)
+
+    def reset(self):
+        self.__init__(self.directory, self.opt_filetype, self.opt_constraints)
