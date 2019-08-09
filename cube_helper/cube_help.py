@@ -1,8 +1,8 @@
 import iris
 from cube_helper.cube_loader import CubeLoader
 from cube_helper.cube_dataset import CubeSet
-from cube_helper.cube_equaliser import remove_attributes, unify_time_units, \
-    equalise_attributes, unify_data_type
+from cube_helper.cube_equaliser import remove_attributes, \
+    equalise_time_units, equalise_attributes, equalise_data_type
 
 
 class CubeHelp(object):
@@ -15,17 +15,17 @@ class CubeHelp(object):
             directory: a list of cubes or a chosen directory
             to operate on.
 
-            opt_filetype (optional): a string specifying the expected type
+            filetype (optional): a string specifying the expected type
             of files found in the dataset
 
-            opt_constraints (optional): a string specifying any constraints
+            constraints (optional): a string specifying any constraints
             you wish to load the dataset with.
 
             cube_dataset: a CubeList containing the datasets you wish to
             manipulate/analyse. An instance of the CubeSet object, which
             in itself is a custom CubeList
     """
-    def __init__(self, directory, opt_filetype=".nc", opt_constraints=None):
+    def __init__(self, directory, filetype=".nc", constraints=None):
         """
         Initialises the CubeHelp object, will automatically select the loading
         Strategy based on the Arguments passed to it.
@@ -35,10 +35,10 @@ class CubeHelp(object):
             directory: a list of cubes or a chosen
             directory to operate on.
 
-            opt_filetype (optional): a string specifying the
+            filetype (optional): a string specifying the
             expected type of files found in the dataset
 
-            opt_constraints (optional): a string specifying
+            constraints (optional): a string specifying
             any constraints you wish to load the dataset with.
 
         Returns:
@@ -46,18 +46,18 @@ class CubeHelp(object):
 
         """
         self.directory = directory
-        self.opt_filetype = opt_filetype
-        self.opt_constraints = opt_constraints
+        self.opt_filetype = filetype
+        self.opt_constraints = constraints
         if isinstance(directory, str):
             loaded_cubes = CubeLoader.load_from_dir(
-                directory, opt_constraints, opt_filetype)
+                directory, constraints, filetype)
             if not loaded_cubes:
                 print("No cubes found")
             else:
                 self.cube_dataset = CubeSet(loaded_cubes)
         elif isinstance(directory, list):
             loaded_cubes = CubeLoader.load_from_filelist(
-                directory, opt_constraints, opt_filetype)
+                directory, constraints, filetype)
 
             if not loaded_cubes:
                 print("No cubes found")
@@ -80,7 +80,7 @@ class CubeHelp(object):
             Equalised cube_dataset to the CubeHelp class
         """
         equalise_attributes(self.cube_dataset.cube_list)
-        unify_time_units(self.cube_dataset.cube_list)
+        equalise_time_units(self.cube_dataset.cube_list)
 
     def get_concatenated(self):
         """
@@ -181,14 +181,14 @@ class CubeHelp(object):
         """
         remove_attributes(self.cube_dataset.cube_list)
 
-    def unify_data_type(self):
+    def equalise_data_type(self):
         """
         Unifies the datatype of the cube_dataset data to a common type.
         Datatype must be compatible for conversion, Currently only
         Converts to float32 but other datatypes to soon be supported.
 
         Returns:
-            The cube_dataset with identicle datatypes in each cube.
+            The cube_dataset with identical datatypes in each cube.
 
         """
-        unify_data_type(self.cube_dataset.cube_list)
+        equalise_data_type(self.cube_dataset.cube_list)
