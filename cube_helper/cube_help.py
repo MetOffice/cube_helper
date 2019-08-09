@@ -46,8 +46,8 @@ class CubeHelp(object):
 
         """
         self.directory = directory
-        self.opt_filetype = filetype
-        self.opt_constraints = constraints
+        self.filetype = filetype
+        self.constraints = constraints
         if isinstance(directory, str):
             loaded_cubes = CubeLoader.load_from_dir(
                 directory, constraints, filetype)
@@ -192,3 +192,6 @@ class CubeHelp(object):
 
         """
         equalise_data_type(self.cube_dataset.cube_list)
+
+    def reset(self, filetype='.nc', constraints=None):
+        self.__init__(self.directory, filetype, constraints)
