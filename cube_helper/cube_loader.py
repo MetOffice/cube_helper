@@ -65,18 +65,18 @@ class CubeLoader(object):
         """
         loaded_cubes = []
         for filename in data_filelist:
-            if filename.endswith(opt_filetype):
+            if filename.endswith(filetype):
                 break
             else:
                 print('\n\nThe selected filetype is '
                       'not present in data_filelist\n\n')
 
         for filename in data_filelist:
-            if opt_constraint is None:
+            if constraint is None:
                 loaded_cubes.append(iris.load_cube(filename))
 
             else:
 
-                loaded_cubes.append(iris.load_cube(filename, opt_constraint))
+                loaded_cubes.append(iris.load_cube(filename, constraint))
 
         return iris.cube.CubeList(loaded_cubes)
