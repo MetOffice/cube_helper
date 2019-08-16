@@ -19,4 +19,4 @@ class CubeSet(iris.cube.CubeList):
         """
         prettify the set of cubes (CubeSet)
         """
-        return '{self.cube_list}'.format(self=self)
+        return '{}'.format(self.cube_list)
