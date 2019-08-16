@@ -1,7 +1,7 @@
 import iris
 from cube_helper.cube_loader import CubeLoader
 from cube_helper.cube_dataset import CubeSet
-from cube_helper.cube_equaliser import remove_attributes, \
+from cube_helper.cube_equaliser import (remove_attributes, 
     equalise_time_units, equalise_attributes, equalise_data_type
 
 
