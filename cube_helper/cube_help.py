@@ -12,7 +12,7 @@ class CubeHelp(object):
 
 
     Attributes:
-            directory: a list of cubes or a chosen directory
+            directory: a list of filenames or a path to a directory
             to operate on.
 
             filetype (optional): a string specifying the expected type
