@@ -56,7 +56,7 @@ class CubeLoader(object):
             filetype (optional): a string specifying the expected type
             Of files found in the dataset
 
-            constraints (optional): a string specifying any constraints
+            constraints (optional): a string, iterable of strings or an iris.Constraint specifying any constraints
             You wish to load the dataset with.
 
         Returns:
