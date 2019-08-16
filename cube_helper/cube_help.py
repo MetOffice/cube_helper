@@ -15,7 +15,7 @@ class CubeHelp(object):
             directory: a list of filenames or a path to a directory
             to operate on.
 
-            filetype (optional): a string specifying the expected type
+            filetype: a string specifying the expected type
             of files found in the dataset
 
             constraints (optional): a string specifying any constraints
