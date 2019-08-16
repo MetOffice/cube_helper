@@ -7,7 +7,8 @@ from cube_helper.cube_equaliser import remove_attributes, \
 
 class CubeHelp(object):
     """
-    A wrapper class to implement methods provided by cube_equaliliser
+    A wrapper class to help load and work with Iris cubes loaded from typical
+    climate data.
     And cube_loader. To be used to manipulate cube datasets.
 
 
