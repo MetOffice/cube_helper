@@ -17,7 +17,7 @@ class CubeHelp(object):
             to operate on.
 
             filetype: a string specifying the expected type
-            of files found in the dataset
+            of files found in the dataset. Default value is .nc
 
             constraints (optional): a string specifying any constraints
             you wish to load the dataset with.
