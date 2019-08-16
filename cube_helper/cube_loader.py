@@ -24,7 +24,7 @@ class CubeLoader(object):
             iris.cube.CubeList(loaded_cubes), a CubeList of the loaded
             Cubes.
         """
-        if opt_constraint is None:
+        if constraint is None:
             loaded_cubes = []
             for path in os.listdir(directory):
                 full_path = os.path.join(directory, path)
