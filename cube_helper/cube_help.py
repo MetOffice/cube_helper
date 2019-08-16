@@ -69,7 +69,7 @@ class CubeHelp(object):
         """
         Prettifies the cube_dataset attribute and returns it.
         """
-        return '{self.cube_dataset.cube_list}'.format(self=self)
+        return '{}'.format(self.cube_dataset.cube_list)
 
     def equalise(self):
         """
