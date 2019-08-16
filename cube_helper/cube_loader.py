@@ -8,7 +8,7 @@ class CubeLoader(object):
     def load_from_dir(directory, constraint=None, filetype='.nc'):
         """
         Loads a set of cubes from a given directory, single cubes are loaded
-        And appended into an iterable then returned as a CubeList.
+        and returned as a CubeList.
 
         Args:
             directory: a chosen directory
