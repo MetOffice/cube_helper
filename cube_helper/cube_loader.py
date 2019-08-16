@@ -46,7 +46,7 @@ class CubeLoader(object):
     def load_from_filelist(data_filelist, constraint=None,
                            filetype='.nc'):
         """
-        Loads a set of cubes from a given directory, single cubes are
+        Loads the specified files. Individual files are
         Loaded and appended into an iterable as well as being loaded into a
         CubeList.
 
