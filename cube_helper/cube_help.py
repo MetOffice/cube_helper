@@ -101,7 +101,7 @@ class CubeHelp(object):
         """
         Gets a concatenated form of the cube_dataset object, This method DOES
         NOT concatenate the cube_dataset itself but instead returns it's
-        Concatenated form as a Cube. This function makes use of iris'
+        Concatenated form as a Cube. This function makes use of Iris'
         concatenate_cube() function, as a result it will concatenate the
         cube_dataset into a single Cube. Not suitable for cubes of only
         2 dimensions.
