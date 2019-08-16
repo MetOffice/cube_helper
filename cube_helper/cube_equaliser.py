@@ -54,7 +54,7 @@ def equalise_time_units(cubes):
 
 def remove_attributes(cubes):
     """
-    strips cubes of ALL attributes and metadata. Aux coords should
+    Sets all cube attributes to an empty string.
     be unaffected.
 
     Args:
