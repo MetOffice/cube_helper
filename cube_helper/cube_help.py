@@ -9,7 +9,7 @@ class CubeHelp(object):
     """
     A wrapper class to help load and work with Iris cubes loaded from typical
     climate data.
-    And cube_loader. To be used to manipulate cube datasets.
+    and cube_loader. To be used to manipulate cube datasets.
 
 
     Attributes:
