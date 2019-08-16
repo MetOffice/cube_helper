@@ -87,7 +87,7 @@ class CubeHelp(object):
         """
         Gets a concatenated form of the cube_dataset object, This method DOES
         NOT Concatenate the cube_dataset itself but instead returns it's
-        Concatenated form as a CubeList. This function makes use of iris'
+        Concatenated form as a CubeList. This function makes use of Iris'
         concatenate() function, as a result it will concatenate the
         cube_dataset into the Smallest CubeList possible. Not suitable for
         Cubes of only 2 dimensions.
