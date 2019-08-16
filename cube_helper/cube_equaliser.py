@@ -5,7 +5,7 @@ import cf_units
 def equalise_attributes(cubes):
     """
     Equalises cubes for concatenation and merging, cycles through the cube_
-    Dataset (CubeList) attribute and rectifies common differences in
+    Dataset (CubeList) attribute and removes any that are not common across all cubes.
     metadata and variables.
 
     Args:
