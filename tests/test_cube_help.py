@@ -11,7 +11,7 @@ from cube_helper.cube_help import CubeHelp
 class TestCubeHelper(unittest.TestCase):
 
 	def test_initilisation(self):
-		example_case = CubeHelp('test_data/air_temp', opt_constraints='air_temperature', opt_filetype='.pp')
+		example_case = CubeHelp('test_data/air_temp', constraints='air_temperature', filetype='.pp')
 		self.assertEqual(example_case.directory, 'test_data/air_temp')
 		self.assertEqual(example_case.opt_constraints, 'air_temperature')
 		self.assertIsInstance(example_case.cube_dataset.cube_list, iris.cube.CubeList)
@@ -31,12 +31,12 @@ class TestCubeHelper(unittest.TestCase):
 		self.assertEqual(test_method.ndim, 3)
 
 	def test_concatenated(self):
-		example_case = CubeHelp('test_data/north_sea_ice', opt_filetype='.pp')
+		example_case = CubeHelp('test_data/north_sea_ice', filetype='.pp')
 		test_method = example_case.concatenated()
 		self.assertIsInstance(test_method, iris.cube.CubeList)
 
 	def test_merged(self):
-		example_case = CubeHelp('test_data/north_sea_ice', opt_filetype='.pp')
+		example_case = CubeHelp('test_data/north_sea_ice', filetype='.pp')
 		test_method = example_case.merged()
 		self.assertIsInstance(test_method, iris.cube.CubeList)
 
@@ -48,13 +48,13 @@ class TestCubeHelper(unittest.TestCase):
 
 
 	def test_convert_units(self):
-		example_case = CubeHelp('test_data/air_temp', opt_filetype='.pp')
+		example_case = CubeHelp('test_data/air_temp', filetype='.pp')
 		example_case.convert_units('celsius')
 		for cube in example_case.cube_dataset.cube_list:
 			self.assertEqual(cube.units, 'celsius')
 
 	def test_collapsed_dimension(self):
-		example_case = CubeHelp('test_data/north_sea_ice', opt_filetype='.pp')
+		example_case = CubeHelp('test_data/north_sea_ice', filetype='.pp')
 		example_case.collapsed_dimension('longitude')
 		for cube in example_case.cube_dataset.cube_list:
 			self.assertEqual(cube.ndim, 1)
