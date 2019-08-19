@@ -150,7 +150,7 @@ class CubeHelp(object):
             unit: A string specifying unit you wish to convert to.
 
         Returns:
-            The cube_dataset with it's units converted to those specified.
+            The cube_dataset with its units converted to those specified.
             Units MUST be of the CF convention, i.e No trying to convert
             'meters' into 'leagues'!
         """
