@@ -12,7 +12,7 @@ class TestCubeHelper(unittest.TestCase):
 					constraints='air_temperature', 
 					filetype='.pp')
 		self.assertEqual(example_case.directory, 'test_data/air_temp')
-		self.assertEqual(example_case.opt_constraints, 'air_temperature')
+		self.assertEqual(example_case.constraints, 'air_temperature')
 		self.assertIsInstance(example_case.cube_dataset.cube_list, 
 				      iris.cube.CubeList)
 		filelist = ['test_data/air_temp/air_temp_1.pp','test_data/air_temp/air_temp_2.pp', 
@@ -26,23 +26,23 @@ class TestCubeHelper(unittest.TestCase):
 		example_case = CubeHelp(filepath)
 		self.assertIsInstance(example_case.cube_dataset.cube_list, iris.cube.CubeList)
 		example_case.equalise()
-		test_method = example_case.concatenated_cube()
+		test_method = example_case.get_concatenated_cube()
 		self.assertIsInstance(test_method, iris.cube.Cube)
 		self.assertEqual(test_method.ndim, 3)
 
 	def test_concatenated(self):
 		example_case = CubeHelp('test_data/north_sea_ice', filetype='.pp')
-		test_method = example_case.concatenated()
+		test_method = example_case.get_concatenated()
 		self.assertIsInstance(test_method, iris.cube.CubeList)
 
 	def test_merged(self):
 		example_case = CubeHelp('test_data/north_sea_ice', filetype='.pp')
-		test_method = example_case.merged()
+		test_method = example_case.get_merged()
 		self.assertIsInstance(test_method, iris.cube.CubeList)
 
 	def test_merged_cube(self):
-		example_case = CubeHelp('test_data/north_sea_ice', opt_filetype='.pp')
-		test_method = example_case.merged_cube()
+		example_case = CubeHelp('test_data/north_sea_ice', filetype='.pp')
+		test_method = example_case.get_merged_cube()
 		self.assertIsInstance(test_method, iris.cube.Cube)
 		self.assertEqual(test_method.ndim, 3)
 
