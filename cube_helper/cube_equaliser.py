@@ -49,7 +49,6 @@ def equalise_time_units(cubes):
 
                 new_unit = cf_units.Unit(epoch, time_coord.units.calendar)
                 time_coord.convert_units(new_unit)
-    return cubes
 
 
 def remove_attributes(cubes):
@@ -63,14 +62,9 @@ def remove_attributes(cubes):
     Returns:
         cubes with attributes replaced with empty string ''
     """
-    attributes_list = list(cubes[0].attributes.keys())
     for cube in cubes:
         for attr in cube.attributes:
             cube.attributes[attr] = ''
-        for key in attributes_list:
-            cube.attributes[key] = ''
-            cubes[index] = cube
-    return cubes
 
 
 def equalise_data_type(cubes):
@@ -85,4 +79,3 @@ def equalise_data_type(cubes):
     """
     for cube in cubes:
         cube.data = np.float32(cube.data)
-    return cubes
