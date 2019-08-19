@@ -196,3 +196,5 @@ class CubeHelp(object):
             A re-initialised CubeHelp object.
         """
         self.__init__(self.directory, filetype, constraints)
+
+
