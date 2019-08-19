@@ -24,7 +24,7 @@ def equalise_attributes(cubes):
                 cube.attributes[key] == cubes[0].attributes[key])]
 
     for cube in cubes:
-        for key in list(cube.attributes.keys()):
+        for key in cube.attributes.keys():
             if key not in common_keys:
                 uncommon_keys.append(cube.attributes[key])
                 del cube.attributes[key]
