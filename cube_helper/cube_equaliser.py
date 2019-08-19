@@ -21,7 +21,7 @@ def equalise_attributes(cubes):
         common_keys = [
             key for key in common_keys
             if (key in cube_keys and
-                np.all(cube.attributes[key] == cubes[0].attributes[key]))]
+                cube.attributes[key] == cubes[0].attributes[key])]
 
     for cube in cubes:
         for key in list(cube.attributes.keys()):
