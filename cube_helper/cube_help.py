@@ -148,7 +148,8 @@ class CubeHelp(object):
         Collapses a given dimension with a mean average measurement.
 
         Args:
-            dimension: The dimension of the cube you wish to collapse.
+            dimension: A string specifying the dimension of the cube 
+            you wish to collapse, for example 'time'.
 
         Returns:
             The cube_dataset with the specified dimension collapsed.
