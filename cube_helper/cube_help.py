@@ -1,4 +1,5 @@
 import iris
+import six
 from cube_helper.cube_loader import CubeLoader
 from cube_helper.cube_dataset import CubeSet
 from cube_helper.cube_equaliser import (remove_attributes, 
@@ -33,8 +34,7 @@ class CubeHelp(object):
         """
         self.directory = directory
         self.filetype = filetype
-        self.constraints = constraints
-        import six
+        self.constraints = constraints        
         if isinstance(directory, six.string_types):
             loaded_cubes = CubeLoader.load_from_dir(
                 directory, constraints, filetype)
