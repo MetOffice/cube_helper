@@ -8,14 +8,17 @@ from cube_helper.cube_help import CubeHelp
 class TestCubeHelper(unittest.TestCase):
 
 	def test_initilisation(self):
-		example_case = CubeHelp('test_data/air_temp', constraints='air_temperature', filetype='.pp')
+		example_case = CubeHelp('test_data/air_temp', 
+					constraints='air_temperature', 
+					filetype='.pp')
 		self.assertEqual(example_case.directory, 'test_data/air_temp')
 		self.assertEqual(example_case.opt_constraints, 'air_temperature')
-		self.assertIsInstance(example_case.cube_dataset.cube_list, iris.cube.CubeList)
-		filelist = ['test_data/air_temp/air_temp_1.pp','test_data/air_temp/air_temp_2.pp',
-					'test_data/air_temp/air_temp_3.pp','test_data/air_temp/air_temp_4.pp'
-											'test_data/air_temp/air_temp_5.pp']
-		example_case = CubeHelp(filelist, opt_filetype='.pp')
+		self.assertIsInstance(example_case.cube_dataset.cube_list, 
+				      iris.cube.CubeList)
+		filelist = ['test_data/air_temp/air_temp_1.pp','test_data/air_temp/air_temp_2.pp', 
+			    'test_data/air_temp/air_temp_3.pp','test_data/air_temp/air_temp_4.pp', 
+			    'test_data/air_temp/air_temp_5.pp']
+		example_case = CubeHelp(filelist, filetype='.pp')
 		self.assertIsInstance(example_case.directory, list)
 
 	def test_concatenated_cube(self):
