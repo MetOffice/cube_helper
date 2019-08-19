@@ -47,7 +47,7 @@ class CubeLoader(object):
                            filetype='.nc'):
         """
         Loads the specified files. Individual files are
-        Loaded and appended into an iterable as well as being loaded into a
+        returned in a
         CubeList.
 
         Args:
