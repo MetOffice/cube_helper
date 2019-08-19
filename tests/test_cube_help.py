@@ -1,6 +1,3 @@
-import sys
-import os
-sys.path.insert(0, os.path.abspath('../'))
 import unittest
 import iris
 from cube_helper.cube_help import CubeHelp
