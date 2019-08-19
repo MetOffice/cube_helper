@@ -34,7 +34,8 @@ class CubeHelp(object):
         self.directory = directory
         self.filetype = filetype
         self.constraints = constraints
-        if isinstance(directory, str):
+        import six
+        if isinstance(directory, six.string_types):
             loaded_cubes = CubeLoader.load_from_dir(
                 directory, constraints, filetype)
             if not loaded_cubes:
