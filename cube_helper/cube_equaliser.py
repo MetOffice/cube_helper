@@ -5,7 +5,7 @@ import cf_units
 def equalise_attributes(cubes):
     """
     Equalises cubes for concatenation and merging, cycles through the cube_
-    Dataset (CubeList) attribute and rectifies common differences in
+    Dataset (CubeList) attribute and removes any that are not common across all cubes.
     metadata and variables.
 
     Args:
@@ -21,10 +21,10 @@ def equalise_attributes(cubes):
         common_keys = [
             key for key in common_keys
             if (key in cube_keys and
-                np.all(cube.attributes[key] == cubes[0].attributes[key]))]
+                cube.attributes[key] == cubes[0].attributes[key])]
 
     for cube in cubes:
-        for key in list(cube.attributes.keys()):
+        for key in cube.attributes.keys():
             if key not in common_keys:
                 uncommon_keys.append(cube.attributes[key])
                 del cube.attributes[key]
@@ -49,12 +49,11 @@ def equalise_time_units(cubes):
 
                 new_unit = cf_units.Unit(epoch, time_coord.units.calendar)
                 time_coord.convert_units(new_unit)
-    return cubes
 
 
 def remove_attributes(cubes):
     """
-    strips cubes of ALL attributes and metadata. Aux coords should
+    Sets all cube attributes to an empty string.
     be unaffected.
 
     Args:
@@ -63,12 +62,9 @@ def remove_attributes(cubes):
     Returns:
         cubes with attributes replaced with empty string ''
     """
-    attributes_list = list(cubes[0].attributes.keys())
-    for index, cube in enumerate(cubes):
-        for key in attributes_list:
-            cube.attributes[key] = ''
-            cubes[index] = cube
-    return cubes
+    for cube in cubes:
+        for attr in cube.attributes:
+            cube.attributes[attr] = ''
 
 
 def equalise_data_type(cubes):
@@ -83,4 +79,3 @@ def equalise_data_type(cubes):
     """
     for cube in cubes:
         cube.data = np.float32(cube.data)
-    return cubes

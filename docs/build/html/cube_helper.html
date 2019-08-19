@@ -41,7 +41,7 @@
 <span id="cube-helper-cube-dataset-module"></span><h2>cube_helper.cube_dataset module<a class="headerlink" href="#module-cube_helper.cube_dataset" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="cube_helper.cube_dataset.CubeSet">
-<em class="property">class </em><code class="descclassname">cube_helper.cube_dataset.</code><code class="descname">CubeSet</code><span class="sig-paren">(</span><em>loaded_cubes</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cube_helper/cube_dataset.html#CubeSet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cube_helper.cube_dataset.CubeSet" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">cube_helper.cube_dataset.</code><code class="descname">CubeSet</code><span class="sig-paren">(</span><em>loaded_cubes</em><span class="sig-paren">)</span><a class="headerlink" href="#cube_helper.cube_dataset.CubeSet" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.CubeList</span></code></p>
 <p>A custome CubeList object that will be operated on as a dataset.</p>
 </dd></dl>
@@ -51,7 +51,7 @@
 <span id="cube-helper-cube-equaliser-module"></span><h2>cube_helper.cube_equaliser module<a class="headerlink" href="#module-cube_helper.cube_equaliser" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="cube_helper.cube_equaliser.equalise_attributes">
-<code class="descclassname">cube_helper.cube_equaliser.</code><code class="descname">equalise_attributes</code><span class="sig-paren">(</span><em>cubes</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cube_helper/cube_equaliser.html#equalise_attributes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cube_helper.cube_equaliser.equalise_attributes" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">cube_helper.cube_equaliser.</code><code class="descname">equalise_attributes</code><span class="sig-paren">(</span><em>cubes</em><span class="sig-paren">)</span><a class="headerlink" href="#cube_helper.cube_equaliser.equalise_attributes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Equalises cubes for concatenation and merging, cycles through the <a href="#id1"><span class="problematic" id="id2">cube_</span></a>
 Dataset (CubeList) attribute and rectifies common differences in
 metadata and variables.</p>
@@ -65,7 +65,7 @@ metadata and variables.</p>
 
 <dl class="function">
 <dt id="cube_helper.cube_equaliser.equalise_data_type">
-<code class="descclassname">cube_helper.cube_equaliser.</code><code class="descname">equalise_data_type</code><span class="sig-paren">(</span><em>cubes</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cube_helper/cube_equaliser.html#equalise_data_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cube_helper.cube_equaliser.equalise_data_type" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">cube_helper.cube_equaliser.</code><code class="descname">equalise_data_type</code><span class="sig-paren">(</span><em>cubes</em><span class="sig-paren">)</span><a class="headerlink" href="#cube_helper.cube_equaliser.equalise_data_type" title="Permalink to this definition">¶</a></dt>
 <dd><p>Casts datatypes in iris numpy array to be of the same datatype.</p>
 <dl class="docutils">
 <dt>Args:</dt>
@@ -77,7 +77,7 @@ metadata and variables.</p>
 
 <dl class="function">
 <dt id="cube_helper.cube_equaliser.equalise_time_units">
-<code class="descclassname">cube_helper.cube_equaliser.</code><code class="descname">equalise_time_units</code><span class="sig-paren">(</span><em>cubes</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cube_helper/cube_equaliser.html#equalise_time_units"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cube_helper.cube_equaliser.equalise_time_units" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">cube_helper.cube_equaliser.</code><code class="descname">equalise_time_units</code><span class="sig-paren">(</span><em>cubes</em><span class="sig-paren">)</span><a class="headerlink" href="#cube_helper.cube_equaliser.equalise_time_units" title="Permalink to this definition">¶</a></dt>
 <dd><p>Equalises time units by cycling through each cube in the given CubeList.</p>
 <dl class="docutils">
 <dt>Args:</dt>
@@ -89,7 +89,7 @@ metadata and variables.</p>
 
 <dl class="function">
 <dt id="cube_helper.cube_equaliser.remove_attributes">
-<code class="descclassname">cube_helper.cube_equaliser.</code><code class="descname">remove_attributes</code><span class="sig-paren">(</span><em>cubes</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cube_helper/cube_equaliser.html#remove_attributes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cube_helper.cube_equaliser.remove_attributes" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">cube_helper.cube_equaliser.</code><code class="descname">remove_attributes</code><span class="sig-paren">(</span><em>cubes</em><span class="sig-paren">)</span><a class="headerlink" href="#cube_helper.cube_equaliser.remove_attributes" title="Permalink to this definition">¶</a></dt>
 <dd><p>strips cubes of ALL attributes and metadata. Aux coords should
 be unaffected.</p>
 <dl class="docutils">
@@ -105,7 +105,7 @@ be unaffected.</p>
 <span id="cube-helper-cube-help-module"></span><h2>cube_helper.cube_help module<a class="headerlink" href="#module-cube_helper.cube_help" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="cube_helper.cube_help.CubeHelp">
-<em class="property">class </em><code class="descclassname">cube_helper.cube_help.</code><code class="descname">CubeHelp</code><span class="sig-paren">(</span><em>directory</em>, <em>opt_filetype='.nc'</em>, <em>opt_constraints=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cube_helper/cube_help.html#CubeHelp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cube_helper.cube_help.CubeHelp" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">cube_helper.cube_help.</code><code class="descname">CubeHelp</code><span class="sig-paren">(</span><em>directory</em>, <em>filetype='.nc'</em>, <em>constraints=None</em><span class="sig-paren">)</span><a class="headerlink" href="#cube_helper.cube_help.CubeHelp" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A wrapper class to implement methods provided by cube_equaliliser
 And cube_loader. To be used to manipulate cube datasets.</p>
@@ -113,9 +113,9 @@ And cube_loader. To be used to manipulate cube datasets.</p>
 <dt>Attributes:</dt>
 <dd><p class="first">directory: a list of cubes or a chosen directory
 to operate on.</p>
-<p>opt_filetype (optional): a string specifying the expected type
+<p>filetype (optional): a string specifying the expected type
 of files found in the dataset</p>
-<p>opt_constraints (optional): a string specifying any constraints
+<p>constraints (optional): a string specifying any constraints
 you wish to load the dataset with.</p>
 <p class="last">cube_dataset: a CubeList containing the datasets you wish to
 manipulate/analyse. An instance of the CubeSet object, which
@@ -124,7 +124,7 @@ in itself is a custom CubeList</p>
 </dl>
 <dl class="method">
 <dt id="cube_helper.cube_help.CubeHelp.collapsed_dimension">
-<code class="descname">collapsed_dimension</code><span class="sig-paren">(</span><em>dimension</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cube_helper/cube_help.html#CubeHelp.collapsed_dimension"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cube_helper.cube_help.CubeHelp.collapsed_dimension" title="Permalink to this definition">¶</a></dt>
+<code class="descname">collapsed_dimension</code><span class="sig-paren">(</span><em>dimension</em><span class="sig-paren">)</span><a class="headerlink" href="#cube_helper.cube_help.CubeHelp.collapsed_dimension" title="Permalink to this definition">¶</a></dt>
 <dd><p>Collapses a given dimension with a mean average measurement.</p>
 <dl class="docutils">
 <dt>Args:</dt>
@@ -136,7 +136,7 @@ in itself is a custom CubeList</p>
 
 <dl class="method">
 <dt id="cube_helper.cube_help.CubeHelp.convert_units">
-<code class="descname">convert_units</code><span class="sig-paren">(</span><em>unit</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cube_helper/cube_help.html#CubeHelp.convert_units"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cube_helper.cube_help.CubeHelp.convert_units" title="Permalink to this definition">¶</a></dt>
+<code class="descname">convert_units</code><span class="sig-paren">(</span><em>unit</em><span class="sig-paren">)</span><a class="headerlink" href="#cube_helper.cube_help.CubeHelp.convert_units" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts units of co-ordinates to an approved CF convention
 Units name.</p>
 <dl class="docutils">
@@ -151,7 +151,7 @@ Units MUST be of the CF convention, i.e No trying to convert
 
 <dl class="method">
 <dt id="cube_helper.cube_help.CubeHelp.equalise">
-<code class="descname">equalise</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cube_helper/cube_help.html#CubeHelp.equalise"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cube_helper.cube_help.CubeHelp.equalise" title="Permalink to this definition">¶</a></dt>
+<code class="descname">equalise</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cube_helper.cube_help.CubeHelp.equalise" title="Permalink to this definition">¶</a></dt>
 <dd><p>Equalises cubes for concatenation and merging, cycles through the <a href="#id3"><span class="problematic" id="id4">cube_</span></a>
 Dataset (CubeList) attribute and rectifies common differences in
 metadat and variables. Then cycles through and unifies the time units.</p>
@@ -163,7 +163,7 @@ metadat and variables. Then cycles through and unifies the time units.</p>
 
 <dl class="method">
 <dt id="cube_helper.cube_help.CubeHelp.equalise_data_type">
-<code class="descname">equalise_data_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cube_helper/cube_help.html#CubeHelp.equalise_data_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cube_helper.cube_help.CubeHelp.equalise_data_type" title="Permalink to this definition">¶</a></dt>
+<code class="descname">equalise_data_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cube_helper.cube_help.CubeHelp.equalise_data_type" title="Permalink to this definition">¶</a></dt>
 <dd><p>Unifies the datatype of the cube_dataset data to a common type.
 Datatype must be compatible for conversion, Currently only
 Converts to float32 but other datatypes to soon be supported.</p>
@@ -175,7 +175,7 @@ Converts to float32 but other datatypes to soon be supported.</p>
 
 <dl class="method">
 <dt id="cube_helper.cube_help.CubeHelp.get_concatenated">
-<code class="descname">get_concatenated</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cube_helper/cube_help.html#CubeHelp.get_concatenated"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cube_helper.cube_help.CubeHelp.get_concatenated" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_concatenated</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cube_helper.cube_help.CubeHelp.get_concatenated" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets a concatenated form of the cube_dataset object, This method DOES
 NOT Concatenate the cube_dataset itself but instead returns it’s
 Concatenated form as a CubeList. This function makes use of iris’
@@ -190,7 +190,7 @@ Cubes of only 2 dimensions.</p>
 
 <dl class="method">
 <dt id="cube_helper.cube_help.CubeHelp.get_concatenated_cube">
-<code class="descname">get_concatenated_cube</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cube_helper/cube_help.html#CubeHelp.get_concatenated_cube"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cube_helper.cube_help.CubeHelp.get_concatenated_cube" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_concatenated_cube</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cube_helper.cube_help.CubeHelp.get_concatenated_cube" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets a concatenated form of the cube_dataset object, This method DOES
 NOT concatenate the cube_dataset itself but instead returns it’s
 Concatenated form as a Cube. This function makes use of iris’
@@ -205,7 +205,7 @@ cube_dataset into a single Cube. Not suitable for cubes of only
 
 <dl class="method">
 <dt id="cube_helper.cube_help.CubeHelp.get_merged">
-<code class="descname">get_merged</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cube_helper/cube_help.html#CubeHelp.get_merged"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cube_helper.cube_help.CubeHelp.get_merged" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_merged</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cube_helper.cube_help.CubeHelp.get_merged" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets a merged form of the cube_dataset object, This method DOES
 NOT merge the cube_dataset itself but instead returns it’s merged
 Form as a CubeList. This function makes use of iris’ merge_cube()
@@ -221,7 +221,7 @@ Not suitable for cubes with more than 2 dimensions.</p>
 
 <dl class="method">
 <dt id="cube_helper.cube_help.CubeHelp.get_merged_cube">
-<code class="descname">get_merged_cube</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cube_helper/cube_help.html#CubeHelp.get_merged_cube"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cube_helper.cube_help.CubeHelp.get_merged_cube" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_merged_cube</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cube_helper.cube_help.CubeHelp.get_merged_cube" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets a merged form of the cube_dataset object, This method DOES
 NOT merge the cube_dataset itself but instead returns it’s
 Merged form as a single Cube. This function makes use of iris’
@@ -237,7 +237,7 @@ Not suitable for cubes with more than 2 dimensions.</p>
 
 <dl class="method">
 <dt id="cube_helper.cube_help.CubeHelp.remove_attributes">
-<code class="descname">remove_attributes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cube_helper/cube_help.html#CubeHelp.remove_attributes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cube_helper.cube_help.CubeHelp.remove_attributes" title="Permalink to this definition">¶</a></dt>
+<code class="descname">remove_attributes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cube_helper.cube_help.CubeHelp.remove_attributes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Removes all attributes from the cube_lists metadata, replaces
 Them with an empty string.</p>
 <dl class="docutils">
@@ -254,20 +254,20 @@ Metadata.</dd>
 <span id="cube-helper-cube-loader-module"></span><h2>cube_helper.cube_loader module<a class="headerlink" href="#module-cube_helper.cube_loader" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="cube_helper.cube_loader.CubeLoader">
-<em class="property">class </em><code class="descclassname">cube_helper.cube_loader.</code><code class="descname">CubeLoader</code><a class="reference internal" href="_modules/cube_helper/cube_loader.html#CubeLoader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cube_helper.cube_loader.CubeLoader" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">cube_helper.cube_loader.</code><code class="descname">CubeLoader</code><a class="headerlink" href="#cube_helper.cube_loader.CubeLoader" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="staticmethod">
 <dt id="cube_helper.cube_loader.CubeLoader.load_from_dir">
-<em class="property">static </em><code class="descname">load_from_dir</code><span class="sig-paren">(</span><em>directory</em>, <em>opt_constraint=None</em>, <em>opt_filetype='.nc'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cube_helper/cube_loader.html#CubeLoader.load_from_dir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cube_helper.cube_loader.CubeLoader.load_from_dir" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="descname">load_from_dir</code><span class="sig-paren">(</span><em>directory</em>, <em>constraint=None</em>, <em>filetype='.nc'</em><span class="sig-paren">)</span><a class="headerlink" href="#cube_helper.cube_loader.CubeLoader.load_from_dir" title="Permalink to this definition">¶</a></dt>
 <dd><p>Loads a set of cubes from a given directory, single cubes are loaded
 And appended into an iterable then returned as a CubeList.</p>
 <dl class="docutils">
 <dt>Args:</dt>
 <dd><p class="first">directory: a chosen directory
 to operate on.</p>
-<p>opt_filetype (optional): a string specifying the expected type
+<p>filetype (optional): a string specifying the expected type
 Of files found in the dataset</p>
-<p class="last">opt_constraints (optional): a string specifying any constraints
+<p class="last">constraints (optional): a string specifying any constraints
 You wish to load the dataset with.</p>
 </dd>
 <dt>Returns:</dt>
@@ -278,16 +278,16 @@ Cubes.</dd>
 
 <dl class="staticmethod">
 <dt id="cube_helper.cube_loader.CubeLoader.load_from_filelist">
-<em class="property">static </em><code class="descname">load_from_filelist</code><span class="sig-paren">(</span><em>data_filelist</em>, <em>opt_constraint=None</em>, <em>opt_filetype='.nc'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cube_helper/cube_loader.html#CubeLoader.load_from_filelist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cube_helper.cube_loader.CubeLoader.load_from_filelist" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="descname">load_from_filelist</code><span class="sig-paren">(</span><em>data_filelist</em>, <em>constraint=None</em>, <em>filetype='.nc'</em><span class="sig-paren">)</span><a class="headerlink" href="#cube_helper.cube_loader.CubeLoader.load_from_filelist" title="Permalink to this definition">¶</a></dt>
 <dd><p>Loads a set of cubes from a given directory, single cubes are
 Loaded and appended into an iterable as well as being loaded into a
 CubeList.</p>
 <dl class="docutils">
 <dt>Args:</dt>
 <dd><p class="first">data_filelist: a chosen list of filenames to operate on.</p>
-<p>opt_filetype (optional): a string specifying the expected type
+<p>filetype (optional): a string specifying the expected type
 Of files found in the dataset</p>
-<p class="last">opt_constraints (optional): a string specifying any constraints
+<p class="last">constraints (optional): a string specifying any constraints
 You wish to load the dataset with.</p>
 </dd>
 <dt>Returns:</dt>
