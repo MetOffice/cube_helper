@@ -5,31 +5,31 @@ import iris
 class CubeLoader(object):
 
     @staticmethod
-    def load_from_dir(directory, opt_constraint=None, opt_filetype='.nc'):
+    def load_from_dir(directory, constraint=None, filetype='.nc'):
         """
         Loads a set of cubes from a given directory, single cubes are loaded
-        And appended into an iterable then returned as a CubeList.
+        and returned as a CubeList.
 
         Args:
             directory: a chosen directory
             to operate on.
 
-            opt_filetype (optional): a string specifying the expected type
+            filetype (optional): a string specifying the expected type
             Of files found in the dataset
 
-            opt_constraints (optional): a string specifying any constraints
+            constraints (optional): a string specifying any constraints
             You wish to load the dataset with.
 
         Returns:
             iris.cube.CubeList(loaded_cubes), a CubeList of the loaded
             Cubes.
         """
-        if opt_constraint is None:
+        if constraint is None:
             loaded_cubes = []
             for path in os.listdir(directory):
                 full_path = os.path.join(directory, path)
                 if os.path.isfile(full_path):
-                    if full_path.endswith(opt_filetype):
+                    if full_path.endswith(filetype):
                         loaded_cubes.append(iris.load_cube(full_path))
             return iris.cube.CubeList(loaded_cubes)
         else:
@@ -37,26 +37,26 @@ class CubeLoader(object):
             for path in os.listdir(directory):
                 full_path = os.path.join(directory, path)
                 if os.path.isfile(full_path):
-                    if full_path.endswith(opt_filetype):
+                    if full_path.endswith(filetype):
                         loaded_cubes.append(iris.load_cube(full_path,
-                                                           opt_constraint))
+                                                           constraint))
             return iris.cube.CubeList(loaded_cubes)
 
     @staticmethod
-    def load_from_filelist(data_filelist, opt_constraint=None,
-                           opt_filetype='.nc'):
+    def load_from_filelist(data_filelist, constraint=None,
+                           filetype='.nc'):
         """
-        Loads a set of cubes from a given directory, single cubes are
-        Loaded and appended into an iterable as well as being loaded into a
+        Loads the specified files. Individual files are
+        returned in a
         CubeList.
 
         Args:
             data_filelist: a chosen list of filenames to operate on.
 
-            opt_filetype (optional): a string specifying the expected type
+            filetype (optional): a string specifying the expected type
             Of files found in the dataset
 
-            opt_constraints (optional): a string specifying any constraints
+            constraints (optional): a string, iterable of strings or an iris.Constraint specifying any constraints
             You wish to load the dataset with.
 
         Returns:
@@ -65,18 +65,14 @@ class CubeLoader(object):
         """
         loaded_cubes = []
         for filename in data_filelist:
-            if filename.endswith(opt_filetype):
-                break
-            else:
-                print('\n\nThe selected filetype is '
-                      'not present in data_filelist\n\n')
+            if not filename.endswith(filetype):
+                data_filelist.remove(filename)
 
         for filename in data_filelist:
-            if opt_constraint is None:
+            if constraint is None:
                 loaded_cubes.append(iris.load_cube(filename))
 
             else:
-
-                loaded_cubes.append(iris.load_cube(filename, opt_constraint))
+                loaded_cubes.append(iris.load_cube(filename, constraint))
 
         return iris.cube.CubeList(loaded_cubes)
