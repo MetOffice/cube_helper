@@ -14,19 +14,18 @@ def equalise_attributes(cubes):
     Returns:
         Equalised cube_dataset to the CubeHelp class
     """
-    uncommon_keys = []
-    common_keys = list(cubes[0].attributes.keys())
+    common_keys = cubes[0].attributes.keys()
     for cube in cubes[1:]:
-        cube_keys = list(cube.attributes.keys())
+        cube_keys = cube.attributes.keys()
         common_keys = [
             key for key in common_keys
             if (key in cube_keys and
                 cube.attributes[key] == cubes[0].attributes[key])]
 
+    # Remove all the other attributes.
     for cube in cubes:
-        for key in cube.attributes.keys():
+        for key in list(cube.attributes.keys()):
             if key not in common_keys:
-                uncommon_keys.append(cube.attributes[key])
                 del cube.attributes[key]
 
 
