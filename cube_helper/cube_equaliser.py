@@ -64,7 +64,9 @@ def remove_attributes(cubes):
         cubes with attributes replaced with empty string ''
     """
     attributes_list = list(cubes[0].attributes.keys())
-    for index, cube in enumerate(cubes):
+    for cube in cubes:
+        for attr in cube.attributes:
+            cube.attributes[attr] = ''
         for key in attributes_list:
             cube.attributes[key] = ''
             cubes[index] = cube
