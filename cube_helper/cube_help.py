@@ -21,7 +21,7 @@ class CubeHelp(object):
 
             constraints (optional): a string specifying any constraints
             you wish to load the dataset with.
-
+        Returns:
             cube_dataset: a CubeList containing the datasets you wish to
             manipulate/analyse. An instance of the CubeSet object, which
             in itself is a custom CubeList
