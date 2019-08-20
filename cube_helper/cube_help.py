@@ -1,6 +1,6 @@
 import iris
 import six
-from cube_helper.cube_loader import CubeLoader
+from cube_helper.cube_loader import load_from_filelist, load_from_dir
 from cube_helper.cube_dataset import CubeSet
 from cube_helper.cube_equaliser import (remove_attributes, 
     equalise_time_units, equalise_attributes, equalise_data_type)
@@ -36,14 +36,14 @@ class CubeHelp(object):
         self.filetype = filetype
         self.constraints = constraints        
         if isinstance(directory, six.string_types):
-            loaded_cubes = CubeLoader.load_from_dir(
+            loaded_cubes = load_from_dir(
                 directory, constraints, filetype)
             if not loaded_cubes:
                 print("No cubes found")
             else:
                 self.cube_dataset = CubeSet(loaded_cubes)
         elif isinstance(directory, list):
-            loaded_cubes = CubeLoader.load_from_filelist(
+            loaded_cubes = load_from_filelist(
                 directory, constraints, filetype)
 
             if not loaded_cubes:
