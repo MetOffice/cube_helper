@@ -60,7 +60,7 @@ class CubeHelp(object):
 
     def equalise(self):
         """
-        Equalises cubes for concatenation and merging, cycles through the cube_
+        Equalises Cubes for concatenation and merging, cycles through the cube_
         dataset (CubeList) attribute and rectifies common differences in
         metadata and attributes. Then cycles through and unifies the time units.
 
