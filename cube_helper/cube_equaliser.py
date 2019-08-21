@@ -13,7 +13,7 @@ def equalise_attributes(cubes):
 
     Returns:
         Equalised cube_dataset to the CubeHelp class
-        
+
     """
     common_keys = cubes[0].attributes.keys()
     for cube in cubes[1:]:
@@ -21,7 +21,7 @@ def equalise_attributes(cubes):
         common_keys = [
             key for key in common_keys
             if (key in cube_keys and
-                cube.attributes[key] == cubes[0].attributes[key])]
+                np.all(cube.attributes[key] == cubes[0].attributes[key]))]
 
     # Remove all the other attributes.
     for cube in cubes:
