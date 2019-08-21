@@ -1,4 +1,5 @@
 import iris
+import iris.coord_categorisation
 import six
 from cube_helper.cube_loader import load_from_filelist, load_from_dir
 from cube_helper.cube_dataset import CubeSet
@@ -20,7 +21,7 @@ class CubeHelp(object):
             filetype: a string specifying the expected type
             of files found in the dataset. Default value is .nc
 
-            constraints (optional): a string specifying any constraints
+            constraints: a string specifying any constraints
             you wish to load the dataset with.
         Returns:
             cube_dataset: a CubeList containing the datasets you wish to
@@ -189,7 +190,7 @@ class CubeHelp(object):
             filetype: a string specifying the expected type
             of files found in the dataset. Default value is .nc
 
-            constraints (optional): a string specifying any constraints
+            constraints: a string specifying any constraints
             you wish to load the dataset with.
             
         Returns:
@@ -197,4 +198,79 @@ class CubeHelp(object):
         """
         self.__init__(self.directory, filetype, constraints)
 
+
+    def add_time_catergorical(self, name, coord='time'):
+        """
+        Adds a catergorical time coordinate.
+
+        Args:
+            name: a string specifying the time catergory to add.
+
+            coords: a string specifying the coordinate to operate on.
+            default value set to 'time'
+
+
+        Returns:
+            The cube_dataset with the time category added to each cube.
+        """
+
+        if name == 'season_year':
+            for cube in self.cube_dataset.cube_list:
+                iris.coord_categorisation.add_season_year(cube, coord,
+                                                          name='season_year')
+        elif name == 'season_membership':
+            for cube in self.cube_dataset.cube_list:
+                iris.coord_categorisation.add_season_membership(cube, coord,
+                                                          name='season_membership')
+
+        elif name == 'season_number':
+            for cube in self.cube_dataset.cube_list:
+                iris.coord_categorisation.add_season_number(cube, coord,
+                                                          name='number')
+        elif name == 'clim_season':
+            for cube in self.cube_dataset.cube_list:
+                iris.coord_categorisation.add_season(cube, coord,
+                                                     name='clim_season')
+        elif name == 'year':
+            for cube in self.cube_dataset.cube_list:
+                iris.coord_catergorisation.add_year(cube, coord,
+                                                    name='year')
+        elif name == 'month_number':
+            for cube in self.cube_dataset.cube_list:
+                iris.coord_catergorisation.add_month_number(cube, coord,
+                                                            name='month_number')
+        elif name == 'month_fullname':
+            for cube in self.cube_dataset.cube_list:
+                iris.coord_catergorisation.add_month_fullname(cube, coord,
+                                                              name='month_fullname')
+        elif name == 'month':
+            for cube in self.cube_dataset.cube_list:
+                iris.coord_catergorisation.add_month(cube, coord,
+                                                     name='month')
+
+        elif name == 'day_of_the_month':
+            for cube in self.cube_dataset.cube_list:
+                iris.coord_catergorisation.add_day_of_the_month(cube, coord,
+                                                                name='day_of_the_month')
+        elif name == 'day_of_the_year':
+            for cube in self.cube_dataset.cube_list:
+                iris.coord_catergorisation.add_day_of_the_year(cube, coord,
+                                                                name='day_of_the_year')
+        elif name == 'weekday_number':
+            for cube in self.cube_dataset.cube_list:
+                iris.coord_catergorisation.add_weekday_number(cube, coord,
+                                                              name='weekday_number')
+        elif name == 'weekday_fullname':
+            for cube in self.cube_dataset.cube_list:
+                iris.coord_catergorisation.add_weekday_fullname(cube, coord,
+                                                                name='weekday_fullname')
+        elif name == 'weekday':
+            for cube in self.cube_dataset.cube_list:
+                iris.coord_catergorisation.add_weekday(cube, coord,
+                                                       name='weekday')
+
+        elif name == 'hour':
+            for cube in self.cube_dataset.cube_list:
+                iris.coord_catergorisation.add_hour(cube, coord,
+                                                    name='hour')
 

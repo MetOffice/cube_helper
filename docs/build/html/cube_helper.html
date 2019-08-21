@@ -117,7 +117,7 @@ and cube_loader. To be used to manipulate cube datasets.</p>
 to operate on.</p>
 <p>filetype: a string specifying the expected type
 of files found in the dataset. Default value is .nc</p>
-<p>constraints (optional): a string specifying any constraints
+<p>constraints: a string specifying any constraints
 you wish to load the dataset with.</p>
 </div></blockquote>
 <dl class="last docutils">
@@ -128,6 +128,21 @@ in itself is a custom CubeList</dd>
 </dl>
 </dd>
 </dl>
+<dl class="method">
+<dt id="cube_helper.cube_help.CubeHelp.add_time_catergorical">
+<code class="descname">add_time_catergorical</code><span class="sig-paren">(</span><em>name</em>, <em>coord='time'</em><span class="sig-paren">)</span><a class="headerlink" href="#cube_helper.cube_help.CubeHelp.add_time_catergorical" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a catergorical time coordinate.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><p class="first">name: a string specifying the time catergory to add.</p>
+<p class="last">coords: a string specifying the coordinate to operate on.
+default value set to ‘time’</p>
+</dd>
+<dt>Returns:</dt>
+<dd>The cube_dataset with the time category added to each cube.</dd>
+</dl>
+</dd></dl>
+
 <dl class="method">
 <dt id="cube_helper.cube_help.CubeHelp.collapsed_dimension">
 <code class="descname">collapsed_dimension</code><span class="sig-paren">(</span><em>dimension</em><span class="sig-paren">)</span><a class="headerlink" href="#cube_helper.cube_help.CubeHelp.collapsed_dimension" title="Permalink to this definition">¶</a></dt>
@@ -262,7 +277,7 @@ Metadata.</dd>
 <dt>Args:</dt>
 <dd><p class="first">filetype: a string specifying the expected type
 of files found in the dataset. Default value is .nc</p>
-<p class="last">constraints (optional): a string specifying any constraints
+<p class="last">constraints: a string specifying any constraints
 you wish to load the dataset with.</p>
 </dd>
 <dt>Returns:</dt>
@@ -275,13 +290,9 @@ you wish to load the dataset with.</p>
 </div>
 <div class="section" id="module-cube_helper.cube_loader">
 <span id="cube-helper-cube-loader-module"></span><h2>cube_helper.cube_loader module<a class="headerlink" href="#module-cube_helper.cube_loader" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="cube_helper.cube_loader.CubeLoader">
-<em class="property">class </em><code class="descclassname">cube_helper.cube_loader.</code><code class="descname">CubeLoader</code><a class="headerlink" href="#cube_helper.cube_loader.CubeLoader" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="staticmethod">
-<dt id="cube_helper.cube_loader.CubeLoader.load_from_dir">
-<em class="property">static </em><code class="descname">load_from_dir</code><span class="sig-paren">(</span><em>directory</em>, <em>constraint=None</em>, <em>filetype='.nc'</em><span class="sig-paren">)</span><a class="headerlink" href="#cube_helper.cube_loader.CubeLoader.load_from_dir" title="Permalink to this definition">¶</a></dt>
+<dl class="function">
+<dt id="cube_helper.cube_loader.load_from_dir">
+<code class="descclassname">cube_helper.cube_loader.</code><code class="descname">load_from_dir</code><span class="sig-paren">(</span><em>directory</em>, <em>constraint=None</em>, <em>filetype='.nc'</em><span class="sig-paren">)</span><a class="headerlink" href="#cube_helper.cube_loader.load_from_dir" title="Permalink to this definition">¶</a></dt>
 <dd><p>Loads a set of cubes from a given directory, single cubes are loaded
 and returned as a CubeList.</p>
 <dl class="docutils">
@@ -299,9 +310,9 @@ Cubes.</dd>
 </dl>
 </dd></dl>
 
-<dl class="staticmethod">
-<dt id="cube_helper.cube_loader.CubeLoader.load_from_filelist">
-<em class="property">static </em><code class="descname">load_from_filelist</code><span class="sig-paren">(</span><em>data_filelist</em>, <em>constraint=None</em>, <em>filetype='.nc'</em><span class="sig-paren">)</span><a class="headerlink" href="#cube_helper.cube_loader.CubeLoader.load_from_filelist" title="Permalink to this definition">¶</a></dt>
+<dl class="function">
+<dt id="cube_helper.cube_loader.load_from_filelist">
+<code class="descclassname">cube_helper.cube_loader.</code><code class="descname">load_from_filelist</code><span class="sig-paren">(</span><em>data_filelist</em>, <em>constraint=None</em>, <em>filetype='.nc'</em><span class="sig-paren">)</span><a class="headerlink" href="#cube_helper.cube_loader.load_from_filelist" title="Permalink to this definition">¶</a></dt>
 <dd><p>Loads the specified files. Individual files are
 returned in a
 CubeList.</p>
@@ -317,8 +328,6 @@ You wish to load the dataset with.</p>
 <dd>iris.cube.CubeList(loaded_cubes), a CubeList of the loaded
 Cubes.</dd>
 </dl>
-</dd></dl>
-
 </dd></dl>
 
 </div>
