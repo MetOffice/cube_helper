@@ -198,7 +198,6 @@ class CubeHelp(object):
         """
         self.__init__(self.directory, filetype, constraints)
 
-
     def add_time_catergorical(self, name, coord='time'):
         """
         Adds a catergorical time coordinate.
@@ -222,7 +221,6 @@ class CubeHelp(object):
             for cube in self.cube_dataset.cube_list:
                 iris.coord_categorisation.add_season_membership(cube, coord,
                                                           name='season_membership')
-
         elif name == 'season_number':
             for cube in self.cube_dataset.cube_list:
                 iris.coord_categorisation.add_season_number(cube, coord,
@@ -247,7 +245,6 @@ class CubeHelp(object):
             for cube in self.cube_dataset.cube_list:
                 iris.coord_catergorisation.add_month(cube, coord,
                                                      name='month')
-
         elif name == 'day_of_the_month':
             for cube in self.cube_dataset.cube_list:
                 iris.coord_catergorisation.add_day_of_the_month(cube, coord,
@@ -268,7 +265,6 @@ class CubeHelp(object):
             for cube in self.cube_dataset.cube_list:
                 iris.coord_catergorisation.add_weekday(cube, coord,
                                                        name='weekday')
-
         elif name == 'hour':
             for cube in self.cube_dataset.cube_list:
                 iris.coord_catergorisation.add_hour(cube, coord,
