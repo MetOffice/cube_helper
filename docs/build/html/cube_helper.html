@@ -52,7 +52,7 @@
 <dl class="function">
 <dt id="cube_helper.cube_equaliser.equalise_attributes">
 <code class="descclassname">cube_helper.cube_equaliser.</code><code class="descname">equalise_attributes</code><span class="sig-paren">(</span><em>cubes</em><span class="sig-paren">)</span><a class="headerlink" href="#cube_helper.cube_equaliser.equalise_attributes" title="Permalink to this definition">¶</a></dt>
-<dd><p>Equalises cubes for concatenation and merging, cycles through the <a href="#id1"><span class="problematic" id="id2">cube_</span></a>
+<dd><p>Equalises Cubes for concatenation and merging, cycles through the <a href="#id1"><span class="problematic" id="id2">cube_</span></a>
 Dataset (CubeList) attribute and removes any that are not common across all cubes.
 metadata and variables.</p>
 <dl class="docutils">
@@ -136,10 +136,23 @@ in itself is a custom CubeList</dd>
 <dt>Args:</dt>
 <dd><p class="first">name: a string specifying the time catergory to add.</p>
 <p class="last">coords: a string specifying the coordinate to operate on.
-default value set to ‘time’</p>
+default value set to ‘time’.</p>
 </dd>
 <dt>Returns:</dt>
 <dd>The cube_dataset with the time category added to each cube.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="cube_helper.cube_help.CubeHelp.aggragate">
+<code class="descname">aggragate</code><span class="sig-paren">(</span><em>aggregation_list</em><span class="sig-paren">)</span><a class="headerlink" href="#cube_helper.cube_help.CubeHelp.aggragate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Aggregates data in cube_dataset by different catergories.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>aggregation_list: a list containing the catergories to aggregate
+by. e.g [‘clim_year’,’season_year’]</dd>
+<dt>Returns:</dt>
+<dd>cube_dataset aggregated by specified catergories.</dd>
 </dl>
 </dd></dl>
 
@@ -174,7 +187,7 @@ Units MUST be of the CF convention, i.e No trying to convert
 <dl class="method">
 <dt id="cube_helper.cube_help.CubeHelp.equalise">
 <code class="descname">equalise</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cube_helper.cube_help.CubeHelp.equalise" title="Permalink to this definition">¶</a></dt>
-<dd><p>Equalises cubes for concatenation and merging, cycles through the <a href="#id3"><span class="problematic" id="id4">cube_</span></a>
+<dd><p>Equalises Cubes for concatenation and merging, cycles through the <a href="#id3"><span class="problematic" id="id4">cube_</span></a>
 dataset (CubeList) attribute and rectifies common differences in
 metadata and attributes. Then cycles through and unifies the time units.</p>
 <dl class="docutils">
@@ -192,6 +205,19 @@ converts to float32 but other datatypes to soon be supported.</p>
 <dl class="docutils">
 <dt>Returns:</dt>
 <dd>The cube_dataset with identical datatypes in each cube.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="cube_helper.cube_help.CubeHelp.extract">
+<code class="descname">extract</code><span class="sig-paren">(</span><em>constraint</em><span class="sig-paren">)</span><a class="headerlink" href="#cube_helper.cube_help.CubeHelp.extract" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extracts a potion of data from cube_dataset within specified contraints.
+To be used when more detailed contraints other than phenomenon is needed.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>constraint: An iris.constraint object</dd>
+<dt>Returns:</dt>
+<dd>constrained cube_dataset.</dd>
 </dl>
 </dd></dl>
 
@@ -222,6 +248,19 @@ cube_dataset into a single Cube. Not suitable for cubes of only
 <dl class="docutils">
 <dt>Returns:</dt>
 <dd>A concatenated Cube of the cube_dataset</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="cube_helper.cube_help.CubeHelp.get_cube">
+<code class="descname">get_cube</code><span class="sig-paren">(</span><em>index</em><span class="sig-paren">)</span><a class="headerlink" href="#cube_helper.cube_help.CubeHelp.get_cube" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a single specified cube from cube_dataset.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>index: an int index value specifying which cube out of
+cube_dataset you wish to return.</dd>
+<dt>Returns:</dt>
+<dd>A single Cube.</dd>
 </dl>
 </dd></dl>
 
@@ -270,13 +309,25 @@ Metadata.</dd>
 </dd></dl>
 
 <dl class="method">
+<dt id="cube_helper.cube_help.CubeHelp.remove_cube">
+<code class="descname">remove_cube</code><span class="sig-paren">(</span><em>index</em><span class="sig-paren">)</span><a class="headerlink" href="#cube_helper.cube_help.CubeHelp.remove_cube" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes a single specified cube from cube_dataset.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>index: an int index value specifying which cube out of
+cube_dataset you wish to remove.</dd>
+</dl>
+<p>Returns:</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="cube_helper.cube_help.CubeHelp.reset">
 <code class="descname">reset</code><span class="sig-paren">(</span><em>filetype='.nc'</em>, <em>constraints=None</em><span class="sig-paren">)</span><a class="headerlink" href="#cube_helper.cube_help.CubeHelp.reset" title="Permalink to this definition">¶</a></dt>
 <dd><p>Re-initialises the cube_dataset, using the directory originally given.</p>
 <dl class="docutils">
 <dt>Args:</dt>
 <dd><p class="first">filetype: a string specifying the expected type
-of files found in the dataset. Default value is .nc</p>
+of files found in the dataset. Default value is .nc .</p>
 <p class="last">constraints: a string specifying any constraints
 you wish to load the dataset with.</p>
 </dd>
