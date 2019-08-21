@@ -188,7 +188,7 @@ class CubeHelp(object):
         
         Args:
             filetype: a string specifying the expected type
-            of files found in the dataset. Default value is .nc
+            of files found in the dataset. Default value is .nc .
 
             constraints: a string specifying any constraints
             you wish to load the dataset with.
@@ -200,22 +200,55 @@ class CubeHelp(object):
 
     def get_cube(self, index):
         """
-        Returns a single specified cube fromm cube_dataset.
+        Returns a single specified cube from cube_dataset.
 
         Args:
              index: an int index value specifying which cube out of
-             cube_dataset you wish to return
+             cube_dataset you wish to return.
 
         Returns:
-            
+                A single Cube.
         """
         return self.cube_dataset.cube_list[index]
 
+    def remove_cube(self, index):
+        """
+        Removes a single specified cube from cube_dataset.
+
+        Args:
+             index: an int index value specifying which cube out of
+             cube_dataset you wish to remove.
+
+        Returns:
+
+        """
+        self.cube_dataset.cube_list.pop(index)
+
     def aggragate(self, aggregation_list):
+        """
+        Aggregates data in cube_dataset by different catergories.
+
+        Args:
+             aggregation_list: a list containing the catergories to aggregate
+             by. e.g ['clim_year','season_year']
+
+        Returns:
+             cube_dataset aggregated by specified catergories.
+        """
         for cube in self.cube_dataset.cube_list:
             cube.aggregated_by(aggregation_list, iris.MEAN)
 
     def extract(self, constraint):
+        """
+        Extracts a potion of data from cube_dataset within specified contraints.
+        To be used when more detailed contraints other than phenomenon is needed.
+
+        Args:
+             constraint: An iris.constraint object
+
+        Returns:
+             constrained cube_dataset.
+        """
         for cube in self.cube_dataset.cube_list:
             cube.extract(constraint)
 
@@ -227,7 +260,7 @@ class CubeHelp(object):
             name: a string specifying the time catergory to add.
 
             coords: a string specifying the coordinate to operate on.
-            default value set to 'time'
+            default value set to 'time'.
 
 
         Returns:
