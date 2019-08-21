@@ -198,6 +198,27 @@ class CubeHelp(object):
         """
         self.__init__(self.directory, filetype, constraints)
 
+    def get_cube(self, index):
+        """
+        Returns a single specified cube fromm cube_dataset.
+
+        Args:
+             index: an int index value specifying which cube out of
+             cube_dataset you wish to return
+
+        Returns:
+            
+        """
+        return self.cube_dataset.cube_list[index]
+
+    def aggragate(self, aggregation_list):
+        for cube in self.cube_dataset.cube_list:
+            cube.aggregated_by(aggregation_list, iris.MEAN)
+
+    def extract(self, constraint):
+        for cube in self.cube_dataset.cube_list:
+            cube.extract(constraint)
+
     def add_time_catergorical(self, name, coord='time'):
         """
         Adds a catergorical time coordinate.
