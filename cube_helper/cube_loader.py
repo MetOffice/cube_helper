@@ -26,7 +26,10 @@ def load_from_dir(directory, constraint=None, filetype='.nc'):
             full_path = os.path.join(directory, path)
             if os.path.isfile(full_path):
                 if full_path.endswith(filetype):
-                    loaded_cubes.append(iris.load_cube(full_path))
+                    try:
+                        loaded_cubes.append(iris.load_cube(full_path))
+                    except:
+                        loaded_cubes.append(iris.load_raw(full_path).pop(0))
         return iris.cube.CubeList(loaded_cubes)
     else:
         loaded_cubes = []
@@ -34,8 +37,10 @@ def load_from_dir(directory, constraint=None, filetype='.nc'):
             full_path = os.path.join(directory, path)
             if os.path.isfile(full_path):
                 if full_path.endswith(filetype):
-                    loaded_cubes.append(iris.load_cube(full_path,
-                                                       constraint))
+                    try:
+                        loaded_cubes.append(iris.load_cube(full_path, constraint))
+                    except:
+                        loaded_cubes.append(iris.load_raw(full_path, constraint).pop(0))
         return iris.cube.CubeList(loaded_cubes)
 
 
@@ -66,9 +71,15 @@ def load_from_filelist(data_filelist, constraint=None,
 
     for filename in data_filelist:
         if constraint is None:
-            loaded_cubes.append(iris.load_cube(filename))
+            try:
+                loaded_cubes.append(iris.load_cube(filename))
+            except:
+                loaded_cubes.append(iris.load_raw(filename).pop(3))
 
         else:
-            loaded_cubes.append(iris.load_cube(filename, constraint))
+            try:
+                loaded_cubes.append(iris.load_cube(filename, constraint))
+            except:
+                loaded_cubes.append(iris.load_raw(filename, constraint).pop(3))
 
     return iris.cube.CubeList(loaded_cubes)
