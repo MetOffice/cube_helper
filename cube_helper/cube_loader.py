@@ -29,7 +29,10 @@ def load_from_dir(directory, constraint=None, filetype='.nc'):
                     try:
                         loaded_cubes.append(iris.load_cube(full_path))
                     except:
-                        loaded_cubes.append(iris.load_raw(full_path).pop(0))
+                        for cube in iris.load_raw(full_path):
+                            if cube.ndim >= 2:
+                                loaded_cubes.append(cube)
+
         return iris.cube.CubeList(loaded_cubes)
     else:
         loaded_cubes = []
@@ -40,7 +43,9 @@ def load_from_dir(directory, constraint=None, filetype='.nc'):
                     try:
                         loaded_cubes.append(iris.load_cube(full_path, constraint))
                     except:
-                        loaded_cubes.append(iris.load_raw(full_path, constraint).pop(0))
+                        for cube in iris.load_raw(full_path, constraint):
+                            if cube.ndim >= 2:
+                                loaded_cubes.append(cube)
         return iris.cube.CubeList(loaded_cubes)
 
 
