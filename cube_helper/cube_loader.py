@@ -3,6 +3,18 @@ import iris
 import glob
 
 def _parse_directory(directory):
+    """
+    Parses the string representing the directory, makes sure a '/'
+    backspace is present at the start and end of the directory string
+    so glob can work properly.
+
+    Args:
+         directory: the directory string to parse.
+
+    Returns:
+        a string representing the directory, having been parsed if
+        needed.
+    """
     if not directory.startswith('/'):
         directory = '/' + directory
 
