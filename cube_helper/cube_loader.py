@@ -21,9 +21,12 @@ def _parse_directory(directory):
     if not directory.startswith('/'):
         if os.path.isdir(directory):
             return directory
+
         else:
             directory = '/' + directory
             return directory
+    else:
+        return directory
 
 
 def load_from_dir(directory, filetype, constraint=None):
@@ -49,8 +52,8 @@ def load_from_dir(directory, filetype, constraint=None):
     if constraint is None:
         loaded_cubes = []
         directory = _parse_directory(directory)
-        path_list = glob.glob(directory + '*' + filetype)
-        for path in path_list:
+        print(directory)
+        for path in glob.glob(directory + '*' + filetype):
             try:
                 loaded_cubes.append(iris.load_cube(path))
             except:

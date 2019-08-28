@@ -15,8 +15,11 @@ class CubeSet(iris.cube.CubeList):
         """
         self.cube_list = iris.cube.CubeList(loaded_cubes)
 
+
     def __repr__(self):
         """
         prettify the set of cubes (CubeSet)
         """
         return '{}'.format(self.cube_list)
+
+
