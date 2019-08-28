@@ -1,5 +1,5 @@
 import unittest
-from cube_helper.cube_loader import load_from_dir, load_from_filelist
+from cube_helper.cube_loader import load_from_dir
 from cube_helper.cube_equaliser import (equalise_attributes,equalise_time_units,
                                         equalise_data_type, remove_attributes)
 
