@@ -1,5 +1,6 @@
 import os
 import iris
+import glob
 
 def load_from_dir(directory, constraint=None, filetype='.nc'):
     """
@@ -22,30 +23,25 @@ def load_from_dir(directory, constraint=None, filetype='.nc'):
     """
     if constraint is None:
         loaded_cubes = []
-        for path in os.listdir(directory):
-            full_path = os.path.join(directory, path)
-            if os.path.isfile(full_path):
-                if full_path.endswith(filetype):
-                    try:
-                        loaded_cubes.append(iris.load_cube(full_path))
-                    except:
-                        for cube in iris.load_raw(full_path):
-                            if cube.ndim >= 2:
-                                loaded_cubes.append(cube)
+        path_list = glob.glob(directory + '*' + filetype)
+        for path in path_list:
+            try:
+                loaded_cubes.append(iris.load_cube(path))
+            except:
+                for cube in iris.load_raw(path):
+                    if cube.ndim >= 2:
+                        loaded_cubes.append(cube)
 
         return iris.cube.CubeList(loaded_cubes)
     else:
         loaded_cubes = []
-        for path in os.listdir(directory):
-            full_path = os.path.join(directory, path)
-            if os.path.isfile(full_path):
-                if full_path.endswith(filetype):
-                    try:
-                        loaded_cubes.append(iris.load_cube(full_path, constraint))
-                    except:
-                        for cube in iris.load_raw(full_path, constraint):
-                            if cube.ndim >= 2:
-                                loaded_cubes.append(cube)
+        for path in glob.glob(directory + '*' + filetype):
+            try:
+                loaded_cubes.append(iris.load_cube(path, constraint))
+            except:
+                for cube in iris.load_raw(path, constraint):
+                    if cube.ndim >= 2:
+                        loaded_cubes.append(cube)
         return iris.cube.CubeList(loaded_cubes)
 
 
