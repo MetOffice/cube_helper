@@ -16,7 +16,8 @@ class CubeHelp(object):
 
     Attributes:
             directory: a list of filenames or a path to a directory
-            to operate on.
+            to operate on. directory MUST start and end with forward
+            slashes.
 
             filetype: a string specifying the expected type
             of files found in the dataset. Default value is .nc
@@ -38,14 +39,14 @@ class CubeHelp(object):
         self.constraints = constraints        
         if isinstance(directory, six.string_types):
             loaded_cubes = load_from_dir(
-                directory, constraints, filetype)
+                directory, filetype, constraints)
             if not loaded_cubes:
                 print("No cubes found")
             else:
                 self.cube_dataset = CubeSet(loaded_cubes)
         elif isinstance(directory, list):
             loaded_cubes = load_from_filelist(
-                directory, constraints, filetype)
+                directory, filetype, constraints)
 
             if not loaded_cubes:
                 print("No cubes found")
@@ -236,7 +237,7 @@ class CubeHelp(object):
              cube_dataset aggregated by specified catergories.
         """
         for cube in self.cube_dataset.cube_list:
-            cube.aggregated_by(aggregation_list, iris.MEAN)
+            cube.aggregated_by(aggregation_list, iris.analysis.MEAN)
 
     def extract(self, constraint):
         """
