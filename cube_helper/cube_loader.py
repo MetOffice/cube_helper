@@ -9,10 +9,11 @@ def load_from_dir(directory, constraint=None, filetype='.nc'):
 
     Args:
         directory: a chosen directory
-        to operate on.
+        to operate on. directory MUST start and end with forward
+        slashes.
 
         filetype (optional): a string specifying the expected type
-        Of files found in the dataset
+        Of files found in the dataset.
 
         constraints (optional): a string specifying any constraints
         You wish to load the dataset with.
