@@ -75,12 +75,16 @@ def load_from_filelist(data_filelist, constraint=None,
             try:
                 loaded_cubes.append(iris.load_cube(filename))
             except:
-                loaded_cubes.append(iris.load_raw(filename).pop(3))
+                for cube in iris.load_raw(filename):
+                    if cube.ndim >= 2:
+                        loaded_cubes.append(iris.load_raw(filename))
 
         else:
             try:
                 loaded_cubes.append(iris.load_cube(filename, constraint))
             except:
-                loaded_cubes.append(iris.load_raw(filename, constraint).pop(3))
+                for cube in iris.load_raw(filename, constraint):
+                    if cube.ndim >= 2:
+                        loaded_cubes.append(iris.load_raw(filename, constraint))
 
     return iris.cube.CubeList(loaded_cubes)
