@@ -114,7 +114,8 @@ and cube_loader. To be used to manipulate cube datasets.</p>
 <dt>Attributes:</dt>
 <dd><blockquote class="first">
 <div><p>directory: a list of filenames or a path to a directory
-to operate on.</p>
+to operate on. directory MUST start and end with forward
+slashes.</p>
 <p>filetype: a string specifying the expected type
 of files found in the dataset. Default value is .nc</p>
 <p>constraints: a string specifying any constraints
@@ -349,9 +350,10 @@ and returned as a CubeList.</p>
 <dl class="docutils">
 <dt>Args:</dt>
 <dd><p class="first">directory: a chosen directory
-to operate on.</p>
+to operate on. directory MUST start and end with forward
+slashes.</p>
 <p>filetype (optional): a string specifying the expected type
-Of files found in the dataset</p>
+Of files found in the dataset.</p>
 <p class="last">constraints (optional): a string specifying any constraints
 You wish to load the dataset with.</p>
 </dd>
