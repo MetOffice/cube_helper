@@ -2,6 +2,15 @@ import os
 import iris
 import glob
 
+def _parse_directory(directory):
+    if not directory.startswith('/'):
+        directory = '/' + directory
+
+    if not directory.endswith('/'):
+        directory = directory + '/'
+
+    return directory
+
 def load_from_dir(directory, constraint=None, filetype='.nc'):
     """
     Loads a set of cubes from a given directory, single cubes are loaded
@@ -24,6 +33,7 @@ def load_from_dir(directory, constraint=None, filetype='.nc'):
     """
     if constraint is None:
         loaded_cubes = []
+        directory = _parse_directory(directory)
         path_list = glob.glob(directory + '*' + filetype)
         for path in path_list:
             try:
@@ -36,6 +46,7 @@ def load_from_dir(directory, constraint=None, filetype='.nc'):
         return iris.cube.CubeList(loaded_cubes)
     else:
         loaded_cubes = []
+        directory = _parse_directory(directory)
         for path in glob.glob(directory + '*' + filetype):
             try:
                 loaded_cubes.append(iris.load_cube(path, constraint))
