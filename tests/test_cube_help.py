@@ -6,8 +6,8 @@ from cube_helper import CubeHelp
 class TestCubeHelper(unittest.TestCase):
 
     def test_initilisation(self):
-        example_case = CubeHelp('test_data/air_temp',
-                                constraints='air_temperature', filetype='.pp')
+        example_case = CubeHelp('test_data/air_temp', filetype='.pp',
+                                constraints='air_temperature')
         self.assertEqual(example_case.directory, 'test_data/air_temp')
         self.assertEqual(example_case.constraints, 'air_temperature')
         self.assertIsInstance(example_case.cube_dataset.cube_list,

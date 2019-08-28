@@ -13,17 +13,20 @@ def _parse_directory(directory):
 
     Returns:
         a string representing the directory, having been parsed if
-        needed.
+        cd docneeded.
     """
-    if not directory.startswith('/'):
-        directory = '/' + directory
-
     if not directory.endswith('/'):
         directory = directory + '/'
 
-    return directory
+    if not directory.startswith('/'):
+        if os.path.isdir(directory):
+            return directory
+        else:
+            directory = '/' + directory
+            return directory
 
-def load_from_dir(directory, constraint=None, filetype='.nc'):
+
+def load_from_dir(directory, filetype, constraint=None):
     """
     Loads a set of cubes from a given directory, single cubes are loaded
     and returned as a CubeList.
@@ -69,8 +72,7 @@ def load_from_dir(directory, constraint=None, filetype='.nc'):
         return iris.cube.CubeList(loaded_cubes)
 
 
-def load_from_filelist(data_filelist, constraint=None,
-                       filetype='.nc'):
+def load_from_filelist(data_filelist, filetype, constraint=None):
     """
     Loads the specified files. Individual files are
     returned in a
@@ -82,8 +84,8 @@ def load_from_filelist(data_filelist, constraint=None,
         filetype (optional): a string specifying the expected type
         Of files found in the dataset
 
-        constraints (optional): a string, iterable of strings or an iris.Constraint specifying any constraints
-        You wish to load the dataset with.
+        constraints (optional): a string, iterable of strings or an iris.Constraint
+        specifying any constraints you wish to load the dataset with.
 
     Returns:
         iris.cube.CubeList(loaded_cubes), a CubeList of the loaded
