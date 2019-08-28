@@ -15,7 +15,7 @@ class TestCubeLoader(unittest.TestCase):
         self.assertEqual(type(example_case), iris.cube.CubeList)
 
     def test_load_from_dir(self):
-        example_case = load_from_dir('test_data/air_temp', filetype='.pp')
+        example_case = load_from_dir('/test_data/air_temp/', filetype='.pp')
         self.assertEqual(type(example_case), iris.cube.CubeList)
 
 
