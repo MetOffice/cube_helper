@@ -1,7 +1,7 @@
 import iris
 
 
-class CubeSet(iris.cube.CubeList):
+class CubeSet:
     """
     A custome CubeList object that will be operated on as a dataset.
     """
@@ -21,5 +21,3 @@ class CubeSet(iris.cube.CubeList):
         prettify the set of cubes (CubeSet)
         """
         return '{}'.format(self.cube_list)
-
-
