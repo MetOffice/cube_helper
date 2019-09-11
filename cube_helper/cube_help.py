@@ -57,7 +57,7 @@ class CubeHelp(object):
         """
         Prettifies the cube_dataset attribute and returns it.
         """
-        return '{}'.format(self.cube_dataset.cube_list)
+        return '{}'.format(self.cube_dataset)
 
     def equalise(self):
         """
@@ -68,8 +68,8 @@ class CubeHelp(object):
         Returns:
             Equalised cube_dataset to the CubeHelp class
         """
-        equalise_attributes(self.cube_dataset.cube_list)
-        equalise_time_units(self.cube_dataset.cube_list)
+        equalise_attributes(self.cube_dataset)
+        equalise_time_units(self.cube_dataset)
 
     def get_concatenated(self):
         """
@@ -83,7 +83,7 @@ class CubeHelp(object):
         Returns:
             A concatenated CubeList of the cube_dataset
         """
-        return self.cube_dataset.cube_list.concatenate()
+        return self.cube_dataset.concatenate()
 
     def get_concatenated_cube(self):
         """
@@ -97,7 +97,7 @@ class CubeHelp(object):
         Returns:
             A concatenated Cube of the cube_dataset
         """
-        return self.cube_dataset.cube_list.concatenate_cube()
+        return self.cube_dataset.concatenate_cube()
 
     def get_merged_cube(self):
         """
@@ -112,7 +112,7 @@ class CubeHelp(object):
         Returns:
             A merged Cube of the cube_dataset
         """
-        return self.cube_dataset.cube_list.merge_cube()
+        return self.cube_dataset.merge_cube()
 
     def get_merged(self):
         """
@@ -127,7 +127,7 @@ class CubeHelp(object):
         Returns:
             A merged CubeList of the cube_dataset
         """
-        return self.cube_dataset.cube_list.merge()
+        return self.cube_dataset.merge()
 
     def convert_units(self, unit):
         """
@@ -142,7 +142,7 @@ class CubeHelp(object):
             Units MUST be of the CF convention, i.e No trying to convert
             'meters' into 'leagues'!
         """
-        for cube in self.cube_dataset.cube_list:
+        for cube in self.cube_dataset:
             cube.convert_units(unit)
 
     def collapsed_dimension(self, dimension):
@@ -156,20 +156,20 @@ class CubeHelp(object):
         Returns:
             The cube_dataset with the specified dimension collapsed.
         """
-        for index, cube in enumerate(self.cube_dataset.cube_list):
-            self.cube_dataset.cube_list[index] = cube.collapsed(
+        for index, cube in enumerate(self.cube_dataset):
+            self.cube_dataset[index] = cube.collapsed(
                 dimension, iris.analysis.MEAN)
 
     def remove_attributes(self):
         """
-        Removes all attributes from the cube_lists metadata, replaces
+        Removes all attributes from the cube_datasets metadata, replaces
         them with an empty string.
 
         Returns:
              The cube_dataset with all attributes stripped out of the
              Metadata.
         """
-        remove_attributes(self.cube_dataset.cube_list)
+        remove_attributes(self.cube_dataset)
 
     def equalise_data_type(self):
         """
@@ -181,7 +181,7 @@ class CubeHelp(object):
             The cube_dataset with identical datatypes in each cube.
 
         """
-        equalise_data_type(self.cube_dataset.cube_list)
+        equalise_data_type(self.cube_dataset)
 
     def reset(self, filetype='.nc', constraints=None):
         """
@@ -210,7 +210,7 @@ class CubeHelp(object):
         Returns:
                 A single Cube.
         """
-        return self.cube_dataset.cube_list[index]
+        return self.cube_dataset[index]
 
     def remove_cube(self, index):
         """
@@ -223,7 +223,7 @@ class CubeHelp(object):
         Returns:
 
         """
-        self.cube_dataset.cube_list.pop(index)
+        self.cube_dataset.pop(index)
 
     def aggragate(self, aggregation_list):
         """
@@ -236,7 +236,7 @@ class CubeHelp(object):
         Returns:
              cube_dataset aggregated by specified catergories.
         """
-        for cube in self.cube_dataset.cube_list:
+        for cube in self.cube_dataset:
             cube.aggregated_by(aggregation_list, iris.analysis.MEAN)
 
     def extract(self, constraint):
@@ -250,7 +250,7 @@ class CubeHelp(object):
         Returns:
              constrained cube_dataset.
         """
-        for cube in self.cube_dataset.cube_list:
+        for cube in self.cube_dataset:
             cube.extract(constraint)
 
     def add_time_catergorical(self, name, coord='time'):
@@ -269,59 +269,59 @@ class CubeHelp(object):
         """
 
         if name == 'season_year':
-            for cube in self.cube_dataset.cube_list:
+            for cube in self.cube_dataset:
                 iris.coord_categorisation.add_season_year(cube, coord,
                                                           name='season_year')
         elif name == 'season_membership':
-            for cube in self.cube_dataset.cube_list:
+            for cube in self.cube_dataset:
                 iris.coord_categorisation.add_season_membership(cube, coord,
                                                           name='season_membership')
         elif name == 'season_number':
-            for cube in self.cube_dataset.cube_list:
+            for cube in self.cube_dataset:
                 iris.coord_categorisation.add_season_number(cube, coord,
                                                           name='number')
         elif name == 'clim_season':
-            for cube in self.cube_dataset.cube_list:
+            for cube in self.cube_dataset:
                 iris.coord_categorisation.add_season(cube, coord,
                                                      name='clim_season')
         elif name == 'year':
-            for cube in self.cube_dataset.cube_list:
+            for cube in self.cube_dataset:
                 iris.coord_catergorisation.add_year(cube, coord,
                                                     name='year')
         elif name == 'month_number':
-            for cube in self.cube_dataset.cube_list:
+            for cube in self.cube_dataset:
                 iris.coord_catergorisation.add_month_number(cube, coord,
                                                             name='month_number')
         elif name == 'month_fullname':
-            for cube in self.cube_dataset.cube_list:
+            for cube in self.cube_dataset:
                 iris.coord_catergorisation.add_month_fullname(cube, coord,
                                                               name='month_fullname')
         elif name == 'month':
-            for cube in self.cube_dataset.cube_list:
+            for cube in self.cube_dataset:
                 iris.coord_catergorisation.add_month(cube, coord,
                                                      name='month')
         elif name == 'day_of_the_month':
-            for cube in self.cube_dataset.cube_list:
+            for cube in self.cube_dataset:
                 iris.coord_catergorisation.add_day_of_the_month(cube, coord,
                                                                 name='day_of_the_month')
         elif name == 'day_of_the_year':
-            for cube in self.cube_dataset.cube_list:
+            for cube in self.cube_dataset:
                 iris.coord_catergorisation.add_day_of_the_year(cube, coord,
                                                                 name='day_of_the_year')
         elif name == 'weekday_number':
-            for cube in self.cube_dataset.cube_list:
+            for cube in self.cube_dataset:
                 iris.coord_catergorisation.add_weekday_number(cube, coord,
                                                               name='weekday_number')
         elif name == 'weekday_fullname':
-            for cube in self.cube_dataset.cube_list:
+            for cube in self.cube_dataset:
                 iris.coord_catergorisation.add_weekday_fullname(cube, coord,
                                                                 name='weekday_fullname')
         elif name == 'weekday':
-            for cube in self.cube_dataset.cube_list:
+            for cube in self.cube_dataset:
                 iris.coord_catergorisation.add_weekday(cube, coord,
                                                        name='weekday')
         elif name == 'hour':
-            for cube in self.cube_dataset.cube_list:
+            for cube in self.cube_dataset:
                 iris.coord_catergorisation.add_hour(cube, coord,
                                                     name='hour')
 
