@@ -52,7 +52,6 @@ def load_from_dir(directory, filetype, constraint=None):
     if constraint is None:
         loaded_cubes = []
         directory = _parse_directory(directory)
-        print(directory)
         for path in glob.glob(directory + '*' + filetype):
             try:
                 loaded_cubes.append(iris.load_cube(path))
