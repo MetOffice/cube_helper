@@ -61,7 +61,7 @@ def load_from_dir(directory, filetype, constraint=None):
                     if cube.ndim >= 2:
                         loaded_cubes.append(cube)
 
-        return iris.cube.CubeList(loaded_cubes)
+        return loaded_cubes
     else:
         loaded_cubes = []
         directory = _parse_directory(directory)
@@ -72,7 +72,7 @@ def load_from_dir(directory, filetype, constraint=None):
                 for cube in iris.load_raw(path, constraint):
                     if cube.ndim >= 2:
                         loaded_cubes.append(cube)
-        return iris.cube.CubeList(loaded_cubes)
+        return loaded_cubes
 
 
 def load_from_filelist(data_filelist, filetype, constraint=None):
@@ -116,4 +116,4 @@ def load_from_filelist(data_filelist, filetype, constraint=None):
                     if cube.ndim >= 2:
                         loaded_cubes.append(iris.load_raw(filename, constraint))
 
-    return iris.cube.CubeList(loaded_cubes)
+    return loaded_cubes
