@@ -1,5 +1,6 @@
 import unittest
 import iris
+import cube_helper
 from cube_helper import CubeHelp
 
 
@@ -9,9 +10,9 @@ class TestCubeHelper(unittest.TestCase):
         example_case = CubeHelp('test_data/air_temp', filetype='.pp',
                                 constraints='air_temperature')
         self.assertEqual(example_case.directory, 'test_data/air_temp')
+        self.assertEqual(example_case.filetype, '.pp')
         self.assertEqual(example_case.constraints, 'air_temperature')
-        self.assertIsInstance(example_case.cube_dataset.cube_list,
-                      iris.cube.CubeList)
+        self.assertIsInstance(example_case.cube_dataset, cube_helper.cube_dataset.CubeSet)
         filelist = ['test_data/air_temp/air_temp_1.pp',
                     'test_data/air_temp/air_temp_2.pp',
                     'test_data/air_temp/air_temp_3.pp',
@@ -24,9 +25,6 @@ class TestCubeHelper(unittest.TestCase):
         filepath = '/project/champ/data/CMIP6/CMIP/MOHC/HadGEM3-GC31-LL/' \
                    'piControl/r1i1p1f1/Amon/tasmin/gn/v20190628'
         example_case = CubeHelp(filepath)
-        self.assertIsInstance(example_case.cube_dataset.cube_list,
-                              iris.cube.CubeList)
-
         example_case.equalise()
         test_method = example_case.get_concatenated_cube()
         self.assertIsInstance(test_method, iris.cube.Cube)
@@ -51,13 +49,13 @@ class TestCubeHelper(unittest.TestCase):
     def test_convert_units(self):
         example_case = CubeHelp('test_data/air_temp', filetype='.pp')
         example_case.convert_units('celsius')
-        for cube in example_case.cube_dataset.cube_list:
+        for cube in example_case.cube_dataset:
             self.assertEqual(cube.units, 'celsius')
 
     def test_collapsed_dimension(self):
         example_case = CubeHelp('test_data/north_sea_ice', filetype='.pp')
         example_case.collapsed_dimension('longitude')
-        for cube in example_case.cube_dataset.cube_list:
+        for cube in example_case.cube_dataset:
             self.assertEqual(cube.ndim, 1)
 
     def test_get_cube(self):
@@ -67,9 +65,9 @@ class TestCubeHelper(unittest.TestCase):
 
     def test_reset(self):
         example_case = CubeHelp('test_data/north_sea_ice', filetype='.pp')
-        case_1 = example_case.cube_dataset.cube_list
+        case_1 = example_case.cube_dataset
         example_case.reset()
-        self.assertEqual(case_1, example_case.cube_dataset.cube_list)
+        self.assertEqual(case_1, example_case.cube_dataset)
 
 
 if __name__ == "__main__":
