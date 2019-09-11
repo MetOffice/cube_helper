@@ -419,7 +419,7 @@ Not suitable for cubes with more than 2 dimensions.</p>
 <dl class="method">
 <dt id="cube_helper.cube_help.CubeHelp.remove_attributes">
 <code class="descname">remove_attributes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cube_helper.cube_help.CubeHelp.remove_attributes" title="Permalink to this definition">¶</a></dt>
-<dd><p>Removes all attributes from the cube_lists metadata, replaces
+<dd><p>Removes all attributes from the cube_datasets metadata, replaces
 them with an empty string.</p>
 <dl class="docutils">
 <dt>Returns:</dt>
@@ -463,7 +463,7 @@ you wish to load the dataset with.</p>
 <span id="cube-helper-cube-loader-module"></span><h2>cube_helper.cube_loader module<a class="headerlink" href="#module-cube_helper.cube_loader" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="cube_helper.cube_loader.load_from_dir">
-<code class="descclassname">cube_helper.cube_loader.</code><code class="descname">load_from_dir</code><span class="sig-paren">(</span><em>directory</em>, <em>constraint=None</em>, <em>filetype='.nc'</em><span class="sig-paren">)</span><a class="headerlink" href="#cube_helper.cube_loader.load_from_dir" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">cube_helper.cube_loader.</code><code class="descname">load_from_dir</code><span class="sig-paren">(</span><em>directory</em>, <em>filetype</em>, <em>constraint=None</em><span class="sig-paren">)</span><a class="headerlink" href="#cube_helper.cube_loader.load_from_dir" title="Permalink to this definition">¶</a></dt>
 <dd><p>Loads a set of cubes from a given directory, single cubes are loaded
 and returned as a CubeList.</p>
 <dl class="docutils">
@@ -484,7 +484,7 @@ Cubes.</dd>
 
 <dl class="function">
 <dt id="cube_helper.cube_loader.load_from_filelist">
-<code class="descclassname">cube_helper.cube_loader.</code><code class="descname">load_from_filelist</code><span class="sig-paren">(</span><em>data_filelist</em>, <em>constraint=None</em>, <em>filetype='.nc'</em><span class="sig-paren">)</span><a class="headerlink" href="#cube_helper.cube_loader.load_from_filelist" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">cube_helper.cube_loader.</code><code class="descname">load_from_filelist</code><span class="sig-paren">(</span><em>data_filelist</em>, <em>filetype</em>, <em>constraint=None</em><span class="sig-paren">)</span><a class="headerlink" href="#cube_helper.cube_loader.load_from_filelist" title="Permalink to this definition">¶</a></dt>
 <dd><p>Loads the specified files. Individual files are
 returned in a
 CubeList.</p>
@@ -493,8 +493,8 @@ CubeList.</p>
 <dd><p class="first">data_filelist: a chosen list of filenames to operate on.</p>
 <p>filetype (optional): a string specifying the expected type
 Of files found in the dataset</p>
-<p class="last">constraints (optional): a string, iterable of strings or an iris.Constraint specifying any constraints
-You wish to load the dataset with.</p>
+<p class="last">constraints (optional): a string, iterable of strings or an iris.Constraint
+specifying any constraints you wish to load the dataset with.</p>
 </dd>
 <dt>Returns:</dt>
 <dd>iris.cube.CubeList(loaded_cubes), a CubeList of the loaded
