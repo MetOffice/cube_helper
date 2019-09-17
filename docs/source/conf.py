@@ -20,7 +20,7 @@ sys.path.insert(0, os.path.abspath('../..'))
 # -- Project information -----------------------------------------------------
 
 project = 'Cube Helper'
-copyright = '2019, James Bedwell'
+copyright = '2019, Met Office'
 author = 'James Bedwell'
 
 # The short X.Y version
