@@ -171,7 +171,7 @@
 <dl class="function">
 <dt id="cube_helper.cube_equaliser.equalise_attributes">
 <code class="descclassname">cube_helper.cube_equaliser.</code><code class="descname">equalise_attributes</code><span class="sig-paren">(</span><em>cubes</em><span class="sig-paren">)</span><a class="headerlink" href="#cube_helper.cube_equaliser.equalise_attributes" title="Permalink to this definition">¶</a></dt>
-<dd><p>Equalises Cubes for concatenation and merging, cycles through the <a href="#id1"><span class="problematic" id="id2">cube_</span></a>
+<dd><p>Equalises Cubes for concatenation and merging, cycles through the <a href="#id3"><span class="problematic" id="id4">cube_</span></a>
 Dataset (CubeList) attribute and removes any that are not common across all cubes.
 metadata and variables.</p>
 <dl class="docutils">
@@ -183,14 +183,40 @@ metadata and variables.</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="cube_helper.cube_equaliser.equalise_aux_coords">
+<code class="descclassname">cube_helper.cube_equaliser.</code><code class="descname">equalise_aux_coords</code><span class="sig-paren">(</span><em>cubes</em><span class="sig-paren">)</span><a class="headerlink" href="#cube_helper.cube_equaliser.equalise_aux_coords" title="Permalink to this definition">¶</a></dt>
+<dd><p>Equalises auxillary coordinates of cubes.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>cubes: CubeList or list of cubes to equalise.</dd>
+<dt>Returns:</dt>
+<dd>Cubes equalised across auxillary coordinates.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
 <dt id="cube_helper.cube_equaliser.equalise_data_type">
-<code class="descclassname">cube_helper.cube_equaliser.</code><code class="descname">equalise_data_type</code><span class="sig-paren">(</span><em>cubes</em><span class="sig-paren">)</span><a class="headerlink" href="#cube_helper.cube_equaliser.equalise_data_type" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">cube_helper.cube_equaliser.</code><code class="descname">equalise_data_type</code><span class="sig-paren">(</span><em>cubes</em>, <em>data_type='float32'</em><span class="sig-paren">)</span><a class="headerlink" href="#cube_helper.cube_equaliser.equalise_data_type" title="Permalink to this definition">¶</a></dt>
 <dd><p>Casts datatypes in iris numpy array to be of the same datatype.</p>
 <dl class="docutils">
 <dt>Args:</dt>
-<dd>cubes: Cubes to have their datatypes equalised.</dd>
+<dd>cubes: Cubes to have their datatypes equalised.
+data_type: String specifying datatype, default is float32</dd>
 <dt>Returns:</dt>
 <dd>cubes: Cubes with their data types identical.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="cube_helper.cube_equaliser.equalise_dim_coords">
+<code class="descclassname">cube_helper.cube_equaliser.</code><code class="descname">equalise_dim_coords</code><span class="sig-paren">(</span><em>cubes</em><span class="sig-paren">)</span><a class="headerlink" href="#cube_helper.cube_equaliser.equalise_dim_coords" title="Permalink to this definition">¶</a></dt>
+<dd><p>Equalises dimensional coordinates of cubes, specifically long_name,
+standard_name, and var_name.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>cubes: CubeList or list of cubes to equalise.</dd>
+<dt>Returns:</dt>
+<dd>Cubes equalised across <a href="#id1"><span class="problematic" id="id2">`</span></a>dim_coord.</dd>
 </dl>
 </dd></dl>
 
@@ -215,7 +241,7 @@ be unaffected.</p>
 <dt>Args:</dt>
 <dd>cubes: Cubes to have attributes stripped.</dd>
 <dt>Returns:</dt>
-<dd>cubes with attributes replaced with empty string ‘’</dd>
+<dd>cubes with attributes replaced with empty string ‘’.</dd>
 </dl>
 </dd></dl>
 
@@ -264,8 +290,8 @@ default value set to ‘time’.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="cube_helper.cube_help.CubeHelp.aggragate">
-<code class="descname">aggragate</code><span class="sig-paren">(</span><em>aggregation_list</em><span class="sig-paren">)</span><a class="headerlink" href="#cube_helper.cube_help.CubeHelp.aggragate" title="Permalink to this definition">¶</a></dt>
+<dt id="cube_helper.cube_help.CubeHelp.aggregate">
+<code class="descname">aggregate</code><span class="sig-paren">(</span><em>aggregation_list</em><span class="sig-paren">)</span><a class="headerlink" href="#cube_helper.cube_help.CubeHelp.aggregate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Aggregates data in cube_dataset by different catergories.</p>
 <dl class="docutils">
 <dt>Args:</dt>
@@ -290,6 +316,32 @@ you wish to collapse, for example ‘time’.</dd>
 </dd></dl>
 
 <dl class="method">
+<dt id="cube_helper.cube_help.CubeHelp.concatenate">
+<code class="descname">concatenate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cube_helper.cube_help.CubeHelp.concatenate" title="Permalink to this definition">¶</a></dt>
+<dd><p>concatenates the cube_dataset object. This function makes use of Iris’
+concatenate() function, as a result it will concatenate the
+cube_dataset into the Smallest CubeList possible. Not suitable for
+cubes of only 2 dimensions.</p>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>Concatenated CubeList of the cube_dataset to object</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="cube_helper.cube_help.CubeHelp.concatenate_cube">
+<code class="descname">concatenate_cube</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cube_helper.cube_help.CubeHelp.concatenate_cube" title="Permalink to this definition">¶</a></dt>
+<dd><p>Concatenates the cube_dataset object. This function makes use of Iris’
+concatenate_cube() function, as a result it will concatenate the
+cube_dataset into a single Cube. Not suitable for cubes of only
+2 dimensions.</p>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>Concatenated Cube of the cube_dataset</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt id="cube_helper.cube_help.CubeHelp.convert_units">
 <code class="descname">convert_units</code><span class="sig-paren">(</span><em>unit</em><span class="sig-paren">)</span><a class="headerlink" href="#cube_helper.cube_help.CubeHelp.convert_units" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts units of co-ordinates to an approved CF convention
@@ -307,7 +359,7 @@ Units MUST be of the CF convention, i.e No trying to convert
 <dl class="method">
 <dt id="cube_helper.cube_help.CubeHelp.equalise">
 <code class="descname">equalise</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cube_helper.cube_help.CubeHelp.equalise" title="Permalink to this definition">¶</a></dt>
-<dd><p>Equalises Cubes for concatenation and merging, cycles through the <a href="#id3"><span class="problematic" id="id4">cube_</span></a>
+<dd><p>Equalises Cubes for concatenation and merging, cycles through the <a href="#id5"><span class="problematic" id="id6">cube_</span></a>
 dataset (CubeList) attribute and rectifies common differences in
 metadata and attributes. Then cycles through and unifies the time units.</p>
 <dl class="docutils">
@@ -417,6 +469,34 @@ Not suitable for cubes with more than 2 dimensions.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="cube_helper.cube_help.CubeHelp.merge">
+<code class="descname">merge</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cube_helper.cube_help.CubeHelp.merge" title="Permalink to this definition">¶</a></dt>
+<dd><p>Merged the cube_dataset object. This function makes use of iris’ merge_cube()
+function, as a result it will concatenate the cube_dataset into a
+CubeList, constucting a new dimension. Issues may arrise from
+concatenating cubes with mismatching metadata And time units.
+Not suitable for cubes with more than 2 dimensions.</p>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>Merged CubeList of the cube_dataset</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="cube_helper.cube_help.CubeHelp.merge_cube">
+<code class="descname">merge_cube</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cube_helper.cube_help.CubeHelp.merge_cube" title="Permalink to this definition">¶</a></dt>
+<dd><p>Merges the cube_dataset object. This function makes use of iris’
+merge_cube() function, as a result it will Concatenate the
+cube_dataset into a single Cube if possible. Issues may arrise
+from concatenating cubes with mismatching metadata and time units.
+Not suitable for cubes with more than 2 dimensions.</p>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>Merged Cube of the cube_dataset</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt id="cube_helper.cube_help.CubeHelp.remove_attributes">
 <code class="descname">remove_attributes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cube_helper.cube_help.CubeHelp.remove_attributes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Removes all attributes from the cube_datasets metadata, replaces
@@ -519,7 +599,7 @@ Cubes.</dd>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, James Bedwell
+        &copy; Copyright 2019, Met Office
 
     </p>
   </div>
