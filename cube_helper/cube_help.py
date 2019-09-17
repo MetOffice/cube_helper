@@ -77,6 +77,9 @@ class CubeHelp(object):
     def concatenate_cube(self):
         self.cube_dataset.concatenate_cube()
 
+    def merge(self):
+        self.cube_dataset.merge()
+
     def get_concatenated(self):
         """
         Gets a concatenated form of the cube_dataset object, This method DOES
