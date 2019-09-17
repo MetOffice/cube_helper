@@ -60,18 +60,30 @@ def equalise_time_units(cubes):
                 new_unit = cf_units.Unit(epoch, time_coord.units.calendar)
                 time_coord.convert_units(new_unit)
 
-def equalise_data_type(cubes):
+def equalise_data_type(cubes, data_type='float32'):
     """
     Casts datatypes in iris numpy array to be of the same datatype.
 
     Args:
         cubes: Cubes to have their datatypes equalised.
 
+
     Returns:
         cubes: Cubes with their data types identical.
     """
-    for cube in cubes:
-        cube.data = np.float32(cube.data)
+    if data_type == 'float32':
+        for cube in cubes:
+            cube.data = np.float32(cube.data)
+    if data_type == 'float64':
+        for cube in cubes:
+            cube.data = np.float64(cube.data)
+    if data_type == 'int32':
+        for cube in cubes:
+            cube.data = np.int32(cube.data)
+    if data_type == 'int62':
+        for cube in cubes:
+            cube.data = np.int64(cube.data)
+
 
 def equalise_dim_coords(cubes):
     for cube in cubes:
