@@ -1,6 +1,16 @@
 import numpy as np
 import cf_units
+from datetime import datetime
 
+
+def _sort_by_date(cube):
+    for time_coord in cube.coords():
+        if time_coord.units.is_time_reference():
+            time_origin = time_coord.units.origin
+            time_origin = time_origin.strip("days since ")
+            time_origin = time_origin.strip(" 00:00:00")
+            current_cube_date = datetime.strptime(time_origin, '%Y-%m-%d')
+            return current_cube_date
 
 def equalise_attributes(cubes):
     """
