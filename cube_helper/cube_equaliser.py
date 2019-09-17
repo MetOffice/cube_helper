@@ -73,6 +73,20 @@ def equalise_data_type(cubes):
     for cube in cubes:
         cube.data = np.float32(cube.data)
 
+def equalise_aux_coords(cubes):
+    for cube_a in cubes:
+        for cube_b in cubes:
+            if cube_a.coords() != cube_b.coords():
+                cube_a_coords = {c.name() for c in cube_a.coords()}
+                cube_b_coords = {c.name() for c in cube_b.coords()}
+                common_coords = list(cube_a_coords.intersection(cube_b_coords))
+                for coord in list(cube_a_coords):
+                     if coord not in common_coords:
+                         cube_a.remove_coord(coord)
+                for coord in list(cube_b_coords):
+                     if coord not in common_coords:
+                         cube_b.remove_coord(coord)
+
 def remove_attributes(cubes):
     """
     Sets all cube attributes to an empty string.
