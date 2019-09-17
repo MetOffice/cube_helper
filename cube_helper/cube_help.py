@@ -71,6 +71,9 @@ class CubeHelp(object):
         equalise_attributes(self.cube_dataset)
         equalise_time_units(self.cube_dataset)
 
+    def concatenate(self):
+        self.cube_dataset.concatenate()
+
     def get_concatenated(self):
         """
         Gets a concatenated form of the cube_dataset object, This method DOES
