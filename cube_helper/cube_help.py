@@ -109,6 +109,16 @@ class CubeHelp(object):
         self.cube_dataset.merge()
 
     def merge_cube(self):
+        """
+        Merges the cube_dataset object. This function makes use of iris'
+        merge_cube() function, as a result it will Concatenate the
+        cube_dataset into a single Cube if possible. Issues may arrise
+        from concatenating cubes with mismatching metadata and time units.
+        Not suitable for cubes with more than 2 dimensions.
+
+        Returns:
+            Merged Cube of the cube_dataset
+        """
         self.cube_dataset.merge_cube()
 
     def get_concatenated(self):
