@@ -114,6 +114,7 @@ def equalise_dim_coords(cubes):
             cube.dim_coords[i].long_name = coord_name
             cube.dim_coords[i].var_name = coord_name
 
+
 def equalise_aux_coords(cubes):
     """
     Equalises auxillary coordinates of cubes.
