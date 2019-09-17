@@ -34,9 +34,23 @@ class TestCubeEqualiser(unittest.TestCase):
     def test_equalise_data_type(self):
         filepath = 'test_data/air_temp'
         test_load = load_from_dir(filepath, filetype='.pp')
-        test_load_datatype = test_load[0].dtype
+        equalise_data_type(test_load, 'float64')
+        self.assertEqual(test_load[0].dtype,'float64')
         equalise_data_type(test_load)
-        self.assertEqual(test_load_datatype,'float32')
+        self.assertEqual(test_load[0].dtype,'float32')
+        equalise_data_type(test_load, 'int64')
+        self.assertEqual(test_load[0].dtype,'int64')
+        equalise_data_type(test_load, 'int32')
+        self.assertIsInstance(test_load[0].dtype)
+
+    def test_equalise_dim_coords(self):
+        pass
+
+    def test_equalise_aux_coords(self):
+        pass
+
+    def test_sort_by_earliest_date(self):
+        pass
 
 
 
