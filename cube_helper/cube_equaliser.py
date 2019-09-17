@@ -97,6 +97,16 @@ def equalise_data_type(cubes, data_type='float32'):
 
 
 def equalise_dim_coords(cubes):
+    """
+    Equalises dimensional coordinates of cubes, specifically long_name,
+    standard_name, and var_name.
+
+    Args:
+        cubes: CubeList or list of cubes to equalise
+
+    Returns:
+        Cubes equalised across `dim_coord` metadata.
+    """
     for cube in cubes:
         for i in range(0, len(cube.dim_coords)-1):
             coord_name = cube.dim_coords[i].name()
