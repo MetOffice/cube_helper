@@ -85,13 +85,13 @@ def equalise_data_type(cubes, data_type='float32'):
     if data_type == 'float32':
         for cube in cubes:
             cube.data = np.float32(cube.data)
-    if data_type == 'float64':
+    elif data_type == 'float64':
         for cube in cubes:
             cube.data = np.float64(cube.data)
-    if data_type == 'int32':
+    elif data_type == 'int32':
         for cube in cubes:
             cube.data = np.int32(cube.data)
-    if data_type == 'int62':
+    elif data_type == 'int64':
         for cube in cubes:
             cube.data = np.int64(cube.data)
 
