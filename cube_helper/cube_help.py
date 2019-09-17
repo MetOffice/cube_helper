@@ -73,6 +73,8 @@ class CubeHelp(object):
         """
         equalise_attributes(self.cube_dataset)
         equalise_time_units(self.cube_dataset)
+        equalise_dim_coords(self.cube_dataset)
+        equalise_aux_coords(self.cube_dataset)
 
     def concatenate(self):
         """
