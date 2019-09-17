@@ -84,6 +84,15 @@ class CubeHelp(object):
         self.cube_dataset.concatenate()
 
     def concatenate_cube(self):
+        """
+        Concatenates the cube_dataset object. This function makes use of Iris'
+        concatenate_cube() function, as a result it will concatenate the
+        cube_dataset into a single Cube. Not suitable for cubes of only
+        2 dimensions.
+
+        Returns:
+            Concatenated Cube of the cube_dataset
+        """
         self.cube_dataset.concatenate_cube()
 
     def merge(self):
