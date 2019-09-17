@@ -3,7 +3,18 @@ import cf_units
 from datetime import datetime
 
 
-def _sort_by_date(cube):
+def _sort_by_earliest_date(cube):
+    """
+    Sorts Cubes by date from earliest to latest.
+
+    Args:
+        cube: CubeList or list to sort, to be used with CubeList
+                sort method on instantiation of CubeHelp object.
+
+    Returns:
+        datetime object of selected cubes start time.
+    """
+
     for time_coord in cube.coords():
         if time_coord.units.is_time_reference():
             time_origin = time_coord.units.origin
