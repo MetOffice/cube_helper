@@ -280,7 +280,7 @@ class CubeHelp(object):
         """
         self.cube_dataset.pop(index)
 
-    def aggragate(self, aggregation_list):
+    def aggregate(self, aggregation_list):
         """
         Aggregates data in cube_dataset by different catergories.
 
@@ -291,8 +291,9 @@ class CubeHelp(object):
         Returns:
              cube_dataset aggregated by specified catergories.
         """
-        for cube in self.cube_dataset:
-            cube.aggregated_by(aggregation_list, iris.analysis.MEAN)
+        for index, cube in enumerate(self.cube_dataset):
+            self.cube_dataset[index] = cube.aggregated_by(aggregation_list,
+                                                          iris.analysis.MEAN)
 
     def extract(self, constraint):
         """
@@ -305,8 +306,10 @@ class CubeHelp(object):
         Returns:
              constrained cube_dataset.
         """
-        for cube in self.cube_dataset:
-            cube.extract(constraint)
+        for index, cube in enumerate(self.cube_dataset):
+            self.cube_dataset[index] = cube.extract(constraint)
+        self.cube_dataset = CubeSet([cube for cube in self.cube_dataset if
+                                     cube is not None])
 
     def add_time_catergorical(self, name, coord='time'):
         """
