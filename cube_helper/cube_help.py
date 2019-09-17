@@ -72,6 +72,15 @@ class CubeHelp(object):
         equalise_time_units(self.cube_dataset)
 
     def concatenate(self):
+        """
+        concatenates the cube_dataset object. This function makes use of Iris'
+        concatenate() function, as a result it will concatenate the
+        cube_dataset into the Smallest CubeList possible. Not suitable for
+        cubes of only 2 dimensions.
+
+        Returns:
+            Concatenated CubeList of the cube_dataset to object
+        """
         self.cube_dataset.concatenate()
 
     def concatenate_cube(self):
