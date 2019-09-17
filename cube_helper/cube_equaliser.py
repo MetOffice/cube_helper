@@ -102,10 +102,10 @@ def equalise_dim_coords(cubes):
     standard_name, and var_name.
 
     Args:
-        cubes: CubeList or list of cubes to equalise
+        cubes: CubeList or list of cubes to equalise.
 
     Returns:
-        Cubes equalised across `dim_coord` metadata.
+        Cubes equalised across `dim_coord.
     """
     for cube in cubes:
         for i in range(0, len(cube.dim_coords)-1):
@@ -115,6 +115,15 @@ def equalise_dim_coords(cubes):
             cube.dim_coords[i].var_name = coord_name
 
 def equalise_aux_coords(cubes):
+    """
+    Equalises auxillary coordinates of cubes.
+
+    Args:
+        cubes: CubeList or list of cubes to equalise.
+
+    Returns:
+        Cubes equalised across auxillary coordinates.
+    """
     for cube_a in cubes:
         for cube_b in cubes:
             if cube_a.coords() != cube_b.coords():
@@ -138,7 +147,7 @@ def remove_attributes(cubes):
         cubes: Cubes to have attributes stripped.
 
     Returns:
-        cubes with attributes replaced with empty string ''
+        cubes with attributes replaced with empty string ''.
     """
     for cube in cubes:
         for attr in cube.attributes:
