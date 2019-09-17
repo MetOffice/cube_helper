@@ -66,7 +66,7 @@ def equalise_data_type(cubes, data_type='float32'):
 
     Args:
         cubes: Cubes to have their datatypes equalised.
-
+        data_type: String specifying datatype, default is float32
 
     Returns:
         cubes: Cubes with their data types identical.
