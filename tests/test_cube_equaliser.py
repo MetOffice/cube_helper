@@ -61,7 +61,8 @@ class TestCubeEqualiser(unittest.TestCase):
 
 
     def test_equalise_aux_coords(self):
-        filepath = '/project/champ/data/cmip5/output1/ICHEC/EC-EARTH/rcp85/mon/atmos/Amon/r1i1p1/v20171115/tas'
+        filepath = '/project/champ/data/cmip5/output1/ICHEC/EC-EARTH/' \
+                   'rcp85/mon/atmos/Amon/r1i1p1/v20171115/tas'
         test_load = load_from_dir(filepath, filetype='.nc')
         equalise_aux_coords(test_load)
         for cube in test_load:
@@ -70,7 +71,8 @@ class TestCubeEqualiser(unittest.TestCase):
 
 
     def test_sort_by_earliest_date(self):
-        filepath = '/project/champ/data/cmip5/output1/ICHEC/EC-EARTH/rcp85/mon/atmos/Amon/r1i1p1/v20171115/tas'
+        filepath = '/project/champ/data/cmip5/output1/ICHEC/EC-EARTH/' \
+                   'rcp85/mon/atmos/Amon/r1i1p1/v20171115/tas'
         test_load = load_from_dir(filepath, filetype='.nc')
         cube_list = iris.cube.CubeList(test_load)
         cube_list.sort(key=_sort_by_earliest_date)
