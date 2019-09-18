@@ -46,13 +46,18 @@ class TestCubeHelper(unittest.TestCase):
 
     def test_concatenate(self):
         example_case = CubeHelp('test_data/north_sea_ice', filetype='.pp')
-        test_method = example_case.concatenate()
+        example_case.concatenate()
         self.assertIsInstance(example_case.cube_dataset, iris.cube.CubeList)
 
     def test_get_merged(self):
         example_case = CubeHelp('test_data/north_sea_ice', filetype='.pp')
         test_method = example_case.get_merged()
         self.assertIsInstance(test_method, iris.cube.CubeList)
+
+    def test_merge(self):
+        example_case = CubeHelp('test_data/north_sea_ice', filetype='.pp')
+        example_case.merge()
+        self.assertIsInstance(example_case.cube_dataset, iris.cube.CubeList)
 
     def test_get_merged_cube(self):
         example_case = CubeHelp('test_data/north_sea_ice', filetype='.pp')
