@@ -124,7 +124,7 @@ class CubeHelp(object):
         Returns:
             Merged Cube of the cube_dataset
         """
-        self.cube_dataset.merge_cube()
+        self.cube_dataset = self.cube_dataset.merge_cube()
 
     def get_concatenated(self):
         """
