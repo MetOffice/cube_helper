@@ -86,7 +86,7 @@ class CubeHelp(object):
         Returns:
             Concatenated CubeList of the cube_dataset to object
         """
-        self.cube_dataset.concatenate()
+        self.cube_dataset = self.cube_dataset.concatenate()
 
     def concatenate_cube(self):
         """
@@ -98,7 +98,7 @@ class CubeHelp(object):
         Returns:
             Concatenated Cube of the cube_dataset
         """
-        self.cube_dataset.concatenate_cube()
+        self.cube_dataset = self.cube_dataset.concatenate_cube()
 
     def merge(self):
         """
