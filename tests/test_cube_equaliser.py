@@ -64,7 +64,21 @@ class TestCubeEqualiser(unittest.TestCase):
         pass
 
     def test_sort_by_earliest_date(self):
-        pass
+        filepath = '/project/champ/data/cmip5/output1/ICHEC/EC-EARTH/rcp85/mon/atmos/Amon/r1i1p1/v20171115/tas'
+        test_load = load_from_dir(filepath, filetype='.nc')
+        cube_list = iris.cube.CubeList(test_load)
+        cube_list.sort(key=_sort_by_earliest_date)
+        self.assertEqual(cube_list[0].dim_coords[0].units.origin, 'days since 2006-01-01 00:00:00')
+        self.assertEqual(cube_list[1].dim_coords[0].units.origin, 'days since 2010-01-01 00:00:00')
+        self.assertEqual(cube_list[2].dim_coords[0].units.origin, 'days since 2020-01-01 00:00:00')
+        self.assertEqual(cube_list[3].dim_coords[0].units.origin, 'days since 2030-01-01 00:00:00')
+        self.assertEqual(cube_list[4].dim_coords[0].units.origin, 'days since 2040-01-01 00:00:00')
+        self.assertEqual(cube_list[5].dim_coords[0].units.origin, 'days since 2050-01-01 00:00:00')
+        self.assertEqual(cube_list[6].dim_coords[0].units.origin, 'days since 2060-01-01 00:00:00')
+        self.assertEqual(cube_list[7].dim_coords[0].units.origin, 'days since 2070-01-01 00:00:00')
+        self.assertEqual(cube_list[8].dim_coords[0].units.origin, 'days since 2080-01-01 00:00:00')
+        self.assertEqual(cube_list[9].dim_coords[0].units.origin, 'days since 2090-01-01 00:00:00')
+        self.assertEqual(cube_list[10].dim_coords[0].units.origin, 'days since 2100-1-1')
 
 
 
