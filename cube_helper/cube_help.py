@@ -111,7 +111,7 @@ class CubeHelp(object):
         Returns:
             Merged CubeList of the cube_dataset
         """
-        self.cube_dataset.merge()
+        self.cube_dataset = self.cube_dataset.merge()
 
     def merge_cube(self):
         """
