@@ -1,7 +1,9 @@
 import unittest
+import iris
 from cube_helper.cube_loader import load_from_dir
-from cube_helper.cube_equaliser import (equalise_attributes,equalise_time_units,
-                                        equalise_data_type, remove_attributes)
+from cube_helper.cube_equaliser import (equalise_attributes,
+equalise_time_units, equalise_data_type, remove_attributes,
+                equalise_dim_coords, _sort_by_earliest_date)
 
 class TestCubeEqualiser(unittest.TestCase):
 
@@ -48,7 +50,15 @@ class TestCubeEqualiser(unittest.TestCase):
             self.assertEqual(cube.dtype, 'int64')
 
     def test_equalise_dim_coords(self):
-        pass
+        filepath = 'test_data/air_temp'
+        test_load = load_from_dir(filepath, filetype='.pp')
+        equalise_dim_coords(test_load)
+        for cube in test_load:
+            self.assertEqual(cube.dim_coords[0].name(), 'latitude')
+            self.assertEqual(cube.dim_coords[1].name(), 'longitude')
+
+
+
 
     def test_equalise_aux_coords(self):
         pass
