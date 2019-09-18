@@ -58,8 +58,6 @@ class TestCubeEqualiser(unittest.TestCase):
             self.assertEqual(cube.dim_coords[1].name(), 'longitude')
 
 
-
-
     def test_equalise_aux_coords(self):
         filepath = '/project/champ/data/cmip5/output1/ICHEC/EC-EARTH/' \
                    'rcp85/mon/atmos/Amon/r1i1p1/v20171115/tas'
