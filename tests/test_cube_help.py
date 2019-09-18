@@ -30,10 +30,24 @@ class TestCubeHelper(unittest.TestCase):
         self.assertIsInstance(test_method, iris.cube.Cube)
         self.assertEqual(test_method.ndim, 3)
 
+    def test_concatenate_cube(self):
+        filepath = '/project/champ/data/CMIP6/CMIP/MOHC/HadGEM3-GC31-LL/' \
+                   'piControl/r1i1p1f1/Amon/tasmin/gn/v20190628'
+        example_case = CubeHelp(filepath)
+        example_case.equalise()
+        example_case.concatenate_cube()
+        self.assertIsInstance(example_case.cube_dataset, iris.cube.Cube)
+        self.assertEqual(example_case.cube_dataset.ndim, 3)
+
     def test_get_concatenated(self):
         example_case = CubeHelp('test_data/north_sea_ice', filetype='.pp')
         test_method = example_case.get_concatenated()
         self.assertIsInstance(test_method, iris.cube.CubeList)
+
+    def test_concatenate(self):
+        example_case = CubeHelp('test_data/north_sea_ice', filetype='.pp')
+        test_method = example_case.concatenate()
+        self.assertIsInstance(example_case.cube_dataset, iris.cube.CubeList)
 
     def test_get_merged(self):
         example_case = CubeHelp('test_data/north_sea_ice', filetype='.pp')
