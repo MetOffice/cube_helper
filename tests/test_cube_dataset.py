@@ -12,7 +12,7 @@ class TestCubeDataset(unittest.TestCase):
         cube_set = CubeSet(cube_list)
         self.assertIsInstance(cube_list, list)
         self.assertIsInstance(cube_set, iris.cube.CubeList)
-                
+        self.assertEqual(dir(cube_set),dir(iris.cube.CubeList) )
 if __name__ == "__main__":
     unittest.main()
 
