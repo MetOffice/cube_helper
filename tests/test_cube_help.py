@@ -65,6 +65,12 @@ class TestCubeHelper(unittest.TestCase):
         self.assertIsInstance(test_method, iris.cube.Cube)
         self.assertEqual(test_method.ndim, 3)
 
+    def test_merge_cube(self):
+        example_case = CubeHelp('test_data/north_sea_ice', filetype='.pp')
+        example_case.merge_cube()
+        self.assertIsInstance(example_case.cube_dataset, iris.cube.Cube)
+        self.assertEqual(example_case.cube_dataset.ndim, 3)
+
     def test_convert_units(self):
         example_case = CubeHelp('test_data/air_temp', filetype='.pp')
         example_case.convert_units('celsius')
