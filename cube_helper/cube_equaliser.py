@@ -1,6 +1,7 @@
 import numpy as np
 import cf_units
 from datetime import datetime
+import re
 
 
 def _sort_by_earliest_date(cube):
@@ -18,7 +19,8 @@ def _sort_by_earliest_date(cube):
     for time_coord in cube.coords():
         if time_coord.units.is_time_reference():
             time_origin = time_coord.units.origin
-            time_origin = time_origin.strip("days since ")
+            time_origin = re.sub('[a-zA-Z]', '', time_origin)
+            time_origin = time_origin.strip(' ')
             time_origin = time_origin.strip(" 00:00:00")
             current_cube_date = datetime.strptime(time_origin, '%Y-%m-%d')
             return current_cube_date
@@ -94,6 +96,8 @@ def equalise_data_type(cubes, data_type='float32'):
     elif data_type == 'int64':
         for cube in cubes:
             cube.data = np.int64(cube.data)
+    else:
+        print("invalid data type")
 
 
 def equalise_dim_coords(cubes):
@@ -108,11 +112,11 @@ def equalise_dim_coords(cubes):
         Cubes equalised across `dim_coord.
     """
     for cube in cubes:
-        for i in range(0, len(cube.dim_coords)-1):
-            coord_name = cube.dim_coords[i].name()
-            cube.dim_coords[i].standard_name = coord_name
-            cube.dim_coords[i].long_name = coord_name
-            cube.dim_coords[i].var_name = coord_name
+        for dim_coord in cube.dim_coords:
+            coord_name = dim_coord.name()
+            dim_coord.standard_name = coord_name
+            dim_coord.long_name = coord_name
+            dim_coord.var_name = coord_name
 
 
 def equalise_aux_coords(cubes):
