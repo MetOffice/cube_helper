@@ -2,6 +2,7 @@ import os
 import iris
 import glob
 
+
 def _parse_directory(directory):
     """
     Parses the string representing the directory, makes sure a '/'
