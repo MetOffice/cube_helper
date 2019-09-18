@@ -3,7 +3,7 @@ import iris
 from cube_helper.cube_loader import load_from_dir
 from cube_helper.cube_equaliser import (equalise_attributes,
 equalise_time_units, equalise_data_type, remove_attributes,
-                equalise_dim_coords, _sort_by_earliest_date)
+                equalise_dim_coords, equalise_aux_coords, _sort_by_earliest_date)
 
 class TestCubeEqualiser(unittest.TestCase):
 
@@ -61,7 +61,13 @@ class TestCubeEqualiser(unittest.TestCase):
 
 
     def test_equalise_aux_coords(self):
-        pass
+        filepath = '/project/champ/data/cmip5/output1/ICHEC/EC-EARTH/rcp85/mon/atmos/Amon/r1i1p1/v20171115/tas'
+        test_load = load_from_dir(filepath, filetype='.nc')
+        equalise_aux_coords(test_load)
+        for cube in test_load:
+            coords_list = [c.name() for c in cube.coords()]
+            self.assertNotIn('height', coords_list)
+
 
     def test_sort_by_earliest_date(self):
         filepath = '/project/champ/data/cmip5/output1/ICHEC/EC-EARTH/rcp85/mon/atmos/Amon/r1i1p1/v20171115/tas'
