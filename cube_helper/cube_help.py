@@ -60,8 +60,11 @@ class CubeHelp(object):
         """
         Prettifies the cube_dataset attribute and returns it.
         """
-        return '{}'.format(self.cube_dataset)
+        if len(self.cube_dataset) != 1:
 
+            return '{}'.format(self.cube_dataset)
+        else:
+            return '{}'.format(self.cube_dataset[0])
     def equalise(self):
         """
         Equalises Cubes for concatenation and merging, cycles through the cube_
