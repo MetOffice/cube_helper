@@ -98,7 +98,9 @@ class CubeHelp(object):
         Returns:
             Concatenated Cube of the cube_dataset
         """
-        self.cube_dataset = self.cube_dataset.concatenate_cube()
+        self.cube_dataset.insert(0, self.cube_dataset.concatenate_cube())
+        while len(self.cube_dataset) > 1:
+            self.cube_dataset.pop(-1)
 
     def merge(self):
         """
@@ -124,7 +126,9 @@ class CubeHelp(object):
         Returns:
             Merged Cube of the cube_dataset
         """
-        self.cube_dataset = self.cube_dataset.merge_cube()
+        self.cube_dataset.insert(0, self.cube_dataset.merge_cube())
+        while len(self.cube_dataset) > 1:
+            self.cube_dataset.pop(-1)
 
     def get_concatenated(self):
         """
