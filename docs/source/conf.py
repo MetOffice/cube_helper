@@ -20,13 +20,13 @@ sys.path.insert(0, os.path.abspath('../..'))
 # -- Project information -----------------------------------------------------
 
 project = 'Cube Helper'
-copyright = '2019, Met Office'
+copyright = '2019, The Met Office'
 author = 'James Bedwell'
 
 # The short X.Y version
 version = ''
 # The full version, including alpha/beta/rc tags
-release = 'v0.0.5'
+release = 'v1.0.5'
 
 
 # -- General configuration ---------------------------------------------------
@@ -40,6 +40,7 @@ release = 'v0.0.5'
 # ones.
 extensions = [
     'sphinx.ext.autodoc',
+    'sphinx.ext.doctest',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -173,5 +174,12 @@ epub_title = project
 # A list of files that should not be packed into the epub file.
 epub_exclude_files = ['search.html']
 
+html_context = {
+    "display_github": True, # Integrate GitHub
+    "github_user": "MetOffice", # Username
+    "github_repo": "cube_helper", # Repo name
+    "github_version": "master", # Version
+    "conf_py_path": "/docs/source/", # Path in the checkout to the docs root
+}
 
 # -- Extension configuration -------------------------------------------------
