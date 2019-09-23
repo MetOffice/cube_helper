@@ -99,6 +99,20 @@ class TestCubeHelper(unittest.TestCase):
         example_case.remove_cube(0)
         self.assertEqual(len(example_case.cube_dataset), 3)
 
+    def test_add_time_catergorical(self):
+        example_case = CubeHelp('/net/home/h03/frpt/EC-EARTH_rcp85/')
+        example_case.equalise()
+        comparable_cube = example_case.get_concatenated_cube()
+        example_case.concatenate_cube()
+        example_case.add_time_catergorical('season_year')
+        example_case.add_time_catergorical('clim_season')
+        iris.coord_categorisation.add_season_year(comparable_cube, 'time', name='season_year')
+        iris.coord_categorisation.add_season(comparable_cube, 'time', name='clim_season')
+        self.assertEqual(example_case.cube_dataset[0].coord('time'), comparable_cube.coord('time'))
+        self.assertEqual(example_case.cube_dataset[0].dim_coords, comparable_cube.dim_coords)
+        self.assertEqual(example_case.cube_dataset[0].aux_coords, comparable_cube.aux_coords)
+        self.assertEqual(example_case.cube_dataset[0].ndim, comparable_cube.ndim)
+
 
 if __name__ == "__main__":
     unittest.main()
