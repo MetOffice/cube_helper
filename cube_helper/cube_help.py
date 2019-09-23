@@ -64,7 +64,8 @@ class CubeHelp(object):
 
             return '{}'.format(self.cube_dataset)
         else:
-            return '{}'.format(self.cube_dataset[0])
+            print(self.cube_dataset[0])
+            return '\n'
     def equalise(self):
         """
         Equalises Cubes for concatenation and merging, cycles through the cube_
