@@ -75,16 +75,16 @@ wraped iris ``concatenate_cube()`` function:
 
     ConcatenateError                          Traceback (most recent call last)
 
-    <ipython-input-46-19eebc86616f> in <module>
+    <ipython-input-43-19eebc86616f> in <module>
     ----> 1 dataset.get_concatenated_cube()
     
 
     /net/home/h01/jbedwell/Downloads/cube_helper/cube_helper/cube_help.py in get_concatenated_cube(self)
-        157             A concatenated Cube of the cube_dataset
-        158         """
-    --> 159         return self.cube_dataset.concatenate_cube()
-        160 
-        161     def get_merged_cube(self):
+        161             A concatenated Cube of the cube_dataset
+        162         """
+    --> 163         return self.cube_dataset.concatenate_cube()
+        164 
+        165     def get_merged_cube(self):
 
 
     /opt/scitools/environments/experimental/current/lib/python3.6/site-packages/iris/cube.py in concatenate_cube(self, check_aux_coords)
@@ -133,7 +133,7 @@ the dataset. Lets try it out:
 .. code:: ipython3
 
     dataset.equalise()
-    dataset.get_concatenated_cube()
+    print(dataset.get_concatenated_cube())
 
 As shown the function returns a concatenated cube after calling the
 ``equalise`` function. This functionality is not limited to equalising
@@ -144,349 +144,113 @@ unit to another, below this is illustrated, with the argument
 .. code:: ipython3
 
     dataset.convert_units('celsius')
-    print(dataset)
+    dataset
+
+
+
+
+.. parsed-literal::
+
+    0: air_temperature / (celsius)         (time: 1200; latitude: 144; longitude: 192)
+    1: air_temperature / (celsius)         (time: 1200; latitude: 144; longitude: 192)
+    2: air_temperature / (celsius)         (time: 1200; latitude: 144; longitude: 192)
+    3: air_temperature / (celsius)         (time: 1200; latitude: 144; longitude: 192)
+    4: air_temperature / (celsius)         (time: 1200; latitude: 144; longitude: 192)
+
+
 
 And back again into Kelvin (``'K'``)
 
 .. code:: ipython3
 
     dataset.convert_units('K')
-    print(dataset)
+    dataset
+
+
+
+
+.. parsed-literal::
+
+    0: air_temperature / (K)               (time: 1200; latitude: 144; longitude: 192)
+    1: air_temperature / (K)               (time: 1200; latitude: 144; longitude: 192)
+    2: air_temperature / (K)               (time: 1200; latitude: 144; longitude: 192)
+    3: air_temperature / (K)               (time: 1200; latitude: 144; longitude: 192)
+    4: air_temperature / (K)               (time: 1200; latitude: 144; longitude: 192)
+
+
 
 We can also access individual cubes in the dataset through an index with
 ``dataset.cube_dataset[index]``:
 
 .. code:: ipython3
 
-    dataset.cube_dataset[0]
+    print(dataset.cube_dataset[0])
 
 
+.. parsed-literal::
 
-
-.. raw:: html
-
-    
-    <style>
-      a.iris {
-          text-decoration: none !important;
-      }
-      table.iris {
-          white-space: pre;
-          border: 1px solid;
-          border-color: #9c9c9c;
-          font-family: monaco, monospace;
-      }
-      th.iris {
-          background: #303f3f;
-          color: #e0e0e0;
-          border-left: 1px solid;
-          border-color: #9c9c9c;
-          font-size: 1.05em;
-          min-width: 50px;
-          max-width: 125px;
-      }
-      tr.iris :first-child {
-          border-right: 1px solid #9c9c9c !important;
-      }
-      td.iris-title {
-          background: #d5dcdf;
-          border-top: 1px solid #9c9c9c;
-          font-weight: bold;
-      }
-      .iris-word-cell {
-          text-align: left !important;
-          white-space: pre;
-      }
-      .iris-subheading-cell {
-          padding-left: 2em !important;
-      }
-      .iris-inclusion-cell {
-          padding-right: 1em !important;
-      }
-      .iris-panel-body {
-          padding-top: 0px;
-      }
-      .iris-panel-title {
-          padding-left: 3em;
-      }
-      .iris-panel-title {
-          margin-top: 7px;
-      }
-    </style>
-    <table class="iris" id="140068505525720">
-        <tr class="iris">
-    <th class="iris iris-word-cell">Air Temperature (K)</th>
-    <th class="iris iris-word-cell">time</th>
-    <th class="iris iris-word-cell">latitude</th>
-    <th class="iris iris-word-cell">longitude</th>
-    </tr>
-        <tr class="iris">
-    <td class="iris-word-cell iris-subheading-cell">Shape</td>
-    <td class="iris iris-inclusion-cell">1200</td>
-    <td class="iris iris-inclusion-cell">144</td>
-    <td class="iris iris-inclusion-cell">192</td>
-    </td>
-        <tr class="iris">
-        <td class="iris-title iris-word-cell">Dimension coordinates</td>
-        <td class="iris-title"></td>
-        <td class="iris-title"></td>
-        <td class="iris-title"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	time</td>
-        <td class="iris-inclusion-cell">x</td>
-        <td class="iris-inclusion-cell">-</td>
-        <td class="iris-inclusion-cell">-</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	latitude</td>
-        <td class="iris-inclusion-cell">-</td>
-        <td class="iris-inclusion-cell">x</td>
-        <td class="iris-inclusion-cell">-</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	longitude</td>
-        <td class="iris-inclusion-cell">-</td>
-        <td class="iris-inclusion-cell">-</td>
-        <td class="iris-inclusion-cell">x</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-title iris-word-cell">Scalar coordinates</td>
-        <td class="iris-title"></td>
-        <td class="iris-title"></td>
-        <td class="iris-title"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	height</td>
-        <td class="iris-word-cell" colspan="3">1.5 m</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-title iris-word-cell">Attributes</td>
-        <td class="iris-title"></td>
-        <td class="iris-title"></td>
-        <td class="iris-title"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	Conventions</td>
-        <td class="iris-word-cell" colspan="3">CF-1.7 CMIP-6.2</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	activity_id</td>
-        <td class="iris-word-cell" colspan="3">CMIP</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	branch_method</td>
-        <td class="iris-word-cell" colspan="3">standard</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	branch_time_in_child</td>
-        <td class="iris-word-cell" colspan="3">0.0</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	branch_time_in_parent</td>
-        <td class="iris-word-cell" colspan="3">267840.0</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	cmor_version</td>
-        <td class="iris-word-cell" colspan="3">3.4.0</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	comment</td>
-        <td class="iris-word-cell" colspan="3">minimum near-surface (usually, 2 meter) air temperature (add cell_method...</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	creation_date</td>
-        <td class="iris-word-cell" colspan="3">2019-06-25T23:09:47Z</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	cv_version</td>
-        <td class="iris-word-cell" colspan="3">6.2.20.1</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	data_specs_version</td>
-        <td class="iris-word-cell" colspan="3">01.00.29</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	experiment</td>
-        <td class="iris-word-cell" colspan="3">pre-industrial control</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	experiment_id</td>
-        <td class="iris-word-cell" colspan="3">piControl</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	external_variables</td>
-        <td class="iris-word-cell" colspan="3">areacella</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	forcing_index</td>
-        <td class="iris-word-cell" colspan="3">1</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	frequency</td>
-        <td class="iris-word-cell" colspan="3">mon</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	further_info_url</td>
-        <td class="iris-word-cell" colspan="3">https://furtherinfo.es-doc.org/CMIP6.MOHC.HadGEM3-GC31-LL.piControl.no...</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	grid</td>
-        <td class="iris-word-cell" colspan="3">Native N96 grid; 192 x 144 longitude/latitude</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	grid_label</td>
-        <td class="iris-word-cell" colspan="3">gn</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	history</td>
-        <td class="iris-word-cell" colspan="3">2019-06-25T23:09:47Z altered by CMOR: Treated scalar dimension: 'height'....</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	initialization_index</td>
-        <td class="iris-word-cell" colspan="3">1</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	institution</td>
-        <td class="iris-word-cell" colspan="3">Met Office Hadley Centre, Fitzroy Road, Exeter, Devon, EX1 3PB, UK</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	institution_id</td>
-        <td class="iris-word-cell" colspan="3">MOHC</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	license</td>
-        <td class="iris-word-cell" colspan="3">CMIP6 model data produced by the Met Office Hadley Centre is licensed under...</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	mip_era</td>
-        <td class="iris-word-cell" colspan="3">CMIP6</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	mo_runid</td>
-        <td class="iris-word-cell" colspan="3">u-ar766</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	nominal_resolution</td>
-        <td class="iris-word-cell" colspan="3">250 km</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	original_name</td>
-        <td class="iris-word-cell" colspan="3">mo: mon_mean_from_day((stash: m01s03i236, lbproc: 4096))</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	parent_activity_id</td>
-        <td class="iris-word-cell" colspan="3">CMIP</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	parent_experiment_id</td>
-        <td class="iris-word-cell" colspan="3">piControl-spinup</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	parent_mip_era</td>
-        <td class="iris-word-cell" colspan="3">CMIP6</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	parent_source_id</td>
-        <td class="iris-word-cell" colspan="3">HadGEM3-GC31-LL</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	parent_time_units</td>
-        <td class="iris-word-cell" colspan="3">days since 1850-01-01-00-00-00</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	parent_variant_label</td>
-        <td class="iris-word-cell" colspan="3">r1i1p1f1</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	physics_index</td>
-        <td class="iris-word-cell" colspan="3">1</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	product</td>
-        <td class="iris-word-cell" colspan="3">model-output</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	realization_index</td>
-        <td class="iris-word-cell" colspan="3">1</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	realm</td>
-        <td class="iris-word-cell" colspan="3">atmos</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	source</td>
-        <td class="iris-word-cell" colspan="3">HadGEM3-GC31-LL (2016):</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	aerosol</td>
-        <td class="iris-word-cell" colspan="3">UKCA-GLOMAP-mode</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	atmos</td>
-        <td class="iris-word-cell" colspan="3">MetUM-HadGEM3-GA7.1...</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	source_id</td>
-        <td class="iris-word-cell" colspan="3">HadGEM3-GC31-LL</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	source_type</td>
-        <td class="iris-word-cell" colspan="3">AOGCM AER</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	sub_experiment</td>
-        <td class="iris-word-cell" colspan="3">none</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	sub_experiment_id</td>
-        <td class="iris-word-cell" colspan="3">none</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	table_id</td>
-        <td class="iris-word-cell" colspan="3">Amon</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	table_info</td>
-        <td class="iris-word-cell" colspan="3">Creation Date:(13 December 2018) MD5:2b12b5db6db112aa8b8b0d6c1645b121</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	title</td>
-        <td class="iris-word-cell" colspan="3">HadGEM3-GC31-LL output prepared for CMIP6</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	tracking_id</td>
-        <td class="iris-word-cell" colspan="3">hdl:21.14100/b1e2e59a-6313-4b49-8476-c7c961d2111c</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	variable_id</td>
-        <td class="iris-word-cell" colspan="3">tasmin</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	variant_label</td>
-        <td class="iris-word-cell" colspan="3">r1i1p1f1</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-title iris-word-cell">Cell methods</td>
-        <td class="iris-title"></td>
-        <td class="iris-title"></td>
-        <td class="iris-title"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	mean</td>
-        <td class="iris-word-cell" colspan="3">area</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	minimum within days</td>
-        <td class="iris-word-cell" colspan="3">time</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	mean over days</td>
-        <td class="iris-word-cell" colspan="3">time</td>
-    </tr>
-    </table>
-            
-
+    air_temperature / (K)               (time: 1200; latitude: 144; longitude: 192)
+         Dimension coordinates:
+              time                           x               -               -
+              latitude                       -               x               -
+              longitude                      -               -               x
+         Scalar coordinates:
+              height: 1.5 m
+         Attributes:
+              Conventions: CF-1.7 CMIP-6.2
+              activity_id: CMIP
+              branch_method: standard
+              branch_time_in_child: 0.0
+              branch_time_in_parent: 267840.0
+              cmor_version: 3.4.0
+              comment: minimum near-surface (usually, 2 meter) air temperature (add cell_method...
+              creation_date: 2019-06-25T23:09:47Z
+              cv_version: 6.2.20.1
+              data_specs_version: 01.00.29
+              experiment: pre-industrial control
+              experiment_id: piControl
+              external_variables: areacella
+              forcing_index: 1
+              frequency: mon
+              further_info_url: https://furtherinfo.es-doc.org/CMIP6.MOHC.HadGEM3-GC31-LL.piControl.no...
+              grid: Native N96 grid; 192 x 144 longitude/latitude
+              grid_label: gn
+              history: 2019-06-25T23:09:47Z altered by CMOR: Treated scalar dimension: 'height'....
+              initialization_index: 1
+              institution: Met Office Hadley Centre, Fitzroy Road, Exeter, Devon, EX1 3PB, UK
+              institution_id: MOHC
+              license: CMIP6 model data produced by the Met Office Hadley Centre is licensed under...
+              mip_era: CMIP6
+              mo_runid: u-ar766
+              nominal_resolution: 250 km
+              original_name: mo: mon_mean_from_day((stash: m01s03i236, lbproc: 4096))
+              parent_activity_id: CMIP
+              parent_experiment_id: piControl-spinup
+              parent_mip_era: CMIP6
+              parent_source_id: HadGEM3-GC31-LL
+              parent_time_units: days since 1850-01-01-00-00-00
+              parent_variant_label: r1i1p1f1
+              physics_index: 1
+              product: model-output
+              realization_index: 1
+              realm: atmos
+              source: HadGEM3-GC31-LL (2016): 
+    aerosol: UKCA-GLOMAP-mode
+    atmos: MetUM-HadGEM3-GA7.1...
+              source_id: HadGEM3-GC31-LL
+              source_type: AOGCM AER
+              sub_experiment: none
+              sub_experiment_id: none
+              table_id: Amon
+              table_info: Creation Date:(13 December 2018) MD5:2b12b5db6db112aa8b8b0d6c1645b121
+              title: HadGEM3-GC31-LL output prepared for CMIP6
+              tracking_id: hdl:21.14100/b1e2e59a-6313-4b49-8476-c7c961d2111c
+              variable_id: tasmin
+              variant_label: r1i1p1f1
+         Cell methods:
+              mean: area
+              minimum within days: time
+              mean over days: time
 
 
 Should the equalise function not work there is a function to completely
@@ -495,327 +259,71 @@ remove all attributes, demonstarted below:
 .. code:: ipython3
 
     dataset.remove_attributes()
-    dataset.cube_dataset[0]
+    print(dataset.cube_dataset[0])
 
 
+.. parsed-literal::
 
-
-.. raw:: html
-
-    
-    <style>
-      a.iris {
-          text-decoration: none !important;
-      }
-      table.iris {
-          white-space: pre;
-          border: 1px solid;
-          border-color: #9c9c9c;
-          font-family: monaco, monospace;
-      }
-      th.iris {
-          background: #303f3f;
-          color: #e0e0e0;
-          border-left: 1px solid;
-          border-color: #9c9c9c;
-          font-size: 1.05em;
-          min-width: 50px;
-          max-width: 125px;
-      }
-      tr.iris :first-child {
-          border-right: 1px solid #9c9c9c !important;
-      }
-      td.iris-title {
-          background: #d5dcdf;
-          border-top: 1px solid #9c9c9c;
-          font-weight: bold;
-      }
-      .iris-word-cell {
-          text-align: left !important;
-          white-space: pre;
-      }
-      .iris-subheading-cell {
-          padding-left: 2em !important;
-      }
-      .iris-inclusion-cell {
-          padding-right: 1em !important;
-      }
-      .iris-panel-body {
-          padding-top: 0px;
-      }
-      .iris-panel-title {
-          padding-left: 3em;
-      }
-      .iris-panel-title {
-          margin-top: 7px;
-      }
-    </style>
-    <table class="iris" id="140068505525720">
-        <tr class="iris">
-    <th class="iris iris-word-cell">Air Temperature (K)</th>
-    <th class="iris iris-word-cell">time</th>
-    <th class="iris iris-word-cell">latitude</th>
-    <th class="iris iris-word-cell">longitude</th>
-    </tr>
-        <tr class="iris">
-    <td class="iris-word-cell iris-subheading-cell">Shape</td>
-    <td class="iris iris-inclusion-cell">1200</td>
-    <td class="iris iris-inclusion-cell">144</td>
-    <td class="iris iris-inclusion-cell">192</td>
-    </td>
-        <tr class="iris">
-        <td class="iris-title iris-word-cell">Dimension coordinates</td>
-        <td class="iris-title"></td>
-        <td class="iris-title"></td>
-        <td class="iris-title"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	time</td>
-        <td class="iris-inclusion-cell">x</td>
-        <td class="iris-inclusion-cell">-</td>
-        <td class="iris-inclusion-cell">-</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	latitude</td>
-        <td class="iris-inclusion-cell">-</td>
-        <td class="iris-inclusion-cell">x</td>
-        <td class="iris-inclusion-cell">-</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	longitude</td>
-        <td class="iris-inclusion-cell">-</td>
-        <td class="iris-inclusion-cell">-</td>
-        <td class="iris-inclusion-cell">x</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-title iris-word-cell">Scalar coordinates</td>
-        <td class="iris-title"></td>
-        <td class="iris-title"></td>
-        <td class="iris-title"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	height</td>
-        <td class="iris-word-cell" colspan="3">1.5 m</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-title iris-word-cell">Attributes</td>
-        <td class="iris-title"></td>
-        <td class="iris-title"></td>
-        <td class="iris-title"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	Conventions</td>
-        <td class="iris-word-cell" colspan="3"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	activity_id</td>
-        <td class="iris-word-cell" colspan="3"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	branch_method</td>
-        <td class="iris-word-cell" colspan="3"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	branch_time_in_child</td>
-        <td class="iris-word-cell" colspan="3"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	branch_time_in_parent</td>
-        <td class="iris-word-cell" colspan="3"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	cmor_version</td>
-        <td class="iris-word-cell" colspan="3"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	comment</td>
-        <td class="iris-word-cell" colspan="3"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	creation_date</td>
-        <td class="iris-word-cell" colspan="3"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	cv_version</td>
-        <td class="iris-word-cell" colspan="3"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	data_specs_version</td>
-        <td class="iris-word-cell" colspan="3"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	experiment</td>
-        <td class="iris-word-cell" colspan="3"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	experiment_id</td>
-        <td class="iris-word-cell" colspan="3"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	external_variables</td>
-        <td class="iris-word-cell" colspan="3"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	forcing_index</td>
-        <td class="iris-word-cell" colspan="3"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	frequency</td>
-        <td class="iris-word-cell" colspan="3"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	further_info_url</td>
-        <td class="iris-word-cell" colspan="3"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	grid</td>
-        <td class="iris-word-cell" colspan="3"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	grid_label</td>
-        <td class="iris-word-cell" colspan="3"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	history</td>
-        <td class="iris-word-cell" colspan="3"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	initialization_index</td>
-        <td class="iris-word-cell" colspan="3"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	institution</td>
-        <td class="iris-word-cell" colspan="3"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	institution_id</td>
-        <td class="iris-word-cell" colspan="3"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	license</td>
-        <td class="iris-word-cell" colspan="3"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	mip_era</td>
-        <td class="iris-word-cell" colspan="3"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	mo_runid</td>
-        <td class="iris-word-cell" colspan="3"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	nominal_resolution</td>
-        <td class="iris-word-cell" colspan="3"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	original_name</td>
-        <td class="iris-word-cell" colspan="3"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	parent_activity_id</td>
-        <td class="iris-word-cell" colspan="3"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	parent_experiment_id</td>
-        <td class="iris-word-cell" colspan="3"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	parent_mip_era</td>
-        <td class="iris-word-cell" colspan="3"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	parent_source_id</td>
-        <td class="iris-word-cell" colspan="3"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	parent_time_units</td>
-        <td class="iris-word-cell" colspan="3"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	parent_variant_label</td>
-        <td class="iris-word-cell" colspan="3"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	physics_index</td>
-        <td class="iris-word-cell" colspan="3"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	product</td>
-        <td class="iris-word-cell" colspan="3"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	realization_index</td>
-        <td class="iris-word-cell" colspan="3"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	realm</td>
-        <td class="iris-word-cell" colspan="3"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	source</td>
-        <td class="iris-word-cell" colspan="3"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	source_id</td>
-        <td class="iris-word-cell" colspan="3"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	source_type</td>
-        <td class="iris-word-cell" colspan="3"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	sub_experiment</td>
-        <td class="iris-word-cell" colspan="3"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	sub_experiment_id</td>
-        <td class="iris-word-cell" colspan="3"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	table_id</td>
-        <td class="iris-word-cell" colspan="3"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	table_info</td>
-        <td class="iris-word-cell" colspan="3"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	title</td>
-        <td class="iris-word-cell" colspan="3"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	tracking_id</td>
-        <td class="iris-word-cell" colspan="3"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	variable_id</td>
-        <td class="iris-word-cell" colspan="3"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	variant_label</td>
-        <td class="iris-word-cell" colspan="3"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-title iris-word-cell">Cell methods</td>
-        <td class="iris-title"></td>
-        <td class="iris-title"></td>
-        <td class="iris-title"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	mean</td>
-        <td class="iris-word-cell" colspan="3">area</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	minimum within days</td>
-        <td class="iris-word-cell" colspan="3">time</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	mean over days</td>
-        <td class="iris-word-cell" colspan="3">time</td>
-    </tr>
-    </table>
-            
-
+    air_temperature / (K)               (time: 1200; latitude: 144; longitude: 192)
+         Dimension coordinates:
+              time                           x               -               -
+              latitude                       -               x               -
+              longitude                      -               -               x
+         Scalar coordinates:
+              height: 1.5 m
+         Attributes:
+              Conventions: 
+              activity_id: 
+              branch_method: 
+              branch_time_in_child: 
+              branch_time_in_parent: 
+              cmor_version: 
+              comment: 
+              creation_date: 
+              cv_version: 
+              data_specs_version: 
+              experiment: 
+              experiment_id: 
+              external_variables: 
+              forcing_index: 
+              frequency: 
+              further_info_url: 
+              grid: 
+              grid_label: 
+              history: 
+              initialization_index: 
+              institution: 
+              institution_id: 
+              license: 
+              mip_era: 
+              mo_runid: 
+              nominal_resolution: 
+              original_name: 
+              parent_activity_id: 
+              parent_experiment_id: 
+              parent_mip_era: 
+              parent_source_id: 
+              parent_time_units: 
+              parent_variant_label: 
+              physics_index: 
+              product: 
+              realization_index: 
+              realm: 
+              source: 
+              source_id: 
+              source_type: 
+              sub_experiment: 
+              sub_experiment_id: 
+              table_id: 
+              table_info: 
+              title: 
+              tracking_id: 
+              variable_id: 
+              variant_label: 
+         Cell methods:
+              mean: area
+              minimum within days: time
+              mean over days: time
 
 
 Functions can also be used to collapse a given dimension, below we can
@@ -826,7 +334,9 @@ will be added in later releases):
 .. code:: ipython3
 
     dataset.collapsed_dimension('time')
-    print(dataset)
+    dataset
+
+
 
 
 .. parsed-literal::
@@ -836,6 +346,7 @@ will be added in later releases):
     2: air_temperature / (K)               (latitude: 144; longitude: 192)
     3: air_temperature / (K)               (latitude: 144; longitude: 192)
     4: air_temperature / (K)               (latitude: 144; longitude: 192)
+
 
 
 Should something go wrong and the dataset is altered, or rather the same
@@ -882,335 +393,73 @@ was before:
 
 .. code:: ipython3
 
-    dataset.cube_dataset[0]
+    print(dataset.cube_dataset[0])
 
 
+.. parsed-literal::
 
-
-.. raw:: html
-
-    
-    <style>
-      a.iris {
-          text-decoration: none !important;
-      }
-      table.iris {
-          white-space: pre;
-          border: 1px solid;
-          border-color: #9c9c9c;
-          font-family: monaco, monospace;
-      }
-      th.iris {
-          background: #303f3f;
-          color: #e0e0e0;
-          border-left: 1px solid;
-          border-color: #9c9c9c;
-          font-size: 1.05em;
-          min-width: 50px;
-          max-width: 125px;
-      }
-      tr.iris :first-child {
-          border-right: 1px solid #9c9c9c !important;
-      }
-      td.iris-title {
-          background: #d5dcdf;
-          border-top: 1px solid #9c9c9c;
-          font-weight: bold;
-      }
-      .iris-word-cell {
-          text-align: left !important;
-          white-space: pre;
-      }
-      .iris-subheading-cell {
-          padding-left: 2em !important;
-      }
-      .iris-inclusion-cell {
-          padding-right: 1em !important;
-      }
-      .iris-panel-body {
-          padding-top: 0px;
-      }
-      .iris-panel-title {
-          padding-left: 3em;
-      }
-      .iris-panel-title {
-          margin-top: 7px;
-      }
-    </style>
-    <table class="iris" id="140068460569376">
-        <tr class="iris">
-    <th class="iris iris-word-cell">Air Temperature (K)</th>
-    <th class="iris iris-word-cell">time</th>
-    <th class="iris iris-word-cell">latitude</th>
-    <th class="iris iris-word-cell">longitude</th>
-    </tr>
-        <tr class="iris">
-    <td class="iris-word-cell iris-subheading-cell">Shape</td>
-    <td class="iris iris-inclusion-cell">1200</td>
-    <td class="iris iris-inclusion-cell">144</td>
-    <td class="iris iris-inclusion-cell">192</td>
-    </td>
-        <tr class="iris">
-        <td class="iris-title iris-word-cell">Dimension coordinates</td>
-        <td class="iris-title"></td>
-        <td class="iris-title"></td>
-        <td class="iris-title"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	time</td>
-        <td class="iris-inclusion-cell">x</td>
-        <td class="iris-inclusion-cell">-</td>
-        <td class="iris-inclusion-cell">-</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	latitude</td>
-        <td class="iris-inclusion-cell">-</td>
-        <td class="iris-inclusion-cell">x</td>
-        <td class="iris-inclusion-cell">-</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	longitude</td>
-        <td class="iris-inclusion-cell">-</td>
-        <td class="iris-inclusion-cell">-</td>
-        <td class="iris-inclusion-cell">x</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-title iris-word-cell">Scalar coordinates</td>
-        <td class="iris-title"></td>
-        <td class="iris-title"></td>
-        <td class="iris-title"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	height</td>
-        <td class="iris-word-cell" colspan="3">1.5 m</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-title iris-word-cell">Attributes</td>
-        <td class="iris-title"></td>
-        <td class="iris-title"></td>
-        <td class="iris-title"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	Conventions</td>
-        <td class="iris-word-cell" colspan="3">CF-1.7 CMIP-6.2</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	activity_id</td>
-        <td class="iris-word-cell" colspan="3">CMIP</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	branch_method</td>
-        <td class="iris-word-cell" colspan="3">standard</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	branch_time_in_child</td>
-        <td class="iris-word-cell" colspan="3">0.0</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	branch_time_in_parent</td>
-        <td class="iris-word-cell" colspan="3">267840.0</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	cmor_version</td>
-        <td class="iris-word-cell" colspan="3">3.4.0</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	comment</td>
-        <td class="iris-word-cell" colspan="3">minimum near-surface (usually, 2 meter) air temperature (add cell_method...</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	creation_date</td>
-        <td class="iris-word-cell" colspan="3">2019-06-25T23:09:47Z</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	cv_version</td>
-        <td class="iris-word-cell" colspan="3">6.2.20.1</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	data_specs_version</td>
-        <td class="iris-word-cell" colspan="3">01.00.29</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	experiment</td>
-        <td class="iris-word-cell" colspan="3">pre-industrial control</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	experiment_id</td>
-        <td class="iris-word-cell" colspan="3">piControl</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	external_variables</td>
-        <td class="iris-word-cell" colspan="3">areacella</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	forcing_index</td>
-        <td class="iris-word-cell" colspan="3">1</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	frequency</td>
-        <td class="iris-word-cell" colspan="3">mon</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	further_info_url</td>
-        <td class="iris-word-cell" colspan="3">https://furtherinfo.es-doc.org/CMIP6.MOHC.HadGEM3-GC31-LL.piControl.no...</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	grid</td>
-        <td class="iris-word-cell" colspan="3">Native N96 grid; 192 x 144 longitude/latitude</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	grid_label</td>
-        <td class="iris-word-cell" colspan="3">gn</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	history</td>
-        <td class="iris-word-cell" colspan="3">2019-06-25T23:09:47Z altered by CMOR: Treated scalar dimension: 'height'....</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	initialization_index</td>
-        <td class="iris-word-cell" colspan="3">1</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	institution</td>
-        <td class="iris-word-cell" colspan="3">Met Office Hadley Centre, Fitzroy Road, Exeter, Devon, EX1 3PB, UK</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	institution_id</td>
-        <td class="iris-word-cell" colspan="3">MOHC</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	license</td>
-        <td class="iris-word-cell" colspan="3">CMIP6 model data produced by the Met Office Hadley Centre is licensed under...</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	mip_era</td>
-        <td class="iris-word-cell" colspan="3">CMIP6</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	mo_runid</td>
-        <td class="iris-word-cell" colspan="3">u-ar766</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	nominal_resolution</td>
-        <td class="iris-word-cell" colspan="3">250 km</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	original_name</td>
-        <td class="iris-word-cell" colspan="3">mo: mon_mean_from_day((stash: m01s03i236, lbproc: 4096))</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	parent_activity_id</td>
-        <td class="iris-word-cell" colspan="3">CMIP</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	parent_experiment_id</td>
-        <td class="iris-word-cell" colspan="3">piControl-spinup</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	parent_mip_era</td>
-        <td class="iris-word-cell" colspan="3">CMIP6</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	parent_source_id</td>
-        <td class="iris-word-cell" colspan="3">HadGEM3-GC31-LL</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	parent_time_units</td>
-        <td class="iris-word-cell" colspan="3">days since 1850-01-01-00-00-00</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	parent_variant_label</td>
-        <td class="iris-word-cell" colspan="3">r1i1p1f1</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	physics_index</td>
-        <td class="iris-word-cell" colspan="3">1</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	product</td>
-        <td class="iris-word-cell" colspan="3">model-output</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	realization_index</td>
-        <td class="iris-word-cell" colspan="3">1</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	realm</td>
-        <td class="iris-word-cell" colspan="3">atmos</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	source</td>
-        <td class="iris-word-cell" colspan="3">HadGEM3-GC31-LL (2016):</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	aerosol</td>
-        <td class="iris-word-cell" colspan="3">UKCA-GLOMAP-mode</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	atmos</td>
-        <td class="iris-word-cell" colspan="3">MetUM-HadGEM3-GA7.1...</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	source_id</td>
-        <td class="iris-word-cell" colspan="3">HadGEM3-GC31-LL</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	source_type</td>
-        <td class="iris-word-cell" colspan="3">AOGCM AER</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	sub_experiment</td>
-        <td class="iris-word-cell" colspan="3">none</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	sub_experiment_id</td>
-        <td class="iris-word-cell" colspan="3">none</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	table_id</td>
-        <td class="iris-word-cell" colspan="3">Amon</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	table_info</td>
-        <td class="iris-word-cell" colspan="3">Creation Date:(13 December 2018) MD5:2b12b5db6db112aa8b8b0d6c1645b121</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	title</td>
-        <td class="iris-word-cell" colspan="3">HadGEM3-GC31-LL output prepared for CMIP6</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	tracking_id</td>
-        <td class="iris-word-cell" colspan="3">hdl:21.14100/b1e2e59a-6313-4b49-8476-c7c961d2111c</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	variable_id</td>
-        <td class="iris-word-cell" colspan="3">tasmin</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	variant_label</td>
-        <td class="iris-word-cell" colspan="3">r1i1p1f1</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-title iris-word-cell">Cell methods</td>
-        <td class="iris-title"></td>
-        <td class="iris-title"></td>
-        <td class="iris-title"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	mean</td>
-        <td class="iris-word-cell" colspan="3">area</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	minimum within days</td>
-        <td class="iris-word-cell" colspan="3">time</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	mean over days</td>
-        <td class="iris-word-cell" colspan="3">time</td>
-    </tr>
-    </table>
-            
-
+    air_temperature / (K)               (time: 1200; latitude: 144; longitude: 192)
+         Dimension coordinates:
+              time                           x               -               -
+              latitude                       -               x               -
+              longitude                      -               -               x
+         Scalar coordinates:
+              height: 1.5 m
+         Attributes:
+              Conventions: CF-1.7 CMIP-6.2
+              activity_id: CMIP
+              branch_method: standard
+              branch_time_in_child: 0.0
+              branch_time_in_parent: 267840.0
+              cmor_version: 3.4.0
+              comment: minimum near-surface (usually, 2 meter) air temperature (add cell_method...
+              creation_date: 2019-06-25T23:09:47Z
+              cv_version: 6.2.20.1
+              data_specs_version: 01.00.29
+              experiment: pre-industrial control
+              experiment_id: piControl
+              external_variables: areacella
+              forcing_index: 1
+              frequency: mon
+              further_info_url: https://furtherinfo.es-doc.org/CMIP6.MOHC.HadGEM3-GC31-LL.piControl.no...
+              grid: Native N96 grid; 192 x 144 longitude/latitude
+              grid_label: gn
+              history: 2019-06-25T23:09:47Z altered by CMOR: Treated scalar dimension: 'height'....
+              initialization_index: 1
+              institution: Met Office Hadley Centre, Fitzroy Road, Exeter, Devon, EX1 3PB, UK
+              institution_id: MOHC
+              license: CMIP6 model data produced by the Met Office Hadley Centre is licensed under...
+              mip_era: CMIP6
+              mo_runid: u-ar766
+              nominal_resolution: 250 km
+              original_name: mo: mon_mean_from_day((stash: m01s03i236, lbproc: 4096))
+              parent_activity_id: CMIP
+              parent_experiment_id: piControl-spinup
+              parent_mip_era: CMIP6
+              parent_source_id: HadGEM3-GC31-LL
+              parent_time_units: days since 1850-01-01-00-00-00
+              parent_variant_label: r1i1p1f1
+              physics_index: 1
+              product: model-output
+              realization_index: 1
+              realm: atmos
+              source: HadGEM3-GC31-LL (2016): 
+    aerosol: UKCA-GLOMAP-mode
+    atmos: MetUM-HadGEM3-GA7.1...
+              source_id: HadGEM3-GC31-LL
+              source_type: AOGCM AER
+              sub_experiment: none
+              sub_experiment_id: none
+              table_id: Amon
+              table_info: Creation Date:(13 December 2018) MD5:2b12b5db6db112aa8b8b0d6c1645b121
+              title: HadGEM3-GC31-LL output prepared for CMIP6
+              tracking_id: hdl:21.14100/b1e2e59a-6313-4b49-8476-c7c961d2111c
+              variable_id: tasmin
+              variant_label: r1i1p1f1
+         Cell methods:
+              mean: area
+              minimum within days: time
+              mean over days: time
 
 
 This shows some of cube_helpers more basic methods, but we can do more
@@ -1284,233 +533,48 @@ concatenated dataset, as shown:
 .. code:: ipython3
 
     dataset.equalise()
-    dataset.get_concatenated_cube()
+    print(dataset.get_concatenated_cube())
 
 
+.. parsed-literal::
 
-
-.. raw:: html
-
-    
-    <style>
-      a.iris {
-          text-decoration: none !important;
-      }
-      table.iris {
-          white-space: pre;
-          border: 1px solid;
-          border-color: #9c9c9c;
-          font-family: monaco, monospace;
-      }
-      th.iris {
-          background: #303f3f;
-          color: #e0e0e0;
-          border-left: 1px solid;
-          border-color: #9c9c9c;
-          font-size: 1.05em;
-          min-width: 50px;
-          max-width: 125px;
-      }
-      tr.iris :first-child {
-          border-right: 1px solid #9c9c9c !important;
-      }
-      td.iris-title {
-          background: #d5dcdf;
-          border-top: 1px solid #9c9c9c;
-          font-weight: bold;
-      }
-      .iris-word-cell {
-          text-align: left !important;
-          white-space: pre;
-      }
-      .iris-subheading-cell {
-          padding-left: 2em !important;
-      }
-      .iris-inclusion-cell {
-          padding-right: 1em !important;
-      }
-      .iris-panel-body {
-          padding-top: 0px;
-      }
-      .iris-panel-title {
-          padding-left: 3em;
-      }
-      .iris-panel-title {
-          margin-top: 7px;
-      }
-    </style>
-    <table class="iris" id="140068048656704">
-        <tr class="iris">
-    <th class="iris iris-word-cell">Air Temperature (K)</th>
-    <th class="iris iris-word-cell">time</th>
-    <th class="iris iris-word-cell">latitude</th>
-    <th class="iris iris-word-cell">longitude</th>
-    </tr>
-        <tr class="iris">
-    <td class="iris-word-cell iris-subheading-cell">Shape</td>
-    <td class="iris iris-inclusion-cell">1080</td>
-    <td class="iris iris-inclusion-cell">160</td>
-    <td class="iris iris-inclusion-cell">320</td>
-    </td>
-        <tr class="iris">
-        <td class="iris-title iris-word-cell">Dimension coordinates</td>
-        <td class="iris-title"></td>
-        <td class="iris-title"></td>
-        <td class="iris-title"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	time</td>
-        <td class="iris-inclusion-cell">x</td>
-        <td class="iris-inclusion-cell">-</td>
-        <td class="iris-inclusion-cell">-</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	latitude</td>
-        <td class="iris-inclusion-cell">-</td>
-        <td class="iris-inclusion-cell">x</td>
-        <td class="iris-inclusion-cell">-</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	longitude</td>
-        <td class="iris-inclusion-cell">-</td>
-        <td class="iris-inclusion-cell">-</td>
-        <td class="iris-inclusion-cell">x</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-title iris-word-cell">Attributes</td>
-        <td class="iris-title"></td>
-        <td class="iris-title"></td>
-        <td class="iris-title"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	CDI</td>
-        <td class="iris-word-cell" colspan="3">Climate Data Interface version 1.4.4 (http://code.zmaw.de/projects/cdi...</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	CDO</td>
-        <td class="iris-word-cell" colspan="3">Climate Data Operators version 1.4.4 (http://code.zmaw.de/projects/cdo...</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	Conventions</td>
-        <td class="iris-word-cell" colspan="3">CF-1.4</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	associated_files</td>
-        <td class="iris-word-cell" colspan="3">baseURL: http://cmip-pcmdi.llnl.gov/CMIP5/dataLocation gridspecFile: gridspec_atmos_fx_EC-EARTH_rcp85_r0i0p0.nc...</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	branch_time</td>
-        <td class="iris-word-cell" colspan="3">2281.0</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	cmor_version</td>
-        <td class="iris-word-cell" colspan="3">2.8.0</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	comment</td>
-        <td class="iris-word-cell" colspan="3">Equilibrium reached after preindustrial spin-up after which data were output...</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	contact</td>
-        <td class="iris-word-cell" colspan="3">Alastair McKinstry <alastair.mckinstry@ichec.ie></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	experiment</td>
-        <td class="iris-word-cell" colspan="3">RCP8.5</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	experiment_id</td>
-        <td class="iris-word-cell" colspan="3">rcp85</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	forcing</td>
-        <td class="iris-word-cell" colspan="3">Nat,Ant</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	frequency</td>
-        <td class="iris-word-cell" colspan="3">mon</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	grid_type</td>
-        <td class="iris-word-cell" colspan="3">gaussian</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	initialization_method</td>
-        <td class="iris-word-cell" colspan="3">1</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	institute_id</td>
-        <td class="iris-word-cell" colspan="3">ICHEC</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	institution</td>
-        <td class="iris-word-cell" colspan="3">EC-Earth (European Earth System Model)</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	model_id</td>
-        <td class="iris-word-cell" colspan="3">EC-EARTH</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	modeling_realm</td>
-        <td class="iris-word-cell" colspan="3">atmos</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	original_name</td>
-        <td class="iris-word-cell" colspan="3">2T</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	parent_experiment</td>
-        <td class="iris-word-cell" colspan="3">historical</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	parent_experiment_id</td>
-        <td class="iris-word-cell" colspan="3">historical</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	parent_experiment_rip</td>
-        <td class="iris-word-cell" colspan="3">r1i1p1</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	physics_version</td>
-        <td class="iris-word-cell" colspan="3">1</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	product</td>
-        <td class="iris-word-cell" colspan="3">output</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	project_id</td>
-        <td class="iris-word-cell" colspan="3">CMIP5</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	realization</td>
-        <td class="iris-word-cell" colspan="3">1</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	references</td>
-        <td class="iris-word-cell" colspan="3">Model described by Hazeleger et al. (Bull. Amer. Meteor. Soc., 2010, 91,...</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	table_id</td>
-        <td class="iris-word-cell" colspan="3">Table Amon (26 July 2011) b26379e76858ab98b927917878a63d01</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	title</td>
-        <td class="iris-word-cell" colspan="3">EC-EARTH model output prepared for CMIP5 RCP8.5</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-title iris-word-cell">Cell methods</td>
-        <td class="iris-title"></td>
-        <td class="iris-title"></td>
-        <td class="iris-title"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	mean</td>
-        <td class="iris-word-cell" colspan="3">time (3 hours)</td>
-    </tr>
-    </table>
-            
-
+    air_temperature / (K)               (time: 1080; latitude: 160; longitude: 320)
+         Dimension coordinates:
+              time                           x               -               -
+              latitude                       -               x               -
+              longitude                      -               -               x
+         Attributes:
+              CDI: Climate Data Interface version 1.4.4 (http://code.zmaw.de/projects/cdi...
+              CDO: Climate Data Operators version 1.4.4 (http://code.zmaw.de/projects/cdo...
+              Conventions: CF-1.4
+              associated_files: baseURL: http://cmip-pcmdi.llnl.gov/CMIP5/dataLocation gridspecFile: gridspec_atmos_fx_EC-EARTH_rcp85_r0i0p0.nc...
+              branch_time: 2281.0
+              cmor_version: 2.8.0
+              comment: Equilibrium reached after preindustrial spin-up after which data were output...
+              contact: Alastair McKinstry <alastair.mckinstry@ichec.ie>
+              experiment: RCP8.5
+              experiment_id: rcp85
+              forcing: Nat,Ant
+              frequency: mon
+              grid_type: gaussian
+              initialization_method: 1
+              institute_id: ICHEC
+              institution: EC-Earth (European Earth System Model)
+              model_id: EC-EARTH
+              modeling_realm: atmos
+              original_name: 2T
+              parent_experiment: historical
+              parent_experiment_id: historical
+              parent_experiment_rip: r1i1p1
+              physics_version: 1
+              product: output
+              project_id: CMIP5
+              realization: 1
+              references: Model described by Hazeleger et al. (Bull. Amer. Meteor. Soc., 2010, 91,...
+              table_id: Table Amon (26 July 2011) b26379e76858ab98b927917878a63d01
+              title: EC-EARTH model output prepared for CMIP5 RCP8.5
+         Cell methods:
+              mean: time (3 hours)
 
 
 .. code:: ipython3
@@ -1544,11 +608,52 @@ use ``concatenate_cube()`` we get…
     dataset
 
 
+.. parsed-literal::
+
+    air_temperature / (K)               (time: 1080; latitude: 160; longitude: 320)
+         Dimension coordinates:
+              time                           x               -               -
+              latitude                       -               x               -
+              longitude                      -               -               x
+         Attributes:
+              CDI: Climate Data Interface version 1.4.4 (http://code.zmaw.de/projects/cdi...
+              CDO: Climate Data Operators version 1.4.4 (http://code.zmaw.de/projects/cdo...
+              Conventions: CF-1.4
+              associated_files: baseURL: http://cmip-pcmdi.llnl.gov/CMIP5/dataLocation gridspecFile: gridspec_atmos_fx_EC-EARTH_rcp85_r0i0p0.nc...
+              branch_time: 2281.0
+              cmor_version: 2.8.0
+              comment: Equilibrium reached after preindustrial spin-up after which data were output...
+              contact: Alastair McKinstry <alastair.mckinstry@ichec.ie>
+              experiment: RCP8.5
+              experiment_id: rcp85
+              forcing: Nat,Ant
+              frequency: mon
+              grid_type: gaussian
+              initialization_method: 1
+              institute_id: ICHEC
+              institution: EC-Earth (European Earth System Model)
+              model_id: EC-EARTH
+              modeling_realm: atmos
+              original_name: 2T
+              parent_experiment: historical
+              parent_experiment_id: historical
+              parent_experiment_rip: r1i1p1
+              physics_version: 1
+              product: output
+              project_id: CMIP5
+              realization: 1
+              references: Model described by Hazeleger et al. (Bull. Amer. Meteor. Soc., 2010, 91,...
+              table_id: Table Amon (26 July 2011) b26379e76858ab98b927917878a63d01
+              title: EC-EARTH model output prepared for CMIP5 RCP8.5
+         Cell methods:
+              mean: time (3 hours)
+
+
 
 
 .. parsed-literal::
 
-    0: air_temperature / (K)               (time: 1080; latitude: 160; longitude: 320)
+    
 
 
 
@@ -1568,7 +673,7 @@ falls into these catergories, and remove ALL cubes from
 
 .. parsed-literal::
 
-    0: air_temperature / (K)               (time: 153; latitude: 160; longitude: 320)
+    < No cubes >
 
 
 
@@ -1585,233 +690,48 @@ Here we see no clim_season or season_year Auxillary coordinates:
 
 .. code:: ipython3
 
-    dataset.cube_dataset[0]
+    print(dataset.cube_dataset[0])
 
 
+.. parsed-literal::
 
-
-.. raw:: html
-
-    
-    <style>
-      a.iris {
-          text-decoration: none !important;
-      }
-      table.iris {
-          white-space: pre;
-          border: 1px solid;
-          border-color: #9c9c9c;
-          font-family: monaco, monospace;
-      }
-      th.iris {
-          background: #303f3f;
-          color: #e0e0e0;
-          border-left: 1px solid;
-          border-color: #9c9c9c;
-          font-size: 1.05em;
-          min-width: 50px;
-          max-width: 125px;
-      }
-      tr.iris :first-child {
-          border-right: 1px solid #9c9c9c !important;
-      }
-      td.iris-title {
-          background: #d5dcdf;
-          border-top: 1px solid #9c9c9c;
-          font-weight: bold;
-      }
-      .iris-word-cell {
-          text-align: left !important;
-          white-space: pre;
-      }
-      .iris-subheading-cell {
-          padding-left: 2em !important;
-      }
-      .iris-inclusion-cell {
-          padding-right: 1em !important;
-      }
-      .iris-panel-body {
-          padding-top: 0px;
-      }
-      .iris-panel-title {
-          padding-left: 3em;
-      }
-      .iris-panel-title {
-          margin-top: 7px;
-      }
-    </style>
-    <table class="iris" id="140068505523928">
-        <tr class="iris">
-    <th class="iris iris-word-cell">Air Temperature (K)</th>
-    <th class="iris iris-word-cell">time</th>
-    <th class="iris iris-word-cell">latitude</th>
-    <th class="iris iris-word-cell">longitude</th>
-    </tr>
-        <tr class="iris">
-    <td class="iris-word-cell iris-subheading-cell">Shape</td>
-    <td class="iris iris-inclusion-cell">1080</td>
-    <td class="iris iris-inclusion-cell">160</td>
-    <td class="iris iris-inclusion-cell">320</td>
-    </td>
-        <tr class="iris">
-        <td class="iris-title iris-word-cell">Dimension coordinates</td>
-        <td class="iris-title"></td>
-        <td class="iris-title"></td>
-        <td class="iris-title"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	time</td>
-        <td class="iris-inclusion-cell">x</td>
-        <td class="iris-inclusion-cell">-</td>
-        <td class="iris-inclusion-cell">-</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	latitude</td>
-        <td class="iris-inclusion-cell">-</td>
-        <td class="iris-inclusion-cell">x</td>
-        <td class="iris-inclusion-cell">-</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	longitude</td>
-        <td class="iris-inclusion-cell">-</td>
-        <td class="iris-inclusion-cell">-</td>
-        <td class="iris-inclusion-cell">x</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-title iris-word-cell">Attributes</td>
-        <td class="iris-title"></td>
-        <td class="iris-title"></td>
-        <td class="iris-title"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	CDI</td>
-        <td class="iris-word-cell" colspan="3">Climate Data Interface version 1.4.4 (http://code.zmaw.de/projects/cdi...</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	CDO</td>
-        <td class="iris-word-cell" colspan="3">Climate Data Operators version 1.4.4 (http://code.zmaw.de/projects/cdo...</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	Conventions</td>
-        <td class="iris-word-cell" colspan="3">CF-1.4</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	associated_files</td>
-        <td class="iris-word-cell" colspan="3">baseURL: http://cmip-pcmdi.llnl.gov/CMIP5/dataLocation gridspecFile: gridspec_atmos_fx_EC-EARTH_rcp85_r0i0p0.nc...</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	branch_time</td>
-        <td class="iris-word-cell" colspan="3">2281.0</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	cmor_version</td>
-        <td class="iris-word-cell" colspan="3">2.8.0</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	comment</td>
-        <td class="iris-word-cell" colspan="3">Equilibrium reached after preindustrial spin-up after which data were output...</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	contact</td>
-        <td class="iris-word-cell" colspan="3">Alastair McKinstry <alastair.mckinstry@ichec.ie></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	experiment</td>
-        <td class="iris-word-cell" colspan="3">RCP8.5</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	experiment_id</td>
-        <td class="iris-word-cell" colspan="3">rcp85</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	forcing</td>
-        <td class="iris-word-cell" colspan="3">Nat,Ant</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	frequency</td>
-        <td class="iris-word-cell" colspan="3">mon</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	grid_type</td>
-        <td class="iris-word-cell" colspan="3">gaussian</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	initialization_method</td>
-        <td class="iris-word-cell" colspan="3">1</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	institute_id</td>
-        <td class="iris-word-cell" colspan="3">ICHEC</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	institution</td>
-        <td class="iris-word-cell" colspan="3">EC-Earth (European Earth System Model)</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	model_id</td>
-        <td class="iris-word-cell" colspan="3">EC-EARTH</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	modeling_realm</td>
-        <td class="iris-word-cell" colspan="3">atmos</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	original_name</td>
-        <td class="iris-word-cell" colspan="3">2T</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	parent_experiment</td>
-        <td class="iris-word-cell" colspan="3">historical</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	parent_experiment_id</td>
-        <td class="iris-word-cell" colspan="3">historical</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	parent_experiment_rip</td>
-        <td class="iris-word-cell" colspan="3">r1i1p1</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	physics_version</td>
-        <td class="iris-word-cell" colspan="3">1</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	product</td>
-        <td class="iris-word-cell" colspan="3">output</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	project_id</td>
-        <td class="iris-word-cell" colspan="3">CMIP5</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	realization</td>
-        <td class="iris-word-cell" colspan="3">1</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	references</td>
-        <td class="iris-word-cell" colspan="3">Model described by Hazeleger et al. (Bull. Amer. Meteor. Soc., 2010, 91,...</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	table_id</td>
-        <td class="iris-word-cell" colspan="3">Table Amon (26 July 2011) b26379e76858ab98b927917878a63d01</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	title</td>
-        <td class="iris-word-cell" colspan="3">EC-EARTH model output prepared for CMIP5 RCP8.5</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-title iris-word-cell">Cell methods</td>
-        <td class="iris-title"></td>
-        <td class="iris-title"></td>
-        <td class="iris-title"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	mean</td>
-        <td class="iris-word-cell" colspan="3">time (3 hours)</td>
-    </tr>
-    </table>
-            
-
+    air_temperature / (K)               (time: 1080; latitude: 160; longitude: 320)
+         Dimension coordinates:
+              time                           x               -               -
+              latitude                       -               x               -
+              longitude                      -               -               x
+         Attributes:
+              CDI: Climate Data Interface version 1.4.4 (http://code.zmaw.de/projects/cdi...
+              CDO: Climate Data Operators version 1.4.4 (http://code.zmaw.de/projects/cdo...
+              Conventions: CF-1.4
+              associated_files: baseURL: http://cmip-pcmdi.llnl.gov/CMIP5/dataLocation gridspecFile: gridspec_atmos_fx_EC-EARTH_rcp85_r0i0p0.nc...
+              branch_time: 2281.0
+              cmor_version: 2.8.0
+              comment: Equilibrium reached after preindustrial spin-up after which data were output...
+              contact: Alastair McKinstry <alastair.mckinstry@ichec.ie>
+              experiment: RCP8.5
+              experiment_id: rcp85
+              forcing: Nat,Ant
+              frequency: mon
+              grid_type: gaussian
+              initialization_method: 1
+              institute_id: ICHEC
+              institution: EC-Earth (European Earth System Model)
+              model_id: EC-EARTH
+              modeling_realm: atmos
+              original_name: 2T
+              parent_experiment: historical
+              parent_experiment_id: historical
+              parent_experiment_rip: r1i1p1
+              physics_version: 1
+              product: output
+              project_id: CMIP5
+              realization: 1
+              references: Model described by Hazeleger et al. (Bull. Amer. Meteor. Soc., 2010, 91,...
+              table_id: Table Amon (26 July 2011) b26379e76858ab98b927917878a63d01
+              title: EC-EARTH model output prepared for CMIP5 RCP8.5
+         Cell methods:
+              mean: time (3 hours)
 
 
 However we can add these with the following commands:
@@ -1820,7 +740,52 @@ However we can add these with the following commands:
 
     dataset.add_time_catergorical('season_year')
     dataset.add_time_catergorical('clim_season')
-    dataset.cube_dataset[0]
+    print(dataset.cube_dataset[0])
+
+
+.. parsed-literal::
+
+    air_temperature / (K)               (time: 1080; latitude: 160; longitude: 320)
+         Dimension coordinates:
+              time                           x               -               -
+              latitude                       -               x               -
+              longitude                      -               -               x
+         Auxiliary coordinates:
+              clim_season                    x               -               -
+              season_year                    x               -               -
+         Attributes:
+              CDI: Climate Data Interface version 1.4.4 (http://code.zmaw.de/projects/cdi...
+              CDO: Climate Data Operators version 1.4.4 (http://code.zmaw.de/projects/cdo...
+              Conventions: CF-1.4
+              associated_files: baseURL: http://cmip-pcmdi.llnl.gov/CMIP5/dataLocation gridspecFile: gridspec_atmos_fx_EC-EARTH_rcp85_r0i0p0.nc...
+              branch_time: 2281.0
+              cmor_version: 2.8.0
+              comment: Equilibrium reached after preindustrial spin-up after which data were output...
+              contact: Alastair McKinstry <alastair.mckinstry@ichec.ie>
+              experiment: RCP8.5
+              experiment_id: rcp85
+              forcing: Nat,Ant
+              frequency: mon
+              grid_type: gaussian
+              initialization_method: 1
+              institute_id: ICHEC
+              institution: EC-Earth (European Earth System Model)
+              model_id: EC-EARTH
+              modeling_realm: atmos
+              original_name: 2T
+              parent_experiment: historical
+              parent_experiment_id: historical
+              parent_experiment_rip: r1i1p1
+              physics_version: 1
+              product: output
+              project_id: CMIP5
+              realization: 1
+              references: Model described by Hazeleger et al. (Bull. Amer. Meteor. Soc., 2010, 91,...
+              table_id: Table Amon (26 July 2011) b26379e76858ab98b927917878a63d01
+              title: EC-EARTH model output prepared for CMIP5 RCP8.5
+         Cell methods:
+              mean: time (3 hours)
+
 
 Now it’s been added we can safely filter data based on constrints:
 
@@ -1830,251 +795,51 @@ Now it’s been added we can safely filter data based on constrints:
 
 .. code:: ipython3
 
-    dataset.cube_dataset[0]
+    print(dataset.cube_dataset[0])
 
 
+.. parsed-literal::
 
-
-.. raw:: html
-
-    
-    <style>
-      a.iris {
-          text-decoration: none !important;
-      }
-      table.iris {
-          white-space: pre;
-          border: 1px solid;
-          border-color: #9c9c9c;
-          font-family: monaco, monospace;
-      }
-      th.iris {
-          background: #303f3f;
-          color: #e0e0e0;
-          border-left: 1px solid;
-          border-color: #9c9c9c;
-          font-size: 1.05em;
-          min-width: 50px;
-          max-width: 125px;
-      }
-      tr.iris :first-child {
-          border-right: 1px solid #9c9c9c !important;
-      }
-      td.iris-title {
-          background: #d5dcdf;
-          border-top: 1px solid #9c9c9c;
-          font-weight: bold;
-      }
-      .iris-word-cell {
-          text-align: left !important;
-          white-space: pre;
-      }
-      .iris-subheading-cell {
-          padding-left: 2em !important;
-      }
-      .iris-inclusion-cell {
-          padding-right: 1em !important;
-      }
-      .iris-panel-body {
-          padding-top: 0px;
-      }
-      .iris-panel-title {
-          padding-left: 3em;
-      }
-      .iris-panel-title {
-          margin-top: 7px;
-      }
-    </style>
-    <table class="iris" id="140068462063456">
-        <tr class="iris">
-    <th class="iris iris-word-cell">Air Temperature (K)</th>
-    <th class="iris iris-word-cell">time</th>
-    <th class="iris iris-word-cell">latitude</th>
-    <th class="iris iris-word-cell">longitude</th>
-    </tr>
-        <tr class="iris">
-    <td class="iris-word-cell iris-subheading-cell">Shape</td>
-    <td class="iris iris-inclusion-cell">153</td>
-    <td class="iris iris-inclusion-cell">160</td>
-    <td class="iris iris-inclusion-cell">320</td>
-    </td>
-        <tr class="iris">
-        <td class="iris-title iris-word-cell">Dimension coordinates</td>
-        <td class="iris-title"></td>
-        <td class="iris-title"></td>
-        <td class="iris-title"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	time</td>
-        <td class="iris-inclusion-cell">x</td>
-        <td class="iris-inclusion-cell">-</td>
-        <td class="iris-inclusion-cell">-</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	latitude</td>
-        <td class="iris-inclusion-cell">-</td>
-        <td class="iris-inclusion-cell">x</td>
-        <td class="iris-inclusion-cell">-</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	longitude</td>
-        <td class="iris-inclusion-cell">-</td>
-        <td class="iris-inclusion-cell">-</td>
-        <td class="iris-inclusion-cell">x</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-title iris-word-cell">Auxiliary coordinates</td>
-        <td class="iris-title"></td>
-        <td class="iris-title"></td>
-        <td class="iris-title"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	clim_season</td>
-        <td class="iris-inclusion-cell">x</td>
-        <td class="iris-inclusion-cell">-</td>
-        <td class="iris-inclusion-cell">-</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	season_year</td>
-        <td class="iris-inclusion-cell">x</td>
-        <td class="iris-inclusion-cell">-</td>
-        <td class="iris-inclusion-cell">-</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-title iris-word-cell">Attributes</td>
-        <td class="iris-title"></td>
-        <td class="iris-title"></td>
-        <td class="iris-title"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	CDI</td>
-        <td class="iris-word-cell" colspan="3">Climate Data Interface version 1.4.4 (http://code.zmaw.de/projects/cdi...</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	CDO</td>
-        <td class="iris-word-cell" colspan="3">Climate Data Operators version 1.4.4 (http://code.zmaw.de/projects/cdo...</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	Conventions</td>
-        <td class="iris-word-cell" colspan="3">CF-1.4</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	associated_files</td>
-        <td class="iris-word-cell" colspan="3">baseURL: http://cmip-pcmdi.llnl.gov/CMIP5/dataLocation gridspecFile: gridspec_atmos_fx_EC-EARTH_rcp85_r0i0p0.nc...</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	branch_time</td>
-        <td class="iris-word-cell" colspan="3">2281.0</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	cmor_version</td>
-        <td class="iris-word-cell" colspan="3">2.8.0</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	comment</td>
-        <td class="iris-word-cell" colspan="3">Equilibrium reached after preindustrial spin-up after which data were output...</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	contact</td>
-        <td class="iris-word-cell" colspan="3">Alastair McKinstry <alastair.mckinstry@ichec.ie></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	experiment</td>
-        <td class="iris-word-cell" colspan="3">RCP8.5</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	experiment_id</td>
-        <td class="iris-word-cell" colspan="3">rcp85</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	forcing</td>
-        <td class="iris-word-cell" colspan="3">Nat,Ant</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	frequency</td>
-        <td class="iris-word-cell" colspan="3">mon</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	grid_type</td>
-        <td class="iris-word-cell" colspan="3">gaussian</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	initialization_method</td>
-        <td class="iris-word-cell" colspan="3">1</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	institute_id</td>
-        <td class="iris-word-cell" colspan="3">ICHEC</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	institution</td>
-        <td class="iris-word-cell" colspan="3">EC-Earth (European Earth System Model)</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	model_id</td>
-        <td class="iris-word-cell" colspan="3">EC-EARTH</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	modeling_realm</td>
-        <td class="iris-word-cell" colspan="3">atmos</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	original_name</td>
-        <td class="iris-word-cell" colspan="3">2T</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	parent_experiment</td>
-        <td class="iris-word-cell" colspan="3">historical</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	parent_experiment_id</td>
-        <td class="iris-word-cell" colspan="3">historical</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	parent_experiment_rip</td>
-        <td class="iris-word-cell" colspan="3">r1i1p1</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	physics_version</td>
-        <td class="iris-word-cell" colspan="3">1</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	product</td>
-        <td class="iris-word-cell" colspan="3">output</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	project_id</td>
-        <td class="iris-word-cell" colspan="3">CMIP5</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	realization</td>
-        <td class="iris-word-cell" colspan="3">1</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	references</td>
-        <td class="iris-word-cell" colspan="3">Model described by Hazeleger et al. (Bull. Amer. Meteor. Soc., 2010, 91,...</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	table_id</td>
-        <td class="iris-word-cell" colspan="3">Table Amon (26 July 2011) b26379e76858ab98b927917878a63d01</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	title</td>
-        <td class="iris-word-cell" colspan="3">EC-EARTH model output prepared for CMIP5 RCP8.5</td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-title iris-word-cell">Cell methods</td>
-        <td class="iris-title"></td>
-        <td class="iris-title"></td>
-        <td class="iris-title"></td>
-    </tr>
-    <tr class="iris">
-        <td class="iris-word-cell iris-subheading-cell">	mean</td>
-        <td class="iris-word-cell" colspan="3">time (3 hours)</td>
-    </tr>
-    </table>
-            
-
+    air_temperature / (K)               (time: 153; latitude: 160; longitude: 320)
+         Dimension coordinates:
+              time                           x              -               -
+              latitude                       -              x               -
+              longitude                      -              -               x
+         Auxiliary coordinates:
+              clim_season                    x              -               -
+              season_year                    x              -               -
+         Attributes:
+              CDI: Climate Data Interface version 1.4.4 (http://code.zmaw.de/projects/cdi...
+              CDO: Climate Data Operators version 1.4.4 (http://code.zmaw.de/projects/cdo...
+              Conventions: CF-1.4
+              associated_files: baseURL: http://cmip-pcmdi.llnl.gov/CMIP5/dataLocation gridspecFile: gridspec_atmos_fx_EC-EARTH_rcp85_r0i0p0.nc...
+              branch_time: 2281.0
+              cmor_version: 2.8.0
+              comment: Equilibrium reached after preindustrial spin-up after which data were output...
+              contact: Alastair McKinstry <alastair.mckinstry@ichec.ie>
+              experiment: RCP8.5
+              experiment_id: rcp85
+              forcing: Nat,Ant
+              frequency: mon
+              grid_type: gaussian
+              initialization_method: 1
+              institute_id: ICHEC
+              institution: EC-Earth (European Earth System Model)
+              model_id: EC-EARTH
+              modeling_realm: atmos
+              original_name: 2T
+              parent_experiment: historical
+              parent_experiment_id: historical
+              parent_experiment_rip: r1i1p1
+              physics_version: 1
+              product: output
+              project_id: CMIP5
+              realization: 1
+              references: Model described by Hazeleger et al. (Bull. Amer. Meteor. Soc., 2010, 91,...
+              table_id: Table Amon (26 July 2011) b26379e76858ab98b927917878a63d01
+              title: EC-EARTH model output prepared for CMIP5 RCP8.5
+         Cell methods:
+              mean: time (3 hours)
 
 
 .. code:: ipython3
@@ -2082,10 +847,54 @@ Now it’s been added we can safely filter data based on constrints:
     dataset
 
 
+.. parsed-literal::
+
+    air_temperature / (K)               (time: 153; latitude: 160; longitude: 320)
+         Dimension coordinates:
+              time                           x              -               -
+              latitude                       -              x               -
+              longitude                      -              -               x
+         Auxiliary coordinates:
+              clim_season                    x              -               -
+              season_year                    x              -               -
+         Attributes:
+              CDI: Climate Data Interface version 1.4.4 (http://code.zmaw.de/projects/cdi...
+              CDO: Climate Data Operators version 1.4.4 (http://code.zmaw.de/projects/cdo...
+              Conventions: CF-1.4
+              associated_files: baseURL: http://cmip-pcmdi.llnl.gov/CMIP5/dataLocation gridspecFile: gridspec_atmos_fx_EC-EARTH_rcp85_r0i0p0.nc...
+              branch_time: 2281.0
+              cmor_version: 2.8.0
+              comment: Equilibrium reached after preindustrial spin-up after which data were output...
+              contact: Alastair McKinstry <alastair.mckinstry@ichec.ie>
+              experiment: RCP8.5
+              experiment_id: rcp85
+              forcing: Nat,Ant
+              frequency: mon
+              grid_type: gaussian
+              initialization_method: 1
+              institute_id: ICHEC
+              institution: EC-Earth (European Earth System Model)
+              model_id: EC-EARTH
+              modeling_realm: atmos
+              original_name: 2T
+              parent_experiment: historical
+              parent_experiment_id: historical
+              parent_experiment_rip: r1i1p1
+              physics_version: 1
+              product: output
+              project_id: CMIP5
+              realization: 1
+              references: Model described by Hazeleger et al. (Bull. Amer. Meteor. Soc., 2010, 91,...
+              table_id: Table Amon (26 July 2011) b26379e76858ab98b927917878a63d01
+              title: EC-EARTH model output prepared for CMIP5 RCP8.5
+         Cell methods:
+              mean: time (3 hours)
+
+
 
 
 .. parsed-literal::
 
-    0: air_temperature / (K)               (time: 153; latitude: 160; longitude: 320)
+    
 
 

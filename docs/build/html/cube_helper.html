@@ -259,23 +259,23 @@ climate data.
 and cube_loader. To be used to manipulate cube datasets.</p>
 <dl class="docutils">
 <dt>Attributes:</dt>
-<dd><p class="first">directory: a list of filenames or a path to a directory
+<dd><blockquote class="first">
+<div><p>directory: a list of filenames or a path to a directory
 to operate on. directory MUST start and end with forward
 slashes.</p>
 <p>filetype: a string specifying the expected type
 of files found in the dataset. Default value is .nc</p>
-<p class="last">constraints: a string specifying any constraints
+<p>constraints: a string specifying any constraints
 you wish to load the dataset with.</p>
-</dd>
+</div></blockquote>
+<dl class="last docutils">
 <dt>Returns:</dt>
 <dd>cube_dataset: a CubeList containing the datasets you wish to
 manipulate/analyse. An instance of the CubeSet object, which
 in itself is a custom CubeList</dd>
 </dl>
-<p>For Example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dataset</span> <span class="o">=</span> <span class="n">CubeHelp</span><span class="p">(</span><span class="s1">&#39;/project/champ/data/CMIP6/CMIP/MOHC/HadGEM3-GC31-LL/piControl/r1i1p1f1/Amon/tasmin/gn/v20190628&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
+</dd>
+</dl>
 <dl class="method">
 <dt id="cube_helper.cube_help.CubeHelp.add_time_catergorical">
 <code class="descname">add_time_catergorical</code><span class="sig-paren">(</span><em>name</em>, <em>coord='time'</em><span class="sig-paren">)</span><a class="headerlink" href="#cube_helper.cube_help.CubeHelp.add_time_catergorical" title="Permalink to this definition">¶</a></dt>
