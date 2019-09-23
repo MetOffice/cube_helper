@@ -46,6 +46,7 @@ class CubeHelp(object):
             else:
                 self.cube_dataset = CubeSet(loaded_cubes)
                 self.cube_dataset.sort(key=_sort_by_earliest_date)
+                self._equalise()
         elif isinstance(directory, list):
             loaded_cubes = load_from_filelist(
                 directory, filetype, constraints)
@@ -55,6 +56,7 @@ class CubeHelp(object):
             else:
                 self.cube_dataset = CubeSet(loaded_cubes)
                 self.cube_dataset.sort(key=_sort_by_earliest_date)
+                self._equalise()
 
     def __repr__(self):
         """
@@ -66,7 +68,7 @@ class CubeHelp(object):
         else:
             print(self.cube_dataset[0])
             return '\n'
-    def equalise(self):
+    def _equalise(self):
         """
         Equalises Cubes for concatenation and merging, cycles through the cube_
         dataset (CubeList) attribute and rectifies common differences in
