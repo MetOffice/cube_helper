@@ -61,11 +61,38 @@ Here we see that the module will load the cubes automatically. Once the
 
 A very common problem when concatenatting and merging cubes is that the
 attributes mismatch, this can be illustrated when we try to invoke the
-wraped iris ``concatenate_cube()`` function:
+wraped iris ``concatenate_cube()`` function. Below we see an example of
+this error message:
 
 .. code:: ipython3
 
-    dataset.get_concatenated_cube()
+    import glob
+    filelist = glob.glob('/project/champ/data/CMIP6/CMIP/MOHC/HadGEM3-GC31-LL/piControl/r1i1p1f1/Amon/tasmin/gn/v20190628/*.nc')
+
+.. code:: ipython3
+
+    cubes = iris.load(filelist)
+
+
+.. parsed-literal::
+
+    /opt/scitools/environments/experimental/current/lib/python3.6/site-packages/iris/fileformats/cf.py:798: UserWarning: Missing CF-netCDF measure variable 'areacella', referenced by netCDF variable 'tasmin'
+      warnings.warn(message % (variable_name, nc_var_name))
+    /opt/scitools/environments/experimental/current/lib/python3.6/site-packages/iris/fileformats/cf.py:798: UserWarning: Missing CF-netCDF measure variable 'areacella', referenced by netCDF variable 'tasmin'
+      warnings.warn(message % (variable_name, nc_var_name))
+    /opt/scitools/environments/experimental/current/lib/python3.6/site-packages/iris/fileformats/cf.py:798: UserWarning: Missing CF-netCDF measure variable 'areacella', referenced by netCDF variable 'tasmin'
+      warnings.warn(message % (variable_name, nc_var_name))
+    /opt/scitools/environments/experimental/current/lib/python3.6/site-packages/iris/fileformats/cf.py:798: UserWarning: Missing CF-netCDF measure variable 'areacella', referenced by netCDF variable 'tasmin'
+      warnings.warn(message % (variable_name, nc_var_name))
+    /opt/scitools/environments/experimental/current/lib/python3.6/site-packages/iris/fileformats/cf.py:798: UserWarning: Missing CF-netCDF measure variable 'areacella', referenced by netCDF variable 'tasmin'
+      warnings.warn(message % (variable_name, nc_var_name))
+
+
+And then we try concatenate:
+
+.. code:: ipython3
+
+    cubes.concatenate_cube()
 
 
 ::
@@ -75,17 +102,9 @@ wraped iris ``concatenate_cube()`` function:
 
     ConcatenateError                          Traceback (most recent call last)
 
-    <ipython-input-43-19eebc86616f> in <module>
-    ----> 1 dataset.get_concatenated_cube()
+    <ipython-input-13-cdd4eeb66b76> in <module>
+    ----> 1 cubes.concatenate_cube()
     
-
-    /net/home/h01/jbedwell/Downloads/cube_helper/cube_helper/cube_help.py in get_concatenated_cube(self)
-        161             A concatenated Cube of the cube_dataset
-        162         """
-    --> 163         return self.cube_dataset.concatenate_cube()
-        164 
-        165     def get_merged_cube(self):
-
 
     /opt/scitools/environments/experimental/current/lib/python3.6/site-packages/iris/cube.py in concatenate_cube(self, check_aux_coords)
         500             res = iris._concatenate.concatenate(
@@ -126,20 +145,82 @@ wraped iris ``concatenate_cube()`` function:
 Here we see that differences in metadata prevent the cube from being
 concatenated, and throws a very verbous and long winded error.
 
-Here we can use the cube_helper function ``equalise()``, which cycles
-through each cube, and removes attributes that are not uniform across
-the dataset. Lets try it out:
+Here we can use cube_helper, which cycles through each cube, and removes
+attributes, aux coords and dim coords that are not uniform across the
+dataset. Lets try it out:
 
 .. code:: ipython3
 
-    dataset.equalise()
     print(dataset.get_concatenated_cube())
 
-As shown the function returns a concatenated cube after calling the
-``equalise`` function. This functionality is not limited to equalising
-and concatenating cubes. Functions are also provided for converting one
-unit to another, below this is illustrated, with the argument
-``'celsius'`` passed converting the dataset’s units:
+
+.. parsed-literal::
+
+    air_temperature / (K)               (time: 6000; latitude: 144; longitude: 192)
+         Dimension coordinates:
+              time                           x               -               -
+              latitude                       -               x               -
+              longitude                      -               -               x
+         Scalar coordinates:
+              height: 1.5 m
+         Attributes:
+              Conventions: CF-1.7 CMIP-6.2
+              activity_id: CMIP
+              branch_method: standard
+              branch_time_in_child: 0.0
+              branch_time_in_parent: 267840.0
+              cmor_version: 3.4.0
+              comment: minimum near-surface (usually, 2 meter) air temperature (add cell_method...
+              cv_version: 6.2.20.1
+              data_specs_version: 01.00.29
+              experiment: pre-industrial control
+              experiment_id: piControl
+              external_variables: areacella
+              forcing_index: 1
+              frequency: mon
+              further_info_url: https://furtherinfo.es-doc.org/CMIP6.MOHC.HadGEM3-GC31-LL.piControl.no...
+              grid: Native N96 grid; 192 x 144 longitude/latitude
+              grid_label: gn
+              initialization_index: 1
+              institution: Met Office Hadley Centre, Fitzroy Road, Exeter, Devon, EX1 3PB, UK
+              institution_id: MOHC
+              license: CMIP6 model data produced by the Met Office Hadley Centre is licensed under...
+              mip_era: CMIP6
+              mo_runid: u-ar766
+              nominal_resolution: 250 km
+              original_name: mo: mon_mean_from_day((stash: m01s03i236, lbproc: 4096))
+              parent_activity_id: CMIP
+              parent_experiment_id: piControl-spinup
+              parent_mip_era: CMIP6
+              parent_source_id: HadGEM3-GC31-LL
+              parent_time_units: days since 1850-01-01-00-00-00
+              parent_variant_label: r1i1p1f1
+              physics_index: 1
+              product: model-output
+              realization_index: 1
+              realm: atmos
+              source: HadGEM3-GC31-LL (2016): 
+    aerosol: UKCA-GLOMAP-mode
+    atmos: MetUM-HadGEM3-GA7.1...
+              source_id: HadGEM3-GC31-LL
+              source_type: AOGCM AER
+              sub_experiment: none
+              sub_experiment_id: none
+              table_id: Amon
+              table_info: Creation Date:(13 December 2018) MD5:2b12b5db6db112aa8b8b0d6c1645b121
+              title: HadGEM3-GC31-LL output prepared for CMIP6
+              variable_id: tasmin
+              variant_label: r1i1p1f1
+         Cell methods:
+              mean: area
+              minimum within days: time
+              mean over days: time
+
+
+As shown the function returns a concatenated cube. This functionality is
+not limited to equalising and concatenating cubes. Functions are also
+provided for converting one unit to another, below this is illustrated,
+with the argument ``'celsius'`` passed converting the dataset’s units:
 
 .. code:: ipython3
 
@@ -204,7 +285,6 @@ We can also access individual cubes in the dataset through an index with
               branch_time_in_parent: 267840.0
               cmor_version: 3.4.0
               comment: minimum near-surface (usually, 2 meter) air temperature (add cell_method...
-              creation_date: 2019-06-25T23:09:47Z
               cv_version: 6.2.20.1
               data_specs_version: 01.00.29
               experiment: pre-industrial control
@@ -215,7 +295,6 @@ We can also access individual cubes in the dataset through an index with
               further_info_url: https://furtherinfo.es-doc.org/CMIP6.MOHC.HadGEM3-GC31-LL.piControl.no...
               grid: Native N96 grid; 192 x 144 longitude/latitude
               grid_label: gn
-              history: 2019-06-25T23:09:47Z altered by CMOR: Treated scalar dimension: 'height'....
               initialization_index: 1
               institution: Met Office Hadley Centre, Fitzroy Road, Exeter, Devon, EX1 3PB, UK
               institution_id: MOHC
@@ -244,7 +323,6 @@ We can also access individual cubes in the dataset through an index with
               table_id: Amon
               table_info: Creation Date:(13 December 2018) MD5:2b12b5db6db112aa8b8b0d6c1645b121
               title: HadGEM3-GC31-LL output prepared for CMIP6
-              tracking_id: hdl:21.14100/b1e2e59a-6313-4b49-8476-c7c961d2111c
               variable_id: tasmin
               variant_label: r1i1p1f1
          Cell methods:
@@ -279,7 +357,6 @@ remove all attributes, demonstarted below:
               branch_time_in_parent: 
               cmor_version: 
               comment: 
-              creation_date: 
               cv_version: 
               data_specs_version: 
               experiment: 
@@ -290,7 +367,6 @@ remove all attributes, demonstarted below:
               further_info_url: 
               grid: 
               grid_label: 
-              history: 
               initialization_index: 
               institution: 
               institution_id: 
@@ -317,7 +393,6 @@ remove all attributes, demonstarted below:
               table_id: 
               table_info: 
               title: 
-              tracking_id: 
               variable_id: 
               variant_label: 
          Cell methods:
@@ -347,119 +422,6 @@ will be added in later releases):
     3: air_temperature / (K)               (latitude: 144; longitude: 192)
     4: air_temperature / (K)               (latitude: 144; longitude: 192)
 
-
-
-Should something go wrong and the dataset is altered, or rather the same
-dataset is needed for a different purpose the dataset of cubes can be
-reloaded with the ``reload()`` function. The original directory given to
-specify datasets remains the same however the optional parameters can be
-be passed. This can be demonstrated below:
-
-.. code:: ipython3
-
-    dataset.reset()
-    print(dataset)
-
-
-.. parsed-literal::
-
-    /opt/scitools/environments/experimental/current/lib/python3.6/site-packages/iris/fileformats/cf.py:798: UserWarning: Missing CF-netCDF measure variable 'areacella', referenced by netCDF variable 'tasmin'
-      warnings.warn(message % (variable_name, nc_var_name))
-    /opt/scitools/environments/experimental/current/lib/python3.6/site-packages/iris/fileformats/cf.py:798: UserWarning: Missing CF-netCDF measure variable 'areacella', referenced by netCDF variable 'tasmin'
-      warnings.warn(message % (variable_name, nc_var_name))
-    /opt/scitools/environments/experimental/current/lib/python3.6/site-packages/iris/fileformats/cf.py:798: UserWarning: Missing CF-netCDF measure variable 'areacella', referenced by netCDF variable 'tasmin'
-      warnings.warn(message % (variable_name, nc_var_name))
-    /opt/scitools/environments/experimental/current/lib/python3.6/site-packages/iris/fileformats/cf.py:798: UserWarning: Missing CF-netCDF measure variable 'areacella', referenced by netCDF variable 'tasmin'
-      warnings.warn(message % (variable_name, nc_var_name))
-
-
-.. parsed-literal::
-
-    0: air_temperature / (K)               (time: 1200; latitude: 144; longitude: 192)
-    1: air_temperature / (K)               (time: 1200; latitude: 144; longitude: 192)
-    2: air_temperature / (K)               (time: 1200; latitude: 144; longitude: 192)
-    3: air_temperature / (K)               (time: 1200; latitude: 144; longitude: 192)
-    4: air_temperature / (K)               (time: 1200; latitude: 144; longitude: 192)
-
-
-.. parsed-literal::
-
-    /opt/scitools/environments/experimental/current/lib/python3.6/site-packages/iris/fileformats/cf.py:798: UserWarning: Missing CF-netCDF measure variable 'areacella', referenced by netCDF variable 'tasmin'
-      warnings.warn(message % (variable_name, nc_var_name))
-
-
-And as shown it will reset everything (except where specified) to how it
-was before:
-
-.. code:: ipython3
-
-    print(dataset.cube_dataset[0])
-
-
-.. parsed-literal::
-
-    air_temperature / (K)               (time: 1200; latitude: 144; longitude: 192)
-         Dimension coordinates:
-              time                           x               -               -
-              latitude                       -               x               -
-              longitude                      -               -               x
-         Scalar coordinates:
-              height: 1.5 m
-         Attributes:
-              Conventions: CF-1.7 CMIP-6.2
-              activity_id: CMIP
-              branch_method: standard
-              branch_time_in_child: 0.0
-              branch_time_in_parent: 267840.0
-              cmor_version: 3.4.0
-              comment: minimum near-surface (usually, 2 meter) air temperature (add cell_method...
-              creation_date: 2019-06-25T23:09:47Z
-              cv_version: 6.2.20.1
-              data_specs_version: 01.00.29
-              experiment: pre-industrial control
-              experiment_id: piControl
-              external_variables: areacella
-              forcing_index: 1
-              frequency: mon
-              further_info_url: https://furtherinfo.es-doc.org/CMIP6.MOHC.HadGEM3-GC31-LL.piControl.no...
-              grid: Native N96 grid; 192 x 144 longitude/latitude
-              grid_label: gn
-              history: 2019-06-25T23:09:47Z altered by CMOR: Treated scalar dimension: 'height'....
-              initialization_index: 1
-              institution: Met Office Hadley Centre, Fitzroy Road, Exeter, Devon, EX1 3PB, UK
-              institution_id: MOHC
-              license: CMIP6 model data produced by the Met Office Hadley Centre is licensed under...
-              mip_era: CMIP6
-              mo_runid: u-ar766
-              nominal_resolution: 250 km
-              original_name: mo: mon_mean_from_day((stash: m01s03i236, lbproc: 4096))
-              parent_activity_id: CMIP
-              parent_experiment_id: piControl-spinup
-              parent_mip_era: CMIP6
-              parent_source_id: HadGEM3-GC31-LL
-              parent_time_units: days since 1850-01-01-00-00-00
-              parent_variant_label: r1i1p1f1
-              physics_index: 1
-              product: model-output
-              realization_index: 1
-              realm: atmos
-              source: HadGEM3-GC31-LL (2016): 
-    aerosol: UKCA-GLOMAP-mode
-    atmos: MetUM-HadGEM3-GA7.1...
-              source_id: HadGEM3-GC31-LL
-              source_type: AOGCM AER
-              sub_experiment: none
-              sub_experiment_id: none
-              table_id: Amon
-              table_info: Creation Date:(13 December 2018) MD5:2b12b5db6db112aa8b8b0d6c1645b121
-              title: HadGEM3-GC31-LL output prepared for CMIP6
-              tracking_id: hdl:21.14100/b1e2e59a-6313-4b49-8476-c7c961d2111c
-              variable_id: tasmin
-              variant_label: r1i1p1f1
-         Cell methods:
-              mean: area
-              minimum within days: time
-              mean over days: time
 
 
 This shows some of cube_helpers more basic methods, but we can do more
@@ -532,7 +494,6 @@ concatenated dataset, as shown:
 
 .. code:: ipython3
 
-    dataset.equalise()
     print(dataset.get_concatenated_cube())
 
 
@@ -677,14 +638,27 @@ falls into these catergories, and remove ALL cubes from
 
 
 
-So lets reset, and try that again. This time we will add time
-catergoricals.
+So lets try that again. This time we will add time catergoricals.
 
 .. code:: ipython3
 
-    dataset.reset()
-    dataset.equalise()
+    dataset = CubeHelp('/project/champ/data/CMIP6/CMIP/MOHC/HadGEM3-GC31-LL/piControl/r1i1p1f1/Amon/tasmin/gn/v20190628')
     dataset.concatenate_cube()
+
+
+.. parsed-literal::
+
+    /opt/scitools/environments/experimental/current/lib/python3.6/site-packages/iris/fileformats/cf.py:798: UserWarning: Missing CF-netCDF measure variable 'areacella', referenced by netCDF variable 'tasmin'
+      warnings.warn(message % (variable_name, nc_var_name))
+    /opt/scitools/environments/experimental/current/lib/python3.6/site-packages/iris/fileformats/cf.py:798: UserWarning: Missing CF-netCDF measure variable 'areacella', referenced by netCDF variable 'tasmin'
+      warnings.warn(message % (variable_name, nc_var_name))
+    /opt/scitools/environments/experimental/current/lib/python3.6/site-packages/iris/fileformats/cf.py:798: UserWarning: Missing CF-netCDF measure variable 'areacella', referenced by netCDF variable 'tasmin'
+      warnings.warn(message % (variable_name, nc_var_name))
+    /opt/scitools/environments/experimental/current/lib/python3.6/site-packages/iris/fileformats/cf.py:798: UserWarning: Missing CF-netCDF measure variable 'areacella', referenced by netCDF variable 'tasmin'
+      warnings.warn(message % (variable_name, nc_var_name))
+    /opt/scitools/environments/experimental/current/lib/python3.6/site-packages/iris/fileformats/cf.py:798: UserWarning: Missing CF-netCDF measure variable 'areacella', referenced by netCDF variable 'tasmin'
+      warnings.warn(message % (variable_name, nc_var_name))
+
 
 Here we see no clim_season or season_year Auxillary coordinates:
 
@@ -695,43 +669,65 @@ Here we see no clim_season or season_year Auxillary coordinates:
 
 .. parsed-literal::
 
-    air_temperature / (K)               (time: 1080; latitude: 160; longitude: 320)
+    air_temperature / (K)               (time: 6000; latitude: 144; longitude: 192)
          Dimension coordinates:
               time                           x               -               -
               latitude                       -               x               -
               longitude                      -               -               x
+         Scalar coordinates:
+              height: 1.5 m
          Attributes:
-              CDI: Climate Data Interface version 1.4.4 (http://code.zmaw.de/projects/cdi...
-              CDO: Climate Data Operators version 1.4.4 (http://code.zmaw.de/projects/cdo...
-              Conventions: CF-1.4
-              associated_files: baseURL: http://cmip-pcmdi.llnl.gov/CMIP5/dataLocation gridspecFile: gridspec_atmos_fx_EC-EARTH_rcp85_r0i0p0.nc...
-              branch_time: 2281.0
-              cmor_version: 2.8.0
-              comment: Equilibrium reached after preindustrial spin-up after which data were output...
-              contact: Alastair McKinstry <alastair.mckinstry@ichec.ie>
-              experiment: RCP8.5
-              experiment_id: rcp85
-              forcing: Nat,Ant
+              Conventions: CF-1.7 CMIP-6.2
+              activity_id: CMIP
+              branch_method: standard
+              branch_time_in_child: 0.0
+              branch_time_in_parent: 267840.0
+              cmor_version: 3.4.0
+              comment: minimum near-surface (usually, 2 meter) air temperature (add cell_method...
+              cv_version: 6.2.20.1
+              data_specs_version: 01.00.29
+              experiment: pre-industrial control
+              experiment_id: piControl
+              external_variables: areacella
+              forcing_index: 1
               frequency: mon
-              grid_type: gaussian
-              initialization_method: 1
-              institute_id: ICHEC
-              institution: EC-Earth (European Earth System Model)
-              model_id: EC-EARTH
-              modeling_realm: atmos
-              original_name: 2T
-              parent_experiment: historical
-              parent_experiment_id: historical
-              parent_experiment_rip: r1i1p1
-              physics_version: 1
-              product: output
-              project_id: CMIP5
-              realization: 1
-              references: Model described by Hazeleger et al. (Bull. Amer. Meteor. Soc., 2010, 91,...
-              table_id: Table Amon (26 July 2011) b26379e76858ab98b927917878a63d01
-              title: EC-EARTH model output prepared for CMIP5 RCP8.5
+              further_info_url: https://furtherinfo.es-doc.org/CMIP6.MOHC.HadGEM3-GC31-LL.piControl.no...
+              grid: Native N96 grid; 192 x 144 longitude/latitude
+              grid_label: gn
+              initialization_index: 1
+              institution: Met Office Hadley Centre, Fitzroy Road, Exeter, Devon, EX1 3PB, UK
+              institution_id: MOHC
+              license: CMIP6 model data produced by the Met Office Hadley Centre is licensed under...
+              mip_era: CMIP6
+              mo_runid: u-ar766
+              nominal_resolution: 250 km
+              original_name: mo: mon_mean_from_day((stash: m01s03i236, lbproc: 4096))
+              parent_activity_id: CMIP
+              parent_experiment_id: piControl-spinup
+              parent_mip_era: CMIP6
+              parent_source_id: HadGEM3-GC31-LL
+              parent_time_units: days since 1850-01-01-00-00-00
+              parent_variant_label: r1i1p1f1
+              physics_index: 1
+              product: model-output
+              realization_index: 1
+              realm: atmos
+              source: HadGEM3-GC31-LL (2016): 
+    aerosol: UKCA-GLOMAP-mode
+    atmos: MetUM-HadGEM3-GA7.1...
+              source_id: HadGEM3-GC31-LL
+              source_type: AOGCM AER
+              sub_experiment: none
+              sub_experiment_id: none
+              table_id: Amon
+              table_info: Creation Date:(13 December 2018) MD5:2b12b5db6db112aa8b8b0d6c1645b121
+              title: HadGEM3-GC31-LL output prepared for CMIP6
+              variable_id: tasmin
+              variant_label: r1i1p1f1
          Cell methods:
-              mean: time (3 hours)
+              mean: area
+              minimum within days: time
+              mean over days: time
 
 
 However we can add these with the following commands:
@@ -745,7 +741,7 @@ However we can add these with the following commands:
 
 .. parsed-literal::
 
-    air_temperature / (K)               (time: 1080; latitude: 160; longitude: 320)
+    air_temperature / (K)               (time: 6000; latitude: 144; longitude: 192)
          Dimension coordinates:
               time                           x               -               -
               latitude                       -               x               -
@@ -753,38 +749,60 @@ However we can add these with the following commands:
          Auxiliary coordinates:
               clim_season                    x               -               -
               season_year                    x               -               -
+         Scalar coordinates:
+              height: 1.5 m
          Attributes:
-              CDI: Climate Data Interface version 1.4.4 (http://code.zmaw.de/projects/cdi...
-              CDO: Climate Data Operators version 1.4.4 (http://code.zmaw.de/projects/cdo...
-              Conventions: CF-1.4
-              associated_files: baseURL: http://cmip-pcmdi.llnl.gov/CMIP5/dataLocation gridspecFile: gridspec_atmos_fx_EC-EARTH_rcp85_r0i0p0.nc...
-              branch_time: 2281.0
-              cmor_version: 2.8.0
-              comment: Equilibrium reached after preindustrial spin-up after which data were output...
-              contact: Alastair McKinstry <alastair.mckinstry@ichec.ie>
-              experiment: RCP8.5
-              experiment_id: rcp85
-              forcing: Nat,Ant
+              Conventions: CF-1.7 CMIP-6.2
+              activity_id: CMIP
+              branch_method: standard
+              branch_time_in_child: 0.0
+              branch_time_in_parent: 267840.0
+              cmor_version: 3.4.0
+              comment: minimum near-surface (usually, 2 meter) air temperature (add cell_method...
+              cv_version: 6.2.20.1
+              data_specs_version: 01.00.29
+              experiment: pre-industrial control
+              experiment_id: piControl
+              external_variables: areacella
+              forcing_index: 1
               frequency: mon
-              grid_type: gaussian
-              initialization_method: 1
-              institute_id: ICHEC
-              institution: EC-Earth (European Earth System Model)
-              model_id: EC-EARTH
-              modeling_realm: atmos
-              original_name: 2T
-              parent_experiment: historical
-              parent_experiment_id: historical
-              parent_experiment_rip: r1i1p1
-              physics_version: 1
-              product: output
-              project_id: CMIP5
-              realization: 1
-              references: Model described by Hazeleger et al. (Bull. Amer. Meteor. Soc., 2010, 91,...
-              table_id: Table Amon (26 July 2011) b26379e76858ab98b927917878a63d01
-              title: EC-EARTH model output prepared for CMIP5 RCP8.5
+              further_info_url: https://furtherinfo.es-doc.org/CMIP6.MOHC.HadGEM3-GC31-LL.piControl.no...
+              grid: Native N96 grid; 192 x 144 longitude/latitude
+              grid_label: gn
+              initialization_index: 1
+              institution: Met Office Hadley Centre, Fitzroy Road, Exeter, Devon, EX1 3PB, UK
+              institution_id: MOHC
+              license: CMIP6 model data produced by the Met Office Hadley Centre is licensed under...
+              mip_era: CMIP6
+              mo_runid: u-ar766
+              nominal_resolution: 250 km
+              original_name: mo: mon_mean_from_day((stash: m01s03i236, lbproc: 4096))
+              parent_activity_id: CMIP
+              parent_experiment_id: piControl-spinup
+              parent_mip_era: CMIP6
+              parent_source_id: HadGEM3-GC31-LL
+              parent_time_units: days since 1850-01-01-00-00-00
+              parent_variant_label: r1i1p1f1
+              physics_index: 1
+              product: model-output
+              realization_index: 1
+              realm: atmos
+              source: HadGEM3-GC31-LL (2016): 
+    aerosol: UKCA-GLOMAP-mode
+    atmos: MetUM-HadGEM3-GA7.1...
+              source_id: HadGEM3-GC31-LL
+              source_type: AOGCM AER
+              sub_experiment: none
+              sub_experiment_id: none
+              table_id: Amon
+              table_info: Creation Date:(13 December 2018) MD5:2b12b5db6db112aa8b8b0d6c1645b121
+              title: HadGEM3-GC31-LL output prepared for CMIP6
+              variable_id: tasmin
+              variant_label: r1i1p1f1
          Cell methods:
-              mean: time (3 hours)
+              mean: area
+              minimum within days: time
+              mean over days: time
 
 
 Now it’s been added we can safely filter data based on constrints:
@@ -800,7 +818,7 @@ Now it’s been added we can safely filter data based on constrints:
 
 .. parsed-literal::
 
-    air_temperature / (K)               (time: 153; latitude: 160; longitude: 320)
+    air_temperature / (K)               (time: 153; latitude: 144; longitude: 192)
          Dimension coordinates:
               time                           x              -               -
               latitude                       -              x               -
@@ -808,38 +826,60 @@ Now it’s been added we can safely filter data based on constrints:
          Auxiliary coordinates:
               clim_season                    x              -               -
               season_year                    x              -               -
+         Scalar coordinates:
+              height: 1.5 m
          Attributes:
-              CDI: Climate Data Interface version 1.4.4 (http://code.zmaw.de/projects/cdi...
-              CDO: Climate Data Operators version 1.4.4 (http://code.zmaw.de/projects/cdo...
-              Conventions: CF-1.4
-              associated_files: baseURL: http://cmip-pcmdi.llnl.gov/CMIP5/dataLocation gridspecFile: gridspec_atmos_fx_EC-EARTH_rcp85_r0i0p0.nc...
-              branch_time: 2281.0
-              cmor_version: 2.8.0
-              comment: Equilibrium reached after preindustrial spin-up after which data were output...
-              contact: Alastair McKinstry <alastair.mckinstry@ichec.ie>
-              experiment: RCP8.5
-              experiment_id: rcp85
-              forcing: Nat,Ant
+              Conventions: CF-1.7 CMIP-6.2
+              activity_id: CMIP
+              branch_method: standard
+              branch_time_in_child: 0.0
+              branch_time_in_parent: 267840.0
+              cmor_version: 3.4.0
+              comment: minimum near-surface (usually, 2 meter) air temperature (add cell_method...
+              cv_version: 6.2.20.1
+              data_specs_version: 01.00.29
+              experiment: pre-industrial control
+              experiment_id: piControl
+              external_variables: areacella
+              forcing_index: 1
               frequency: mon
-              grid_type: gaussian
-              initialization_method: 1
-              institute_id: ICHEC
-              institution: EC-Earth (European Earth System Model)
-              model_id: EC-EARTH
-              modeling_realm: atmos
-              original_name: 2T
-              parent_experiment: historical
-              parent_experiment_id: historical
-              parent_experiment_rip: r1i1p1
-              physics_version: 1
-              product: output
-              project_id: CMIP5
-              realization: 1
-              references: Model described by Hazeleger et al. (Bull. Amer. Meteor. Soc., 2010, 91,...
-              table_id: Table Amon (26 July 2011) b26379e76858ab98b927917878a63d01
-              title: EC-EARTH model output prepared for CMIP5 RCP8.5
+              further_info_url: https://furtherinfo.es-doc.org/CMIP6.MOHC.HadGEM3-GC31-LL.piControl.no...
+              grid: Native N96 grid; 192 x 144 longitude/latitude
+              grid_label: gn
+              initialization_index: 1
+              institution: Met Office Hadley Centre, Fitzroy Road, Exeter, Devon, EX1 3PB, UK
+              institution_id: MOHC
+              license: CMIP6 model data produced by the Met Office Hadley Centre is licensed under...
+              mip_era: CMIP6
+              mo_runid: u-ar766
+              nominal_resolution: 250 km
+              original_name: mo: mon_mean_from_day((stash: m01s03i236, lbproc: 4096))
+              parent_activity_id: CMIP
+              parent_experiment_id: piControl-spinup
+              parent_mip_era: CMIP6
+              parent_source_id: HadGEM3-GC31-LL
+              parent_time_units: days since 1850-01-01-00-00-00
+              parent_variant_label: r1i1p1f1
+              physics_index: 1
+              product: model-output
+              realization_index: 1
+              realm: atmos
+              source: HadGEM3-GC31-LL (2016): 
+    aerosol: UKCA-GLOMAP-mode
+    atmos: MetUM-HadGEM3-GA7.1...
+              source_id: HadGEM3-GC31-LL
+              source_type: AOGCM AER
+              sub_experiment: none
+              sub_experiment_id: none
+              table_id: Amon
+              table_info: Creation Date:(13 December 2018) MD5:2b12b5db6db112aa8b8b0d6c1645b121
+              title: HadGEM3-GC31-LL output prepared for CMIP6
+              variable_id: tasmin
+              variant_label: r1i1p1f1
          Cell methods:
-              mean: time (3 hours)
+              mean: area
+              minimum within days: time
+              mean over days: time
 
 
 .. code:: ipython3
@@ -849,7 +889,7 @@ Now it’s been added we can safely filter data based on constrints:
 
 .. parsed-literal::
 
-    air_temperature / (K)               (time: 153; latitude: 160; longitude: 320)
+    air_temperature / (K)               (time: 153; latitude: 144; longitude: 192)
          Dimension coordinates:
               time                           x              -               -
               latitude                       -              x               -
@@ -857,38 +897,60 @@ Now it’s been added we can safely filter data based on constrints:
          Auxiliary coordinates:
               clim_season                    x              -               -
               season_year                    x              -               -
+         Scalar coordinates:
+              height: 1.5 m
          Attributes:
-              CDI: Climate Data Interface version 1.4.4 (http://code.zmaw.de/projects/cdi...
-              CDO: Climate Data Operators version 1.4.4 (http://code.zmaw.de/projects/cdo...
-              Conventions: CF-1.4
-              associated_files: baseURL: http://cmip-pcmdi.llnl.gov/CMIP5/dataLocation gridspecFile: gridspec_atmos_fx_EC-EARTH_rcp85_r0i0p0.nc...
-              branch_time: 2281.0
-              cmor_version: 2.8.0
-              comment: Equilibrium reached after preindustrial spin-up after which data were output...
-              contact: Alastair McKinstry <alastair.mckinstry@ichec.ie>
-              experiment: RCP8.5
-              experiment_id: rcp85
-              forcing: Nat,Ant
+              Conventions: CF-1.7 CMIP-6.2
+              activity_id: CMIP
+              branch_method: standard
+              branch_time_in_child: 0.0
+              branch_time_in_parent: 267840.0
+              cmor_version: 3.4.0
+              comment: minimum near-surface (usually, 2 meter) air temperature (add cell_method...
+              cv_version: 6.2.20.1
+              data_specs_version: 01.00.29
+              experiment: pre-industrial control
+              experiment_id: piControl
+              external_variables: areacella
+              forcing_index: 1
               frequency: mon
-              grid_type: gaussian
-              initialization_method: 1
-              institute_id: ICHEC
-              institution: EC-Earth (European Earth System Model)
-              model_id: EC-EARTH
-              modeling_realm: atmos
-              original_name: 2T
-              parent_experiment: historical
-              parent_experiment_id: historical
-              parent_experiment_rip: r1i1p1
-              physics_version: 1
-              product: output
-              project_id: CMIP5
-              realization: 1
-              references: Model described by Hazeleger et al. (Bull. Amer. Meteor. Soc., 2010, 91,...
-              table_id: Table Amon (26 July 2011) b26379e76858ab98b927917878a63d01
-              title: EC-EARTH model output prepared for CMIP5 RCP8.5
+              further_info_url: https://furtherinfo.es-doc.org/CMIP6.MOHC.HadGEM3-GC31-LL.piControl.no...
+              grid: Native N96 grid; 192 x 144 longitude/latitude
+              grid_label: gn
+              initialization_index: 1
+              institution: Met Office Hadley Centre, Fitzroy Road, Exeter, Devon, EX1 3PB, UK
+              institution_id: MOHC
+              license: CMIP6 model data produced by the Met Office Hadley Centre is licensed under...
+              mip_era: CMIP6
+              mo_runid: u-ar766
+              nominal_resolution: 250 km
+              original_name: mo: mon_mean_from_day((stash: m01s03i236, lbproc: 4096))
+              parent_activity_id: CMIP
+              parent_experiment_id: piControl-spinup
+              parent_mip_era: CMIP6
+              parent_source_id: HadGEM3-GC31-LL
+              parent_time_units: days since 1850-01-01-00-00-00
+              parent_variant_label: r1i1p1f1
+              physics_index: 1
+              product: model-output
+              realization_index: 1
+              realm: atmos
+              source: HadGEM3-GC31-LL (2016): 
+    aerosol: UKCA-GLOMAP-mode
+    atmos: MetUM-HadGEM3-GA7.1...
+              source_id: HadGEM3-GC31-LL
+              source_type: AOGCM AER
+              sub_experiment: none
+              sub_experiment_id: none
+              table_id: Amon
+              table_info: Creation Date:(13 December 2018) MD5:2b12b5db6db112aa8b8b0d6c1645b121
+              title: HadGEM3-GC31-LL output prepared for CMIP6
+              variable_id: tasmin
+              variant_label: r1i1p1f1
          Cell methods:
-              mean: time (3 hours)
+              mean: area
+              minimum within days: time
+              mean over days: time
 
 
 
