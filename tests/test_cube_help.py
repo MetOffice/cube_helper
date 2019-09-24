@@ -7,12 +7,13 @@ from cube_helper import CubeHelp
 class TestCubeHelper(unittest.TestCase):
 
     def test_initilisation(self):
-        example = CubeHelp('test_data/air_temp', filetype='.pp',
-                                constraints='air_temperature')
+        example = CubeHelp('test_data/air_temp',
+                           filetype='.pp', constraints='air_temperature')
         self.assertEqual(example.directory, 'test_data/air_temp')
         self.assertEqual(example.filetype, '.pp')
         self.assertEqual(example.constraints, 'air_temperature')
-        self.assertIsInstance(example.cube_dataset, cube_helper.cube_dataset.CubeSet)
+        self.assertIsInstance(example.cube_dataset,
+                              cube_helper.cube_dataset.CubeSet)
         filelist = ['test_data/air_temp/air_temp_1.pp',
                     'test_data/air_temp/air_temp_2.pp',
                     'test_data/air_temp/air_temp_3.pp',
@@ -138,7 +139,8 @@ class TestCubeHelper(unittest.TestCase):
         self.assertEqual(example.cube_dataset[0].ndim, cube.ndim)
 
     def test_extract(self):
-        future_constraint = iris.Constraint(clim_season='jja',
+        future_constraint = iris.Constraint(
+            clim_season='jja',
             season_year=lambda cell: cell >= 2010 and cell <= 2060)
         example = CubeHelp('/net/home/h03/frpt/EC-EARTH_rcp85/')
         cube = example.get_concatenated_cube()
@@ -147,18 +149,20 @@ class TestCubeHelper(unittest.TestCase):
         example.add_time_catergorical('clim_season')
         example.aggregate(['clim_season', 'season_year'])
         example.extract(future_constraint)
-        iris.coord_categorisation.add_season_year(cube, 'time', name='season_year')
-        iris.coord_categorisation.add_season(cube, 'time', name='clim_season')
-        cube = cube.aggregated_by(['clim_season', 'season_year'],
-                                                        iris.analysis.MEAN)
+        iris.coord_categorisation.add_season_year(cube,
+                                                  'time', name='season_year')
+        iris.coord_categorisation.add_season(cube,
+                                             'time', name='clim_season')
+        cube = cube.aggregated_by(
+            ['clim_season', 'season_year'], iris.analysis.MEAN)
         cube = cube.extract(future_constraint)
         self.assertEqual(example.cube_dataset[0].coord('time'),
                          cube.coord('time'))
-        self.assertEqual(example.cube_dataset[0].dim_coords, 
+        self.assertEqual(example.cube_dataset[0].dim_coords,
                          cube.dim_coords)
-        self.assertEqual(example.cube_dataset[0].aux_coords, 
+        self.assertEqual(example.cube_dataset[0].aux_coords,
                          cube.aux_coords)
-        self.assertEqual(example.cube_dataset[0].ndim, 
+        self.assertEqual(example.cube_dataset[0].ndim,
                          cube.ndim)
 
 
