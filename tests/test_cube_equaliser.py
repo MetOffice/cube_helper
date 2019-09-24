@@ -1,7 +1,12 @@
 import unittest
 import iris
 from cube_helper.cube_loader import load_from_dir
-from cube_helper.cube_equaliser import *
+from cube_helper.cube_equaliser import (_sort_by_earliest_date,
+                                        equalise_attributes,
+                                        equalise_time_units,
+                                        equalise_aux_coords,
+                                        equalise_dim_coords,
+                                        equalise_data_type)
 
 
 class TestCubeEqualiser(unittest.TestCase):
