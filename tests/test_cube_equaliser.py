@@ -3,7 +3,7 @@ import iris
 from cube_helper.cube_loader import load_from_dir
 from cube_helper.cube_equaliser import (equalise_attributes,
 equalise_time_units, equalise_data_type, remove_attributes,
-                equalise_dim_coords, equalise_aux_coords, _sort_by_earliest_date)
+equalise_dim_coords, equalise_aux_coords, _sort_by_earliest_date)
 
 class TestCubeEqualiser(unittest.TestCase):
 
@@ -74,17 +74,28 @@ class TestCubeEqualiser(unittest.TestCase):
         test_load = load_from_dir(filepath, filetype='.nc')
         cube_list = iris.cube.CubeList(test_load)
         cube_list.sort(key=_sort_by_earliest_date)
-        self.assertEqual(cube_list[0].dim_coords[0].units.origin, 'days since 2006-01-01 00:00:00')
-        self.assertEqual(cube_list[1].dim_coords[0].units.origin, 'days since 2010-01-01 00:00:00')
-        self.assertEqual(cube_list[2].dim_coords[0].units.origin, 'days since 2020-01-01 00:00:00')
-        self.assertEqual(cube_list[3].dim_coords[0].units.origin, 'days since 2030-01-01 00:00:00')
-        self.assertEqual(cube_list[4].dim_coords[0].units.origin, 'days since 2040-01-01 00:00:00')
-        self.assertEqual(cube_list[5].dim_coords[0].units.origin, 'days since 2050-01-01 00:00:00')
-        self.assertEqual(cube_list[6].dim_coords[0].units.origin, 'days since 2060-01-01 00:00:00')
-        self.assertEqual(cube_list[7].dim_coords[0].units.origin, 'days since 2070-01-01 00:00:00')
-        self.assertEqual(cube_list[8].dim_coords[0].units.origin, 'days since 2080-01-01 00:00:00')
-        self.assertEqual(cube_list[9].dim_coords[0].units.origin, 'days since 2090-01-01 00:00:00')
-        self.assertEqual(cube_list[10].dim_coords[0].units.origin, 'days since 2100-1-1')
+        self.assertEqual(cube_list[0].dim_coords[0].units.origin,
+                         'days since 2006-01-01 00:00:00')
+        self.assertEqual(cube_list[1].dim_coords[0].units.origin,
+                         'days since 2010-01-01 00:00:00')
+        self.assertEqual(cube_list[2].dim_coords[0].units.origin,
+                         'days since 2020-01-01 00:00:00')
+        self.assertEqual(cube_list[3].dim_coords[0].units.origin,
+                         'days since 2030-01-01 00:00:00')
+        self.assertEqual(cube_list[4].dim_coords[0].units.origin,
+                         'days since 2040-01-01 00:00:00')
+        self.assertEqual(cube_list[5].dim_coords[0].units.origin,
+                         'days since 2050-01-01 00:00:00')
+        self.assertEqual(cube_list[6].dim_coords[0].units.origin,
+                         'days since 2060-01-01 00:00:00')
+        self.assertEqual(cube_list[7].dim_coords[0].units.origin,
+                         'days since 2070-01-01 00:00:00')
+        self.assertEqual(cube_list[8].dim_coords[0].units.origin,
+                         'days since 2080-01-01 00:00:00')
+        self.assertEqual(cube_list[9].dim_coords[0].units.origin,
+                         'days since 2090-01-01 00:00:00')
+        self.assertEqual(cube_list[10].dim_coords[0].units.origin,
+                         'days since 2100-1-1')
 
 
 
