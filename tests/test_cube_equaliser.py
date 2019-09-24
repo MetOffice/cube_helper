@@ -1,9 +1,8 @@
 import unittest
 import iris
 from cube_helper.cube_loader import load_from_dir
-from cube_helper.cube_equaliser import (equalise_attributes,
-equalise_time_units, equalise_data_type, remove_attributes,
-equalise_dim_coords, equalise_aux_coords, _sort_by_earliest_date)
+from cube_helper.cube_equaliser import *
+
 
 class TestCubeEqualiser(unittest.TestCase):
 
@@ -18,7 +17,7 @@ class TestCubeEqualiser(unittest.TestCase):
         filepath = 'test_data/air_temp'
         test_load = load_from_dir(filepath, filetype='.pp')
         equalise_time_units(test_load)
-        for index,cube in enumerate(test_load):
+        for index, cube in enumerate(test_load):
             for time_coords in cube.coords():
                 if time_coords.units.is_time_reference():
                     self.assertEqual(cube[index].units.calendar,
@@ -38,10 +37,10 @@ class TestCubeEqualiser(unittest.TestCase):
         test_load = load_from_dir(filepath, filetype='.pp')
         equalise_data_type(test_load)
         for cube in test_load:
-            self.assertEqual(cube.dtype,'float32')
+            self.assertEqual(cube.dtype, 'float32')
         equalise_data_type(test_load, 'float64')
         for cube in test_load:
-            self.assertEqual(cube.dtype,'float64')
+            self.assertEqual(cube.dtype, 'float64')
         equalise_data_type(test_load, 'int32')
         for cube in test_load:
             self.assertEqual(cube.dtype, 'int32')
@@ -57,7 +56,6 @@ class TestCubeEqualiser(unittest.TestCase):
             self.assertEqual(cube.dim_coords[0].name(), 'latitude')
             self.assertEqual(cube.dim_coords[1].name(), 'longitude')
 
-
     def test_equalise_aux_coords(self):
         filepath = '/project/champ/data/cmip5/output1/ICHEC/EC-EARTH/' \
                    'rcp85/mon/atmos/Amon/r1i1p1/v20171115/tas'
@@ -66,7 +64,6 @@ class TestCubeEqualiser(unittest.TestCase):
         for cube in test_load:
             coords_list = [c.name() for c in cube.coords()]
             self.assertNotIn('height', coords_list)
-
 
     def test_sort_by_earliest_date(self):
         filepath = '/project/champ/data/cmip5/output1/ICHEC/EC-EARTH/' \
@@ -98,7 +95,5 @@ class TestCubeEqualiser(unittest.TestCase):
                          'days since 2100-1-1')
 
 
-
 if __name__ == "__main__":
     unittest.main()
-
