@@ -101,7 +101,6 @@ class TestCubeHelper(unittest.TestCase):
 
     def test_add_time_catergorical(self):
         example_case = CubeHelp('/net/home/h03/frpt/EC-EARTH_rcp85/')
-        example_case.equalise()
         comparable_cube = example_case.get_concatenated_cube()
         example_case.concatenate_cube()
         example_case.add_time_catergorical('season_year')
@@ -115,7 +114,6 @@ class TestCubeHelper(unittest.TestCase):
 
     def test_aggregate(self):
         example_case = CubeHelp('/net/home/h03/frpt/EC-EARTH_rcp85/')
-        example_case.equalise()
         comparable_cube = example_case.get_concatenated_cube()
         example_case.concatenate_cube()
         example_case.add_time_catergorical('season_year')
@@ -132,7 +130,6 @@ class TestCubeHelper(unittest.TestCase):
     def test_extract(self):
         future_constraint = iris.Constraint(clim_season='jja', season_year=lambda cell: cell >= 2010 and cell <= 2060)
         example_case = CubeHelp('/net/home/h03/frpt/EC-EARTH_rcp85/')
-        example_case.equalise()
         comparable_cube = example_case.get_concatenated_cube()
         example_case.concatenate_cube()
         example_case.add_time_catergorical('season_year')
