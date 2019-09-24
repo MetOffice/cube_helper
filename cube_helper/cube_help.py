@@ -68,6 +68,7 @@ class CubeHelp(object):
         else:
             print(self.cube_dataset[0])
             return '\n'
+
     def _equalise(self):
         """
         Equalises Cubes for concatenation and merging, cycles through the cube_
