@@ -87,12 +87,6 @@ class TestCubeHelper(unittest.TestCase):
         test = example.get_cube(0)
         self.assertIsInstance(test, iris.cube.Cube)
 
-    def test_reset(self):
-        example_a = CubeHelp('test_data/north_sea_ice', filetype='.pp')
-        example__b = CubeHelp('test_data/north_sea_ice', filetype='.pp')
-        example_a.reset()
-        self.assertEqual(example_a.cube_dataset, example_b.cube_dataset)
-
     def test_remove_cube(self):
         example = CubeHelp('test_data/north_sea_ice', filetype='.pp')
         example.remove_cube(0)
