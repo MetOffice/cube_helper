@@ -249,22 +249,6 @@ class CubeHelp(object):
         """
         equalise_data_type(self.cube_dataset)
 
-    def reset(self, filetype='.nc', constraints=None):
-        """
-        Re-initialises the cube_dataset, using the directory originally given.
-        
-        Args:
-            filetype: a string specifying the expected type
-            of files found in the dataset. Default value is .nc .
-
-            constraints: a string specifying any constraints
-            you wish to load the dataset with.
-            
-        Returns:
-            A re-initialised CubeHelp object.
-        """
-        self.__init__(self.directory, filetype, constraints)
-
     def get_cube(self, index):
         """
         Returns a single specified cube from cube_dataset.
