@@ -1,7 +1,7 @@
 import os
 import iris
 import glob
-
+from iris.exceptions import MergeError, ConstraintMismatchError
 
 def _parse_directory(directory):
     """
@@ -56,7 +56,7 @@ def load_from_dir(directory, filetype, constraint=None):
         for path in glob.glob(directory + '*' + filetype):
             try:
                 loaded_cubes.append(iris.load_cube(path))
-            except:
+            except (MergeError, ConstraintMismatchError):
                 for cube in iris.load_raw(path):
                     if cube.ndim >= 2:
                         loaded_cubes.append(cube)
@@ -68,7 +68,7 @@ def load_from_dir(directory, filetype, constraint=None):
         for path in glob.glob(directory + '*' + filetype):
             try:
                 loaded_cubes.append(iris.load_cube(path, constraint))
-            except:
+            except (MergeError, ConstraintMismatchError):
                 for cube in iris.load_raw(path, constraint):
                     if cube.ndim >= 2:
                         loaded_cubes.append(cube)
@@ -87,8 +87,9 @@ def load_from_filelist(data_filelist, filetype, constraint=None):
         filetype (optional): a string specifying the expected type
         Of files found in the dataset
 
-        constraints (optional): a string, iterable of strings or an iris.Constraint
-        specifying any constraints you wish to load the dataset with.
+        constraints (optional): a string, iterable of strings or an
+        iris.Constraint specifying any constraints you wish to load
+        the dataset with.
 
     Returns:
         iris.cube.CubeList(loaded_cubes), a CubeList of the loaded
@@ -114,6 +115,7 @@ def load_from_filelist(data_filelist, filetype, constraint=None):
             except:
                 for cube in iris.load_raw(filename, constraint):
                     if cube.ndim >= 2:
-                        loaded_cubes.append(iris.load_raw(filename, constraint))
+                        loaded_cubes.append(iris.load_raw(filename,
+                                                          constraint))
 
     return loaded_cubes
