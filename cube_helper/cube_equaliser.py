@@ -25,11 +25,12 @@ def _sort_by_earliest_date(cube):
             current_cube_date = datetime.strptime(time_origin, '%Y-%m-%d')
             return current_cube_date
 
+
 def equalise_attributes(cubes):
     """
     Equalises Cubes for concatenation and merging, cycles through the cube_
-    Dataset (CubeList) attribute and removes any that are not common across all cubes.
-    metadata and variables.
+    Dataset (CubeList) attribute and removes any that are not common across
+    all cubes, metadata, and variables.
 
     Args:
         cubes: Cubes to be equalised of attributes
@@ -72,6 +73,7 @@ def equalise_time_units(cubes):
 
                 new_unit = cf_units.Unit(epoch, time_coord.units.calendar)
                 time_coord.convert_units(new_unit)
+
 
 def equalise_data_type(cubes, data_type='float32'):
     """
@@ -136,11 +138,11 @@ def equalise_aux_coords(cubes):
                 cube_b_coords = {c.name() for c in cube_b.coords()}
                 common_coords = list(cube_a_coords.intersection(cube_b_coords))
                 for coord in list(cube_a_coords):
-                     if coord not in common_coords:
-                         cube_a.remove_coord(coord)
+                    if coord not in common_coords:
+                        cube_a.remove_coord(coord)
                 for coord in list(cube_b_coords):
-                     if coord not in common_coords:
-                         cube_b.remove_coord(coord)
+                    if coord not in common_coords:
+                        cube_b.remove_coord(coord)
 
 
 def remove_attributes(cubes):
