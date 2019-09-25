@@ -3,6 +3,7 @@ import iris
 import glob
 from iris.exceptions import MergeError, ConstraintMismatchError
 
+
 def _parse_directory(directory):
     """
     Parses the string representing the directory, makes sure a '/'
@@ -104,7 +105,7 @@ def load_from_filelist(data_filelist, filetype, constraint=None):
         if constraint is None:
             try:
                 loaded_cubes.append(iris.load_cube(filename))
-            except:
+            except (MergeError, ConstraintMismatchError):
                 for cube in iris.load_raw(filename):
                     if cube.ndim >= 2:
                         loaded_cubes.append(iris.load_raw(filename))
@@ -112,7 +113,7 @@ def load_from_filelist(data_filelist, filetype, constraint=None):
         else:
             try:
                 loaded_cubes.append(iris.load_cube(filename, constraint))
-            except:
+            except (MergeError, ConstraintMismatchError):
                 for cube in iris.load_raw(filename, constraint):
                     if cube.ndim >= 2:
                         loaded_cubes.append(iris.load_raw(filename,
