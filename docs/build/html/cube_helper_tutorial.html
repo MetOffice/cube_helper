@@ -8,7 +8,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Cube Helper: A Walkthrough guide &mdash; Cube Helper v1.0.5 documentation</title>
+  <title>Cube Helper: A Walk-through guide &mdash; Cube Helper v1.0.5 documentation</title>
 
 
 
@@ -138,7 +138,7 @@
 
       <li><a href="index.html">Docs</a> &raquo;</li>
 
-      <li>Cube Helper: A Walkthrough guide</li>
+      <li>Cube Helper: A Walk-through guide</li>
 
 
       <li class="wy-breadcrumbs-aside">
@@ -159,20 +159,22 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
 
-  <div class="section" id="cube-helper-a-walkthrough-guide">
-<h1>Cube Helper: A Walkthrough guide<a class="headerlink" href="#cube-helper-a-walkthrough-guide" title="Permalink to this headline">¶</a></h1>
-<p>This python module has been produced to mitigate the issues faced by
+  <div class="section" id="cube-helper-a-walk-through-guide">
+<h1>Cube Helper: A Walk-through guide<a class="headerlink" href="#cube-helper-a-walk-through-guide" title="Permalink to this headline">¶</a></h1>
+<p>This Python module has been produced to mitigate the issues faced by
 researchers whilst trying to manipulate multiple cubes.</p>
-<p>The main class of interest for this module is the <code class="docutils literal notranslate"><span class="pre">CubeHelp</span></code> class. To
-illustrate it’s usage, lets start by importing the module (and iris!)</p>
+<p>Before starting, the module needs to be added to your python
+environment:</p>
 <div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span>!export PYTHONPATH=/net/home/h01/jbedwell/Downloads/cube_helper
 </pre></div>
 </div>
+<p>The main class of interest for this module is the <code class="docutils literal notranslate"><span class="pre">CubeHelp</span></code> class. To
+illustrate it’s usage, lets start by importing the module (and Iris!)</p>
 <div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">iris</span>
 <span class="kn">from</span> <span class="nn">cube_helper</span> <span class="k">import</span> <span class="n">CubeHelp</span>
 </pre></div>
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">CubeHelper</span></code> object once instantiated loads the given dataset as
+<p>The <code class="docutils literal notranslate"><span class="pre">CubeHelp</span></code> object once instantiated loads the given dataset as
 Follows:</p>
 <div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dataset</span> <span class="o">=</span> <span class="n">CubeHelp</span><span class="p">(</span><span class="s1">&#39;/project/champ/data/CMIP6/CMIP/MOHC/HadGEM3-GC31-LL/piControl/r1i1p1f1/Amon/tasmin/gn/v20190628&#39;</span><span class="p">)</span>
 </pre></div>
@@ -203,7 +205,7 @@ Follows:</p>
 </div>
 <p>A very common problem when concatenatting and merging cubes is that the
 attributes mismatch, this can be illustrated when we try to invoke the
-wraped iris <code class="docutils literal notranslate"><span class="pre">concatenate_cube()</span></code> function. Below we see an example of
+wraped Iris <code class="docutils literal notranslate"><span class="pre">concatenate_cube()</span></code> function. Below we see an example of
 this error message:</p>
 <div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">glob</span>
 <span class="n">filelist</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;/project/champ/data/CMIP6/CMIP/MOHC/HadGEM3-GC31-LL/piControl/r1i1p1f1/Amon/tasmin/gn/v20190628/*.nc&#39;</span><span class="p">)</span>
@@ -435,7 +437,7 @@ with the argument <code class="docutils literal notranslate"><span class="pre">'
 </pre></div>
 </div>
 <p>Should the equalise function not work there is a function to completely
-remove all attributes, demonstarted below:</p>
+remove all attributes, demonstrated below:</p>
 <div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dataset</span><span class="o">.</span><span class="n">remove_attributes</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">cube_dataset</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
@@ -514,7 +516,7 @@ will be added in later releases):</p>
 <span class="mi">4</span><span class="p">:</span> <span class="n">air_temperature</span> <span class="o">/</span> <span class="p">(</span><span class="n">K</span><span class="p">)</span>               <span class="p">(</span><span class="n">latitude</span><span class="p">:</span> <span class="mi">144</span><span class="p">;</span> <span class="n">longitude</span><span class="p">:</span> <span class="mi">192</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>This shows some of cube_helpers more basic methods, but we can do more
+<p>This shows some of cube_helper’s more basic methods, but we can do more
 advanced stuff! This time, we will load some cubes with filenames rather
 than a directory.</p>
 <div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">glob</span>
@@ -665,9 +667,8 @@ use <code class="docutils literal notranslate"><span class="pre">concatenate_cub
 </div>
 <p>Now we can try and extract some data based on our specified constraints,
 note that clim_season and season year are not auxillary coordinates.
-This will ruin your day, as iris will conclude that NONE of the data
-falls into these catergories, and remove ALL cubes from
-<code class="docutils literal notranslate"><span class="pre">cube_dataset</span></code>:</p>
+This will not work, as Iris will conclude that NONE of the data falls
+into these catergories, and remove ALL cubes from <code class="docutils literal notranslate"><span class="pre">cube_dataset</span></code>:</p>
 <div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dataset</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span><span class="n">future_constraint</span><span class="p">)</span>
 <span class="n">dataset</span>
 </pre></div>
@@ -675,7 +676,7 @@ falls into these catergories, and remove ALL cubes from
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span> <span class="n">No</span> <span class="n">cubes</span> <span class="o">&gt;</span>
 </pre></div>
 </div>
-<p>So lets try that again. This time we will add time catergoricals.</p>
+<p>So let’s try that again. This time we will add time catergoricals.</p>
 <div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dataset</span> <span class="o">=</span> <span class="n">CubeHelp</span><span class="p">(</span><span class="s1">&#39;/project/champ/data/CMIP6/CMIP/MOHC/HadGEM3-GC31-LL/piControl/r1i1p1f1/Amon/tasmin/gn/v20190628&#39;</span><span class="p">)</span>
 <span class="n">dataset</span><span class="o">.</span><span class="n">concatenate_cube</span><span class="p">()</span>
 </pre></div>
@@ -827,7 +828,7 @@ falls into these catergories, and remove ALL cubes from
           <span class="n">mean</span> <span class="n">over</span> <span class="n">days</span><span class="p">:</span> <span class="n">time</span>
 </pre></div>
 </div>
-<p>Now it’s been added we can safely filter data based on constrints:</p>
+<p>Now it’s been added we can safely filter data based on constraints:</p>
 <div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dataset</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span><span class="n">future_constraint</span><span class="p">)</span>
 </pre></div>
 </div>
