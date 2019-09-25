@@ -1,23 +1,26 @@
 
-Cube Helper: A Walkthrough guide
---------------------------------
+Cube Helper: A Walk-through guide
+---------------------------------
 
-This python module has been produced to mitigate the issues faced by
+This Python module has been produced to mitigate the issues faced by
 researchers whilst trying to manipulate multiple cubes.
 
-The main class of interest for this module is the ``CubeHelp`` class. To
-illustrate it’s usage, lets start by importing the module (and iris!)
+Before starting, the module needs to be added to your python
+environment:
 
 .. code:: ipython3
 
     !export PYTHONPATH=/net/home/h01/jbedwell/Downloads/cube_helper
+
+The main class of interest for this module is the ``CubeHelp`` class. To
+illustrate it’s usage, lets start by importing the module (and Iris!)
 
 .. code:: ipython3
 
     import iris
     from cube_helper import CubeHelp
 
-The ``CubeHelper`` object once instantiated loads the given dataset as
+The ``CubeHelp`` object once instantiated loads the given dataset as
 Follows:
 
 .. code:: ipython3
@@ -61,7 +64,7 @@ Here we see that the module will load the cubes automatically. Once the
 
 A very common problem when concatenatting and merging cubes is that the
 attributes mismatch, this can be illustrated when we try to invoke the
-wraped iris ``concatenate_cube()`` function. Below we see an example of
+wraped Iris ``concatenate_cube()`` function. Below we see an example of
 this error message:
 
 .. code:: ipython3
@@ -332,7 +335,7 @@ We can also access individual cubes in the dataset through an index with
 
 
 Should the equalise function not work there is a function to completely
-remove all attributes, demonstarted below:
+remove all attributes, demonstrated below:
 
 .. code:: ipython3
 
@@ -424,7 +427,7 @@ will be added in later releases):
 
 
 
-This shows some of cube_helpers more basic methods, but we can do more
+This shows some of cube_helper’s more basic methods, but we can do more
 advanced stuff! This time, we will load some cubes with filenames rather
 than a directory.
 
@@ -620,9 +623,8 @@ use ``concatenate_cube()`` we get…
 
 Now we can try and extract some data based on our specified constraints,
 note that clim_season and season year are not auxillary coordinates.
-This will ruin your day, as iris will conclude that NONE of the data
-falls into these catergories, and remove ALL cubes from
-``cube_dataset``:
+This will not work, as Iris will conclude that NONE of the data falls
+into these catergories, and remove ALL cubes from ``cube_dataset``:
 
 .. code:: ipython3
 
@@ -638,7 +640,7 @@ falls into these catergories, and remove ALL cubes from
 
 
 
-So lets try that again. This time we will add time catergoricals.
+So let’s try that again. This time we will add time catergoricals.
 
 .. code:: ipython3
 
@@ -805,7 +807,7 @@ However we can add these with the following commands:
               mean over days: time
 
 
-Now it’s been added we can safely filter data based on constrints:
+Now it’s been added we can safely filter data based on constraints:
 
 .. code:: ipython3
 
