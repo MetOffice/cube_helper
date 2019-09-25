@@ -3,9 +3,13 @@ import iris.coord_categorisation
 import six
 from cube_helper.cube_loader import load_from_filelist, load_from_dir
 from cube_helper.cube_dataset import CubeSet
-from cube_helper.cube_equaliser import (remove_attributes, 
-    equalise_time_units, equalise_attributes, equalise_data_type,
-    equalise_dim_coords, equalise_aux_coords, _sort_by_earliest_date)
+from cube_helper.cube_equaliser import (remove_attributes,
+                                        equalise_time_units,
+                                        equalise_attributes,
+                                        equalise_data_type,
+                                        equalise_dim_coords,
+                                        equalise_aux_coords,
+                                        _sort_by_earliest_date)
 
 
 class CubeHelp(object):
@@ -37,7 +41,7 @@ class CubeHelp(object):
         """
         self.directory = directory
         self.filetype = filetype
-        self.constraints = constraints        
+        self.constraints = constraints
         if isinstance(directory, six.string_types):
             loaded_cubes = load_from_dir(
                 directory, filetype, constraints)
@@ -73,7 +77,8 @@ class CubeHelp(object):
         """
         Equalises Cubes for concatenation and merging, cycles through the cube_
         dataset (CubeList) attribute and rectifies common differences in
-        metadata and attributes. Then cycles through and unifies the time units.
+        metadata and attributes. Then cycles through and unifies the time
+        units.
 
         Returns:
             Equalised cube_dataset to the CubeHelp class
@@ -111,11 +116,11 @@ class CubeHelp(object):
 
     def merge(self):
         """
-        Merged the cube_dataset object. This function makes use of iris' merge_cube()
-        function, as a result it will concatenate the cube_dataset into a
-        CubeList, constucting a new dimension. Issues may arrise from
-        concatenating cubes with mismatching metadata And time units.
-        Not suitable for cubes with more than 2 dimensions.
+        Merged the cube_dataset object. This function makes use of iris'
+        merge_cube() function, as a result it will concatenate the
+        cube_dataset into a CubeList, constucting a new dimension.
+        Issues may arrise from concatenating cubes with mismatching metadata
+        and time units. Not suitable for cubes with more than 2 dimensions.
 
         Returns:
             Merged CubeList of the cube_dataset
@@ -216,7 +221,7 @@ class CubeHelp(object):
         Collapses a given dimension with a mean average measurement.
 
         Args:
-            dimension: A string specifying the dimension of the cube 
+            dimension: A string specifying the dimension of the cube
             you wish to collapse, for example 'time'.
 
         Returns:
@@ -292,8 +297,9 @@ class CubeHelp(object):
 
     def extract(self, constraint):
         """
-        Extracts a potion of data from cube_dataset within specified contraints.
-        To be used when more detailed contraints other than phenomenon is needed.
+        Extracts a potion of data from cube_dataset within specified
+        contraints. To be used when more detailed contraints other
+        than phenomenon is needed.
 
         Args:
              constraint: An iris.constraint object
@@ -323,58 +329,57 @@ class CubeHelp(object):
 
         if name == 'season_year':
             for cube in self.cube_dataset:
-                iris.coord_categorisation.add_season_year(cube, coord,
-                                                          name='season_year')
+                iris.coord_categorisation.add_season_year(
+                    cube, coord, name='season_year')
         elif name == 'season_membership':
             for cube in self.cube_dataset:
-                iris.coord_categorisation.add_season_membership(cube, coord,
-                                                          name='season_membership')
+                iris.coord_categorisation.add_season_membership(
+                    cube, coord, name='season_membership')
         elif name == 'season_number':
             for cube in self.cube_dataset:
-                iris.coord_categorisation.add_season_number(cube, coord,
-                                                          name='number')
+                iris.coord_categorisation.add_season_number(
+                    cube, coord, name='number')
         elif name == 'clim_season':
             for cube in self.cube_dataset:
-                iris.coord_categorisation.add_season(cube, coord,
-                                                     name='clim_season')
+                iris.coord_categorisation.add_season(
+                    cube, coord, name='clim_season')
         elif name == 'year':
             for cube in self.cube_dataset:
-                iris.coord_catergorisation.add_year(cube, coord,
-                                                    name='year')
+                iris.coord_catergorisation.add_year(
+                    cube, coord, name='year')
         elif name == 'month_number':
             for cube in self.cube_dataset:
-                iris.coord_catergorisation.add_month_number(cube, coord,
-                                                            name='month_number')
+                iris.coord_catergorisation.add_month_number(
+                    cube, coord, name='month_number')
         elif name == 'month_fullname':
             for cube in self.cube_dataset:
-                iris.coord_catergorisation.add_month_fullname(cube, coord,
-                                                              name='month_fullname')
+                iris.coord_catergorisation.add_month_fullname(
+                    cube, coord, name='month_fullname')
         elif name == 'month':
             for cube in self.cube_dataset:
-                iris.coord_catergorisation.add_month(cube, coord,
-                                                     name='month')
+                iris.coord_catergorisation.add_month(
+                    cube, coord, name='month')
         elif name == 'day_of_the_month':
             for cube in self.cube_dataset:
-                iris.coord_catergorisation.add_day_of_the_month(cube, coord,
-                                                                name='day_of_the_month')
+                iris.coord_catergorisation.add_day_of_the_month(
+                    cube, coord, name='day_of_the_month')
         elif name == 'day_of_the_year':
             for cube in self.cube_dataset:
-                iris.coord_catergorisation.add_day_of_the_year(cube, coord,
-                                                                name='day_of_the_year')
+                iris.coord_catergorisation.add_day_of_the_year(
+                    cube, coord, name='day_of_the_year')
         elif name == 'weekday_number':
             for cube in self.cube_dataset:
-                iris.coord_catergorisation.add_weekday_number(cube, coord,
-                                                              name='weekday_number')
+                iris.coord_catergorisation.add_weekday_number(
+                    cube, coord, name='weekday_number')
         elif name == 'weekday_fullname':
             for cube in self.cube_dataset:
-                iris.coord_catergorisation.add_weekday_fullname(cube, coord,
-                                                                name='weekday_fullname')
+                iris.coord_catergorisation.add_weekday_fullname(
+                    cube, coord, name='weekday_fullname')
         elif name == 'weekday':
             for cube in self.cube_dataset:
-                iris.coord_catergorisation.add_weekday(cube, coord,
-                                                       name='weekday')
+                iris.coord_catergorisation.add_weekday(
+                    cube, coord, name='weekday')
         elif name == 'hour':
             for cube in self.cube_dataset:
-                iris.coord_catergorisation.add_hour(cube, coord,
-                                                    name='hour')
-
+                iris.coord_catergorisation.add_hour(
+                    cube, coord, name='hour')
