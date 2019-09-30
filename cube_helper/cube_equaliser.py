@@ -3,6 +3,7 @@ import sys
 import numpy as np
 import cf_units
 from datetime import datetime
+from collections import namedtuple
 
 
 import re
@@ -171,15 +172,14 @@ def compare_cubes(cubes):
     uneq_dim_coords = False
     uneq_attr = False
     uneq_time_coords = False
-    uneq_ndims = False
-
+    uneq_ndim = False
     for cube_a in cubes:
         for cube_b in cubes:
             if (uneq_aux_coords and
                     uneq_attr and
                     uneq_dim_coords and
                     uneq_time_coords and
-                    uneq_ndims):
+                    uneq_ndim):
                 break
 
             if cube_a.coords() != cube_b.coords():
@@ -192,8 +192,8 @@ def compare_cubes(cubes):
             if cube_a.attributes != cube_b.attributes:
                 uneq_attr = True
 
-            if cube_a.ndims != cube_b.ndims:
-                uneq_ndims = True
+            if cube_a.ndim != cube_b.ndim:
+                uneq_ndim = True
                 break
 
             for time_coord_a in cube_a.coords():
@@ -204,7 +204,8 @@ def compare_cubes(cubes):
                             uneq_time_coords = True
                             break
 
-    if uneq_ndims:
+
+    if uneq_ndim:
         print("\n Number of dimensions for cubes differ,"
               "please load cubes of matching ndim")
         sys.exit(2)
@@ -227,5 +228,24 @@ def compare_cubes(cubes):
     if uneq_time_coords:
         print("cube time coordinates differ,"
               "equalising...\n")
+        equalise_time_units(cubes)
+
+    return cubes
+
+def examine_dim_bounds(cubes):
+    Range = namedtuple('Range', ['start', 'end'])
+    for i, cube_a in enumerate(cubes):
+        for j, cube_b in enumerate(cubes):
+            if i != j:
+                range_a = Range(start=cube_a.coord('time').bounds[0][0], end=cube_a.coord('time').bounds[-1][-1])
+                range_b = Range(start=cube_b.coord('time').bounds[0][0], end=cube_b.coord('time').bounds[-1][-1])
+                latest_start = max(range_a.start, range_b.start)
+                earliest_end = min(range_a.end, range_b.end)
+                delta = earliest_end - latest_start
+                overlap = max(0, delta)
+                if overlap > 0:
+                    print("The time coordinates overlap at cube {} and cube {}".format(i, j))
+                    print(overlap)
+                    break
 
     return cubes

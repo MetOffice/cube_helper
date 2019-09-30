@@ -2,10 +2,7 @@ import iris
 import iris.coord_categorisation
 import six
 from cube_helper.cube_loader import load_from_filelist, load_from_dir
-from cube_helper.cube_equaliser import (equalise_time_units,
-                                        equalise_attributes,
-                                        equalise_dim_coords,
-                                        equalise_aux_coords, compare_cubes)
+from cube_helper.cube_equaliser import compare_cubes, examine_dim_bounds
 
 
 def cube_loader(directory, filetype='.nc', constraints=None):
@@ -21,7 +18,11 @@ def cube_loader(directory, filetype='.nc', constraints=None):
         else:
             result = compare_cubes(loaded_cubes)
             result = iris.cube.CubeList(result)
-            result = result.concatenate_cube()
+            try:
+                result = result.concatenate_cube()
+            except iris.exceptions.ConcatenateError:
+                print("Oops, there was an error in concatenation")
+                examine_dim_bounds(result)
             return result
 
     elif isinstance(directory, list):
@@ -33,5 +34,9 @@ def cube_loader(directory, filetype='.nc', constraints=None):
         else:
             result = compare_cubes(loaded_cubes)
             result = iris.cube.CubeList(result)
-            result = result.concatenate_cube()
+            try:
+                result = result.concatenate_cube()
+            except iris.exceptions.ConcatenateError:
+                print("Oops, there was an error in concatenation")
+                examine_dim_bounds(result)
             return result
