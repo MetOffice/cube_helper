@@ -1,6 +1,10 @@
+from __future__ import (absolute_import, division, print_function)
+import sys
 import numpy as np
 import cf_units
 from datetime import datetime
+
+
 import re
 
 
@@ -160,3 +164,68 @@ def remove_attributes(cubes):
     for cube in cubes:
         for attr in cube.attributes:
             cube.attributes[attr] = ''
+
+def compare_cubes(cubes):
+
+    uneq_aux_coords = False
+    uneq_dim_coords = False
+    uneq_attr = False
+    uneq_time_coords = False
+    uneq_ndims = False
+
+    for cube_a in cubes:
+        for cube_b in cubes:
+            if (uneq_aux_coords and
+                    uneq_attr and
+                    uneq_dim_coords and
+                    uneq_time_coords and
+                    uneq_ndims):
+                break
+
+            if cube_a.coords() != cube_b.coords():
+                uneq_aux_coords = True
+
+
+            if cube_a.dim_coords != cube_b.dim_coords:
+                uneq_dim_coords = True
+
+            if cube_a.attributes != cube_b.attributes:
+                uneq_attr = True
+
+            if cube_a.ndims != cube_b.ndims:
+                uneq_ndims = True
+                break
+
+            for time_coord_a in cube_a.coords():
+                for time_coord_b in cube_b.coords():
+                    if (time_coord_a.units.is_time_reference()
+                            and time_coord_b.units.is_time_reference()):
+                        if time_coord_a.units != time_coord_b.units:
+                            uneq_time_coords = True
+                            break
+
+    if uneq_ndims:
+        print("\n Number of dimensions for cubes differ,"
+              "please load cubes of matching ndim")
+        sys.exit(2)
+
+    if uneq_aux_coords:
+        print("\ncube aux coordinates differ,"
+              " equalising...\n")
+        equalise_aux_coords(cubes)
+
+    if uneq_dim_coords:
+        print("cube dimensional coordinates differ,"
+              " equalising...\n")
+        equalise_dim_coords(cubes)
+
+    if uneq_attr:
+        print("cube attributes differ,"
+              " equalising...\n")
+        equalise_attributes(cubes)
+
+    if uneq_time_coords:
+        print("cube time coordinates differ,"
+              "equalising...\n")
+
+    return cubes
