@@ -27,6 +27,7 @@ def cube_loader(directory, filetype='.nc', constraints=None):
             result = equalise_time_units(result)
             result = equalise_dim_coords(result)
             result = equalise_aux_coords(result)
+            result = iris.cube.CubeList(result)
             result = result.concatenate_cube()
             return result
 
@@ -41,5 +42,6 @@ def cube_loader(directory, filetype='.nc', constraints=None):
             result = equalise_time_units(result)
             result = equalise_dim_coords(result)
             result = equalise_aux_coords(result)
+            result = iris.cube.CubeList(result)
             result = result.concatenate_cube()
             return result
