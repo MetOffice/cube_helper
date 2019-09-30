@@ -2,6 +2,7 @@ import os
 import iris
 import glob
 from iris.exceptions import MergeError, ConstraintMismatchError
+from cube_helper.cube_equaliser import _sort_by_earliest_date
 
 
 def _parse_directory(directory):
@@ -61,7 +62,7 @@ def load_from_dir(directory, filetype, constraint=None):
                 for cube in iris.load_raw(path):
                     if cube.ndim >= 2:
                         loaded_cubes.append(cube)
-
+        loaded_cubes.sort(key=_sort_by_earliest_date)
         return loaded_cubes
     else:
         loaded_cubes = []
@@ -73,6 +74,7 @@ def load_from_dir(directory, filetype, constraint=None):
                 for cube in iris.load_raw(path, constraint):
                     if cube.ndim >= 2:
                         loaded_cubes.append(cube)
+        loaded_cubes.sort(key=_sort_by_earliest_date)
         return loaded_cubes
 
 
