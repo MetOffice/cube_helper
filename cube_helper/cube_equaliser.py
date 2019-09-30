@@ -52,7 +52,7 @@ def equalise_attributes(cubes):
         for key in list(cube.attributes.keys()):
             if key not in common_keys:
                 del cube.attributes[key]
-
+    return cubes
 
 def equalise_time_units(cubes):
     """
@@ -73,7 +73,7 @@ def equalise_time_units(cubes):
 
                 new_unit = cf_units.Unit(epoch, time_coord.units.calendar)
                 time_coord.convert_units(new_unit)
-
+    return cubes
 
 def equalise_data_type(cubes, data_type='float32'):
     """
@@ -120,6 +120,7 @@ def equalise_dim_coords(cubes):
             dim_coord.long_name = coord_name
             dim_coord.var_name = coord_name
 
+    return cubes
 
 def equalise_aux_coords(cubes):
     """
@@ -143,7 +144,7 @@ def equalise_aux_coords(cubes):
                 for coord in list(cube_b_coords):
                     if coord not in common_coords:
                         cube_b.remove_coord(coord)
-
+    return cubes
 
 def remove_attributes(cubes):
     """
