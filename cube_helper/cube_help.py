@@ -5,7 +5,7 @@ from cube_helper.cube_loader import load_from_filelist, load_from_dir
 from cube_helper.cube_equaliser import compare_cubes, examine_dim_bounds
 
 
-def cube_loader(directory, filetype='.nc', constraints=None):
+def load_cubes(directory, filetype='.nc', constraints=None):
 
     directory = directory
     filetype = filetype
