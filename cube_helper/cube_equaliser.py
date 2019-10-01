@@ -248,4 +248,3 @@ def examine_dim_bounds(cubes):
                     print(overlap)
                     break
 
-    return cubes
