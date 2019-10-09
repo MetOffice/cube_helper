@@ -1,5 +1,6 @@
 from __future__ import (absolute_import, division, print_function)
 import sys
+import iris
 import numpy as np
 import cf_units
 from datetime import datetime
@@ -8,6 +9,15 @@ from collections import namedtuple
 
 import re
 
+def _file_sort_by_earliest_date(cube_filename):
+    for time_coord in iris.load_cube(cube_filename).coords():
+        if time_coord.units.is_time_reference():
+            time_origin = time_coord.units.origin
+            time_origin = re.sub('[a-zA-Z]', '', time_origin)
+            time_origin = time_origin.strip(' ')
+            time_origin = time_origin.strip(" 00:00:00")
+            current_cube_date = datetime.strptime(time_origin, '%Y-%m-%d')
+            return current_cube_date
 
 def _sort_by_earliest_date(cube):
     """
@@ -44,6 +54,7 @@ def equalise_attributes(cubes):
         Equalised cube_dataset to the CubeHelp class
 
     """
+    uncommon_keys = []
     common_keys = cubes[0].attributes.keys()
     for cube in cubes[1:]:
         cube_keys = cube.attributes.keys()
@@ -56,7 +67,13 @@ def equalise_attributes(cubes):
     for cube in cubes:
         for key in list(cube.attributes.keys()):
             if key not in common_keys:
+                uncommon_keys.append(key)
                 del cube.attributes[key]
+
+    uncommon_keys = list(dict.fromkeys(uncommon_keys))
+    for key in uncommon_keys:
+        print("\tDeleting {} attribute from cubes\n".format(key))
+
     return cubes
 
 def equalise_time_units(cubes):
@@ -70,6 +87,7 @@ def equalise_time_units(cubes):
         cubes with time coordinates unified.
     """
     epochs = {}
+    origin = None
     for cube in cubes:
         for time_coord in cube.coords():
             if time_coord.units.is_time_reference():
@@ -78,6 +96,10 @@ def equalise_time_units(cubes):
 
                 new_unit = cf_units.Unit(epoch, time_coord.units.calendar)
                 time_coord.convert_units(new_unit)
+                origin = time_coord.units.calendar
+    print("\t New time origin set to {}\n".format(epoch))
+    print("\t New time calender set to {}\n".format(origin))
+
     return cubes
 
 def equalise_data_type(cubes, data_type='float32'):
@@ -145,9 +167,11 @@ def equalise_aux_coords(cubes):
                 common_coords = list(cube_a_coords.intersection(cube_b_coords))
                 for coord in list(cube_a_coords):
                     if coord not in common_coords:
+                        print("\tremoving {} coords from cube\n".format(coord))
                         cube_a.remove_coord(coord)
                 for coord in list(cube_b_coords):
                     if coord not in common_coords:
+                        print("\tremoving {} coords from cube\n".format(coord))
                         cube_b.remove_coord(coord)
     return cubes
 
@@ -182,9 +206,8 @@ def compare_cubes(cubes):
                     uneq_ndim):
                 break
 
-            if cube_a.coords() != cube_b.coords():
+            if cube_a.aux_coords != cube_b.aux_coords:
                 uneq_aux_coords = True
-
 
             if cube_a.dim_coords != cube_b.dim_coords:
                 uneq_dim_coords = True
@@ -216,8 +239,6 @@ def compare_cubes(cubes):
         equalise_aux_coords(cubes)
 
     if uneq_dim_coords:
-        print("cube dimensional coordinates differ,"
-              " equalising...\n")
         equalise_dim_coords(cubes)
 
     if uneq_attr:
@@ -232,7 +253,7 @@ def compare_cubes(cubes):
 
     return cubes
 
-def examine_dim_bounds(cubes):
+def examine_dim_bounds(cubes, cube_files):
     Range = namedtuple('Range', ['start', 'end'])
     for i, cube_a in enumerate(cubes):
         for j, cube_b in enumerate(cubes):
@@ -244,7 +265,7 @@ def examine_dim_bounds(cubes):
                 delta = earliest_end - latest_start
                 overlap = max(0, delta)
                 if overlap > 0:
-                    print("The time coordinates overlap at cube {} and cube {}".format(i, j))
-                    print(overlap)
+                    print("\nThe time coordinates overlap at cube {} and cube {}".format(i, j))
+                    print("\nThese cubes are: \n\t{}\n\t{}".format(cube_files[i], cube_files[j]))
                     break
 
