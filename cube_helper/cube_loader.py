@@ -2,7 +2,7 @@ import os
 import iris
 import glob
 from iris.exceptions import MergeError, ConstraintMismatchError
-from cube_helper.cube_equaliser import _sort_by_earliest_date
+from cube_helper.cube_equaliser import _sort_by_earliest_date, _file_sort_by_earliest_date
 
 
 def _parse_directory(directory):
@@ -54,28 +54,36 @@ def load_from_dir(directory, filetype, constraint=None):
     """
     if constraint is None:
         loaded_cubes = []
+        cube_files = []
         directory = _parse_directory(directory)
         for path in glob.glob(directory + '*' + filetype):
             try:
                 loaded_cubes.append(iris.load_cube(path))
+                cube_files.append(path)
             except (MergeError, ConstraintMismatchError):
                 for cube in iris.load_raw(path):
                     if cube.ndim >= 2:
                         loaded_cubes.append(cube)
+                        cube_files.append(path)
         loaded_cubes.sort(key=_sort_by_earliest_date)
-        return loaded_cubes
+        cube_files.sort(key=_file_sort_by_earliest_date)
+        return loaded_cubes, cube_files
     else:
         loaded_cubes = []
+        cube_files = []
         directory = _parse_directory(directory)
         for path in glob.glob(directory + '*' + filetype):
             try:
                 loaded_cubes.append(iris.load_cube(path, constraint))
+                cube_files.append(path)
             except (MergeError, ConstraintMismatchError):
                 for cube in iris.load_raw(path, constraint):
                     if cube.ndim >= 2:
                         loaded_cubes.append(cube)
+                        cube_files.append(path)
         loaded_cubes.sort(key=_sort_by_earliest_date)
-        return loaded_cubes
+        cube_files.sort(key=_file_sort_by_earliest_date)
+        return loaded_cubes, cube_files
 
 
 def load_from_filelist(data_filelist, filetype, constraint=None):
@@ -99,6 +107,7 @@ def load_from_filelist(data_filelist, filetype, constraint=None):
         Cubes.
     """
     loaded_cubes = []
+    cube_files = []
     for filename in data_filelist:
         if not filename.endswith(filetype):
             data_filelist.remove(filename)
@@ -107,10 +116,12 @@ def load_from_filelist(data_filelist, filetype, constraint=None):
         if constraint is None:
             try:
                 loaded_cubes.append(iris.load_cube(filename))
+                cube_files.append(filename)
             except (MergeError, ConstraintMismatchError):
                 for cube in iris.load_raw(filename):
                     if cube.ndim >= 2:
                         loaded_cubes.append(iris.load_raw(filename))
+                        cube_files.append(filename)
 
         else:
             try:
@@ -120,5 +131,7 @@ def load_from_filelist(data_filelist, filetype, constraint=None):
                     if cube.ndim >= 2:
                         loaded_cubes.append(iris.load_raw(filename,
                                                           constraint))
-
-    return loaded_cubes
+                        cube_files.append(filename)
+    loaded_cubes.sort(key=_sort_by_earliest_date)
+    cube_files.sort(key=_file_sort_by_earliest_date)
+    return loaded_cubes, cube_files
