@@ -1,5 +1,6 @@
 import iris
 import glob
+import os
 from cube_helper.cube_equaliser import (_file_sort_by_earliest_date,
                                         _sort_by_earliest_date,
                                         equalise_attributes,
@@ -10,14 +11,18 @@ from cube_helper.cube_equaliser import (_file_sort_by_earliest_date,
                                         remove_attributes)
 
 def test_equalise_attributes():
-    filepaths = glob.glob('test_data/air_temp/*.pp')
+    path = os.path.dirname(os.path.abspath(__file__))
+    glob_path = path + '/test_data/air_temp' + '/*.pp'
+    filepaths = glob.glob(glob_path)
     test_load = [iris.load_cube(cube) for cube in filepaths]
     test_load = equalise_attributes(test_load)
     for cubes in test_load:
         assert cubes.attributes == test_load[0].attributes
 
 def test_equalise_time_units():
-    filepaths = glob.glob('test_data/air_temp/*.pp')
+    path = os.path.dirname(os.path.abspath(__file__))
+    glob_path = path + '/test_data/air_temp' + '/*.pp'
+    filepaths = glob.glob(glob_path)
     test_load = [iris.load_cube(cube) for cube in filepaths]
     test_load = equalise_time_units(test_load)
     for index, cube in enumerate(test_load):
@@ -27,7 +32,9 @@ def test_equalise_time_units():
                        cube[index-1].units.calendar
 
 def test_remove_attributes():
-    filepaths = glob.glob('test_data/air_temp/*.pp')
+    path = os.path.dirname(os.path.abspath(__file__))
+    glob_path = path + '/test_data/air_temp' + '/*.pp'
+    filepaths = glob.glob(glob_path)
     test_load = [iris.load_cube(cube) for cube in filepaths]
     remove_attributes(test_load)
     keys = list(test_load[0].attributes.keys())
@@ -36,7 +43,9 @@ def test_remove_attributes():
             assert cube.attributes[key] == ''
 
 def test_equalise_data_type():
-    filepaths = glob.glob('test_data/air_temp/*.pp')
+    path = os.path.dirname(os.path.abspath(__file__))
+    glob_path = path + '/test_data/air_temp' + '/*.pp'
+    filepaths = glob.glob(glob_path)
     test_load = [iris.load_cube(cube) for cube in filepaths]
     equalise_data_type(test_load)
     for cube in test_load:
@@ -52,7 +61,9 @@ def test_equalise_data_type():
         assert cube.dtype == 'int64'
 
 def test_equalise_dim_coords():
-    filepaths = glob.glob('test_data/air_temp/*.pp')
+    path = os.path.dirname(os.path.abspath(__file__))
+    glob_path = path + '/test_data/air_temp' + '/*.pp'
+    filepaths = glob.glob(glob_path)
     test_load = [iris.load_cube(cube) for cube in filepaths]
     test_load = equalise_dim_coords(test_load)
     for cube in test_load:
