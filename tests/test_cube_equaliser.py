@@ -1,7 +1,8 @@
 import unittest
 import iris
 import glob
-from cube_helper.cube_equaliser import (_sort_by_earliest_date,
+from cube_helper.cube_equaliser import (_file_sort_by_earliest_date,
+                                        _sort_by_earliest_date,
                                         equalise_attributes,
                                         equalise_time_units,
                                         equalise_aux_coords,
@@ -104,8 +105,8 @@ class TestCubeEqualiser(unittest.TestCase):
     def test_file_sort_by_earliest_date(self):
         filepaths = glob.glob('/project/champ/data/cmip5/output1/ICHEC/EC-EARTH/'
                              'rcp85/mon/atmos/Amon/r1i1p1/v20171115/tas/*.nc')
+        filepaths.sort(key=_file_sort_by_earliest_date)
         test_load = [iris.load_cube(cube) for cube in filepaths]
-        test_load.sort(key=_sort_by_earliest_date)
         self.assertEqual(test_load[0].dim_coords[0].units.origin,
                          'days since 2006-01-01 00:00:00')
         self.assertEqual(test_load[1].dim_coords[0].units.origin,
