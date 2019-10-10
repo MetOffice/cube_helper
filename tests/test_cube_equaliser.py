@@ -1,5 +1,5 @@
 import iris
-import glob
+from glob import glob
 import os
 from cube_helper.cube_equaliser import (_file_sort_by_earliest_date,
                                         _sort_by_earliest_date,
@@ -11,18 +11,18 @@ from cube_helper.cube_equaliser import (_file_sort_by_earliest_date,
                                         remove_attributes)
 
 def test_equalise_attributes():
-    path = os.path.dirname(os.path.abspath(__file__))
-    glob_path = path + '/test_data/air_temp' + '/*.pp'
-    filepaths = glob.glob(glob_path)
+    abs_path = os.path.dirname(os.path.abspath(__file__))
+    glob_path = abs_path + '/test_data/air_temp' + '/*.pp'
+    filepaths = glob(glob_path)
     test_load = [iris.load_cube(cube) for cube in filepaths]
     test_load = equalise_attributes(test_load)
     for cubes in test_load:
         assert cubes.attributes == test_load[0].attributes
 
 def test_equalise_time_units():
-    path = os.path.dirname(os.path.abspath(__file__))
-    glob_path = path + '/test_data/air_temp' + '/*.pp'
-    filepaths = glob.glob(glob_path)
+    abs_path = os.path.dirname(os.path.abspath(__file__))
+    glob_path = abs_path + '/test_data/air_temp' + '/*.pp'
+    filepaths = glob(glob_path)
     test_load = [iris.load_cube(cube) for cube in filepaths]
     test_load = equalise_time_units(test_load)
     for index, cube in enumerate(test_load):
@@ -32,9 +32,9 @@ def test_equalise_time_units():
                        cube[index-1].units.calendar
 
 def test_remove_attributes():
-    path = os.path.dirname(os.path.abspath(__file__))
-    glob_path = path + '/test_data/air_temp' + '/*.pp'
-    filepaths = glob.glob(glob_path)
+    abs_path = os.path.dirname(os.path.abspath(__file__))
+    glob_path = abs_path + '/test_data/air_temp' + '/*.pp'
+    filepaths = glob(glob_path)
     test_load = [iris.load_cube(cube) for cube in filepaths]
     remove_attributes(test_load)
     keys = list(test_load[0].attributes.keys())
@@ -43,9 +43,9 @@ def test_remove_attributes():
             assert cube.attributes[key] == ''
 
 def test_equalise_data_type():
-    path = os.path.dirname(os.path.abspath(__file__))
-    glob_path = path + '/test_data/air_temp' + '/*.pp'
-    filepaths = glob.glob(glob_path)
+    abs_path = os.path.dirname(os.path.abspath(__file__))
+    glob_path = abs_path + '/test_data/air_temp' + '/*.pp'
+    filepaths = glob(glob_path)
     test_load = [iris.load_cube(cube) for cube in filepaths]
     equalise_data_type(test_load)
     for cube in test_load:
@@ -61,9 +61,9 @@ def test_equalise_data_type():
         assert cube.dtype == 'int64'
 
 def test_equalise_dim_coords():
-    path = os.path.dirname(os.path.abspath(__file__))
-    glob_path = path + '/test_data/air_temp' + '/*.pp'
-    filepaths = glob.glob(glob_path)
+    abs_path = os.path.dirname(os.path.abspath(__file__))
+    glob_path = abs_path + '/test_data/air_temp' + '/*.pp'
+    filepaths = glob(glob_path)
     test_load = [iris.load_cube(cube) for cube in filepaths]
     test_load = equalise_dim_coords(test_load)
     for cube in test_load:
@@ -71,7 +71,7 @@ def test_equalise_dim_coords():
         assert cube.dim_coords[1].name() == 'longitude'
 
 def test_equalise_aux_coords():
-    filepaths = glob.glob('/project/champ/data/cmip5/output1/ICHEC/EC-EARTH/'
+    filepaths = glob('/project/champ/data/cmip5/output1/ICHEC/EC-EARTH/'
                          'rcp85/mon/atmos/Amon/r1i1p1/v20171115/tas/*.nc')
     test_load = [iris.load_cube(cube) for cube in filepaths]
     test_load = equalise_aux_coords(test_load)
@@ -80,7 +80,7 @@ def test_equalise_aux_coords():
         assert 'height' not in coords_list
 
 def test_sort_by_earliest_date():
-    filepaths = glob.glob('/project/champ/data/cmip5/output1/ICHEC/EC-EARTH/'
+    filepaths = glob('/project/champ/data/cmip5/output1/ICHEC/EC-EARTH/'
                          'rcp85/mon/atmos/Amon/r1i1p1/v20171115/tas/*.nc')
     test_load = [iris.load_cube(cube) for cube in filepaths]
     test_load = iris.cube.CubeList(test_load)
@@ -109,7 +109,7 @@ def test_sort_by_earliest_date():
            'days since 2100-1-1'
 
 def test_file_sort_by_earliest_date():
-    filepaths = glob.glob('/project/champ/data/cmip5/output1/ICHEC/EC-EARTH/'
+    filepaths = glob('/project/champ/data/cmip5/output1/ICHEC/EC-EARTH/'
                          'rcp85/mon/atmos/Amon/r1i1p1/v20171115/tas/*.nc')
     filepaths.sort(key=_file_sort_by_earliest_date)
     test_load = [iris.load_cube(cube) for cube in filepaths]

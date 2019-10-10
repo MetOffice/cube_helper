@@ -5,9 +5,8 @@ import numpy as np
 import cf_units
 from datetime import datetime
 from collections import namedtuple
-
-
 import re
+
 
 def _file_sort_by_earliest_date(cube_filename):
     for time_coord in iris.load_cube(cube_filename).coords():
