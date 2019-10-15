@@ -1,4 +1,4 @@
-from cube_helper.cube_help import cube_load, add_catergorical, _add_catergorical
+from cube_helper.cube_help import cube_load, add_catergorical, _add_catergorical, safe_concatenate
 from cube_helper.cube_loader import load_from_dir, load_from_filelist
 from cube_helper.cube_equaliser import (examine_dim_bounds,
                                         equalise_time_units,

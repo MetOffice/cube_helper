@@ -1,6 +1,6 @@
 import iris
 import iris.coord_categorisation
-import six
+from six import string_types
 from cube_helper.cube_loader import load_from_filelist, load_from_dir
 from cube_helper.cube_equaliser import compare_cubes, examine_dim_bounds
 
@@ -10,7 +10,7 @@ def cube_load(directory, filetype='.nc', constraints=None):
     directory = directory
     filetype = filetype
     constraints = constraints
-    if isinstance(directory, six.string_types):
+    if isinstance(directory, string_types):
         loaded_cubes, cube_files = load_from_dir(
             directory, filetype, constraints)
         if not loaded_cubes:
@@ -41,59 +41,80 @@ def cube_load(directory, filetype='.nc', constraints=None):
                 examine_dim_bounds(result, cube_files)
             return result
 
-def _add_catergorical(name, cube, coord):
-    if name == 'season_year':
+def _add_catergorical(cater_name, cube, coord, season, seasons):
+
+    if cater_name == 'season_year':
         iris.coord_categorisation.add_season_year(
             cube, coord, name='season_year')
-    elif name == 'season_membership':
+
+    elif cater_name == 'season_membership':
         iris.coord_categorisation.add_season_membership(
-            cube, coord, name='season_membership')
-    elif name == 'season_number':
+            cube, coord, name='season_membership',
+            season=season)
+
+    elif cater_name == 'season_number' or cater_name == 'number':
         iris.coord_categorisation.add_season_number(
-            cube, coord, name='number')
-    elif name == 'clim_season':
+            cube, coord, name='season_number',
+            seasons=seasons)
+
+    elif cater_name == 'clim_season' or cater_name =='season':
         iris.coord_categorisation.add_season(
-            cube, coord, name='clim_season')
-    elif name == 'year':
-        iris.coord_catergorisation.add_year(
+            cube, coord, name='season', seasons=seasons)
+
+    elif cater_name == 'year':
+        iris.coord_categorisation.add_year(
             cube, coord, name='year')
-    elif name == 'month_number':
-        iris.coord_catergorisation.add_month_number(
+
+    elif cater_name == 'month_number':
+        iris.coord_categorisation.add_month_number(
             cube, coord, name='month_number')
-    elif name == 'month_fullname':
-        iris.coord_catergorisation.add_month_fullname(
+
+    elif cater_name == 'month_fullname':
+        iris.coord_categorisation.add_month_fullname(
             cube, coord, name='month_fullname')
-    elif name == 'month':
-        iris.coord_catergorisation.add_month(
+
+    elif cater_name == 'month':
+        iris.coord_categorisation.add_month(
             cube, coord, name='month')
-    elif name == 'day_of_the_month':
-        iris.coord_catergorisation.add_day_of_the_month(
-            cube, coord, name='day_of_the_month')
-    elif name == 'day_of_the_year':
-        iris.coord_catergorisation.add_day_of_the_year(
-            cube, coord, name='day_of_the_year')
-    elif name == 'weekday_number':
-        iris.coord_catergorisation.add_weekday_number(
+
+    elif cater_name == 'day_of_month':
+        iris.coord_categorisation.add_day_of_month(
+            cube, coord, name='day_of_month')
+
+    elif cater_name == 'day_of_year':
+        iris.coord_categorisation.add_day_of_year(
+            cube, coord, name='day_of_year')
+
+    elif cater_name == 'weekday_number':
+        iris.coord_categorisation.add_weekday_number(
             cube, coord, name='weekday_number')
-    elif name == 'weekday_fullname':
-        iris.coord_catergorisation.add_weekday_fullname(
+
+    elif cater_name == 'weekday_fullname':
+        iris.coord_categorisation.add_weekday_fullname(
             cube, coord, name='weekday_fullname')
-    elif name == 'weekday':
-        iris.coord_catergorisation.add_weekday(
+
+    elif cater_name == 'weekday':
+        iris.coord_categorisation.add_weekday(
             cube, coord, name='weekday')
-    elif name == 'hour':
-        iris.coord_catergorisation.add_hour(
+
+    elif cater_name == 'hour':
+        iris.coord_categorisation.add_hour(
             cube, coord, name='hour')
 
-def add_catergorical(cubes, name, coord='time'):
+    else:
+        pass
+def add_catergorical(cater_name, cubes, coord='time', season='djf'
+                     , seasons=('djf', 'mam', 'jja', 'son')):
 
-    if isinstance(cubes, iris.cube.CubeList):
+    if isinstance(cubes, iris.cube.CubeList) or isinstance(cubes, list):
         for cube in cubes:
-            _add_catergorical(name, cube, coord)
+            _add_catergorical(cater_name, cube,
+                              coord, season, seasons)
         return cubes
 
     else:
-        _add_catergorical(name, cubes, coord)
+        _add_catergorical(cater_name, cubes,
+                          coord, season, seasons)
         return cubes
 
 def safe_concatenate(cubes):
