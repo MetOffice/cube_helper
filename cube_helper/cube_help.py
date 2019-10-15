@@ -95,3 +95,9 @@ def add_catergorical(cubes, name, coord='time'):
     else:
         _add_catergorical(name, cubes, coord)
         return cubes
+
+def safe_concatenate(cubes):
+    cube_list = compare_cubes(iris.cube.CubeList(cubes))
+    cube = cube_list.concatenate_cube()
+    return cube
+
