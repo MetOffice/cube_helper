@@ -62,7 +62,7 @@ def load_from_dir(directory, filetype, constraint=None):
                 cube_files.append(path)
             except (MergeError, ConstraintMismatchError):
                 for cube in iris.load_raw(path):
-                    if cube.ndim >= 2:
+                    if isinstance(cube.standard_name, str):
                         loaded_cubes.append(cube)
                         cube_files.append(path)
         loaded_cubes.sort(key=_sort_by_earliest_date)
@@ -78,7 +78,7 @@ def load_from_dir(directory, filetype, constraint=None):
                 cube_files.append(path)
             except (MergeError, ConstraintMismatchError):
                 for cube in iris.load_raw(path, constraint):
-                    if cube.ndim >= 2:
+                    if isinstance(cube.standard_name, str):
                         loaded_cubes.append(cube)
                         cube_files.append(path)
         loaded_cubes.sort(key=_sort_by_earliest_date)
