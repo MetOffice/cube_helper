@@ -31,6 +31,7 @@ def cube_load(directory, filetype='.nc', constraints=None):
         else:
             compare_cubes(loaded_cubes)
             result = equalise_all(loaded_cubes)
+            result = iris.cube.CubeList(result)
             try:
                 result = result.concatenate_cube()
             except iris.exceptions.ConcatenateError:
@@ -114,8 +115,9 @@ def add_catergorical(cater_name, cubes, coord='time', season='djf'
                           coord, season, seasons)
         return cubes
 
-def safe_concatenate(cubes):
-    cube_list = compare_cubes(iris.cube.CubeList(cubes))
+def concatenate(cubes):
+    compare_cubes(cubes)
+    cube_list = iris.cube.CubeList(equalise_all(cubes))
     cube = cube_list.concatenate_cube()
     return cube
 
