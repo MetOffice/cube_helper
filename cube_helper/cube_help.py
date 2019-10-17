@@ -2,21 +2,18 @@ import iris
 import iris.coord_categorisation
 from six import string_types
 from cube_helper.cube_loader import load_from_filelist, load_from_dir
-from cube_helper.cube_equaliser import compare_cubes, examine_dim_bounds
+from cube_helper.cube_equaliser import compare_cubes, examine_dim_bounds, equalise_all
 
 
 def cube_load(directory, filetype='.nc', constraints=None):
-
-    directory = directory
-    filetype = filetype
-    constraints = constraints
     if isinstance(directory, string_types):
         loaded_cubes, cube_files = load_from_dir(
             directory, filetype, constraints)
         if not loaded_cubes:
             return "No cubes found".format()
         else:
-            result = compare_cubes(loaded_cubes)
+            compare_cubes(loaded_cubes)
+            result = equalise_all(loaded_cubes)
             result = iris.cube.CubeList(result)
             try:
                 result = result.concatenate_cube()
@@ -32,8 +29,8 @@ def cube_load(directory, filetype='.nc', constraints=None):
         if not loaded_cubes:
             return "No cubes found".format()
         else:
-            result = compare_cubes(loaded_cubes)
-            result = iris.cube.CubeList(result)
+            compare_cubes(loaded_cubes)
+            result = equalise_all(loaded_cubes)
             try:
                 result = result.concatenate_cube()
             except iris.exceptions.ConcatenateError:
@@ -100,9 +97,9 @@ def _add_catergorical(cater_name, cube, coord, season, seasons):
     elif cater_name == 'hour':
         iris.coord_categorisation.add_hour(
             cube, coord, name='hour')
-
     else:
         pass
+
 def add_catergorical(cater_name, cubes, coord='time', season='djf'
                      , seasons=('djf', 'mam', 'jja', 'son')):
 
