@@ -40,7 +40,7 @@ def _sort_by_earliest_date(cube):
             return current_cube_date
 
 
-def equalise_attributes(cubes):
+def equalise_attributes(cubes, comp_only=False):
     """
     Equalises Cubes for concatenation and merging, cycles through the cube_
     Dataset (CubeList) attribute and removes any that are not common across
@@ -67,15 +67,19 @@ def equalise_attributes(cubes):
         for key in list(cube.attributes.keys()):
             if key not in common_keys:
                 uncommon_keys.append(key)
-                del cube.attributes[key]
+                if not comp_only:
+                    del cube.attributes[key]
 
     uncommon_keys = list(dict.fromkeys(uncommon_keys))
     for key in uncommon_keys:
-        print("\tDeleting {} attribute from cubes\n".format(key))
+        if not comp_only:
+            print("Deleting {} attribute from cubes\n".format(key))
+        else:
+            print("\t{} attribute inconsistent\n".format(key))
 
     return cubes
 
-def equalise_time_units(cubes):
+def equalise_time_units(cubes, comp_only=False):
     """
     Equalises time units by cycling through each cube in the given CubeList.
 
@@ -85,20 +89,36 @@ def equalise_time_units(cubes):
     Returns:
         cubes with time coordinates unified.
     """
+    comp_messages = set({})
     epochs = {}
+    calendar = None
     origin = None
     for cube in cubes:
         for time_coord in cube.coords():
             if time_coord.units.is_time_reference():
-                epoch = epochs.setdefault(time_coord.units.calendar,
+                if comp_only:
+                    if not calendar:
+                        calendar = time_coord.units.calendar
+                        origin = time_coord.units.origin
+                    if time_coord.units.calendar != calendar:
+                        comp_messages.add("\tcalendar format inconsistent\n")
+                    if time_coord.units.origin != origin:
+                        comp_messages.add("\ttime start date inconsistent\n")
+                    break
+                else:
+                    epoch = epochs.setdefault(time_coord.units.calendar,
                                           time_coord.units.origin)
 
-                new_unit = cf_units.Unit(epoch, time_coord.units.calendar)
-                time_coord.convert_units(new_unit)
-                origin = time_coord.units.calendar
-    print("\t New time origin set to {}\n".format(epoch))
-    print("\t New time calender set to {}\n".format(origin))
-
+                    new_unit = cf_units.Unit(epoch, time_coord.units.calendar)
+                    time_coord.convert_units(new_unit)
+                    calendar = time_coord.units.calendar
+                    origin = time_coord.units.origin
+    if comp_messages:
+        for message in comp_messages:
+            print(message)
+    else:
+        print("New time origin set to {}\n".format(origin))
+        print("New time calender set to {}\n".format(calendar))
     return cubes
 
 def equalise_data_type(cubes, data_type='float32'):
@@ -128,7 +148,7 @@ def equalise_data_type(cubes, data_type='float32'):
         print("invalid data type")
 
 
-def equalise_dim_coords(cubes):
+def equalise_dim_coords(cubes, comp_only=False):
     """
     Equalises dimensional coordinates of cubes, specifically long_name,
     standard_name, and var_name.
@@ -139,16 +159,29 @@ def equalise_dim_coords(cubes):
     Returns:
         Cubes equalised across `dim_coord.
     """
+    comp_messages = set({})
     for cube in cubes:
         for dim_coord in cube.dim_coords:
-            coord_name = dim_coord.name()
-            dim_coord.standard_name = coord_name
-            dim_coord.long_name = coord_name
-            dim_coord.var_name = coord_name
+            if comp_only:
+                coord = dim_coord.name()
+                if dim_coord.standard_name != coord:
+                    comp_messages.add("\t{} coords inconsistent\n".format(coord))
+                if dim_coord.long_name != coord:
+                    comp_messages.add("\t{} coords inconsistent\n".format(coord))
+                if dim_coord.var_name != coord:
+                    comp_messages.add("\t{} coords inconsistent\n".format(coord))
+            else:
+                coord = dim_coord.name()
+                dim_coord.standard_name = coord
+                dim_coord.long_name = coord
+                dim_coord.var_name = coord
 
+    if comp_messages:
+        for message in comp_messages:
+            print(message)
     return cubes
 
-def equalise_aux_coords(cubes):
+def equalise_aux_coords(cubes, comp_only=False):
     """
     Equalises auxillary coordinates of cubes.
 
@@ -158,6 +191,7 @@ def equalise_aux_coords(cubes):
     Returns:
         Cubes equalised across auxillary coordinates.
     """
+    comp_messages = set({})
     for cube_a in cubes:
         for cube_b in cubes:
             if cube_a.coords() != cube_b.coords():
@@ -166,12 +200,21 @@ def equalise_aux_coords(cubes):
                 common_coords = list(cube_a_coords.intersection(cube_b_coords))
                 for coord in list(cube_a_coords):
                     if coord not in common_coords:
-                        print("\tremoving {} coords from cube\n".format(coord))
-                        cube_a.remove_coord(coord)
+                        if comp_only:
+                            comp_messages.add("\t{} coords inconsistent\n".format(coord))
+                        else:
+                            print("Removing {} coords from cube\n".format(coord))
+                            cube_a.remove_coord(coord)
                 for coord in list(cube_b_coords):
                     if coord not in common_coords:
-                        print("\tremoving {} coords from cube\n".format(coord))
-                        cube_b.remove_coord(coord)
+                        if comp_only:
+                            comp_messages.add("\t{} coords inconsistent\n".format(coord))
+                        else:
+                            print("Removing {} coords from cube\n".format(coord))
+                            cube_b.remove_coord(coord)
+    if comp_messages:
+        for message in comp_messages:
+            print(message)
     return cubes
 
 def remove_attributes(cubes):
@@ -188,6 +231,13 @@ def remove_attributes(cubes):
     for cube in cubes:
         for attr in cube.attributes:
             cube.attributes[attr] = ''
+
+def equalise_all(cubes):
+    cubes = equalise_aux_coords(cubes)
+    cubes = equalise_attributes(cubes)
+    cubes = equalise_dim_coords(cubes)
+    cubes = equalise_time_units(cubes)
+    return cubes
 
 def compare_cubes(cubes):
 
@@ -233,24 +283,20 @@ def compare_cubes(cubes):
         sys.exit(2)
 
     if uneq_aux_coords:
-        print("\ncube aux coordinates differ,"
-              " equalising...\n")
-        equalise_aux_coords(cubes)
+        print("\ncube aux coordinates differ: \n")
+        equalise_aux_coords(cubes, comp_only=True)
 
     if uneq_dim_coords:
-        equalise_dim_coords(cubes)
+        print("\ncube dim coordinates differ: \n")
+        equalise_dim_coords(cubes, comp_only=True)
 
     if uneq_attr:
-        print("cube attributes differ,"
-              " equalising...\n")
-        equalise_attributes(cubes)
+        print("cube attributes differ: \n")
+        equalise_attributes(cubes, comp_only=True)
 
     if uneq_time_coords:
-        print("cube time coordinates differ,"
-              "equalising...\n")
-        equalise_time_units(cubes)
-
-    return cubes
+        print("cube time coordinates differ: \n")
+        equalise_time_units(cubes, comp_only=True)
 
 def examine_dim_bounds(cubes, cube_files):
     Range = namedtuple('Range', ['start', 'end'])
