@@ -1,6 +1,9 @@
 import iris
 from glob import glob
 import os
+import sys
+import contextlib
+from io import StringIO
 from cube_helper.cube_equaliser import (_file_sort_by_earliest_date,
                                         _sort_by_earliest_date,
                                         equalise_attributes,
@@ -8,7 +11,9 @@ from cube_helper.cube_equaliser import (_file_sort_by_earliest_date,
                                         equalise_aux_coords,
                                         equalise_dim_coords,
                                         equalise_data_type,
-                                        remove_attributes)
+                                        remove_attributes,
+                                        compare_cubes,
+                                        equalise_all)
 
 def test_equalise_attributes():
     abs_path = os.path.dirname(os.path.abspath(__file__))
@@ -78,6 +83,41 @@ def test_equalise_aux_coords():
     for cube in test_load:
         coords_list = [c.name() for c in cube.coords()]
         assert 'height' not in coords_list
+
+def test_compare_cubes():
+    filepath = glob('/project/champ/data/CMIP6/CMIP/MOHC/HadGEM3-GC31-LL'
+                    '/piControl/r1i1p1f1/Amon/tasmin/gn/v20190628/*.nc')
+    test_load = [iris.load_cube(cube) for cube in filepath]
+    out = StringIO()
+    with contextlib.redirect_stdout(out):
+        compare_cubes(test_load)
+    output = out.getvalue().strip()
+    expected_output = """cube dim coordinates differ: 
+
+	longitude coords inconsistent
+
+	latitude coords inconsistent
+
+cube attributes differ: 
+
+	creation_date attribute inconsistent
+
+	history attribute inconsistent
+
+	tracking_id attribute inconsistent"""
+
+    assert output == expected_output
+
+def test_equalise_all():
+    filepath = glob('/project/champ/data/CMIP6/CMIP/MOHC/HadGEM3-GC31-LL'
+                    '/piControl/r1i1p1f1/Amon/tasmin/gn/v20190628/*.nc')
+    test_cubes = [iris.load_cube(cube) for cube in filepath]
+    test_cubes = equalise_all(test_cubes)
+    test_attr = list([cube.attributes.keys() for cube in test_cubes])
+    assert "creation_date" not in test_attr
+    assert "history" not in test_attr
+    assert "trackind_id" not in test_attr
+
 
 def test_sort_by_earliest_date():
     filepaths = glob('/project/champ/data/cmip5/output1/ICHEC/EC-EARTH/'
