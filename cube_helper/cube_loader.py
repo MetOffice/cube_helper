@@ -119,8 +119,8 @@ def load_from_filelist(data_filelist, filetype, constraint=None):
                 cube_files.append(filename)
             except (MergeError, ConstraintMismatchError):
                 for cube in iris.load_raw(filename):
-                    if cube.ndim >= 2:
-                        loaded_cubes.append(iris.load_raw(filename))
+                    if isinstance(cube.standard_name, str):
+                        loaded_cubes.append(cube)
                         cube_files.append(filename)
 
         else:
@@ -128,7 +128,7 @@ def load_from_filelist(data_filelist, filetype, constraint=None):
                 loaded_cubes.append(iris.load_cube(filename, constraint))
             except (MergeError, ConstraintMismatchError):
                 for cube in iris.load_raw(filename, constraint):
-                    if cube.ndim >= 2:
+                    if isinstance(cube.standard_name, str):
                         loaded_cubes.append(iris.load_raw(filename,
                                                           constraint))
                         cube_files.append(filename)
