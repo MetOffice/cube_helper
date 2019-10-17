@@ -50,3 +50,4 @@ def test_add_catergorical():
         for cube in test_case_b:
             assert cube.coord(catergorical)
             cube.remove_coord(catergorical)
+
