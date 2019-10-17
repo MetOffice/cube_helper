@@ -1,16 +1,16 @@
 import iris
 import os
-from cube_helper.cube_help import cube_load,safe_concatenate, add_catergorical
+from cube_helper.cube_help import cube_load, concatenate, add_catergorical
 from glob import glob
 
 
-def test_safe_concatenate():
+def tes_concatenate():
     filepaths = glob('/project/champ/data/cmip5/output1/ICHEC/EC-EARTH/'
                          'rcp85/mon/atmos/Amon/r1i1p1/v20171115/tas/*.nc')
     test_load = [iris.load_cube(cube) for cube in filepaths]
-    test_case_a = safe_concatenate(test_load)
+    test_case_a = concatenate(test_load)
     test_load = iris.cube.CubeList(test_load)
-    test_case_b = safe_concatenate(test_load)
+    test_case_b = concatenate(test_load)
     assert isinstance(test_case_a, iris.cube.Cube)
     assert isinstance(test_case_b, iris.cube.Cube)
 
@@ -41,13 +41,13 @@ def test_add_catergorical():
                           "weekday_number", "weekday_fullname",
                           "weekday", "hour"]
     for catergorical in test_catergoricals:
-        test_case_a = add_catergorical(test_case_a, catergorical)
+        test_case_a = add_catergorical(catergorical, test_case_a)
         assert test_case_a.coord(catergorical)
         test_case_a.remove_coord(catergorical)
 
     for catergorical in test_catergoricals:
-        test_case_b = add_catergorical(test_case_b, catergorical)
         for cube in test_case_b:
+            cube = add_catergorical(catergorical, cube)
             assert cube.coord(catergorical)
             cube.remove_coord(catergorical)
 
