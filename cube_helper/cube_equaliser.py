@@ -9,6 +9,17 @@ import re
 
 
 def _file_sort_by_earliest_date(cube_filename):
+    """
+    Sorts file names by date from earliest to latest.
+
+    Args:
+        cube_filename: list of files in string format to sort,
+        to be used with CubeList sort method when cube_load is called
+
+    Returns:
+        datetime object of selected cubes start time.
+    """
+
     if isinstance(iris.load_raw(cube_filename), iris.cube.CubeList):
         for cube in iris.load_raw(cube_filename):
             if isinstance(cube.standard_name, str):
@@ -36,7 +47,7 @@ def _sort_by_earliest_date(cube):
 
     Args:
         cube: CubeList or list to sort, to be used with CubeList
-                sort method on instantiation of CubeHelp object.
+        sort method when cube_load is called.
 
     Returns:
         datetime object of selected cubes start time.
@@ -59,7 +70,11 @@ def equalise_attributes(cubes, comp_only=False):
     all cubes, metadata, and variables.
 
     Args:
-        cubes: Cubes to be equalised of attributes
+        cubes: Cubes to be equalised of attributes.
+
+        comp_only: A boolean value, if set to True it will examine
+        the cubes attributes and print inconsistencies
+        but not equalise them.
 
     Returns:
         Equalised cube_dataset to the CubeHelp class
@@ -97,6 +112,10 @@ def equalise_time_units(cubes, comp_only=False):
 
     Args:
         cubes: Cubes to equalised of time coords.
+
+        comp_only: A boolean value, if set to True it will examine
+        the cubes time_coordinates and print inconsistencies but not
+        equalise them
 
     Returns:
         cubes with time coordinates unified.
@@ -141,6 +160,7 @@ def equalise_data_type(cubes, data_type='float32'):
         cubes: Cubes to have their datatypes equalised.
         data_type: String specifying datatype, default is float32
 
+
     Returns:
         cubes: Cubes with their data types identical.
     """
@@ -167,6 +187,10 @@ def equalise_dim_coords(cubes, comp_only=False):
 
     Args:
         cubes: CubeList or list of cubes to equalise.
+
+        comp_only: A boolean value, if set to True it will examine
+        the cubes dimension coordinates and print inconsistencies
+        but not equalise them.
 
     Returns:
         Cubes equalised across `dim_coord.
@@ -199,6 +223,10 @@ def equalise_aux_coords(cubes, comp_only=False):
 
     Args:
         cubes: CubeList or list of cubes to equalise.
+
+        comp_only: A boolean value, if set to True it will examine
+        the cubes aux coordinates and print inconsistencies
+        but not equalise them.
 
     Returns:
         Cubes equalised across auxillary coordinates.
