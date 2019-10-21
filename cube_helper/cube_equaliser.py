@@ -29,7 +29,8 @@ def _file_sort_by_earliest_date(cube_filename):
                         time_origin = re.sub('[a-zA-Z]', '', time_origin)
                         time_origin = time_origin.strip(' ')
                         time_origin = time_origin.strip(" 00:00:00")
-                        current_cube_date = datetime.strptime(time_origin, '%Y-%m-%d')
+                        current_cube_date = datetime.strptime(time_origin,
+                                                              '%Y-%m-%d')
                         return current_cube_date
     else:
         for time_coord in iris.load_cube(cube_filename).coords():
@@ -40,6 +41,7 @@ def _file_sort_by_earliest_date(cube_filename):
                 time_origin = time_origin.strip(" 00:00:00")
                 current_cube_date = datetime.strptime(time_origin, '%Y-%m-%d')
                 return current_cube_date
+
 
 def _sort_by_earliest_date(cube):
     """
@@ -107,6 +109,7 @@ def equalise_attributes(cubes, comp_only=False):
 
     return cubes
 
+
 def equalise_time_units(cubes, comp_only=False):
     """
     Equalises time units by cycling through each cube in the given CubeList
@@ -140,7 +143,7 @@ def equalise_time_units(cubes, comp_only=False):
                     break
                 else:
                     epoch = epochs.setdefault(time_coord.units.calendar,
-                                          time_coord.units.origin)
+                                              time_coord.units.origin)
 
                     new_unit = cf_units.Unit(epoch, time_coord.units.calendar)
                     time_coord.convert_units(new_unit)
@@ -153,6 +156,7 @@ def equalise_time_units(cubes, comp_only=False):
         print("New time origin set to {}\n".format(origin))
         print("New time calender set to {}\n".format(calendar))
     return cubes
+
 
 def equalise_data_type(cubes, data_type='float32'):
     """
@@ -203,11 +207,14 @@ def equalise_dim_coords(cubes, comp_only=False):
             if comp_only:
                 coord = dim_coord.name()
                 if dim_coord.standard_name != coord:
-                    comp_messages.add("\t{} coords inconsistent\n".format(coord))
+                    comp_messages.add("\t{} coords inconsistent\n".
+                                      format(coord))
                 if dim_coord.long_name != coord:
-                    comp_messages.add("\t{} coords inconsistent\n".format(coord))
+                    comp_messages.add("\t{} coords inconsistent\n".
+                                      format(coord))
                 if dim_coord.var_name != coord:
-                    comp_messages.add("\t{} coords inconsistent\n".format(coord))
+                    comp_messages.add("\t{} coords inconsistent\n".
+                                      format(coord))
             else:
                 coord = dim_coord.name()
                 dim_coord.standard_name = coord
@@ -218,6 +225,7 @@ def equalise_dim_coords(cubes, comp_only=False):
         for message in comp_messages:
             print(message)
     return cubes
+
 
 def equalise_aux_coords(cubes, comp_only=False):
     """
@@ -243,21 +251,26 @@ def equalise_aux_coords(cubes, comp_only=False):
                 for coord in list(cube_a_coords):
                     if coord not in common_coords:
                         if comp_only:
-                            comp_messages.add("\t{} coords inconsistent\n".format(coord))
+                            comp_messages.add("\t{} coords inconsistent\n".
+                                              format(coord))
                         else:
-                            print("Removing {} coords from cube\n".format(coord))
+                            print("Removing {} coords from cube\n".
+                                  format(coord))
                             cube_a.remove_coord(coord)
                 for coord in list(cube_b_coords):
                     if coord not in common_coords:
                         if comp_only:
-                            comp_messages.add("\t{} coords inconsistent\n".format(coord))
+                            comp_messages.add("\t{} coords inconsistent\n".
+                                              format(coord))
                         else:
-                            print("Removing {} coords from cube\n".format(coord))
+                            print("Removing {} coords from cube\n".
+                                  format(coord))
                             cube_b.remove_coord(coord)
     if comp_messages:
         for message in comp_messages:
             print(message)
     return cubes
+
 
 def remove_attributes(cubes):
     """
@@ -273,6 +286,7 @@ def remove_attributes(cubes):
     for cube in cubes:
         for attr in cube.attributes:
             cube.attributes[attr] = ''
+
 
 def equalise_all(cubes):
     """
@@ -293,6 +307,7 @@ def equalise_all(cubes):
     cubes = equalise_dim_coords(cubes)
     cubes = equalise_time_units(cubes)
     return cubes
+
 
 def compare_cubes(cubes):
     """
@@ -342,7 +357,6 @@ def compare_cubes(cubes):
                             uneq_time_coords = True
                             break
 
-
     if uneq_ndim:
         print("\n Number of dimensions for cubes differ,"
               "please load cubes of matching ndim")
@@ -364,6 +378,7 @@ def compare_cubes(cubes):
         print("cube time coordinates differ: \n")
         equalise_time_units(cubes, comp_only=True)
 
+
 def examine_dim_bounds(cubes, cube_files):
     """
     Examines the dimensional bounds of time should concatenate fail.
@@ -381,14 +396,17 @@ def examine_dim_bounds(cubes, cube_files):
     for i, cube_a in enumerate(cubes):
         for j, cube_b in enumerate(cubes):
             if i != j:
-                range_a = Range(start=cube_a.coord('time').bounds[0][0], end=cube_a.coord('time').bounds[-1][-1])
-                range_b = Range(start=cube_b.coord('time').bounds[0][0], end=cube_b.coord('time').bounds[-1][-1])
+                range_a = Range(start=cube_a.coord('time').bounds[0][0],
+                                end=cube_a.coord('time').bounds[-1][-1])
+                range_b = Range(start=cube_b.coord('time').bounds[0][0],
+                                end=cube_b.coord('time').bounds[-1][-1])
                 latest_start = max(range_a.start, range_b.start)
                 earliest_end = min(range_a.end, range_b.end)
                 delta = earliest_end - latest_start
                 overlap = max(0, delta)
                 if overlap > 0:
-                    print("\nThe time coordinates overlap at cube {} and cube {}".format(i, j))
-                    print("\nThese cubes are: \n\t{}\n\t{}".format(cube_files[i], cube_files[j]))
+                    print("\nThe time coordinates overlap at cube {}"
+                          " and cube {}".format(i, j))
+                    print("\nThese cubes are: \n\t{}\n\t{}".
+                          format(cube_files[i], cube_files[j]))
                     break
-
