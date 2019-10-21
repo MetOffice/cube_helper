@@ -2,7 +2,9 @@ import iris
 import iris.coord_categorisation
 from six import string_types
 from cube_helper.cube_loader import load_from_filelist, load_from_dir
-from cube_helper.cube_equaliser import compare_cubes, examine_dim_bounds, equalise_all
+from cube_helper.cube_equaliser import (compare_cubes,
+                                        examine_dim_bounds,
+                                        equalise_all)
 
 
 def cube_load(directory, filetype='.nc', constraints=None):
@@ -53,6 +55,7 @@ def cube_load(directory, filetype='.nc', constraints=None):
                 examine_dim_bounds(result, cube_files)
             return result
 
+
 def _add_categorical(cater_name, cube, coord, season, seasons):
     """
     Private function implementing the logic needed to select different
@@ -72,7 +75,7 @@ def _add_categorical(cater_name, cube, coord, season, seasons):
             cube, coord, name='season_number',
             seasons=seasons)
 
-    elif cater_name == 'clim_season' or cater_name =='season':
+    elif cater_name == 'clim_season' or cater_name == 'season':
         iris.coord_categorisation.add_season(
             cube, coord, name='season', seasons=seasons)
 
@@ -118,8 +121,9 @@ def _add_categorical(cater_name, cube, coord, season, seasons):
     else:
         pass
 
-def add_categorical(cater_name, cubes, coord='time', season='djf'
-                     , seasons=('djf', 'mam', 'jja', 'son')):
+
+def add_categorical(cater_name, cubes, coord='time', season='djf',
+                    seasons=('djf', 'mam', 'jja', 'son')):
     """
     Adds a coordinate catergorisation to the iterable of iris Cubes.
 
@@ -139,13 +143,14 @@ def add_categorical(cater_name, cubes, coord='time', season='djf'
     if isinstance(cubes, iris.cube.CubeList) or isinstance(cubes, list):
         for cube in cubes:
             _add_categorical(cater_name, cube,
-                              coord, season, seasons)
+                             coord, season, seasons)
         return cubes
 
     else:
         _add_categorical(cater_name, cubes,
-                          coord, season, seasons)
+                         coord, season, seasons)
         return cubes
+
 
 def concatenate(cubes):
     """
@@ -163,4 +168,3 @@ def concatenate(cubes):
     cube_list = iris.cube.CubeList(equalise_all(cubes))
     cube = cube_list.concatenate_cube()
     return cube
-

@@ -2,7 +2,8 @@ import os
 import iris
 import glob
 from iris.exceptions import MergeError, ConstraintMismatchError
-from cube_helper.cube_equaliser import _sort_by_earliest_date, _file_sort_by_earliest_date
+from cube_helper.cube_equaliser import (_sort_by_earliest_date,
+                                        _file_sort_by_earliest_date)
 
 
 def _parse_directory(directory):
