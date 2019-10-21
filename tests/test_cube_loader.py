@@ -5,9 +5,7 @@ from cube_helper.cube_loader import (load_from_dir,
                                      _parse_directory)
 
 
-
 def test_load_from_filelist():
-
     abs_path = os.path.dirname(os.path.abspath(__file__))
     filelist = ['test_data/air_temp/air_temp_2.pp',
                 'test_data/air_temp/air_temp_4.pp',
@@ -45,5 +43,6 @@ def test_load_from_dir():
 
 def test_parse_directory():
     directory = 'test_data/air_temp/air_temp_1.pp'
-    assert _parse_directory(directory) == \
-           '/test_data/air_temp/air_temp_1.pp/'
+    assert _parse_directory(directory) == '/test_data/' \
+                                          'air_temp/' \
+                                          'air_temp_1.pp/'
