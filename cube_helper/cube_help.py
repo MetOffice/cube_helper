@@ -6,6 +6,20 @@ from cube_helper.cube_equaliser import compare_cubes, examine_dim_bounds, equali
 
 
 def cube_load(directory, filetype='.nc', constraints=None):
+    """
+    A function that loads and concatenates iris Cubes.
+
+    Args:
+        directory: A String specifying the directory or filename of the Cubes
+        you wish to concatenate. Accepts either directory location or a list
+        or glob object of individual Cubes.
+
+        filetype: Extension of iris Cubes to Load. set to '.nc' by default.
+        constraints: Any constraints to be applied to Cubes on load.
+
+    Returns:
+        result: A concatenated iris Cube.
+    """
     if isinstance(directory, string_types):
         loaded_cubes, cube_files = load_from_dir(
             directory, filetype, constraints)
@@ -39,8 +53,11 @@ def cube_load(directory, filetype='.nc', constraints=None):
                 examine_dim_bounds(result, cube_files)
             return result
 
-def _add_catergorical(cater_name, cube, coord, season, seasons):
-
+def _add_categorical(cater_name, cube, coord, season, seasons):
+    """
+    Private function implementing the logic needed to select different
+    catergorisations for add_categorical()
+    """
     if cater_name == 'season_year':
         iris.coord_categorisation.add_season_year(
             cube, coord, name='season_year')
@@ -101,21 +118,47 @@ def _add_catergorical(cater_name, cube, coord, season, seasons):
     else:
         pass
 
-def add_catergorical(cater_name, cubes, coord='time', season='djf'
+def add_categorical(cater_name, cubes, coord='time', season='djf'
                      , seasons=('djf', 'mam', 'jja', 'son')):
+    """
+    Adds a coordinate catergorisation to the iterable of iris Cubes.
 
+    Args:
+        cater_name: A string specifying the catergorisation you wish to add.
+        cubes: A list of Loaded Cubes or a CubeList.
+        coords: the coordinate you wish to add a catergoisation to. Set
+        to 'time' by default.
+        season: The season you need for the catergorisation (where required).
+        set to 'djf' by default.
+        seasons: The seasons required for catergorisation.
+
+    Returns:
+        cubes: An iterable of Cubes, either a list of loaded Cubes
+        or an iris CubeList.
+    """
     if isinstance(cubes, iris.cube.CubeList) or isinstance(cubes, list):
         for cube in cubes:
-            _add_catergorical(cater_name, cube,
+            _add_categorical(cater_name, cube,
                               coord, season, seasons)
         return cubes
 
     else:
-        _add_catergorical(cater_name, cubes,
+        _add_categorical(cater_name, cubes,
                           coord, season, seasons)
         return cubes
 
 def concatenate(cubes):
+    """
+    Concatentates a list of iris Cubes. Equalises the list of cubes first
+    then concatenates.
+
+    Args:
+         cubes: An iterable of iris Cubes to concatenate, either list of
+         loaded cubes or a CubeList
+
+    Returns:
+        cube: A concatenated iris Cube.
+    """
     compare_cubes(cubes)
     cube_list = iris.cube.CubeList(equalise_all(cubes))
     cube = cube_list.concatenate_cube()
