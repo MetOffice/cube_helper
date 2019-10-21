@@ -1,5 +1,5 @@
 import iris
-from cube_helper.cube_help import cube_load, concatenate, add_catergorical
+from cube_helper.cube_help import cube_load, concatenate, add_categorical
 from glob import glob
 
 
@@ -40,13 +40,13 @@ def test_add_catergorical():
                           "weekday_number", "weekday_fullname",
                           "weekday", "hour"]
     for catergorical in test_catergoricals:
-        test_case_a = add_catergorical(catergorical, test_case_a)
+        test_case_a = add_categorical(catergorical, test_case_a)
         assert test_case_a.coord(catergorical)
         test_case_a.remove_coord(catergorical)
 
     for catergorical in test_catergoricals:
         for cube in test_case_b:
-            cube = add_catergorical(catergorical, cube)
+            cube = add_categorical(catergorical, cube)
             assert cube.coord(catergorical)
             cube.remove_coord(catergorical)
 
