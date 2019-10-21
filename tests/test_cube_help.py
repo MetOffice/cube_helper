@@ -1,5 +1,4 @@
 import iris
-import os
 from cube_helper.cube_help import cube_load, concatenate, add_catergorical
 from glob import glob
 
