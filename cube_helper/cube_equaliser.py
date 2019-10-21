@@ -14,10 +14,10 @@ def _file_sort_by_earliest_date(cube_filename):
 
     Args:
         cube_filename: list of files in string format to sort,
-        to be used with CubeList sort method when cube_load is called
+        to be used with CubeList sort method when cube_load is called.
 
     Returns:
-        datetime object of selected cubes start time.
+        datetime object of selected Cubes start time.
     """
 
     if isinstance(iris.load_raw(cube_filename), iris.cube.CubeList):
@@ -50,7 +50,7 @@ def _sort_by_earliest_date(cube):
         sort method when cube_load is called.
 
     Returns:
-        datetime object of selected cubes start time.
+        datetime object of selected Cubes start time.
     """
 
     for time_coord in cube.coords():
@@ -65,9 +65,10 @@ def _sort_by_earliest_date(cube):
 
 def equalise_attributes(cubes, comp_only=False):
     """
-    Equalises Cubes for concatenation and merging, cycles through the cube_
-    Dataset (CubeList) attribute and removes any that are not common across
-    all cubes, metadata, and variables.
+    Equalises Cubes for concatenation and merging, cycles through the
+    iterable of cubes (either a list of loaded cubes or aan iris CubeList)
+    and removes any that are not common across all cubes, metadata,
+    and variables.
 
     Args:
         cubes: Cubes to be equalised of attributes.
@@ -108,14 +109,15 @@ def equalise_attributes(cubes, comp_only=False):
 
 def equalise_time_units(cubes, comp_only=False):
     """
-    Equalises time units by cycling through each cube in the given CubeList.
+    Equalises time units by cycling through each cube in the given CubeList
+    or list of loaded cubes.
 
     Args:
         cubes: Cubes to equalised of time coords.
 
         comp_only: A boolean value, if set to True it will examine
         the cubes time_coordinates and print inconsistencies but not
-        equalise them
+        equalise them.
 
     Returns:
         cubes with time coordinates unified.
@@ -158,7 +160,7 @@ def equalise_data_type(cubes, data_type='float32'):
 
     Args:
         cubes: Cubes to have their datatypes equalised.
-        data_type: String specifying datatype, default is float32
+        data_type: String specifying datatype, default is float32.
 
 
     Returns:
@@ -182,18 +184,18 @@ def equalise_data_type(cubes, data_type='float32'):
 
 def equalise_dim_coords(cubes, comp_only=False):
     """
-    Equalises dimensional coordinates of cubes, specifically long_name,
+    Equalises dimensional coordinates of Cubes, specifically long_name,
     standard_name, and var_name.
 
     Args:
-        cubes: CubeList or list of cubes to equalise.
+        cubes: CubeList or list of Cubes to equalise.
 
         comp_only: A boolean value, if set to True it will examine
         the cubes dimension coordinates and print inconsistencies
         but not equalise them.
 
     Returns:
-        Cubes equalised across `dim_coord.
+        Cubes equalised across dimension coordinates.
     """
     comp_messages = set({})
     for cube in cubes:
@@ -222,10 +224,10 @@ def equalise_aux_coords(cubes, comp_only=False):
     Equalises auxillary coordinates of cubes.
 
     Args:
-        cubes: CubeList or list of cubes to equalise.
+        cubes: CubeList or list of Cubes to equalise.
 
         comp_only: A boolean value, if set to True it will examine
-        the cubes aux coordinates and print inconsistencies
+        the Cube's aux coordinates and print inconsistencies
         but not equalise them.
 
     Returns:
@@ -266,13 +268,26 @@ def remove_attributes(cubes):
         cubes: Cubes to have attributes stripped.
 
     Returns:
-        cubes with attributes replaced with empty string ''.
+        Cubes with attributes replaced with empty string ''.
     """
     for cube in cubes:
         for attr in cube.attributes:
             cube.attributes[attr] = ''
 
 def equalise_all(cubes):
+    """
+    Invokes equalise_aux_coords, equalise_attributes,
+    equalise_dim_coords and equalise_time units all at once.
+    Used before cube_load concatenates the cubes.
+
+    Args:
+        cubes: Cubes to be equalised.
+
+    Returns:
+        cubes: Cubes equalised across metadata and coords.
+
+
+    """
     cubes = equalise_aux_coords(cubes)
     cubes = equalise_attributes(cubes)
     cubes = equalise_dim_coords(cubes)
@@ -280,7 +295,18 @@ def equalise_all(cubes):
     return cubes
 
 def compare_cubes(cubes):
+    """
+    Examines coordinates and attributes across iterable of iris cubes
+    And calls equalise functions (with comp_only arg set to true) where
+    appropriate.
 
+    Args:
+        cubes: An iterable of iris Cubes or CubeList to be compared
+        for inconsostencies.
+
+    Returns:
+        A printed string detailing the inconsistencies in the cubes.
+    """
     uneq_aux_coords = False
     uneq_dim_coords = False
     uneq_attr = False
@@ -339,6 +365,18 @@ def compare_cubes(cubes):
         equalise_time_units(cubes, comp_only=True)
 
 def examine_dim_bounds(cubes, cube_files):
+    """
+    Examines the dimensional bounds of time should concatenate fail.
+    Cycles through cubes and determines if the times are contiguous.
+
+    Args:
+         cubes: Iris cubes to examine the time bounds of
+         cube_files: the respective files of cubes, to give users
+         info as to what cubes are causing problems with concatentation.
+
+    Returns:
+        A printed string detailing any overlap in the time bounds.
+    """
     Range = namedtuple('Range', ['start', 'end'])
     for i, cube_a in enumerate(cubes):
         for j, cube_b in enumerate(cubes):
