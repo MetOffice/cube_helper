@@ -7,6 +7,7 @@ from cube_helper.cube_equaliser import (examine_dim_bounds,
                                         equalise_dim_coords,
                                         equalise_aux_coords,
                                         equalise_data_type,
+                                        equalise_all,
                                         remove_attributes,
                                         compare_cubes,
                                         _sort_by_earliest_date)
