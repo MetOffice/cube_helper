@@ -5,6 +5,7 @@ import numpy as np
 import cf_units
 from datetime import datetime
 from collections import namedtuple
+import dateutil.parser
 import re
 
 
@@ -29,9 +30,11 @@ def _file_sort_by_earliest_date(cube_filename):
                         time_origin = re.sub('[a-zA-Z]', '', time_origin)
                         time_origin = time_origin.strip(' ')
                         time_origin = time_origin.strip(" 00:00:00")
-                        current_cube_date = datetime.strptime(time_origin,
-                                                              '%Y-%m-%d')
-                        return current_cube_date
+                        time = dateutil.parser.parse(time_origin)
+                        time_origin = time.strftime('%Y-%m-%d')
+                        #current_cube_date = datetime.strptime(time_origin,
+                                                              #'%Y-%m-%d')
+                        return time_origin
     else:
         for time_coord in iris.load_cube(cube_filename).coords():
             if time_coord.units.is_time_reference():
@@ -39,8 +42,11 @@ def _file_sort_by_earliest_date(cube_filename):
                 time_origin = re.sub('[a-zA-Z]', '', time_origin)
                 time_origin = time_origin.strip(' ')
                 time_origin = time_origin.strip(" 00:00:00")
-                current_cube_date = datetime.strptime(time_origin, '%Y-%m-%d')
-                return current_cube_date
+                time = dateutil.parser.parse(time_origin)
+                time_origin = time.strftime('%Y-%m-%d')
+                #current_cube_date = datetime.strptime(time_origin,
+                                                      #'%Y-%m-%d')
+                return time_origin
 
 
 def _sort_by_earliest_date(cube):
@@ -61,8 +67,11 @@ def _sort_by_earliest_date(cube):
             time_origin = re.sub('[a-zA-Z]', '', time_origin)
             time_origin = time_origin.strip(' ')
             time_origin = time_origin.strip(" 00:00:00")
-            current_cube_date = datetime.strptime(time_origin, '%Y-%m-%d')
-            return current_cube_date
+            time = dateutil.parser.parse(time_origin)
+            time_origin = time.strftime('%Y-%m-%d')
+            #current_cube_date = datetime.strptime(time_origin,
+                                                  #'%Y-%m-%d')
+            return time_origin
 
 
 def equalise_attributes(cubes, comp_only=False):
