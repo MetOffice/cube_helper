@@ -32,8 +32,6 @@ def _file_sort_by_earliest_date(cube_filename):
                         time_origin = time_origin.strip(" 00:00:00")
                         time = dateutil.parser.parse(time_origin)
                         time_origin = time.strftime('%Y-%m-%d')
-                        #current_cube_date = datetime.strptime(time_origin,
-                                                              #'%Y-%m-%d')
                         return time_origin
     else:
         for time_coord in iris.load_cube(cube_filename).coords():
@@ -44,8 +42,6 @@ def _file_sort_by_earliest_date(cube_filename):
                 time_origin = time_origin.strip(" 00:00:00")
                 time = dateutil.parser.parse(time_origin)
                 time_origin = time.strftime('%Y-%m-%d')
-                #current_cube_date = datetime.strptime(time_origin,
-                                                      #'%Y-%m-%d')
                 return time_origin
 
 
@@ -69,8 +65,6 @@ def _sort_by_earliest_date(cube):
             time_origin = time_origin.strip(" 00:00:00")
             time = dateutil.parser.parse(time_origin)
             time_origin = time.strftime('%Y-%m-%d')
-            #current_cube_date = datetime.strptime(time_origin,
-                                                  #'%Y-%m-%d')
             return time_origin
 
 
