@@ -3,11 +3,19 @@ import sys
 import iris
 import numpy as np
 import cf_units
-from datetime import datetime
 from collections import namedtuple
 import dateutil.parser
 import re
 
+
+def _sort_by_date(time_coord):
+    time_origin = time_coord.units.origin
+    time_origin = re.sub('[a-zA-Z]', '', time_origin)
+    time_origin = time_origin.strip(' ')
+    time_origin = time_origin.strip(" 00:00:00")
+    time = dateutil.parser.parse(time_origin)
+    time_origin = time.strftime('%Y-%m-%d')
+    return time_origin
 
 def _file_sort_by_earliest_date(cube_filename):
     """
@@ -26,22 +34,12 @@ def _file_sort_by_earliest_date(cube_filename):
             if isinstance(cube.standard_name, str):
                 for time_coord in cube.coords():
                     if time_coord.units.is_time_reference():
-                        time_origin = time_coord.units.origin
-                        time_origin = re.sub('[a-zA-Z]', '', time_origin)
-                        time_origin = time_origin.strip(' ')
-                        time_origin = time_origin.strip(" 00:00:00")
-                        time = dateutil.parser.parse(time_origin)
-                        time_origin = time.strftime('%Y-%m-%d')
+                        time_origin = _sort_by_date(time_coord)
                         return time_origin
     else:
         for time_coord in iris.load_cube(cube_filename).coords():
             if time_coord.units.is_time_reference():
-                time_origin = time_coord.units.origin
-                time_origin = re.sub('[a-zA-Z]', '', time_origin)
-                time_origin = time_origin.strip(' ')
-                time_origin = time_origin.strip(" 00:00:00")
-                time = dateutil.parser.parse(time_origin)
-                time_origin = time.strftime('%Y-%m-%d')
+                time_origin = _sort_by_date(time_coord)
                 return time_origin
 
 
@@ -59,12 +57,7 @@ def _sort_by_earliest_date(cube):
 
     for time_coord in cube.coords():
         if time_coord.units.is_time_reference():
-            time_origin = time_coord.units.origin
-            time_origin = re.sub('[a-zA-Z]', '', time_origin)
-            time_origin = time_origin.strip(' ')
-            time_origin = time_origin.strip(" 00:00:00")
-            time = dateutil.parser.parse(time_origin)
-            time_origin = time.strftime('%Y-%m-%d')
+            time_origin = _sort_by_date(time_coord)
             return time_origin
 
 
