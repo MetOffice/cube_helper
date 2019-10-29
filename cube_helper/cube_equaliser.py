@@ -4,61 +4,6 @@ import iris
 import numpy as np
 import cf_units
 from collections import namedtuple
-import dateutil.parser
-import re
-
-
-def _sort_by_date(time_coord):
-    time_origin = time_coord.units.origin
-    time_origin = re.sub('[a-zA-Z]', '', time_origin)
-    time_origin = time_origin.strip(' ')
-    time_origin = time_origin.strip(" 00:00:00")
-    time = dateutil.parser.parse(time_origin)
-    time_origin = time.strftime('%Y-%m-%d')
-    return time_origin
-
-def _file_sort_by_earliest_date(cube_filename):
-    """
-    Sorts file names by date from earliest to latest.
-
-    Args:
-        cube_filename: list of files in string format to sort,
-        to be used with CubeList sort method when cube_load is called.
-
-    Returns:
-        datetime object of selected Cubes start time.
-    """
-
-    if isinstance(iris.load_raw(cube_filename), iris.cube.CubeList):
-        for cube in iris.load_raw(cube_filename):
-            if isinstance(cube.standard_name, str):
-                for time_coord in cube.coords():
-                    if time_coord.units.is_time_reference():
-                        time_origin = _sort_by_date(time_coord)
-                        return time_origin
-    else:
-        for time_coord in iris.load_cube(cube_filename).coords():
-            if time_coord.units.is_time_reference():
-                time_origin = _sort_by_date(time_coord)
-                return time_origin
-
-
-def _sort_by_earliest_date(cube):
-    """
-    Sorts Cubes by date from earliest to latest.
-
-    Args:
-        cube: CubeList or list to sort, to be used with CubeList
-        sort method when cube_load is called.
-
-    Returns:
-        datetime object of selected Cubes start time.
-    """
-
-    for time_coord in cube.coords():
-        if time_coord.units.is_time_reference():
-            time_origin = _sort_by_date(time_coord)
-            return time_origin
 
 
 def equalise_attributes(cubes, comp_only=False):

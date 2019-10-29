@@ -1,9 +1,9 @@
 import os
 import iris
 import glob
+import re
+import dateutil
 from iris.exceptions import MergeError, ConstraintMismatchError
-from cube_helper.cube_equaliser import (_sort_by_earliest_date,
-                                        _file_sort_by_earliest_date)
 
 
 def _parse_directory(directory):
@@ -31,6 +31,73 @@ def _parse_directory(directory):
             return directory
     else:
         return directory
+
+
+def _sort_by_date(time_coord):
+    """
+    Private sorting function used by _file
+    _sort_by_earliest_date() and sort_by_earl
+    iest_date().
+
+    Args:
+        time_coord: Cube time coordinate for each cube
+        to be sorted by.
+
+    Returns:
+        time_origin: The time origin to sort cubes
+        by, as a specific start date e.g 1850.
+    """
+    time_origin = time_coord.units.origin
+    time_origin = re.sub('[a-zA-Z]', '', time_origin)
+    time_origin = time_origin.strip(' ')
+    time_origin = time_origin.strip(" 00:00:00")
+    time = dateutil.parser.parse(time_origin)
+    time_origin = time.strftime('%Y-%m-%d')
+    return time_origin
+
+
+def file_sort_by_earliest_date(cube_filename):
+    """
+    Sorts file names by date from earliest to latest.
+
+    Args:
+        cube_filename: list of files in string format to sort,
+        to be used with CubeList sort method when cube_load is called.
+
+    Returns:
+        datetime object of selected Cubes start time.
+    """
+
+    if isinstance(iris.load_raw(cube_filename), iris.cube.CubeList):
+        for cube in iris.load_raw(cube_filename):
+            if isinstance(cube.standard_name, str):
+                for time_coord in cube.coords():
+                    if time_coord.units.is_time_reference():
+                        time_origin = _sort_by_date(time_coord)
+                        return time_origin
+    else:
+        for time_coord in iris.load_cube(cube_filename).coords():
+            if time_coord.units.is_time_reference():
+                time_origin = _sort_by_date(time_coord)
+                return time_origin
+
+
+def sort_by_earliest_date(cube):
+    """
+    Sorts Cubes by date from earliest to latest.
+
+    Args:
+        cube: CubeList or list to sort, to be used with CubeList
+        sort method when cube_load is called.
+
+    Returns:
+        datetime object of selected Cubes start time.
+    """
+
+    for time_coord in cube.coords():
+        if time_coord.units.is_time_reference():
+            time_origin = _sort_by_date(time_coord)
+            return time_origin
 
 
 def load_from_dir(directory, filetype, constraint=None):
