@@ -163,6 +163,7 @@ def equalise_dim_coords(cubes, comp_only=False):
                 dim_coord.var_name = coord
 
     if comp_messages:
+        comp_messages = sorted(comp_messages)
         for message in comp_messages:
             print(message)
     return cubes
