@@ -2,7 +2,7 @@ import os
 import iris
 import glob
 import re
-import dateutil
+import dateutil.parser
 from iris.exceptions import MergeError, ConstraintMismatchError
 
 
@@ -133,8 +133,8 @@ def load_from_dir(directory, filetype, constraint=None):
                     if isinstance(cube.standard_name, str):
                         loaded_cubes.append(cube)
                         cube_files.append(path)
-        loaded_cubes.sort(key=_sort_by_earliest_date)
-        cube_files.sort(key=_file_sort_by_earliest_date)
+        loaded_cubes.sort(key=sort_by_earliest_date)
+        cube_files.sort(key=file_sort_by_earliest_date)
         return loaded_cubes, cube_files
     else:
         loaded_cubes = []
@@ -149,8 +149,8 @@ def load_from_dir(directory, filetype, constraint=None):
                     if isinstance(cube.standard_name, str):
                         loaded_cubes.append(cube)
                         cube_files.append(path)
-        loaded_cubes.sort(key=_sort_by_earliest_date)
-        cube_files.sort(key=_file_sort_by_earliest_date)
+        loaded_cubes.sort(key=sort_by_earliest_date)
+        cube_files.sort(key=file_sort_by_earliest_date)
         return loaded_cubes, cube_files
 
 
@@ -200,6 +200,6 @@ def load_from_filelist(data_filelist, filetype, constraint=None):
                         loaded_cubes.append(iris.load_raw(filename,
                                                           constraint))
                         cube_files.append(filename)
-    loaded_cubes.sort(key=_sort_by_earliest_date)
-    cube_files.sort(key=_file_sort_by_earliest_date)
+    loaded_cubes.sort(key=sort_by_earliest_date)
+    cube_files.sort(key=file_sort_by_earliest_date)
     return loaded_cubes, cube_files
