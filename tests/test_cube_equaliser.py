@@ -99,9 +99,9 @@ def test_compare_cubes():
     output = out.getvalue().strip()
     expected_output = """cube dim coordinates differ: 
 
-	longitude coords inconsistent
-
 	latitude coords inconsistent
+
+	longitude coords inconsistent
 
 cube attributes differ: 
 
