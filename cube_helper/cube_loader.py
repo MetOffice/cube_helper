@@ -68,9 +68,9 @@ def file_sort_by_earliest_date(cube_filename):
     Returns:
         datetime object of selected Cubes start time.
     """
-
-    if isinstance(iris.load_raw(cube_filename), iris.cube.CubeList):
-        for cube in iris.load_raw(cube_filename):
+    raw_cubes = iris.load_raw(cube_filename)
+    if isinstance(raw_cubes, iris.cube.CubeList):
+        for cube in raw_cubes:
             if isinstance(cube.standard_name, string_types):
                 for time_coord in cube.coords():
                     if time_coord.units.is_time_reference():
