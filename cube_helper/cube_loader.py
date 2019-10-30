@@ -4,6 +4,7 @@ import glob
 import re
 import dateutil.parser
 from iris.exceptions import MergeError, ConstraintMismatchError
+from six import string_types
 
 
 def _parse_directory(directory):
@@ -70,7 +71,7 @@ def file_sort_by_earliest_date(cube_filename):
 
     if isinstance(iris.load_raw(cube_filename), iris.cube.CubeList):
         for cube in iris.load_raw(cube_filename):
-            if isinstance(cube.standard_name, str):
+            if isinstance(cube.standard_name, string_types):
                 for time_coord in cube.coords():
                     if time_coord.units.is_time_reference():
                         time_origin = _sort_by_date(time_coord)
