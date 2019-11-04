@@ -1,7 +1,7 @@
 import iris
 from glob import glob
 import os
-import sys
+import iris.tests.stock
 import contextlib
 from io import StringIO
 from cube_helper.cube_equaliser import (equalise_attributes,
@@ -16,7 +16,7 @@ from cube_helper.cube_equaliser import (equalise_attributes,
 
 def test_equalise_attributes():
     abs_path = os.path.dirname(os.path.abspath(__file__))
-    glob_path = abs_path + '/test_data/air_temp' + '/*.pp'
+    glob_path = abs_path + '/test_data/realistic_3d' + '/*.nc'
     filepaths = glob(glob_path)
     test_load = [iris.load_cube(cube) for cube in filepaths]
     test_load = equalise_attributes(test_load)
@@ -26,7 +26,7 @@ def test_equalise_attributes():
 
 def test_equalise_time_units():
     abs_path = os.path.dirname(os.path.abspath(__file__))
-    glob_path = abs_path + '/test_data/air_temp' + '/*.pp'
+    glob_path = abs_path + '/test_data/realistic_3d' + '/*.nc'
     filepaths = glob(glob_path)
     test_load = [iris.load_cube(cube) for cube in filepaths]
     test_load = equalise_time_units(test_load)
@@ -39,7 +39,7 @@ def test_equalise_time_units():
 
 def test_remove_attributes():
     abs_path = os.path.dirname(os.path.abspath(__file__))
-    glob_path = abs_path + '/test_data/air_temp' + '/*.pp'
+    glob_path = abs_path +'/test_data/realistic_3d' + '/*.nc'
     filepaths = glob(glob_path)
     test_load = [iris.load_cube(cube) for cube in filepaths]
     remove_attributes(test_load)
@@ -51,7 +51,7 @@ def test_remove_attributes():
 
 def test_equalise_data_type():
     abs_path = os.path.dirname(os.path.abspath(__file__))
-    glob_path = abs_path + '/test_data/air_temp' + '/*.pp'
+    glob_path = abs_path + '/test_data/realistic_3d' + '/*.nc'
     filepaths = glob(glob_path)
     test_load = [iris.load_cube(cube) for cube in filepaths]
     equalise_data_type(test_load)
@@ -70,13 +70,13 @@ def test_equalise_data_type():
 
 def test_equalise_dim_coords():
     abs_path = os.path.dirname(os.path.abspath(__file__))
-    glob_path = abs_path + '/test_data/air_temp' + '/*.pp'
+    glob_path = abs_path + '/test_data/realistic_3d' + '/*.nc'
     filepaths = glob(glob_path)
     test_load = [iris.load_cube(cube) for cube in filepaths]
     test_load = equalise_dim_coords(test_load)
     for cube in test_load:
-        assert cube.dim_coords[0].name() == 'latitude'
-        assert cube.dim_coords[1].name() == 'longitude'
+        assert cube.dim_coords[0].name() == 'time'
+        assert cube.dim_coords[1].name() == 'grid_latitude'
 
 
 def test_equalise_aux_coords():
