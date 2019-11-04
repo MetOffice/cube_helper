@@ -11,16 +11,14 @@ from cube_helper.cube_loader import (load_from_dir,
 
 def test_load_from_filelist():
     abs_path = os.path.dirname(os.path.abspath(__file__))
-    filelist = ['test_data/air_temp/air_temp_2.pp',
-                'test_data/air_temp/air_temp_4.pp',
-                'test_data/air_temp/air_temp_5.pp',
-                'test_data/air_temp/air_temp_1.pp',
-                'test_data/air_temp/air_temp_3.pp']
+    filelist = ['test_data/realistic_3d/realistic_3d_0.nc',
+                'test_data/realistic_3d/realistic_3d_1.nc',
+                'test_data/realistic_3d/realistic_3d_2.nc']
     abs_filelist = []
     for file in filelist:
         abs_filelist.append(abs_path + '/' + file)
     test_load, test_names = load_from_filelist(abs_filelist,
-                                               '.pp')
+                                               '.nc')
     print(test_names)
     assert isinstance(test_load, list)
     assert isinstance(test_names, list)
