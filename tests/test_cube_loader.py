@@ -32,8 +32,7 @@ def test_load_from_filelist():
 def test_load_from_dir():
     abs_path = os.path.dirname(os.path.abspath(__file__))\
                + '/test_data/realistic_3d/'
-
-    test_load, test_names = load_from_dir(abs_path, '.pp')
+    test_load, test_names = load_from_dir(abs_path, '.nc')
     assert isinstance(test_load, list)
     assert isinstance(test_names, list)
     for cube in test_load:
@@ -49,58 +48,37 @@ def test_parse_directory():
                                           'realistic_3d/' \
                                           'realistic_3d_0.nc/'
 
+
 def test_sort_by_earliest_date():
-    filepaths = glob('/project/champ/data/cmip5/output1/ICHEC/EC-EARTH/'
-                     'rcp85/mon/atmos/Amon/r1i1p1/v20171115/tas/*.nc')
+    abs_path = os.path.dirname(os.path.abspath(__file__))
+    glob_path = abs_path + '/test_data/realistic_3d_time' + '/*.nc'
+    filepaths = glob(glob_path)
     test_load = [iris.load_cube(cube) for cube in filepaths]
     test_load = iris.cube.CubeList(test_load)
     test_load.sort(key=sort_by_earliest_date)
-    assert test_load[0].dim_coords[0].units.origin == 'days since 2006' \
-                                                      '-01-01 00:00:00'
-    assert test_load[1].dim_coords[0].units.origin == 'days since 2010' \
-                                                      '-01-01 00:00:00'
-    assert test_load[2].dim_coords[0].units.origin == 'days since 2020' \
-                                                      '-01-01 00:00:00'
-    assert test_load[3].dim_coords[0].units.origin == 'days since 2030' \
-                                                      '-01-01 00:00:00'
-    assert test_load[4].dim_coords[0].units.origin == 'days since 2040' \
-                                                      '-01-01 00:00:00'
-    assert test_load[5].dim_coords[0].units.origin == 'days since 2050' \
-                                                      '-01-01 00:00:00'
-    assert test_load[6].dim_coords[0].units.origin == 'days since 2060' \
-                                                      '-01-01 00:00:00'
-    assert test_load[7].dim_coords[0].units.origin == 'days since 2070' \
-                                                      '-01-01 00:00:00'
-    assert test_load[8].dim_coords[0].units.origin == 'days since 2080' \
-                                                      '-01-01 00:00:00'
-    assert test_load[9].dim_coords[0].units.origin == 'days since 2090' \
-                                                      '-01-01 00:00:00'
-    assert test_load[10].dim_coords[0].units.origin == 'days since 2100-1-1'
+    assert test_load[0].dim_coords[0].units.origin == "hours" \
+                                                     " since 1970-01-01" \
+                                                     " 00:00:00"
+    assert test_load[1].dim_coords[0].units.origin == "hours" \
+                                                     " since 1980-01-01" \
+                                                     " 00:00:00"
+    assert test_load[2].dim_coords[0].units.origin == "hours" \
+                                                     " since 1990-01-01" \
+                                                     " 00:00:00"
 
 
 def test_file_sort_by_earliest_date():
-    filepaths = glob('/project/champ/data/cmip5/output1/ICHEC/EC-EARTH/'
-                     'rcp85/mon/atmos/Amon/r1i1p1/v20171115/tas/*.nc')
+    abs_path = os.path.dirname(os.path.abspath(__file__))
+    glob_path = abs_path + '/test_data/realistic_3d_time' + '/*.nc'
+    filepaths = glob(glob_path)
     filepaths.sort(key=file_sort_by_earliest_date)
     test_load = [iris.load_cube(cube) for cube in filepaths]
-    assert test_load[0].dim_coords[0].units.origin == 'days since 2006' \
-                                                      '-01-01 00:00:00'
-    assert test_load[1].dim_coords[0].units.origin == 'days since 2010' \
-                                                      '-01-01 00:00:00'
-    assert test_load[2].dim_coords[0].units.origin == 'days since 2020' \
-                                                      '-01-01 00:00:00'
-    assert test_load[3].dim_coords[0].units.origin == 'days since 2030' \
-                                                      '-01-01 00:00:00'
-    assert test_load[4].dim_coords[0].units.origin == 'days since 2040' \
-                                                      '-01-01 00:00:00'
-    assert test_load[5].dim_coords[0].units.origin == 'days since 2050' \
-                                                      '-01-01 00:00:00'
-    assert test_load[6].dim_coords[0].units.origin == 'days since 2060' \
-                                                      '-01-01 00:00:00'
-    assert test_load[7].dim_coords[0].units.origin == 'days since 2070' \
-                                                      '-01-01 00:00:00'
-    assert test_load[8].dim_coords[0].units.origin == 'days since 2080' \
-                                                      '-01-01 00:00:00'
-    assert test_load[9].dim_coords[0].units.origin == 'days since 2090' \
-                                                      '-01-01 00:00:00'
-    assert test_load[10].dim_coords[0].units.origin == 'days since 2100-1-1'
+    assert test_load[0].dim_coords[0].units.origin == "hours" \
+                                                     " since 1970-01-01" \
+                                                     " 00:00:00"
+    assert test_load[1].dim_coords[0].units.origin == "hours" \
+                                                     " since 1980-01-01" \
+                                                     " 00:00:00"
+    assert test_load[2].dim_coords[0].units.origin == "hours" \
+                                                     " since 1990-01-01" \
+                                                     " 00:00:00"
