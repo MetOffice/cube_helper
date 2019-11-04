@@ -31,7 +31,7 @@ def test_load_from_filelist():
 
 def test_load_from_dir():
     abs_path = os.path.dirname(os.path.abspath(__file__))\
-               + '/test_data/air_temp/'
+               + '/test_data/realistic_3d/'
 
     test_load, test_names = load_from_dir(abs_path, '.pp')
     assert isinstance(test_load, list)
@@ -44,10 +44,10 @@ def test_load_from_dir():
 
 
 def test_parse_directory():
-    directory = 'test_data/air_temp/air_temp_1.pp'
+    directory = 'test_data/realistic_3d/realistic_3d_0.nc'
     assert _parse_directory(directory) == '/test_data/' \
-                                          'air_temp/' \
-                                          'air_temp_1.pp/'
+                                          'realistic_3d/' \
+                                          'realistic_3d_0.nc/'
 
 def test_sort_by_earliest_date():
     filepaths = glob('/project/champ/data/cmip5/output1/ICHEC/EC-EARTH/'
