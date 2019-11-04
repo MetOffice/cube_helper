@@ -80,8 +80,9 @@ def test_equalise_dim_coords():
 
 
 def test_equalise_aux_coords():
-    filepaths = glob('/project/champ/data/cmip5/output1/ICHEC/EC-EARTH/'
-                     'rcp85/mon/atmos/Amon/r1i1p1/v20171115/tas/*.nc')
+    abs_path = os.path.dirname(os.path.abspath(__file__))
+    glob_path = abs_path + '/test_data/realistic_3d_aux' + '/*.nc'
+    filepaths = glob(glob_path)
     test_load = [iris.load_cube(cube) for cube in filepaths]
     test_load = equalise_aux_coords(test_load)
     for cube in test_load:
@@ -90,37 +91,38 @@ def test_equalise_aux_coords():
 
 
 def test_compare_cubes():
-    filepath = glob('/project/champ/data/CMIP6/CMIP/MOHC/HadGEM3-GC31-LL'
-                    '/piControl/r1i1p1f1/Amon/tasmin/gn/v20190628/*.nc')
-    test_load = [iris.load_cube(cube) for cube in filepath]
+    abs_path = os.path.dirname(os.path.abspath(__file__))
+    glob_path = abs_path + '/test_data/realistic_3d_aux' + '/*.nc'
+    filepaths = glob(glob_path)
+    test_load = [iris.load_cube(cube) for cube in filepaths]
     out = StringIO()
     with contextlib.redirect_stdout(out):
         compare_cubes(test_load)
     output = out.getvalue().strip()
-    expected_output = """cube dim coordinates differ: 
+    expected_output = """cube aux coordinates differ: 
 
-	latitude coords inconsistent
+	height coords inconsistent
 
-	longitude coords inconsistent
 
-cube attributes differ: 
+cube dim coordinates differ: 
 
-	creation_date attribute inconsistent
+	grid_latitude coords inconsistent
 
-	history attribute inconsistent
+	grid_longitude coords inconsistent
 
-	tracking_id attribute inconsistent"""
+	time coords inconsistent"""
 
     assert output == expected_output
 
 
 def test_equalise_all():
-    filepath = glob('/project/champ/data/CMIP6/CMIP/MOHC/HadGEM3-GC31-LL'
-                    '/piControl/r1i1p1f1/Amon/tasmin/gn/v20190628/*.nc')
-    test_cubes = [iris.load_cube(cube) for cube in filepath]
+    abs_path = os.path.dirname(os.path.abspath(__file__))
+    glob_path = abs_path + '/test_data/realistic_3d_attributes' + '/*.nc'
+    filepaths = glob(glob_path)
+    test_cubes = [iris.load_cube(cube) for cube in filepaths]
     test_cubes = equalise_all(test_cubes)
     test_attr = list([cube.attributes.keys() for cube in test_cubes])
     assert "creation_date" not in test_attr
     assert "history" not in test_attr
-    assert "trackind_id" not in test_attr
+    assert "tracking_id" not in test_attr
 
