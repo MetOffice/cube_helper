@@ -1,5 +1,5 @@
 
-cube_helper: Refractored
+Cube Helper Tutorial: A walkthrough Guide
 ------------------------
 
 This tutorial is a step by step guide to using the ``cube_helper``

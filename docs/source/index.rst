@@ -8,14 +8,12 @@ Welcome to Cube Helper's documentation!
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
 
-
+   cube_helper_tutorial
 
 Indices and tables
 ==================
 
 * :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-* :ref:`cube_helper_tutorial`
+
+
