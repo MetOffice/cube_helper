@@ -10,10 +10,12 @@ Welcome to Cube Helper's documentation!
    :maxdepth: 2
 
    cube_helper_tutorial
+   modules
 
 Indices and tables
 ==================
 
 * :ref:`genindex`
+
 
 

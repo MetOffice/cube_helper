@@ -1,6 +1,6 @@
 
 Cube Helper Tutorial: A walkthrough Guide
-------------------------
+-------------------------------------------
 
 This tutorial is a step by step guide to using the ``cube_helper``
 module. The functionality of ``cube_helper`` is abstracted and hidden
