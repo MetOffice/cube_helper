@@ -4,14 +4,6 @@ cube\_helper package
 Submodules
 ----------
 
-cube\_helper.cube\_dataset module
----------------------------------
-
-.. automodule:: cube_helper.cube_dataset
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 cube\_helper.cube\_equaliser module
 -----------------------------------
 
