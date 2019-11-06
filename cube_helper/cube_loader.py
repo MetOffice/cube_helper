@@ -53,7 +53,7 @@ def _sort_by_date(time_coord):
     time_origin = time_origin.strip(' ')
     time_origin = time_origin.strip(" 00:00:00")
     time = dateutil.parser.parse(time_origin)
-    time_origin = time.strftime('%Y-%m-%d')
+    time_origin = time.isoformat(" ").split(".")[0]
     return time_origin
 
 
