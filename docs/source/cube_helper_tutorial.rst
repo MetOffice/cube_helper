@@ -19,9 +19,9 @@ Next, import the new ``cube_helper`` methods.
 
     import cube_helper as ch
 
-``load`` works by examining the cubes in the specified directory and
-equalising them automatically where appropriate. Here we load a HadGem3
-model, and ``load`` takes care of the rest:
+``load`` will load data into a single cube by ignoring certain
+attributes and meta-data that causes common problems with concatenation.
+Here we load a HadGem3 model, and ``load`` takes care of the rest:
 
 .. code:: ipython3
 

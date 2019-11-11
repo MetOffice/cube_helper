@@ -12,7 +12,7 @@ Welcome to Cube Helper's documentation!
 
    cube_helper_tutorial  
 
-   modules  
+   cube_helper  
 
 
 Indices and tables
