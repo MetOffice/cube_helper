@@ -1,37 +1,35 @@
 
-Cube Helper Tutorial: A walkthrough Guide
--------------------------------------------
+cube_helper Tutorial
+--------------------
 
 This tutorial is a step by step guide to using the ``cube_helper``
-module. The functionality of ``cube_helper`` is abstracted and hidden
-from the user. Start by pointing your python Environment to the new
-``cube_helper`` module:
+module. ``cube_helper`` is useful for concatenating, comparing, and
+equalising cubes in large datasets. ``cube_helper`` is designed to give
+a certain degree of abstraction to the user from issues in iris cube
+meta-data and coordinate information. Start by pointing your python
+Environment to the new ``cube_helper`` module:
 
 .. code:: ipython3
 
-    import sys
-    sys.path.append('/net/home/h01/jbedwell/Downloads/cube_helper')
+    !export PYTHONPATH=/net/home/h01/jbedwell/Downloads/cube_helper
 
-Next, import the new ``cube_helper`` methods. Documentation will become
-available but for now start by importing ``cube_load``:
+Next, import the new ``cube_helper`` methods.
 
 .. code:: ipython3
 
-    from cube_helper import cube_load
+    import cube_helper as ch
 
-``cube_load`` works by examining the cubes in the specified directory
-and equalising them automatically where appropriate. Here we load a
-HadGem3 model, and ``cube_load`` takes care of the rest:
+``load`` works by examining the cubes in the specified directory and
+equalising them automatically where appropriate. Here we load a HadGem3
+model, and ``load`` takes care of the rest:
 
 .. code:: ipython3
 
-    cube = cube_load('/project/champ/data/CMIP6/CMIP/MOHC/HadGEM3-GC31-LL/piControl/r1i1p1f1/Amon/tasmin/gn/v20190628')
+    cube = ch.load('/project/champ/data/CMIP6/CMIP/MOHC/HadGEM3-GC31-LL/piControl/r1i1p1f1/Amon/tasmin/gn/v20190628')
 
 
 .. parsed-literal::
 
-    /opt/scitools/environments/default/current/lib/python3.6/site-packages/iris/fileformats/cf.py:798: UserWarning: Missing CF-netCDF measure variable 'areacella', referenced by netCDF variable 'tasmin'
-      warnings.warn(message % (variable_name, nc_var_name))
     /opt/scitools/environments/default/current/lib/python3.6/site-packages/iris/fileformats/cf.py:798: UserWarning: Missing CF-netCDF measure variable 'areacella', referenced by netCDF variable 'tasmin'
       warnings.warn(message % (variable_name, nc_var_name))
     /opt/scitools/environments/default/current/lib/python3.6/site-packages/iris/fileformats/cf.py:798: UserWarning: Missing CF-netCDF measure variable 'areacella', referenced by netCDF variable 'tasmin'
@@ -55,9 +53,9 @@ HadGem3 model, and ``cube_load`` takes care of the rest:
     
     cube dim coordinates differ: 
     
-    	longitude coords inconsistent
-    
     	latitude coords inconsistent
+    
+    	longitude coords inconsistent
     
     cube attributes differ: 
     
@@ -81,6 +79,8 @@ HadGem3 model, and ``cube_load`` takes care of the rest:
 
 .. parsed-literal::
 
+    /opt/scitools/environments/default/current/lib/python3.6/site-packages/iris/fileformats/cf.py:798: UserWarning: Missing CF-netCDF measure variable 'areacella', referenced by netCDF variable 'tasmin'
+      warnings.warn(message % (variable_name, nc_var_name))
     /opt/scitools/environments/default/current/lib/python3.6/site-packages/iris/fileformats/cf.py:798: UserWarning: Missing CF-netCDF measure variable 'areacella', referenced by netCDF variable 'tasmin'
       warnings.warn(message % (variable_name, nc_var_name))
 
@@ -169,7 +169,7 @@ iris cube:
 
 .. code:: ipython3
 
-    cube = cube_load(filenames)
+    cube = ch.load(filenames)
 
 
 .. parsed-literal::
@@ -177,11 +177,11 @@ iris cube:
     
     cube dim coordinates differ: 
     
+    	latitude coords inconsistent
+    
     	longitude coords inconsistent
     
     	time coords inconsistent
-    
-    	latitude coords inconsistent
     
     cube attributes differ: 
     
@@ -292,7 +292,7 @@ incompatible:
 
 .. code:: ipython3
 
-    cube = cube_load(filenames)
+    cube = ch.load(filenames)
 
 
 .. parsed-literal::
@@ -313,11 +313,11 @@ incompatible:
     
     cube dim coordinates differ: 
     
+    	latitude coords inconsistent
+    
     	longitude coords inconsistent
     
     	time coords inconsistent
-    
-    	latitude coords inconsistent
     
     cube attributes differ: 
     
@@ -415,7 +415,7 @@ And then we try to load it again:
 
 .. code:: ipython3
 
-    cube = cube_load(filenames)
+    cube = ch.load(filenames)
 
 
 .. parsed-literal::
@@ -436,11 +436,11 @@ And then we try to load it again:
     
     cube dim coordinates differ: 
     
+    	latitude coords inconsistent
+    
     	longitude coords inconsistent
     
     	time coords inconsistent
-    
-    	latitude coords inconsistent
     
     cube attributes differ: 
     
