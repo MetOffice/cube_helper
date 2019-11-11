@@ -87,14 +87,12 @@ def equalise_time_units(cubes, comp_only=False):
 
                     new_unit = cf_units.Unit(epoch, time_coord.units.calendar)
                     time_coord.convert_units(new_unit)
-                    calendar = time_coord.units.calendar
                     origin = time_coord.units.origin
     if comp_messages:
         for message in comp_messages:
             print(message)
     else:
         print("New time origin set to {}\n".format(origin))
-        print("New time calender set to {}\n".format(calendar))
     return cubes
 
 
