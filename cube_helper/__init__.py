@@ -1,4 +1,4 @@
-from cube_helper.cube_help import (cube_load, add_categorical, concatenate)
+from cube_helper.cube_help import (load, add_categorical, concatenate)
 from cube_helper.cube_loader import (load_from_dir,
                                      load_from_filelist,
                                      sort_by_earliest_date,

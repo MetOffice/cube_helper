@@ -7,7 +7,7 @@ from cube_helper.cube_equaliser import (compare_cubes,
                                         equalise_all)
 
 
-def cube_load(directory, filetype='.nc', constraints=None):
+def load(directory, filetype='.nc', constraints=None):
     """
     A function that loads and concatenates iris Cubes.
 
