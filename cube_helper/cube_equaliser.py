@@ -184,8 +184,8 @@ def equalise_aux_coords(cubes, comp_only=False):
     for cube_a in cubes:
         for cube_b in cubes:
             if cube_a.coords() != cube_b.coords():
-                cube_a_coords = {c.name() for c in cube_a.coords()}
-                cube_b_coords = {c.name() for c in cube_b.coords()}
+                cube_a_coords = {c.name() for c in cube_a.aux_coords}
+                cube_b_coords = {c.name() for c in cube_b.aux_coords}
                 common_coords = list(cube_a_coords.intersection(cube_b_coords))
                 for coord in list(cube_a_coords):
                     if coord not in common_coords:
