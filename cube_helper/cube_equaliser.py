@@ -3,6 +3,7 @@ import sys
 import numpy as np
 import cf_units
 from collections import namedtuple
+from itertools import combinations
 
 
 def equalise_attributes(cubes, comp_only=False):
@@ -181,29 +182,29 @@ def equalise_aux_coords(cubes, comp_only=False):
         Cubes equalised across auxillary coordinates.
     """
     comp_messages = set({})
-    for cube_a in cubes:
-        for cube_b in cubes:
-            cube_a_coords = {c.name() for c in cube_a.aux_coords}
-            cube_b_coords = {c.name() for c in cube_b.aux_coords}
-            common_coords = list(cube_a_coords.intersection(cube_b_coords))
-            for coord in list(cube_a_coords):
-                if coord not in common_coords:
-                    if comp_only:
-                        comp_messages.add("\t{} coords inconsistent\n".
-                                          format(coord))
-                    else:
-                        print("Removing {} coords from cube\n".
-                              format(coord))
-                        cube_a.remove_coord(coord)
-            for coord in list(cube_b_coords):
-                if coord not in common_coords:
-                    if comp_only:
-                        comp_messages.add("\t{} coords inconsistent\n".
-                                          format(coord))
-                    else:
-                        print("Removing {} coords from cube\n".
-                              format(coord))
-                        cube_b.remove_coord(coord)
+    cube_combs = list(combinations(cubes, 2))
+    for combs in cube_combs:
+        cube_a_coords = {c.name() for c in combs[0].aux_coords}
+        cube_b_coords = {c.name() for c in combs[1].aux_coords}
+        common_coords = list(cube_a_coords.intersection(cube_b_coords))
+        for coord in list(cube_a_coords):
+            if coord not in common_coords:
+                if comp_only:
+                    comp_messages.add("\t{} coords inconsistent\n".
+                                      format(coord))
+                else:
+                    print("Removing {} coords from cube\n".
+                          format(coord))
+                    combs[0].remove_coord(coord)
+        for coord in list(cube_b_coords):
+            if coord not in common_coords:
+                if comp_only:
+                    comp_messages.add("\t{} coords inconsistent\n".
+                                      format(coord))
+                else:
+                    print("Removing {} coords from cube\n".
+                          format(coord))
+                    combs[1].remove_coord(coord)
     if comp_messages:
         for message in comp_messages:
             print(message)
@@ -265,31 +266,31 @@ def compare_cubes(cubes):
     uneq_attr = False
     uneq_time_coords = False
     uneq_ndim = False
-    for cube_a in cubes:
-        for cube_b in cubes:
-            if (uneq_aux_coords and
-                    uneq_attr and
-                    uneq_dim_coords and
-                    uneq_time_coords and
-                    uneq_ndim):
-                break
+    cube_combs = list(combinations(cubes, 2))
+    for comb in cube_combs:
+        if (uneq_aux_coords and
+                uneq_attr and
+                uneq_dim_coords and
+                uneq_time_coords and
+                uneq_ndim):
+            break
 
-            if cube_a.aux_coords != cube_b.aux_coords:
-                uneq_aux_coords = True
+        if comb[0].aux_coords != comb[1].aux_coords:
+            uneq_aux_coords = True
 
-            if cube_a.dim_coords != cube_b.dim_coords:
-                uneq_dim_coords = True
+        if comb[0].dim_coords != comb[1].dim_coords:
+            uneq_dim_coords = True
 
-            if cube_a.attributes != cube_b.attributes:
-                uneq_attr = True
+        if comb[0].attributes != comb[1].attributes:
+            uneq_attr = True
 
-            if cube_a.ndim != cube_b.ndim:
-                uneq_ndim = True
-                break
+        if comb[0].ndim != comb[1].ndim:
+            uneq_ndim = True
+            break
 
-            if cube_a.coord('time').units != cube_b.coord('time').units:
-                uneq_time_coords = True
-                break
+        if comb[0].coord('time').units != comb[1].coord('time').units:
+            uneq_time_coords = True
+            break
 
     if uneq_ndim:
         print("\n Number of dimensions for cubes differ,"
