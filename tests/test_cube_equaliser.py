@@ -106,11 +106,11 @@ def test_compare_cubes():
 
 cube dim coordinates differ: 
 
-	grid_latitude coords inconsistent
+	grid_latitude coords long_name inconsistent
 
-	grid_longitude coords inconsistent
+	grid_longitude coords long_name inconsistent
 
-	time coords inconsistent"""
+	time coords long_name inconsistent"""
 
     assert output == expected_output
 

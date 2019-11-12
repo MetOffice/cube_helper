@@ -145,13 +145,13 @@ def equalise_dim_coords(cubes, comp_only=False):
             if comp_only:
                 coord = dim_coord.name()
                 if dim_coord.standard_name != coord:
-                    comp_messages.add("\t{} coords inconsistent\n".
+                    comp_messages.add("\t{} coords standard_name inconsistent\n".
                                       format(coord))
                 if dim_coord.long_name != coord:
-                    comp_messages.add("\t{} coords inconsistent\n".
+                    comp_messages.add("\t{} coords long_name inconsistent\n".
                                       format(coord))
                 if dim_coord.var_name != coord:
-                    comp_messages.add("\t{} coords inconsistent\n".
+                    comp_messages.add("\t{} coords var_name inconsistent\n".
                                       format(coord))
             else:
                 coord = dim_coord.name()
