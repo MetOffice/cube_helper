@@ -183,28 +183,27 @@ def equalise_aux_coords(cubes, comp_only=False):
     comp_messages = set({})
     for cube_a in cubes:
         for cube_b in cubes:
-            if cube_a.coords() != cube_b.coords():
-                cube_a_coords = {c.name() for c in cube_a.aux_coords}
-                cube_b_coords = {c.name() for c in cube_b.aux_coords}
-                common_coords = list(cube_a_coords.intersection(cube_b_coords))
-                for coord in list(cube_a_coords):
-                    if coord not in common_coords:
-                        if comp_only:
-                            comp_messages.add("\t{} coords inconsistent\n".
-                                              format(coord))
-                        else:
-                            print("Removing {} coords from cube\n".
-                                  format(coord))
-                            cube_a.remove_coord(coord)
-                for coord in list(cube_b_coords):
-                    if coord not in common_coords:
-                        if comp_only:
-                            comp_messages.add("\t{} coords inconsistent\n".
-                                              format(coord))
-                        else:
-                            print("Removing {} coords from cube\n".
-                                  format(coord))
-                            cube_b.remove_coord(coord)
+            cube_a_coords = {c.name() for c in cube_a.aux_coords}
+            cube_b_coords = {c.name() for c in cube_b.aux_coords}
+            common_coords = list(cube_a_coords.intersection(cube_b_coords))
+            for coord in list(cube_a_coords):
+                if coord not in common_coords:
+                    if comp_only:
+                        comp_messages.add("\t{} coords inconsistent\n".
+                                          format(coord))
+                    else:
+                        print("Removing {} coords from cube\n".
+                              format(coord))
+                        cube_a.remove_coord(coord)
+            for coord in list(cube_b_coords):
+                if coord not in common_coords:
+                    if comp_only:
+                        comp_messages.add("\t{} coords inconsistent\n".
+                                          format(coord))
+                    else:
+                        print("Removing {} coords from cube\n".
+                              format(coord))
+                        cube_b.remove_coord(coord)
     if comp_messages:
         for message in comp_messages:
             print(message)
@@ -288,13 +287,9 @@ def compare_cubes(cubes):
                 uneq_ndim = True
                 break
 
-            for time_coord_a in cube_a.coords():
-                for time_coord_b in cube_b.coords():
-                    if (time_coord_a.units.is_time_reference()
-                            and time_coord_b.units.is_time_reference()):
-                        if time_coord_a.units != time_coord_b.units:
-                            uneq_time_coords = True
-                            break
+            if cube_a.coord('time').units != cube_b.coord('time').units:
+                uneq_time_coords = True
+                break
 
     if uneq_ndim:
         print("\n Number of dimensions for cubes differ,"
