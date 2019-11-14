@@ -81,13 +81,13 @@ def test_equalise_dim_coords():
 
 def test_equalise_aux_coords():
     abs_path = os.path.dirname(os.path.abspath(__file__))
-    glob_path = abs_path + '/test_data/realistic_3d_attributes' + '/*.nc'
+    glob_path = abs_path + '/test_data/realistic_3d_aux' + '/*.nc'
     filepaths = glob(glob_path)
     test_load = [iris.load_cube(cube) for cube in filepaths]
     test_load = equalise_aux_coords(test_load)
     for cube in test_load:
         coords_list = [c.name() for c in cube.coords()]
-        assert 'height' not in coords_list
+        assert 'height' in coords_list
 
 
 def test_compare_cubes():
