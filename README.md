@@ -1,5 +1,6 @@
 ## Cube Helper
-Cube Helper is a package to make equalisation, concatenation, and analysis of `iris` 
+Cube Helper is a package to make equalisation, concatenation, and analysis of 
+[iris](https://scitools.org.uk/iris/docs/latest/)
 cubes easier. It is written with reasearchers in mind and provides a good degree of
 abstraction from many `iris` functions and methods.
  
