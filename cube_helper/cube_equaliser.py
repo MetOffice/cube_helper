@@ -182,32 +182,39 @@ def equalise_aux_coords(cubes, comp_only=False):
         Cubes equalised across auxillary coordinates.
     """
     comp_messages = set({})
+    change_messages = set({})
     cube_combs = list(combinations(cubes, 2))
     for combs in cube_combs:
-        cube_a_coords = {c.name() for c in combs[0].aux_coords}
-        cube_b_coords = {c.name() for c in combs[1].aux_coords}
-        common_coords = list(cube_a_coords.intersection(cube_b_coords))
+        cube_a_dict = {c.name():c for c in combs[0].aux_coords}
+        cube_b_dict = {c.name():c for c in combs[1].aux_coords}
+        cube_a_coords = {c for c in cube_a_dict}
+        cube_b_coords = {c for c in cube_b_dict}
         for coord in list(cube_a_coords):
-            if coord not in common_coords:
+            if coord not in cube_b_coords:
                 if comp_only:
                     comp_messages.add("\t{} coords inconsistent\n".
                                       format(coord))
-                else:
-                    print("Removing {} coords from cube\n".
-                          format(coord))
-                    combs[0].remove_coord(coord)
+                elif coord == 'height':
+                    change_messages.add("Adding {} coords to cube\n".
+                                        format(coord))
+                    combs[1].add_aux_coord(cube_a_dict[coord])
         for coord in list(cube_b_coords):
-            if coord not in common_coords:
+            if coord not in cube_a_coords:
                 if comp_only:
                     comp_messages.add("\t{} coords inconsistent\n".
                                       format(coord))
-                else:
-                    print("Removing {} coords from cube\n".
-                          format(coord))
-                    combs[1].remove_coord(coord)
+                elif coord == 'height':
+                    change_messages.add("Adding {} coords to cube\n".
+                                        format(coord))
+                    combs[0].add_aux_coord(cube_b_dict[coord])
     if comp_messages:
         for message in comp_messages:
             print(message)
+
+    if change_messages:
+        for message in change_messages:
+            print(message)
+
     return cubes
 
 
