@@ -1,7 +1,10 @@
 import os
 import iris
 import glob
+import re
+import dateutil.parser
 from iris.exceptions import MergeError, ConstraintMismatchError
+from six import string_types
 
 
 def _parse_directory(directory):
@@ -31,6 +34,73 @@ def _parse_directory(directory):
         return directory
 
 
+def _sort_by_date(time_coord):
+    """
+    Private sorting function used by _file
+    _sort_by_earliest_date() and sort_by_earl
+    iest_date().
+
+    Args:
+        time_coord: Cube time coordinate for each cube
+        to be sorted by.
+
+    Returns:
+        time_origin: The time origin to sort cubes
+        by, as a specific start date e.g 1850.
+    """
+    time_origin = time_coord.units.origin
+    time_origin = re.sub('[a-zA-Z]', '', time_origin)
+    time_origin = time_origin.strip(' ')
+    time_origin = time_origin.strip(" 00:00:00")
+    time = dateutil.parser.parse(time_origin)
+    time_origin = time.isoformat(" ").split(".")[0]
+    return time_origin
+
+
+def file_sort_by_earliest_date(cube_filename):
+    """
+    Sorts file names by date from earliest to latest.
+
+    Args:
+        cube_filename: list of files in string format to sort,
+        to be used with CubeList sort method when cube_load is called.
+
+    Returns:
+        datetime object of selected Cubes start time.
+    """
+    raw_cubes = iris.load_raw(cube_filename)
+    if isinstance(raw_cubes, iris.cube.CubeList):
+        for cube in raw_cubes:
+            if isinstance(cube.standard_name, string_types):
+                for time_coord in cube.coords():
+                    if time_coord.units.is_time_reference():
+                        time_origin = _sort_by_date(time_coord)
+                        return time_origin
+    else:
+        for time_coord in iris.load_cube(cube_filename).coords():
+            if time_coord.units.is_time_reference():
+                time_origin = _sort_by_date(time_coord)
+                return time_origin
+
+
+def sort_by_earliest_date(cube):
+    """
+    Sorts Cubes by date from earliest to latest.
+
+    Args:
+        cube: CubeList or list to sort, to be used with CubeList
+        sort method when cube_load is called.
+
+    Returns:
+        datetime object of selected Cubes start time.
+    """
+
+    for time_coord in cube.coords():
+        if time_coord.units.is_time_reference():
+            time_origin = _sort_by_date(time_coord)
+            return time_origin
+
+
 def load_from_dir(directory, filetype, constraint=None):
     """
     Loads a set of cubes from a given directory, single cubes are loaded
@@ -53,27 +123,36 @@ def load_from_dir(directory, filetype, constraint=None):
     """
     if constraint is None:
         loaded_cubes = []
+        cube_files = []
         directory = _parse_directory(directory)
         for path in glob.glob(directory + '*' + filetype):
             try:
                 loaded_cubes.append(iris.load_cube(path))
+                cube_files.append(path)
             except (MergeError, ConstraintMismatchError):
                 for cube in iris.load_raw(path):
-                    if cube.ndim >= 2:
+                    if isinstance(cube.standard_name, str):
                         loaded_cubes.append(cube)
-
-        return loaded_cubes
+                        cube_files.append(path)
+        loaded_cubes.sort(key=sort_by_earliest_date)
+        cube_files.sort(key=file_sort_by_earliest_date)
+        return loaded_cubes, cube_files
     else:
         loaded_cubes = []
+        cube_files = []
         directory = _parse_directory(directory)
         for path in glob.glob(directory + '*' + filetype):
             try:
                 loaded_cubes.append(iris.load_cube(path, constraint))
+                cube_files.append(path)
             except (MergeError, ConstraintMismatchError):
                 for cube in iris.load_raw(path, constraint):
-                    if cube.ndim >= 2:
+                    if isinstance(cube.standard_name, str):
                         loaded_cubes.append(cube)
-        return loaded_cubes
+                        cube_files.append(path)
+        loaded_cubes.sort(key=sort_by_earliest_date)
+        cube_files.sort(key=file_sort_by_earliest_date)
+        return loaded_cubes, cube_files
 
 
 def load_from_filelist(data_filelist, filetype, constraint=None):
@@ -97,6 +176,7 @@ def load_from_filelist(data_filelist, filetype, constraint=None):
         Cubes.
     """
     loaded_cubes = []
+    cube_files = []
     for filename in data_filelist:
         if not filename.endswith(filetype):
             data_filelist.remove(filename)
@@ -105,18 +185,22 @@ def load_from_filelist(data_filelist, filetype, constraint=None):
         if constraint is None:
             try:
                 loaded_cubes.append(iris.load_cube(filename))
+                cube_files.append(filename)
             except (MergeError, ConstraintMismatchError):
                 for cube in iris.load_raw(filename):
-                    if cube.ndim >= 2:
-                        loaded_cubes.append(iris.load_raw(filename))
+                    if isinstance(cube.standard_name, str):
+                        loaded_cubes.append(cube)
+                        cube_files.append(filename)
 
         else:
             try:
                 loaded_cubes.append(iris.load_cube(filename, constraint))
             except (MergeError, ConstraintMismatchError):
                 for cube in iris.load_raw(filename, constraint):
-                    if cube.ndim >= 2:
+                    if isinstance(cube.standard_name, str):
                         loaded_cubes.append(iris.load_raw(filename,
                                                           constraint))
-
-    return loaded_cubes
+                        cube_files.append(filename)
+    loaded_cubes.sort(key=sort_by_earliest_date)
+    cube_files.sort(key=file_sort_by_earliest_date)
+    return loaded_cubes, cube_files

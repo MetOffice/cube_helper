@@ -5,17 +5,20 @@
 
 Welcome to Cube Helper's documentation!
 =======================================
+``cube_helper`` is a software package designed to help users concatenate, equalise, and compare large datasets of cubes. It provides a degree of abstaction from meta-data and coordinate information that prevents concatenation amound cubes.
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
 
+   cube_helper_tutorial  
+
+   cube_helper  
 
 
 Indices and tables
 ==================
 
 * :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-* :ref:`cube_helper_tutorial`
+
+
+
