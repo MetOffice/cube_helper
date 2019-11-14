@@ -21,7 +21,7 @@ and set your Python environment to point to your copy, for example:
 
 
 ## Contributing  
-If you want to contribute to TensorFlow, be sure to review the 
+If you want to contribute to Cube Helper be sure to review the 
 [contribution guidelines](https://github.com/MetOffice/cube_helper/blob/master/CONTRIBUTING.md).
 
 ## Licence
