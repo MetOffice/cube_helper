@@ -12,7 +12,7 @@ file before merging the changes into master branch.
 
 ## Code Contributors  
  * James Bedwell (Met Office, UK), [james.bedwell@metoffice.gov.uk](mailto:james.bedwell@metoffice.gov.uk)
- * John Seddon (Met Office, UK), [john.seddon@metoffice.gov.uk](mailto:john.seddon@metoffice.gov.uk)
+ * Jon Seddon (Met Office, UK), [jon.seddon@metoffice.gov.uk](mailto:jon.seddon@metoffice.gov.uk)
  * Jamie Kettleborough (Met Office, UK) [jamie.kettleborough@metoffice.gov.uk](mailto:jamie.kettleborough@metoffice.gov.uk)
  
  ## Contributor Licence Agreement and Certificate of Origin  
