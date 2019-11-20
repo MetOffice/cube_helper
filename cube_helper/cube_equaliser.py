@@ -70,36 +70,31 @@ def equalise_time_units(cubes, comp_only=False):
     change_messages = set({})
     epochs = {}
     calendar = None
-    for coord in cubes[0].coords():
-        if coord.units.is_time_reference():
-            origin = coord.units.origin
-        else:
-            origin = None
+    origin = cubes[0].coords('time')[0].units.origin
     for cube in cubes:
-        time_coord = cube.coord('time')
-        if time_coord.units.is_time_reference():
-            if comp_only:
-                if not calendar:
-                    calendar = time_coord.units.calendar
-                    origin = time_coord.units.origin
-                if time_coord.units.calendar != calendar:
-                    comp_messages.add("\tcalendar format inconsistent\n")
-                if time_coord.units.origin != origin:
-                    comp_messages.add("\ttime start date inconsistent\n")
-                break
-            else:
-                epoch = epochs.setdefault(time_coord.units.calendar,
-                                            time_coord.units.origin)
-                if origin != time_coord.units.origin:
-                    change_messages.add("New time origin set to {}\n".format(origin))
+        for time_coord in cube.coords():
+            if time_coord.units.is_time_reference():
+                if comp_only:
+                    if not calendar:
+                        calendar = time_coord.units.calendar
+                        origin = time_coord.units.origin
+                    if time_coord.units.calendar != calendar:
+                        comp_messages.add("\tcalendar format inconsistent\n")
+                    if time_coord.units.origin != origin:
+                        comp_messages.add("\ttime start date inconsistent\n")
+                    break
+                else:
+                    epoch = epochs.setdefault(time_coord.units.calendar,
+                                              time_coord.units.origin)
+                    if origin != time_coord.units.origin:
+                        change_messages.add("New time origin set to {}\n".format(origin))
                     new_unit = cf_units.Unit(epoch, time_coord.units.calendar)
                     time_coord.convert_units(new_unit)
-                    origin = time_coord.units.origin
     if comp_messages:
         for message in comp_messages:
             print(message)
     if change_messages:
-        for message in comp_messages:
+        for message in change_messages:
             print(message)
     return cubes
 
