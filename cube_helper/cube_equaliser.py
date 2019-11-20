@@ -67,9 +67,10 @@ def equalise_time_units(cubes, comp_only=False):
         cubes with time coordinates unified.
     """
     comp_messages = set({})
+    change_messages = set({})
     epochs = {}
     calendar = None
-    origin = None
+    origin = cubes[0].coord('time').units.origin
     for cube in cubes:
         for time_coord in cube.coords():
             if time_coord.units.is_time_reference():
@@ -85,15 +86,17 @@ def equalise_time_units(cubes, comp_only=False):
                 else:
                     epoch = epochs.setdefault(time_coord.units.calendar,
                                               time_coord.units.origin)
-
-                    new_unit = cf_units.Unit(epoch, time_coord.units.calendar)
-                    time_coord.convert_units(new_unit)
-                    origin = time_coord.units.origin
+                    if origin != time_coord.units.origin:
+                        change_messages.add("New time origin set to {}\n".format(origin))
+                        new_unit = cf_units.Unit(epoch, time_coord.units.calendar)
+                        time_coord.convert_units(new_unit)
+                        origin = time_coord.units.origin
     if comp_messages:
         for message in comp_messages:
             print(message)
-    else:
-        print("New time origin set to {}\n".format(origin))
+    if change_messages:
+        for message in comp_messages:
+            print(message)
     return cubes
 
 
