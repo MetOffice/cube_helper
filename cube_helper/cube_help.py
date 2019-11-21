@@ -165,7 +165,7 @@ def concatenate(cubes):
     Returns:
         cube: A concatenated iris Cube.
     """
-    compare_cubes(cubes)
+    cubes = equalise_all(cubes)
     cube_list = iris.cube.CubeList(equalise_all(cubes))
     cube = cube_list.concatenate_cube()
     return cube
