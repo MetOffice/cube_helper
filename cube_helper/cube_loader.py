@@ -195,6 +195,7 @@ def load_from_filelist(data_filelist, filetype, constraint=None):
         else:
             try:
                 loaded_cubes.append(iris.load_cube(filename, constraint))
+                cube_files.append(filename)
             except (MergeError, ConstraintMismatchError):
                 for cube in iris.load_raw(filename, constraint):
                     if isinstance(cube.standard_name, str):
