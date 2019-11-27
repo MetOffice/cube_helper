@@ -27,7 +27,7 @@ def load(directory, filetype='.nc', constraints=None):
         loaded_cubes, cube_files = load_from_dir(
             directory, filetype, constraints)
         if not loaded_cubes:
-            return "No cubes found".format()
+            raise OSError
         else:
             compare_cubes(loaded_cubes)
             result = equalise_all(loaded_cubes)
@@ -44,7 +44,7 @@ def load(directory, filetype='.nc', constraints=None):
             directory, filetype, constraints)
 
         if not loaded_cubes:
-            return "No cubes found".format()
+            raise OSError
         else:
             compare_cubes(loaded_cubes)
             result = equalise_all(loaded_cubes)
