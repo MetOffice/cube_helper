@@ -67,75 +67,101 @@ def _season_year(cube, coord):
         cube,
         coord,
         name='season_year')
+
+
 def _season_membership(cube, coord, season):
     iris.coord_categorisation.add_season_membership(
         cube,
         coord,
         name='season_membership',
         season=season)
+
+
 def _season_number(cube, coord, seasons):
     iris.coord_categorisation.add_season_number(
         cube,
         coord,
         name='season_number',
         seasons=seasons)
+
+
 def _clim_season(cube, coord, seasons):
     iris.coord_categorisation.add_season(
         cube,
         coord,
         name='season',
         seasons=seasons)
+
+
 def _year(cube, coord):
     iris.coord_categorisation.add_year(
         cube,
         coord,
         name='year')
+
+
 def _month_number(cube, coord):
     iris.coord_categorisation.add_month_number(
         cube,
         coord,
         name='month_number')
+
+
 def _month_fullname(cube, coord):
     iris.coord_categorisation.add_month_fullname(
         cube,
         coord,
         name='month_fullname')
+
+
 def _month(cube, coord):
     iris.coord_categorisation.add_month(
         cube,
         coord,
         name='month')
+
+
 def _day_of_month(cube, coord):
     iris.coord_categorisation.add_day_of_month(
         cube,
         coord,
         name='day_of_month')
+
+
 def _day_of_year(cube, coord):
+
     iris.coord_categorisation.add_day_of_year(
         cube,
         coord,
         name='day_of_year')
+
+
 def _weekday_number(cube, coord):
     iris.coord_categorisation.add_weekday_number(
         cube,
         coord,
         name='weekday_number')
+
+
 def _weekday_fullname(cube, coord):
     iris.coord_categorisation.add_weekday_fullname(
         cube,
         coord,
-        name='weekday_fullname'),
+        name='weekday_fullname')
+
+
 def _weekday(cube, coord):
     iris.coord_categorisation.add_weekday(
         cube,
         coord,
         name='weekday')
+
+
 def _hour(cube, coord):
     iris.coord_categorisation.add_hour(
         cube,
         coord,
         name='hour')
-
 
 
 _cater_dict = {'season_year':
@@ -174,10 +200,18 @@ _cater_dict = {'season_year':
                'day_of_year':
                    lambda cube, coord, season, seasons:
                    _day_of_year(cube, coord),
-    'weekday_number': lambda cube, coord, season, seasons: _weekday_number(cube, coord),
-    'weekday_fullname': lambda cube, coord, season, seasons: _weekday_fullname(cube, coord),
-    'weekday': lambda cube, coord, season, seasons: _weekday(cube, coord),
-    'hour': lambda cube, coord, season, seasons: _hour(cube, coord)}
+               'weekday_number':
+                   lambda cube, coord, season, seasons:
+                   _weekday_number(cube, coord),
+               'weekday_fullname':
+                   lambda cube, coord, season, seasons:
+                   _weekday_fullname(cube, coord),
+               'weekday':
+                   lambda cube, coord, season, seasons:
+                   _weekday(cube, coord),
+               'hour':
+                   lambda cube, coord, season, seasons:
+                   _hour(cube, coord)}
 
 
 def add_categorical(cater_name, cubes, coord='time', season='djf',
