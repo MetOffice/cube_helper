@@ -62,105 +62,122 @@ def load(directory, filetype='.nc', constraints=None):
             return result
 
 
-def _add_categorical(cater_name, cube, coord, season, seasons):
-    """
-    Private function implementing the logic needed to select different
-    catergorisations for add_categorical()
-    """
-    cater_dict = {'season_year':
-        iris.coord_categorisation.add_season_year(
-            cube,
-            coord,
-            name='season_year'),
-        'season_membership':
-            iris.coord_categorisation.add_season_membership(
-            cube,
-            coord,
-            name='season_membership',
-            season=season),
+def _season_year(cube, coord):
+    iris.coord_categorisation.add_season_year(
+        cube,
+        coord,
+        name='season_year')
+def _season_membership(cube, coord, season):
+    iris.coord_categorisation.add_season_membership(
+        cube,
+        coord,
+        name='season_membership',
+        season=season)
+def _season_number(cube, coord, seasons):
+    iris.coord_categorisation.add_season_number(
+        cube,
+        coord,
+        name='season_number',
+        seasons=seasons)
+def _clim_season(cube, coord, seasons):
+    iris.coord_categorisation.add_season(
+        cube,
+        coord,
+        name='season',
+        seasons=seasons)
+def _year(cube, coord):
+    iris.coord_categorisation.add_year(
+        cube,
+        coord,
+        name='year')
+def _month_number(cube, coord):
+    iris.coord_categorisation.add_month_number(
+        cube,
+        coord,
+        name='month_number')
+def _month_fullname(cube, coord):
+    iris.coord_categorisation.add_month_fullname(
+        cube,
+        coord,
+        name='month_fullname')
+def _month(cube, coord):
+    iris.coord_categorisation.add_month(
+        cube,
+        coord,
+        name='month')
+def _day_of_month(cube, coord):
+    iris.coord_categorisation.add_day_of_month(
+        cube,
+        coord,
+        name='day_of_month')
+def _day_of_year(cube, coord):
+    iris.coord_categorisation.add_day_of_year(
+        cube,
+        coord,
+        name='day_of_year')
+def _weekday_number(cube, coord):
+    iris.coord_categorisation.add_weekday_number(
+        cube,
+        coord,
+        name='weekday_number')
+def _weekday_fullname(cube, coord):
+    iris.coord_categorisation.add_weekday_fullname(
+        cube,
+        coord,
+        name='weekday_fullname'),
+def _weekday(cube, coord):
+    iris.coord_categorisation.add_weekday(
+        cube,
+        coord,
+        name='weekday')
+def _hour(cube, coord):
+    iris.coord_categorisation.add_hour(
+        cube,
+        coord,
+        name='hour')
 
-        'season_number':
-        iris.coord_categorisation.add_season_number(
-            cube,
-            coord,
-            name='season_number',
-            seasons=seasons),
-        'number':
-            iris.coord_categorisation.add_season_number(
-                cube,
-                coord,
-                name='season_number',
-                seasons=seasons),
-        'clim_season':
-        iris.coord_categorisation.add_season(
-            cube,
-            coord,
-            name='season',
-            seasons=seasons),
-        'season':
-            iris.coord_categorisation.add_season(
-                cube,
-                coord,
-                name='season',
-                seasons=seasons),
-        'year':
-        iris.coord_categorisation.add_year(
-            cube,
-            coord,
-            name='year'),
-        'month_number':
-        iris.coord_categorisation.add_month_number(
-            cube,
-            coord,
-            name='month_number'),
 
-        'month_fullname':
-        iris.coord_categorisation.add_month_fullname(
-            cube,
-            coord,
-            name='month_fullname'),
-        'month':
-        iris.coord_categorisation.add_month(
-            cube,
-            coord,
-            name='month'),
-        'day_of_month':
-        iris.coord_categorisation.add_day_of_month(
-            cube,
-            coord,
-            name='day_of_month'),
-        'day_of_year':
-        iris.coord_categorisation.add_day_of_year(
-            cube,
-            coord,
-            name='day_of_year'),
 
-        'weekday_number':
-        iris.coord_categorisation.add_weekday_number(
-            cube,
-            coord,
-            name='weekday_number'),
-
-        'weekday_fullname':
-        iris.coord_categorisation.add_weekday_fullname(
-            cube,
-            coord,
-            name='weekday_fullname'),
-        'weekday':
-        iris.coord_categorisation.add_weekday(
-            cube,
-            coord,
-            name='weekday'),
-        'hour':
-        iris.coord_categorisation.add_hour(
-            cube,
-            coord,
-            name='hour')}
-
-    try:
-        cater_dict[cater_name]
-    except KeyError:
-        print("Incorrect categorical selected")
+_cater_dict = {'season_year':
+                   lambda cube, coord, season, seasons:
+                   _season_year(cube, coord),
+               'season_membership':
+                   lambda cube, coord, season, seasons:
+                   _season_membership(cube, coord, season),
+               'season_number':
+                   lambda cube, coord, season, seasons:
+                   _season_number(cube, coord, seasons),
+               'number':
+                   lambda cube, coord, season, seasons:
+                   _season_number(cube, coord, seasons),
+               'clim_season':
+                   lambda cube, coord, season, seasons:
+                   _clim_season(cube, coord, seasons),
+               'season':
+                   lambda cube, coord, season, seasons:
+                   _clim_season(cube, coord, seasons),
+               'year':
+                   lambda cube, coord, season, seasons:
+                   _year(cube, coord),
+               'month_number':
+                   lambda cube, coord, season, seasons:
+                   _month_number(cube, coord),
+               'month_fullname':
+                   lambda cube, coord, season, seasons:
+                   _month_fullname(cube, coord),
+               'month':
+                   lambda cube, coord, season, seasons:
+                   _month(cube, coord),
+               'day_of_month':
+                   lambda cube, coord, season, seasons:
+                   _day_of_month(cube, coord),
+               'day_of_year':
+                   lambda cube, coord, season, seasons:
+                   _day_of_year(cube, coord),
+    'weekday_number': lambda cube, coord, season, seasons: _weekday_number(cube, coord),
+    'weekday_fullname': lambda cube, coord, season, seasons: _weekday_fullname(cube, coord),
+    'weekday': lambda cube, coord, season, seasons: _weekday(cube, coord),
+    'hour': lambda cube, coord, season, seasons: _hour(cube, coord)}
 
 
 def add_categorical(cater_name, cubes, coord='time', season='djf',
@@ -183,13 +200,11 @@ def add_categorical(cater_name, cubes, coord='time', season='djf',
     """
     if isinstance(cubes, iris.cube.CubeList) or isinstance(cubes, list):
         for cube in cubes:
-            _add_categorical(cater_name, cube,
-                             coord, season, seasons)
+            _cater_dict[cater_name](cube, coord, season, seasons)
         return cubes
 
     else:
-        _add_categorical(cater_name, cubes,
-                         coord, season, seasons)
+        _cater_dict[cater_name](cubes, coord, season, seasons)
         return cubes
 
 
