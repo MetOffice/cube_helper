@@ -67,65 +67,100 @@ def _add_categorical(cater_name, cube, coord, season, seasons):
     Private function implementing the logic needed to select different
     catergorisations for add_categorical()
     """
-    if cater_name == 'season_year':
+    cater_dict = {'season_year':
         iris.coord_categorisation.add_season_year(
-            cube, coord, name='season_year')
+            cube,
+            coord,
+            name='season_year'),
+        'season_membership':
+            iris.coord_categorisation.add_season_membership(
+            cube,
+            coord,
+            name='season_membership',
+            season=season),
 
-    elif cater_name == 'season_membership':
-        iris.coord_categorisation.add_season_membership(
-            cube, coord, name='season_membership',
-            season=season)
-
-    elif cater_name == 'season_number' or cater_name == 'number':
+        'season_number':
         iris.coord_categorisation.add_season_number(
-            cube, coord, name='season_number',
-            seasons=seasons)
-
-    elif cater_name == 'clim_season' or cater_name == 'season':
+            cube,
+            coord,
+            name='season_number',
+            seasons=seasons),
+        'number':
+            iris.coord_categorisation.add_season_number(
+                cube,
+                coord,
+                name='season_number',
+                seasons=seasons),
+        'clim_season':
         iris.coord_categorisation.add_season(
-            cube, coord, name='season', seasons=seasons)
-
-    elif cater_name == 'year':
+            cube,
+            coord,
+            name='season',
+            seasons=seasons),
+        'season':
+            iris.coord_categorisation.add_season(
+                cube,
+                coord,
+                name='season',
+                seasons=seasons),
+        'year':
         iris.coord_categorisation.add_year(
-            cube, coord, name='year')
-
-    elif cater_name == 'month_number':
+            cube,
+            coord,
+            name='year'),
+        'month_number':
         iris.coord_categorisation.add_month_number(
-            cube, coord, name='month_number')
+            cube,
+            coord,
+            name='month_number'),
 
-    elif cater_name == 'month_fullname':
+        'month_fullname':
         iris.coord_categorisation.add_month_fullname(
-            cube, coord, name='month_fullname')
-
-    elif cater_name == 'month':
+            cube,
+            coord,
+            name='month_fullname'),
+        'month':
         iris.coord_categorisation.add_month(
-            cube, coord, name='month')
-
-    elif cater_name == 'day_of_month':
+            cube,
+            coord,
+            name='month'),
+        'day_of_month':
         iris.coord_categorisation.add_day_of_month(
-            cube, coord, name='day_of_month')
-
-    elif cater_name == 'day_of_year':
+            cube,
+            coord,
+            name='day_of_month'),
+        'day_of_year':
         iris.coord_categorisation.add_day_of_year(
-            cube, coord, name='day_of_year')
+            cube,
+            coord,
+            name='day_of_year'),
 
-    elif cater_name == 'weekday_number':
+        'weekday_number':
         iris.coord_categorisation.add_weekday_number(
-            cube, coord, name='weekday_number')
+            cube,
+            coord,
+            name='weekday_number'),
 
-    elif cater_name == 'weekday_fullname':
+        'weekday_fullname':
         iris.coord_categorisation.add_weekday_fullname(
-            cube, coord, name='weekday_fullname')
-
-    elif cater_name == 'weekday':
+            cube,
+            coord,
+            name='weekday_fullname'),
+        'weekday':
         iris.coord_categorisation.add_weekday(
-            cube, coord, name='weekday')
-
-    elif cater_name == 'hour':
+            cube,
+            coord,
+            name='weekday'),
+        'hour':
         iris.coord_categorisation.add_hour(
-            cube, coord, name='hour')
-    else:
-        pass
+            cube,
+            coord,
+            name='hour')}
+
+    try:
+        cater_dict[cater_name]
+    except KeyError:
+        print("Incorrect categorical selected")
 
 
 def add_categorical(cater_name, cubes, coord='time', season='djf',
