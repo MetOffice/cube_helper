@@ -163,55 +163,57 @@ def _hour(cube, coord):
         coord,
         name='hour')
 
+
 def _add_categorical(cater_name, cube, coord, season, seasons):
     cater_dict = {'season_year':
-       lambda cube:
-       _season_year(cube, coord),
-   'season_membership':
-       lambda cube:
-       _season_membership(cube, coord, season),
-   'season_number':
-       lambda cube:
-       _season_number(cube, coord, seasons),
-   'number':
-       lambda cube:
-       _season_number(cube, coord, seasons),
-   'clim_season':
-       lambda cube:
-       _clim_season(cube, coord, seasons),
-   'season':
-       lambda cube:
-       _clim_season(cube, coord, seasons),
-   'year':
-       lambda cube:
-       _year(cube, coord),
-   'month_number':
-       lambda cube:
-       _month_number(cube, coord),
-   'month_fullname':
-       lambda cube:
-       _month_fullname(cube, coord),
-   'month':
-       lambda cube:
-       _month(cube, coord),
-   'day_of_month':
-       lambda cube:
-       _day_of_month(cube, coord),
-   'day_of_year':
-       lambda cube:
-       _day_of_year(cube, coord),
-   'weekday_number':
-       lambda cube:
-       _weekday_number(cube, coord),
-   'weekday_fullname':
-       lambda cube:
-       _weekday_fullname(cube, coord),
-   'weekday':
-       lambda cube:
-       _weekday(cube, coord),
-   'hour':
-       lambda cube:
-       _hour(cube, coord)}
+                      lambda cube:
+                      _season_year(cube, coord),
+                  'season_membership':
+                      lambda cube:
+                      _season_membership(cube, coord, season),
+                  'season_number':
+                      lambda cube:
+                      _season_number(cube, coord, seasons),
+                  'number':
+                      lambda cube:
+                      _season_number(cube, coord, seasons),
+                  'clim_season':
+                      lambda cube:
+                      _clim_season(cube, coord, seasons),
+                  'season':
+                      lambda cube:
+                      _clim_season(cube, coord, seasons),
+                  'year':
+                      lambda cube:
+                      _year(cube, coord),
+                  'month_number':
+                      lambda cube:
+                      _month_number(cube, coord),
+                  'month_fullname':
+                      lambda cube:
+                      _month_fullname(cube, coord),
+                  'month':
+                      lambda cube:
+                      _month(cube, coord),
+                  'day_of_month':
+                      lambda cube:
+                      _day_of_month(cube, coord),
+                  'day_of_year':
+                      lambda cube:
+                      _day_of_year(cube, coord),
+                  'weekday_number':
+                      lambda cube:
+                      _weekday_number(cube, coord),
+                  'weekday_fullname':
+                      lambda cube:
+                      _weekday_fullname(cube, coord),
+                  'weekday':
+                      lambda cube:
+                      _weekday(cube, coord),
+                  'hour':
+                      lambda cube:
+                      _hour(cube, coord)}
+
     cater_dict.get(cater_name)(cube)
 
 
