@@ -11,7 +11,7 @@ Guide
    :maxdepth: 2
 
    Cube Helper Tutorial
-   cube_helper
+   Cube Helper Module
    licence
 
 

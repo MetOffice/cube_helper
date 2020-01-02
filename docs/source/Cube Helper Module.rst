@@ -1,4 +1,4 @@
-cube\_helper package
+Cube Helper Module
 ====================
 
 Submodules
