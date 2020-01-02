@@ -20,7 +20,7 @@
 # -- Project information -----------------------------------------------------
 
 project = 'Cube Helper'
-copyright = '2020, James Bedwell'
+copyright = '2020, Met Office'
 author = 'James Bedwell'
 
 # The short X.Y version

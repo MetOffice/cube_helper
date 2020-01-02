@@ -1,11 +1,7 @@
-.. Cube Helper documentation master file, created by
-   sphinx-quickstart on Thu Jan  2 11:11:02 2020.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
 Cube Helper documentation
 =======================================
 
+``cube_helper`` is a software package designed to help users concatenate, equalise, and compare large datasets of cubes. It provides a degree of abstaction from meta-data and coordinate information that prevents concatenation amound cubes.
 
 Guide
 ^^^^^
