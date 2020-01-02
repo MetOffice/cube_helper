@@ -11,6 +11,7 @@ Guide
    :maxdepth: 2
 
    Cube Helper Tutorial
+   cube_helper
    licence
 
 
@@ -19,5 +20,3 @@ Indices and tables
 ==================
 
 * :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
