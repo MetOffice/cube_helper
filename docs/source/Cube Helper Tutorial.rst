@@ -1,5 +1,5 @@
 
-cube_helper Tutorial
+Cube Helper Tutorial
 --------------------
 
 This tutorial is a step by step guide to using the ``cube_helper``
