@@ -14,7 +14,7 @@ Guide
 .. toctree::
    :maxdepth: 2
 
-   Cube helper Tutorial
+   Cube Helper Tutorial
    licence
 
 
