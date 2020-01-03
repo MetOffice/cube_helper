@@ -10,6 +10,7 @@ Guide
 .. toctree::
    :maxdepth: 2
 
+   Quickstart
    Cube Helper Tutorial
    Cube Helper Module
    licence
