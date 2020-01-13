@@ -1,7 +1,7 @@
 Quickstart
 ==========
 
-A Quick starting guide to get you using ``cube_helper`` in a matter of minutes.
+A quick starting guide to get you using ``cube_helper`` in a matter of minutes.
 
 Loading a cube
 ^^^^^^^^^^^^^^
