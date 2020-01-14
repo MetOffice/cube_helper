@@ -5,7 +5,8 @@ A quick starting guide to get you using ``cube_helper`` in a matter of minutes.
 
 Loading a cube
 ^^^^^^^^^^^^^^
-To load a cube from a directory of NetCDF files:  
+To load a cube from a directory of NetCDF files:
+
 .. code-block:: python
 
    >>> import cube_helper as ch
