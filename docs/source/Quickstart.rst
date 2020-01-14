@@ -5,17 +5,18 @@ A quick starting guide to get you using ``cube_helper`` in a matter of minutes.
 
 Loading a cube
 ^^^^^^^^^^^^^^
+To load a cube from a directory of NetCDF files:
 .. code-block:: python
 
    >>> import cube_helper as ch
-   >>> cube = ch.load('/project/champ/data/CMIP6/CMIP/MOHC/HadGEM3-GC31-LL/piControl/r1i1p1f1/Amon/tasmin/gn/v20190628')
+   >>> cube = ch.load('/path/to/cmip/data/HadGEM3-GC31-LL/piControl/r1i1p1f1/Amon/tasmin/gn/v20190628')
 
 Loading a cube with constraints
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 .. code-block:: python
 
    >>> longitude_constraint = iris.Constraint(longitude = lamda cell : cell > 0 and cell < 180)
-   >>> cube = ch.load('/project/champ/data/CMIP6/CMIP/MOHC/HadGEM3-GC31-LL/piControl/r1i1p1f1/Amon/tasmin/gn/v20190628', constraints=longitude_constraint)
+   >>> cube = ch.load('/path/to/cmip/data/HadGEM3-GC31-LL/piControl/r1i1p1f1/Amon/tasmin/gn/v20190628', constraints=longitude_constraint)
 
 
 Concatenating a cube
