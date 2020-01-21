@@ -16,6 +16,7 @@ Loading a cube with constraints
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 .. code-block:: python
 
+   >>> import iris
    >>> longitude_constraint = iris.Constraint(longitude = lamda cell : cell > 0 and cell < 180)
    >>> cube = ch.load('/path/to/cmip/data/HadGEM3-GC31-LL/piControl/r1i1p1f1/Amon/tasmin/gn/v20190628', constraints=longitude_constraint)
 
@@ -24,7 +25,6 @@ Loading a cube from an fname list
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 .. code-block:: python
 
-   >>> import cube_helper as ch
    >>> from glob import glob
    >>> fnames = glob('/project/champ/data/cmip5/output1/ICHEC/EC-EARTH/historical/mon/atmos/Amon/r1i1p1/v20131231/tas/*.nc')
    >>> cube = ch.load(fnames)
