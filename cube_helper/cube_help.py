@@ -217,7 +217,7 @@ def _add_categorical(cater_name, cube, coord, season, seasons):
     cater_dict.get(cater_name)(cube)
 
 
-def add_categorical(cater_name, cubes, coord='time', season='djf',
+def extract_categorical(cater_name, cubes, coord='time', season='djf',
                     seasons=('djf', 'mam', 'jja', 'son')):
     """
     Adds a coordinate catergorisation to the iterable of iris Cubes.
