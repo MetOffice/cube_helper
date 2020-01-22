@@ -4,7 +4,7 @@
 # See LICENSE in the root of the repository for full licensing details.
 
 import iris
-from cube_helper.cube_help import load, concatenate, add_categorical
+from cube_helper.cube_help import load, concatenate, extract_categorical
 from glob import glob
 import os
 
@@ -38,7 +38,7 @@ def test_load():
     assert test_case_b.dim_coords[0].units.calendar == "gregorian"
 
 
-def test_add_categorical():
+def test_extract_categorical():
     abs_path = os.path.dirname(os.path.abspath(__file__))
     glob_path = abs_path + '/test_data/realistic_3d_time' + '/*.nc'
     filepaths = glob(glob_path)
@@ -52,12 +52,12 @@ def test_add_categorical():
                           "weekday_number", "weekday_fullname",
                           "weekday", "hour"]
     for categorical in test_categoricals:
-        test_case_a = add_categorical(categorical, test_case_a)
+        test_case_a = extract_categorical(categorical, test_case_a)
         assert test_case_a.coord(categorical)
         test_case_a.remove_coord(categorical)
 
     for categorical in test_categoricals:
         for cube in test_case_b:
-            cube = add_categorical(categorical, cube)
+            cube = extract_categorical(categorical, cube)
             assert cube.coord(categorical)
             cube.remove_coord(categorical)
