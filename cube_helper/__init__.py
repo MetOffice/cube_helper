@@ -3,7 +3,7 @@
 # This file is part of cube_helper and is released under the BSD 3-Clause license.
 # See LICENSE in the root of the repository for full licensing details.
 
-from cube_helper.cube_help import (load, add_categorical, concatenate)
+from cube_helper.cube_help import (load, extract_categorical, concatenate)
 from cube_helper.cube_loader import (load_from_dir,
                                      load_from_filelist,
                                      sort_by_earliest_date,
