@@ -84,12 +84,18 @@ def _season_number(cube, coord, seasons):
         name='season_number',
         seasons=seasons)
 
+def _season(cube, coord, seasons):
+    iris.coord_categorisation.add_season(
+        cube,
+        coord,
+        name='season',
+        seasons=seasons)
 
 def _clim_season(cube, coord, seasons):
     iris.coord_categorisation.add_season(
         cube,
         coord,
-        name='season',
+        name='clim_season',
         seasons=seasons)
 
 
@@ -182,7 +188,7 @@ def _add_categorical(cater_name, cube, coord, season, seasons):
                       _clim_season(cube, coord, seasons),
                   'season':
                       lambda cube:
-                      _clim_season(cube, coord, seasons),
+                      _season(cube, coord, seasons),
                   'year':
                       lambda cube:
                       _year(cube, coord),

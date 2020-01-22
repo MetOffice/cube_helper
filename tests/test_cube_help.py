@@ -4,7 +4,7 @@
 # See LICENSE in the root of the repository for full licensing details.
 
 import iris
-from cube_helper.cube_help import load, concatenate, extract_categorical
+import cube_helper as ch
 from glob import glob
 import os
 
@@ -13,9 +13,9 @@ def test_concatenate():
     glob_path = abs_path + '/test_data/realistic_3d_time' + '/*.nc'
     filepaths = glob(glob_path)
     test_load = [iris.load_cube(cube) for cube in filepaths]
-    test_case_a = concatenate(test_load)
+    test_case_a = ch.concatenate(test_load)
     test_load = iris.cube.CubeList(test_load)
-    test_case_b = concatenate(test_load)
+    test_case_b = ch.concatenate(test_load)
     assert isinstance(test_case_a, iris.cube.Cube)
     assert isinstance(test_case_b, iris.cube.Cube)
 
@@ -25,13 +25,13 @@ def test_load():
     glob_path = abs_path + '/test_data/realistic_3d_time' + '/*.nc'
     filepaths = glob(glob_path)
     directory = abs_path + '/test_data/realistic_3d_time'
-    test_case_a = load(filepaths)
+    test_case_a = ch.load(filepaths)
     assert isinstance(test_case_a, iris.cube.Cube)
     assert test_case_a.dim_coords[0].units.origin == "hours" \
                                                      " since 1970-01-01" \
                                                      " 00:00:00"
     assert test_case_a.dim_coords[0].units.calendar == "gregorian"
-    test_case_b = load(directory)
+    test_case_b = ch.load(directory)
     assert test_case_b.dim_coords[0].units.origin == "hours" \
                                                      " since 1970-01-01" \
                                                      " 00:00:00"
@@ -42,7 +42,7 @@ def test_extract_categorical():
     abs_path = os.path.dirname(os.path.abspath(__file__))
     glob_path = abs_path + '/test_data/realistic_3d_time' + '/*.nc'
     filepaths = glob(glob_path)
-    test_case_a = load(filepaths)
+    test_case_a = ch.load(filepaths)
     test_case_b = [iris.load_cube(cube) for cube in filepaths]
     test_categoricals = ["season_year", "season_number",
                           "season_membership", "season",
@@ -52,12 +52,12 @@ def test_extract_categorical():
                           "weekday_number", "weekday_fullname",
                           "weekday", "hour"]
     for categorical in test_categoricals:
-        test_case_a = extract_categorical(categorical, test_case_a)
+        test_case_a = ch.extract_categorical(categorical, test_case_a)
         assert test_case_a.coord(categorical)
         test_case_a.remove_coord(categorical)
 
     for categorical in test_categoricals:
         for cube in test_case_b:
-            cube = extract_categorical(categorical, cube)
+            cube = ch.extract_categorical(categorical, cube)
             assert cube.coord(categorical)
             cube.remove_coord(categorical)
