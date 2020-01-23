@@ -4,9 +4,10 @@
 # See LICENSE in the root of the repository for full licensing details.
 
 from __future__ import (absolute_import, division, print_function)
+from iris.util import unify_time_units
+from iris.experimental import equalise_cubes
 import sys
 import numpy as np
-import cf_units
 from collections import namedtuple
 from itertools import combinations
 
@@ -30,31 +31,25 @@ def equalise_attributes(cubes, comp_only=False):
 
     """
     uncommon_keys = []
-    common_keys = cubes[0].attributes.keys()
-    for cube in cubes[1:]:
-        cube_keys = cube.attributes.keys()
-        common_keys = [
-            key for key in common_keys
-            if (key in cube_keys and
-                np.all(cube.attributes[key] == cubes[0].attributes[key]))]
-
-    # Remove all the other attributes.
+    attribute_dict = {key:set(value) for key, value in cubes[0].attributes.items()}
     for cube in cubes:
-        for key in list(cube.attributes.keys()):
-            if key not in common_keys:
+        for key, value in cube.attributes.items():
+            try:
+                attribute_dict[key].add(value)
+                if len(attribute_dict[key]) > 1:
+                    uncommon_keys.append(key)
+            except KeyError:
                 uncommon_keys.append(key)
-                if not comp_only:
-                    del cube.attributes[key]
 
-    uncommon_keys = list(dict.fromkeys(uncommon_keys))
     for key in uncommon_keys:
+        if not uncommon_keys:
+            break
+        print("\t{} attribute inconsistent\n".format(key))
         if not comp_only:
+            equalise_cubes.equalise_attributes(cubes)
             print("Deleting {} attribute from cubes\n".format(key))
-        else:
-            print("\t{} attribute inconsistent\n".format(key))
 
     return cubes
-
 
 def equalise_time_units(cubes, comp_only=False):
     """
@@ -71,38 +66,27 @@ def equalise_time_units(cubes, comp_only=False):
     Returns:
         cubes with time coordinates unified.
     """
-    comp_messages = set({})
-    change_messages = set({})
-    epochs = {}
-    calendar = None
-    origin = cubes[0].coords('time')[0].units.origin
+    calendars = set({})
+    origins = set({})
     for cube in cubes:
         for time_coord in cube.coords():
             if time_coord.units.is_time_reference():
-                if comp_only:
-                    if not calendar:
-                        calendar = time_coord.units.calendar
-                        origin = time_coord.units.origin
-                    if time_coord.units.calendar != calendar:
-                        comp_messages.add("\tcalendar format inconsistent\n")
-                    if time_coord.units.origin != origin:
-                        comp_messages.add("\ttime start date inconsistent\n")
-                    break
-                else:
-                    epoch = epochs.setdefault(time_coord.units.calendar,
-                                              time_coord.units.origin)
-                    if origin != time_coord.units.origin:
-                        change_messages.add("New time origin set to {}\n".format(origin))
-                    new_unit = cf_units.Unit(epoch, time_coord.units.calendar)
-                    time_coord.convert_units(new_unit)
-    if comp_messages:
-        for message in comp_messages:
-            print(message)
-    if change_messages:
-        for message in change_messages:
-            print(message)
+                calendars.add(time_coord.units.calendar)
+                origins.add(time_coord.units.origin)
+    if len(calendars) > 1:
+        print("\tcalendar format inconsistent\n")
+    if len(origins) > 1:
+        print("\ttime start date inconsistent\n")
+        new_origin = cubes[0].coord('time').units.origin
+        print("New time origin set to {}\n".format(new_origin))
+    if (len(calendars) or len(origins) > 1) and not comp_only:
+        unify_time_units(cubes)
     return cubes
 
+
+#"\tcalendar format inconsistent\n"
+#"\ttime start date inconsistent\n")
+#"New time origin set to {}\n"
 
 def equalise_data_type(cubes, data_type='float32'):
     """
