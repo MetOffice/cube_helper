@@ -29,19 +29,20 @@ def equalise_attributes(cubes, comp_only=False):
         Equalised cube_dataset to the CubeHelp class
 
     """
-    uncommon_keys = set({})
+    uncommon_keys = set()
     attribute_dict = {}
     for key, value in cubes[0].attributes.items():
         attribute_dict[key] = set({value})
     for cube in cubes[1:]:
         for key, value in cube.attributes.items():
-            try:
+            if key in attribute_dict:
                 attribute_dict[key].add(value)
-                if len(attribute_dict[key]) > 1:
-                    uncommon_keys.add(key)
-            except KeyError:
+            else:
                 uncommon_keys.add(key)
-
+                break
+    for key in attribute_dict:
+        if len(attribute_dict[key]) > 1:
+            uncommon_keys.add(key)
     for key in uncommon_keys:
         if not comp_only:
             for cube in cubes:
@@ -70,8 +71,8 @@ def equalise_time_units(cubes, comp_only=False):
     Returns:
         cubes with time coordinates unified.
     """
-    comp_messages = set({})
-    change_messages = set({})
+    comp_messages = set()
+    change_messages = set()
     calendar = cubes[0].coord('time').units.calendar
     origin = cubes[0].coord('time').units.origin
     for cube in cubes:
