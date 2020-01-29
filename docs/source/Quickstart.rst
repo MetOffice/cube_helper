@@ -21,8 +21,8 @@ Loading a cube with constraints
    >>> cube = ch.load('/path/to/cmip/data/HadGEM3-GC31-LL/piControl/r1i1p1f1/Amon/tasmin/gn/v20190628', constraints=longitude_constraint)
 
 
-Loading a cube from an fname list
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Loading a cube from a list of files
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 .. code-block:: python
 
    >>> from glob import glob
