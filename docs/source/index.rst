@@ -1,24 +1,24 @@
-.. Cube Helper documentation master file, created by
-   sphinx-quickstart on Fri Sep 20 10:49:46 2019.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
-Welcome to Cube Helper's documentation!
+Cube Helper documentation
 =======================================
-``cube_helper`` is a software package designed to help users concatenate, equalise, and compare large datasets of cubes. It provides a degree of abstaction from meta-data and coordinate information that prevents concatenation amound cubes.
+
+``cube_helper`` is a software package designed to help users concatenate, equalise, and compare large datasets of Iris cubes. It provides a degree of abstraction from meta-data and coordinate information that prevents concatenation of cubes.
+
+Guide
+^^^^^
+
 
 .. toctree::
    :maxdepth: 2
 
-   cube_helper_tutorial  
+   Quickstart
+   Cube Helper Tutorial
+   Cube Helper Module
+   license
+   contributing
 
-   cube_helper  
 
 
 Indices and tables
 ==================
 
 * :ref:`genindex`
-
-
-
