@@ -14,6 +14,7 @@ Guide
    Cube Helper Tutorial
    Cube Helper Module
    licence
+   contributing
 
 
 
