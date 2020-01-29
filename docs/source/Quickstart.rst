@@ -26,7 +26,7 @@ Loading a cube from a list of files
 .. code-block:: python
 
    >>> from glob import glob
-   >>> fnames = glob('/project/champ/data/cmip5/output1/ICHEC/EC-EARTH/historical/mon/atmos/Amon/r1i1p1/v20131231/tas/*.nc')
+   >>> fnames = glob('/path/to/cmip/data/output1/ICHEC/EC-EARTH/historical/mon/atmos/Amon/r1i1p1/v20131231/tas/*.nc')
    >>> cube = ch.load(fnames)
 
 Concatenating a cube
@@ -50,5 +50,4 @@ Concatenating a cube
 
    >>> cube
    <iris 'Cube' of air_temperature / (K) (time: 6000; latitude: 144; longitude: 192)>
-
 
