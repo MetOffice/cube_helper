@@ -26,5 +26,5 @@ If you want to contribute to Cube Helper be sure to review the
 [contribution guidelines](https://github.com/MetOffice/cube_helper/blob/master/CONTRIBUTING.md).
 
 ## License
-[BSD-3 License](https://github.com/MetOffice/cube_helper/blob/master/License)
+[BSD-3 License](https://github.com/MetOffice/cube_helper/blob/master/LICENSE)
 
