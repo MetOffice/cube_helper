@@ -5,7 +5,7 @@ A quick starting guide to get you using ``cube_helper`` in a matter of minutes.
 
 Loading a cube
 ^^^^^^^^^^^^^^
-To load a cube from a directory of NetCDF files:
+To load a cube from a directory of netCDF files:
 
 .. code-block:: python
 
@@ -50,4 +50,3 @@ Concatenating a cube
 
    >>> cube
    <iris 'Cube' of air_temperature / (K) (time: 6000; latitude: 144; longitude: 192)>
-
