@@ -21,7 +21,7 @@ Next, import the new ``cube_helper`` methods.
 
 ``load`` will load data into a single cube by ignoring certain
 attributes and meta-data that causes common problems with concatenation.
-Here we load a HadGem3 model, and ``load`` takes care of the rest:
+Here we load a HadGEM3 model, and ``load`` takes care of the rest:
 
 .. code:: ipython3
 
@@ -85,8 +85,8 @@ Here we load a HadGem3 model, and ``load`` takes care of the rest:
       warnings.warn(message % (variable_name, nc_var_name))
 
 
-Here we see some output describing the process it’s gong through. The
-first statement states the attributes differ, it therefor deletes the
+Here we see some output describing the process it's gong through. The
+first statement states the attributes differ, it therefore deletes the
 uncommon attributes across the cubes. This then returns a concatenated
 iris cube:
 
@@ -236,7 +236,7 @@ iris cube:
 
 
 Here we see even more messages regarding what changes have been made to
-the cube, in particular the time units it’s been converted to. A
+the cube, in particular the time units it's been converted to. A
 concatenated cube is returned which we can view:
 
 .. code:: ipython3
