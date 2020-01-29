@@ -1,5 +1,5 @@
 
-cube_helper Tutorial
+Cube Helper Tutorial
 --------------------
 
 This tutorial is a step by step guide to using the ``cube_helper``
@@ -11,7 +11,7 @@ Environment to the new ``cube_helper`` module:
 
 .. code:: ipython3
 
-    !export PYTHONPATH=/net/home/h01/jbedwell/Downloads/cube_helper
+    !export PYTHONPATH=/path/to/cube/helper
 
 Next, import the new ``cube_helper`` methods.
 
@@ -21,11 +21,11 @@ Next, import the new ``cube_helper`` methods.
 
 ``load`` will load data into a single cube by ignoring certain
 attributes and meta-data that causes common problems with concatenation.
-Here we load a HadGem3 model, and ``load`` takes care of the rest:
+Here we load a HadGEM3 model, and ``load`` takes care of the rest:
 
 .. code:: ipython3
 
-    cube = ch.load('/project/champ/data/CMIP6/CMIP/MOHC/HadGEM3-GC31-LL/piControl/r1i1p1f1/Amon/tasmin/gn/v20190628')
+    cube = ch.load('/path/to/cmip/data/HadGEM3-GC31-LL/piControl/r1i1p1f1/Amon/tasmin/gn/v20190628')
 
 
 .. parsed-literal::
@@ -85,8 +85,8 @@ Here we load a HadGem3 model, and ``load`` takes care of the rest:
       warnings.warn(message % (variable_name, nc_var_name))
 
 
-Here we see some output describing the process it’s gong through. The
-first statement states the attributes differ, it therefor deletes the
+Here we see some output describing the process it's gong through. The
+first statement states the attributes differ, it therefore deletes the
 uncommon attributes across the cubes. This then returns a concatenated
 iris cube:
 
@@ -163,8 +163,8 @@ iris cube:
 .. code:: ipython3
 
     import glob
-    filenames = glob.glob('/net/home/h03/frpt/EC-EARTH_rcp85/*.nc')
-    filenames_2 = glob.glob('/project/champ/data/cmip5/output1/ICHEC/EC-EARTH/historical/mon/atmos/Amon/r1i1p1/v20131231/tas/*.nc')
+    filenames = glob.glob('/path/to/cmip/data/EC-EARTH_rcp85/*.nc')
+    filenames_2 = glob.glob('/path/to/cmip/data/output1/ICHEC/EC-EARTH/historical/mon/atmos/Amon/r1i1p1/v20131231/tas/*.nc')
     filenames.extend(filenames_2)
 
 .. code:: ipython3
@@ -236,7 +236,7 @@ iris cube:
 
 
 Here we see even more messages regarding what changes have been made to
-the cube, in particular the time units it’s been converted to. A
+the cube, in particular the time units it's been converted to. A
 concatenated cube is returned which we can view:
 
 .. code:: ipython3
@@ -286,8 +286,8 @@ incompatible:
 
 .. code:: ipython3
 
-    filenames = glob.glob('/project/champ/data/cmip5/output1/ICHEC/EC-EARTH/rcp85/mon/atmos/Amon/r1i1p1/v20171115/tas/*.nc')
-    filenames_2 = glob.glob('/project/champ/data/cmip5/output1/ICHEC/EC-EARTH/historical/mon/atmos/Amon/r1i1p1/v20131231/tas/*.nc')
+    filenames = glob.glob('/path/to/cmip/data/output1/ICHEC/EC-EARTH/rcp85/mon/atmos/Amon/r1i1p1/v20171115/tas/*.nc')
+    filenames_2 = glob.glob('/path/to/cmip/data/output1/ICHEC/EC-EARTH/historical/mon/atmos/Amon/r1i1p1/v20131231/tas/*.nc')
     filenames.extend(filenames_2)
 
 .. code:: ipython3
@@ -394,14 +394,14 @@ incompatible:
     The time coordinates overlap at cube 15 and cube 16
     
     These cubes are: 
-    	/project/champ/data/cmip5/output1/ICHEC/EC-EARTH/historical/mon/atmos/Amon/r1i1p1/v20131231/tas/tas_Amon_EC-EARTH_historical_r1i1p1_200001-200911.nc
-    	/project/champ/data/cmip5/output1/ICHEC/EC-EARTH/rcp85/mon/atmos/Amon/r1i1p1/v20171115/tas/tas_Amon_EC-EARTH_rcp85_r1i1p1_200601-200912.nc
+    	/path/to/cmip/data/output1/ICHEC/EC-EARTH/historical/mon/atmos/Amon/r1i1p1/v20131231/tas/tas_Amon_EC-EARTH_historical_r1i1p1_200001-200911.nc
+    	/path/to/cmip/data/output1/ICHEC/EC-EARTH/rcp85/mon/atmos/Amon/r1i1p1/v20171115/tas/tas_Amon_EC-EARTH_rcp85_r1i1p1_200601-200912.nc
     
     The time coordinates overlap at cube 16 and cube 15
     
     These cubes are: 
-    	/project/champ/data/cmip5/output1/ICHEC/EC-EARTH/rcp85/mon/atmos/Amon/r1i1p1/v20171115/tas/tas_Amon_EC-EARTH_rcp85_r1i1p1_200601-200912.nc
-    	/project/champ/data/cmip5/output1/ICHEC/EC-EARTH/historical/mon/atmos/Amon/r1i1p1/v20131231/tas/tas_Amon_EC-EARTH_historical_r1i1p1_200001-200911.nc
+    	/path/to/cmip/data/output1/ICHEC/EC-EARTH/rcp85/mon/atmos/Amon/r1i1p1/v20171115/tas/tas_Amon_EC-EARTH_rcp85_r1i1p1_200601-200912.nc
+    	/path/to/cmip/data/output1/ICHEC/EC-EARTH/historical/mon/atmos/Amon/r1i1p1/v20131231/tas/tas_Amon_EC-EARTH_historical_r1i1p1_200001-200911.nc
 
 
 Here we see the time coordinates for cube 15 and 16 overlap, We can
@@ -409,7 +409,7 @@ therefore manually remove this from the list, and try again:
 
 .. code:: ipython3
 
-    filenames.remove('/project/champ/data/cmip5/output1/ICHEC/EC-EARTH/historical/mon/atmos/Amon/r1i1p1/v20131231/tas/tas_Amon_EC-EARTH_historical_r1i1p1_200001-200911.nc')
+    filenames.remove('/path/to/cmip/data/output1/ICHEC/EC-EARTH/historical/mon/atmos/Amon/r1i1p1/v20131231/tas/tas_Amon_EC-EARTH_historical_r1i1p1_200001-200911.nc')
 
 And then we try to load it again:
 

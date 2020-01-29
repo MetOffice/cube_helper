@@ -1,4 +1,4 @@
-cube\_helper package
+Cube Helper Module
 ====================
 
 Submodules
@@ -24,15 +24,6 @@ cube\_helper.cube\_loader module
 --------------------------------
 
 .. automodule:: cube_helper.cube_loader
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-
-Module contents
----------------
-
-.. automodule:: cube_helper
     :members:
     :undoc-members:
     :show-inheritance:
