@@ -25,6 +25,6 @@ and set your Python environment to point to your copy, for example:
 If you want to contribute to Cube Helper be sure to review the 
 [contribution guidelines](https://github.com/MetOffice/cube_helper/blob/master/CONTRIBUTING.md).
 
-## Licence
-[BSD-3 Licence](https://github.com/MetOffice/cube_helper/blob/master/Licence)
+## License
+[BSD-3 License](https://github.com/MetOffice/cube_helper/blob/master/License)
 
