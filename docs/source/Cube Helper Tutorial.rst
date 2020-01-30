@@ -85,7 +85,7 @@ Here we load a HadGEM3 model, and ``load`` takes care of the rest:
       warnings.warn(message % (variable_name, nc_var_name))
 
 
-Here we see some output describing the process it's gong through. The
+Here we see some output describing the process it's going through. The
 first statement states the attributes differ, it therefore deletes the
 uncommon attributes across the cubes. This then returns a concatenated
 iris cube:
