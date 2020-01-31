@@ -4,7 +4,6 @@
 # See LICENSE in the root of the repository for full licensing details.
 
 import iris
-import numpy as np
 import cube_helper as ch
 from glob import glob
 import os
