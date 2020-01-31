@@ -38,7 +38,7 @@ def test_load():
     assert test_case_b.dim_coords[0].units.calendar == "gregorian"
 
 
-def test_extract_categorical():
+def test_add_categorical():
     abs_path = os.path.dirname(os.path.abspath(__file__))
     glob_path = abs_path + '/test_data/realistic_3d_time' + '/*.nc'
     filepaths = glob(glob_path)
