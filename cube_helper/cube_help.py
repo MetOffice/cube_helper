@@ -170,67 +170,67 @@ def _hour(cube, coord):
         name='hour')
 
 
-def _add_categorical(cater_name, cube, coord, season, seasons):
+def _add_categorical(cube, cater_name, coord, season, seasons):
     cater_dict = {'season_year':
                       lambda cube:
-                      _season_year(cube, coord),
+                      _season_year(cube, coord=coord),
                   'season_membership':
                       lambda cube:
-                      _season_membership(cube, coord, season),
+                      _season_membership(cube, coord=coord, season=season),
                   'season_number':
                       lambda cube:
-                      _season_number(cube, coord, seasons),
+                      _season_number(cube, coord=coord, seasons=seasons),
                   'number':
                       lambda cube:
-                      _season_number(cube, coord, seasons),
+                      _season_number(cube, coord=coord, seasons=seasons),
                   'clim_season':
                       lambda cube:
-                      _clim_season(cube, coord, seasons),
+                      _clim_season(cube, coord=coord, seasons=seasons),
                   'season':
                       lambda cube:
-                      _season(cube, coord, seasons),
+                      _season(cube, coord=coord, seasons=seasons),
                   'year':
                       lambda cube:
-                      _year(cube, coord),
+                      _year(cube, coord=coord),
                   'month_number':
                       lambda cube:
-                      _month_number(cube, coord),
+                      _month_number(cube, coord=coord),
                   'month_fullname':
                       lambda cube:
-                      _month_fullname(cube, coord),
+                      _month_fullname(cube, coord=coord),
                   'month':
                       lambda cube:
-                      _month(cube, coord),
+                      _month(cube, coord=coord),
                   'day_of_month':
                       lambda cube:
-                      _day_of_month(cube, coord),
+                      _day_of_month(cube, coord=coord),
                   'day_of_year':
                       lambda cube:
-                      _day_of_year(cube, coord),
+                      _day_of_year(cube, coord=coord),
                   'weekday_number':
                       lambda cube:
-                      _weekday_number(cube, coord),
+                      _weekday_number(cube, coord=coord),
                   'weekday_fullname':
                       lambda cube:
-                      _weekday_fullname(cube, coord),
+                      _weekday_fullname(cube, coord=coord),
                   'weekday':
                       lambda cube:
-                      _weekday(cube, coord),
+                      _weekday(cube, coord=coord),
                   'hour':
                       lambda cube:
-                      _hour(cube, coord)}
+                      _hour(cube, coord=coord)}
 
     cater_dict.get(cater_name)(cube)
 
 
-def extract_categorical(cater_name, cubes, coord='time', season='djf',
+def add_categorical(cubes, cater_name, coord='time', season='djf',
                     seasons=('djf', 'mam', 'jja', 'son')):
     """
     Adds a coordinate catergorisation to the iterable of iris Cubes.
 
     Args:
-        cater_name: A string specifying the catergorisation you wish to add.
         cubes: A list of Loaded Cubes or a CubeList.
+        cater_name: A string specifying the catergorisation you wish to add.
         coords: the coordinate you wish to add a catergoisation to. Set
         to 'time' by default.
         season: The season you need for the catergorisation (where required).
@@ -243,13 +243,25 @@ def extract_categorical(cater_name, cubes, coord='time', season='djf',
     """
     if isinstance(cubes, iris.cube.CubeList) or isinstance(cubes, list):
         for cube in cubes:
-            _add_categorical(cater_name, cube, coord, season, seasons)
+            _add_categorical(cube, cater_name, coord, season, seasons)
         return cubes
 
     else:
-        _add_categorical(cater_name, cubes, coord, season, seasons)
+        _add_categorical(cubes, cater_name, coord, season, seasons)
         return cubes
 
+
+def extract_categorical(cube, cater_name, constraint=None,
+                        coord='time', season='djf',
+                        seasons=('djf', 'mam', 'jja', 'son')):
+
+    cube = add_categorical(cube, cater_name, coord, season,
+                    seasons)
+    cube = cube.aggregated_by(cater_name, iris.analysis.MEAN)
+    if not constraint:
+        cube.extract(constraint)
+    else:
+        return cube
 
 def concatenate(cubes):
     """
