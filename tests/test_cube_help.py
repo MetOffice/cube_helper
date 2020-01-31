@@ -52,12 +52,12 @@ def test_extract_categorical():
                           "weekday_number", "weekday_fullname",
                           "weekday", "hour"]
     for categorical in test_categoricals:
-        test_case_a = ch.add_categorical(categorical, test_case_a)
+        test_case_a = ch.add_categorical(test_case_a, categorical)
         assert test_case_a.coord(categorical)
         test_case_a.remove_coord(categorical)
 
     for categorical in test_categoricals:
         for cube in test_case_b:
-            cube = ch.add_categorical(categorical, cube)
+            cube = ch.add_categorical(cube, categorical)
             assert cube.coord(categorical)
             cube.remove_coord(categorical)
