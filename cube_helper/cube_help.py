@@ -243,9 +243,9 @@ def extract_categorical(cube, cater_name, constraint=None,
 
     cube = add_categorical(cube, cater_name, coord, season,
                     seasons)
-    cube = cube.aggregated_by(cater_name, iris.analysis.MEAN)
-    if not constraint:
-        cube.extract(constraint)
+    cube = cube.aggregated_by([cater_name], iris.analysis.MEAN)
+    if constraint:
+        return cube.extract(constraint)
     else:
         return cube
 
