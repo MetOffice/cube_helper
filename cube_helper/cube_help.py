@@ -62,165 +62,151 @@ def load(directory, filetype='.nc', constraints=None):
             return result
 
 
-def _season_year(cube, coord):
+def _season_year(**kwargs):
     iris.coord_categorisation.add_season_year(
-        cube,
-        coord,
+        kwargs.get('cube'),
+        kwargs.get('coord'),
         name='season_year')
 
 
-def _season_membership(cube, coord, season):
+def _season_membership(**kwargs):
     iris.coord_categorisation.add_season_membership(
-        cube,
-        coord,
+        kwargs.get('cube'),
+        kwargs.get('coord'),
         name='season_membership',
-        season=season)
+        season=kwargs.get('season'))
 
 
-def _season_number(cube, coord, seasons):
+def _season_number(**kwargs):
     iris.coord_categorisation.add_season_number(
-        cube,
-        coord,
+        kwargs.get('cube'),
+        kwargs.get('coord'),
         name='season_number',
-        seasons=seasons)
+        seasons=kwargs.get('seasons'))
 
-def _season(cube, coord, seasons):
+def _season(**kwargs):
     iris.coord_categorisation.add_season(
-        cube,
-        coord,
+        kwargs.get('cube'),
+        kwargs.get('coord'),
         name='season',
-        seasons=seasons)
+        seasons=kwargs.get('seasons'))
 
-def _clim_season(cube, coord, seasons):
+def _clim_season(**kwargs):
     iris.coord_categorisation.add_season(
-        cube,
-        coord,
+        kwargs.get('cube'),
+        kwargs.get('coord'),
         name='clim_season',
-        seasons=seasons)
+        seasons=kwargs.get('seasons'))
 
 
-def _year(cube, coord):
+def _year(**kwargs):
     iris.coord_categorisation.add_year(
-        cube,
-        coord,
+        kwargs.get('cube'),
+        kwargs.get('coord'),
         name='year')
 
 
-def _month_number(cube, coord):
+def _month_number(**kwargs):
     iris.coord_categorisation.add_month_number(
-        cube,
-        coord,
+        kwargs.get('cube'),
+        kwargs.get('coord'),
         name='month_number')
 
 
-def _month_fullname(cube, coord):
+def _month_fullname(**kwargs):
     iris.coord_categorisation.add_month_fullname(
-        cube,
-        coord,
+        kwargs.get('cube'),
+        kwargs.get('coord'),
         name='month_fullname')
 
 
-def _month(cube, coord):
+def _month(**kwargs):
     iris.coord_categorisation.add_month(
-        cube,
-        coord,
+        kwargs.get('cube'),
+        kwargs.get('coord'),
         name='month')
 
 
-def _day_of_month(cube, coord):
+def _day_of_month(**kwargs):
     iris.coord_categorisation.add_day_of_month(
-        cube,
-        coord,
+        kwargs.get('cube'),
+        kwargs.get('coord'),
         name='day_of_month')
 
 
-def _day_of_year(cube, coord):
+def _day_of_year(**kwargs):
 
     iris.coord_categorisation.add_day_of_year(
-        cube,
-        coord,
+        kwargs.get('cube'),
+        kwargs.get('coord'),
         name='day_of_year')
 
 
-def _weekday_number(cube, coord):
+def _weekday_number(**kwargs):
     iris.coord_categorisation.add_weekday_number(
-        cube,
-        coord,
+        kwargs.get('cube'),
+        kwargs.get('coord'),
         name='weekday_number')
 
 
-def _weekday_fullname(cube, coord):
+def _weekday_fullname(**kwargs):
     iris.coord_categorisation.add_weekday_fullname(
-        cube,
-        coord,
+        kwargs.get('cube'),
+        kwargs.get('coord'),
         name='weekday_fullname')
 
 
-def _weekday(cube, coord):
+def _weekday(**kwargs):
     iris.coord_categorisation.add_weekday(
-        cube,
-        coord,
+        kwargs.get('cube'),
+        kwargs.get('coord'),
         name='weekday')
 
 
-def _hour(cube, coord):
+def _hour(**kwargs):
     iris.coord_categorisation.add_hour(
-        cube,
-        coord,
+        kwargs.get('cube'),
+        kwargs.get('coord'),
         name='hour')
 
 
 def _add_categorical(cube, cater_name, coord, season, seasons):
     cater_dict = {'season_year':
-                      lambda cube:
-                      _season_year(cube, coord=coord),
+                      _season_year,
                   'season_membership':
-                      lambda cube:
-                      _season_membership(cube, coord=coord, season=season),
+                      _season_membership,
                   'season_number':
-                      lambda cube:
-                      _season_number(cube, coord=coord, seasons=seasons),
+                      _season_number,
                   'number':
-                      lambda cube:
-                      _season_number(cube, coord=coord, seasons=seasons),
+                      _season_number,
                   'clim_season':
-                      lambda cube:
-                      _clim_season(cube, coord=coord, seasons=seasons),
+                      _clim_season,
                   'season':
-                      lambda cube:
-                      _season(cube, coord=coord, seasons=seasons),
+                      _season,
                   'year':
-                      lambda cube:
-                      _year(cube, coord=coord),
+                      _year,
                   'month_number':
-                      lambda cube:
-                      _month_number(cube, coord=coord),
+                      _month_number,
                   'month_fullname':
-                      lambda cube:
-                      _month_fullname(cube, coord=coord),
+                      _month_fullname,
                   'month':
-                      lambda cube:
-                      _month(cube, coord=coord),
+                      _month,
                   'day_of_month':
-                      lambda cube:
-                      _day_of_month(cube, coord=coord),
+                      _day_of_month,
                   'day_of_year':
-                      lambda cube:
-                      _day_of_year(cube, coord=coord),
+                      _day_of_year,
                   'weekday_number':
-                      lambda cube:
-                      _weekday_number(cube, coord=coord),
+                      _weekday_number,
                   'weekday_fullname':
-                      lambda cube:
-                      _weekday_fullname(cube, coord=coord),
+                      _weekday_fullname,
                   'weekday':
-                      lambda cube:
-                      _weekday(cube, coord=coord),
+                      _weekday,
                   'hour':
-                      lambda cube:
-                      _hour(cube, coord=coord)}
+                      _hour}
 
-    cater_dict.get(cater_name)(cube)
+    cater_dict.get(cater_name)(cube=cube, cater_name=cater_name,
+                               coord=coord, season=season,
+                               seasons=seasons)
 
 
 def add_categorical(cubes, cater_name, coord='time', season='djf',
