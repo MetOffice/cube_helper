@@ -227,14 +227,24 @@ def add_categorical(cubes, cater_name, coord='time', season='djf',
         cubes: An iterable of Cubes, either a list of loaded Cubes
         or an iris CubeList.
     """
-    if isinstance(cubes, iris.cube.CubeList) or isinstance(cubes, list):
-        for cube in cubes:
-            _add_categorical(cube, cater_name, coord, season, seasons)
+    if isinstance(cater_name, list):
+        for categorical in cater_name:
+            if isinstance(cubes, iris.cube.CubeList) or isinstance(cubes, list):
+                for cube in cubes:
+                    _add_categorical(cube, categorical, coord, season, seasons)
+            else:
+                _add_categorical(cubes, categorical, coord, season, seasons)
         return cubes
-
     else:
-        _add_categorical(cubes, cater_name, coord, season, seasons)
-        return cubes
+        if isinstance(cubes, iris.cube.CubeList) or isinstance(cubes, list):
+            for cube in cubes:
+                _add_categorical(cube, cater_name, coord, season, seasons)
+            return cubes
+
+        else:
+            _add_categorical(cubes, cater_name, coord, season, seasons)
+            return cubes
+
 
 
 def extract_categorical(cube, cater_name, constraint,
@@ -243,7 +253,7 @@ def extract_categorical(cube, cater_name, constraint,
 
     cube = add_categorical(cube, cater_name, coord, season,
                     seasons)
-    cube = cube.aggregated_by([cater_name], iris.analysis.MEAN)
+    cube = cube.aggregated_by(cater_name, iris.analysis.MEAN)
     if isinstance(constraint, iris.Constraint):
         return cube.extract(constraint)
     else:

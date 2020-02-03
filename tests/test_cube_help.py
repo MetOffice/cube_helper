@@ -61,17 +61,30 @@ def test_add_categorical():
             cube = ch.add_categorical(cube, categorical)
             assert cube.coord(categorical)
             cube.remove_coord(categorical)
+    test_case_a = ch.load(filepaths)
+    test_case_a = ch.add_categorical(test_case_a,
+                                     ["clim_season",
+                                      "season_year"])
+    assert test_case_a.coord("clim_season")
+    assert test_case_a.coord("season_year")
+
 
 def test_extract_categoircal():
     abs_path = os.path.dirname(os.path.abspath(__file__))
     glob_path = abs_path + '/test_data/realistic_3d_time' + '/*.nc'
     filepaths = glob(glob_path)
-    test_constraint = iris.Constraint(grid_longitude=lambda cell: cell > 0, grid_latitude=lambda cell: cell > 0)
+    test_constraint = iris.Constraint(grid_longitude=lambda cell: cell > 0,
+                                      grid_latitude=lambda cell: cell > 0)
     test_cube_a = ch.load(filepaths)
     test_cube_b = ch.load(filepaths)
-    test_cube_a = ch.extract_categorical(test_cube_a, 'clim_season', constraint=test_constraint)
+    test_cube_a = ch.extract_categorical(test_cube_a,
+                                         ["clim_season", 'season_year'],
+                                         test_constraint)
     assert isinstance(test_cube_a, iris.cube.Cube)
     iris.coord_categorisation.add_season(test_cube_b, 'time', name='clim_season')
-    test_cube_b = test_cube_b.aggregated_by('clim_season', iris.analysis.MEAN)
+    iris.coord_categorisation.add_season_year(test_cube_b, 'time', name='season_year')
+    test_cube_b = test_cube_b.aggregated_by(["season_year",
+                                             'clim_season'],
+                                            iris.analysis.MEAN)
     test_cube_b = test_cube_b.extract(test_constraint)
     assert (test_cube_a == test_cube_b).all()
