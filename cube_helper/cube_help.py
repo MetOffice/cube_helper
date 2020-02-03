@@ -237,17 +237,17 @@ def add_categorical(cubes, cater_name, coord='time', season='djf',
         return cubes
 
 
-def extract_categorical(cube, cater_name, constraint=None,
+def extract_categorical(cube, cater_name, constraint,
                         coord='time', season='djf',
                         seasons=('djf', 'mam', 'jja', 'son')):
 
     cube = add_categorical(cube, cater_name, coord, season,
                     seasons)
     cube = cube.aggregated_by([cater_name], iris.analysis.MEAN)
-    if constraint:
+    if isinstance(constraint, iris.Constraint):
         return cube.extract(constraint)
     else:
-        return cube
+        raise NameError("No constraint given")
 
 def concatenate(cubes):
     """
