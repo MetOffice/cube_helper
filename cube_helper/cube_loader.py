@@ -7,7 +7,7 @@ import os
 import iris
 import glob
 import re
-import dateutil.parser
+from datetime import datetime
 from iris.exceptions import MergeError, ConstraintMismatchError
 from six import string_types
 
@@ -55,9 +55,9 @@ def _sort_by_date(time_coord):
     """
     time_origin = time_coord.units.origin
     time_origin = re.sub('[a-zA-Z]', '', time_origin)
-    time_origin = time_origin.strip(' ')
-    time_origin = time_origin.strip(" 00:00:00")
-    time = dateutil.parser.parse(time_origin)
+    time_origin = time_origin.lstrip(' ')
+    time_origin = time_origin.rstrip(" 00:00:00")
+    time = datetime.strptime(time_origin, '%Y-%m-%d')
     time_origin = time.isoformat(" ").split(".")[0]
     return time_origin
 
