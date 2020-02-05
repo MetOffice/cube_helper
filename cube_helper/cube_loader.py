@@ -55,8 +55,8 @@ def _sort_by_date(time_coord):
     """
     time_origin = time_coord.units.origin
     time_origin = re.sub('[a-zA-Z]', '', time_origin)
-    time_origin = time_origin.lstrip(' ')
-    time_origin = time_origin.rstrip(" 00:00:00")
+    time_origin = re.sub('\d{2}:\d{2}:\d{2}', '', time_origin)
+    time_origin = re.sub('[ ]', '', time_origin)
     time = datetime.strptime(time_origin, '%Y-%m-%d')
     time_origin = time.isoformat(" ").split(".")[0]
     return time_origin

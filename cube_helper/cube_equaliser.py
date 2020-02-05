@@ -4,9 +4,9 @@
 # See LICENSE in the root of the repository for full licensing details.
 
 from __future__ import (absolute_import, division, print_function)
+from iris.util import unify_time_units
 import sys
 import numpy as np
-import cf_units
 from collections import namedtuple
 from itertools import combinations
 
@@ -29,30 +29,30 @@ def equalise_attributes(cubes, comp_only=False):
         Equalised cube_dataset to the CubeHelp class
 
     """
-    uncommon_keys = []
-    common_keys = cubes[0].attributes.keys()
+    uncommon_keys = set()
+    attribute_dict = {}
+    for key, value in cubes[0].attributes.items():
+        attribute_dict[key] = set({value})
     for cube in cubes[1:]:
-        cube_keys = cube.attributes.keys()
-        common_keys = [
-            key for key in common_keys
-            if (key in cube_keys and
-                np.all(cube.attributes[key] == cubes[0].attributes[key]))]
-
-    # Remove all the other attributes.
-    for cube in cubes:
-        for key in list(cube.attributes.keys()):
-            if key not in common_keys:
-                uncommon_keys.append(key)
-                if not comp_only:
-                    del cube.attributes[key]
-
-    uncommon_keys = list(dict.fromkeys(uncommon_keys))
+        for key, value in cube.attributes.items():
+            if key in attribute_dict:
+                attribute_dict[key].add(value)
+            else:
+                uncommon_keys.add(key)
+                break
+    for key in attribute_dict:
+        if len(attribute_dict[key]) > 1:
+            uncommon_keys.add(key)
     for key in uncommon_keys:
         if not comp_only:
+            for cube in cubes:
+                try:
+                    del cube.attributes[key]
+                except KeyError:
+                    pass
             print("Deleting {} attribute from cubes\n".format(key))
         else:
             print("\t{} attribute inconsistent\n".format(key))
-
     return cubes
 
 
@@ -71,38 +71,30 @@ def equalise_time_units(cubes, comp_only=False):
     Returns:
         cubes with time coordinates unified.
     """
-    comp_messages = set({})
-    change_messages = set({})
-    epochs = {}
-    calendar = None
-    origin = cubes[0].coords('time')[0].units.origin
+    comp_messages = set()
+    change_messages = set()
+    calendar = cubes[0].coord('time').units.calendar
+    origin = cubes[0].coord('time').units.origin
     for cube in cubes:
         for time_coord in cube.coords():
             if time_coord.units.is_time_reference():
                 if comp_only:
-                    if not calendar:
-                        calendar = time_coord.units.calendar
-                        origin = time_coord.units.origin
                     if time_coord.units.calendar != calendar:
                         comp_messages.add("\tcalendar format inconsistent\n")
                     if time_coord.units.origin != origin:
                         comp_messages.add("\ttime start date inconsistent\n")
-                    break
                 else:
-                    epoch = epochs.setdefault(time_coord.units.calendar,
-                                              time_coord.units.origin)
                     if origin != time_coord.units.origin:
                         change_messages.add("New time origin set to {}\n".format(origin))
-                    new_unit = cf_units.Unit(epoch, time_coord.units.calendar)
-                    time_coord.convert_units(new_unit)
+                        unify_time_units(cubes)
     if comp_messages:
         for message in comp_messages:
             print(message)
     if change_messages:
         for message in change_messages:
             print(message)
-    return cubes
 
+    return cubes
 
 def equalise_data_type(cubes, data_type='float32'):
     """

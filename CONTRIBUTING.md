@@ -1,7 +1,7 @@
 # How to contribute
 
 ## Raise Issues:  
-Report bugs and requests enhancement by raising an issue of the `cube_helper` issues section.
+Report bugs and request enhancements by raising an issue in the `cube_helper` issues section.
 If reporting an issue, try to include information on how to reproduce the bug/error.
 
 ## Contribute Code
