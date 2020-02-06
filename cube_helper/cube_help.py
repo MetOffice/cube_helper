@@ -170,7 +170,7 @@ def _hour(**kwargs):
         name='hour')
 
 
-def _add_categorical(cube, cater_name, coord, season, seasons):
+def _add_categorical(cube, categorical, coord, season, seasons):
     cater_dict = {'season_year':
                       _season_year,
                   'season_membership':
@@ -204,19 +204,19 @@ def _add_categorical(cube, cater_name, coord, season, seasons):
                   'hour':
                       _hour}
 
-    cater_dict.get(cater_name)(cube=cube, cater_name=cater_name,
-                               coord=coord, season=season,
-                               seasons=seasons)
+    cater_dict.get(categorical)(cube=cube, cater_name=categorical,
+                                coord=coord, season=season,
+                                seasons=seasons)
 
 
-def add_categorical(cubes, cater_name, coord='time', season='djf',
+def add_categorical(cubes, categorical, coord='time', season='djf',
                     seasons=('djf', 'mam', 'jja', 'son')):
     """
     Adds a coordinate catergorisation to the iterable of iris Cubes.
 
     Args:
         cubes: A list of Loaded Cubes or a CubeList.
-        cater_name: A string specifying the categorisation you wish to add.
+        categorical: A string specifying the categorisation you wish to add.
         coords: the coordinate you wish to add a catergoisation to. Set
         to 'time' by default.
         season: The season you need for the catergorisation (where required).
@@ -227,8 +227,8 @@ def add_categorical(cubes, cater_name, coord='time', season='djf',
         cubes: An iterable of Cubes, either a list of loaded Cubes
         or an iris CubeList.
     """
-    if isinstance(cater_name, list):
-        for categorical in cater_name:
+    if isinstance(categorical, list):
+        for categorical in categorical:
 
             if isinstance(cubes, list) or isinstance(cubes, iris.cube.CubeList):
                 for cube in cubes:
@@ -239,22 +239,35 @@ def add_categorical(cubes, cater_name, coord='time', season='djf',
     else:
         if isinstance(cubes, list) or isinstance(cubes, iris.cube.CubeList):
             for cube in cubes:
-                _add_categorical(cube, cater_name, coord, season, seasons)
+                _add_categorical(cube, categorical, coord, season, seasons)
             return cubes
 
         else:
-            _add_categorical(cubes, cater_name, coord, season, seasons)
+            _add_categorical(cubes, categorical, coord, season, seasons)
             return cubes
 
 
-
-def aggregate_categorical(cube, cater_name, coord='time', season='djf',
+def aggregate_categorical(cube, categorical, coord='time', season='djf',
                           seasons=('djf', 'mam', 'jja', 'son')):
 
-    cube = add_categorical(cube, cater_name, coord, season,
-                    seasons)
-    cube = cube.aggregated_by(cater_name, iris.analysis.MEAN)
+    cube = add_categorical(cube, categorical, coord=coord, season=season,
+                           seasons=seasons)
+    cube = cube.aggregated_by(categorical, iris.analysis.MEAN)
     return cube
+
+
+def extract_categorical(cube, categorical, constraint, coord='time', season='djf',
+                        seasons=('djf', 'mam', 'jja', 'son')):
+    if not isinstance(constraint, iris.Constraint):
+        raise NameError("No constraint given")
+
+    else:
+        cube = aggregate_categorical(cube, categorical, coord=coord, season=season,
+                                     seasons=seasons)
+        return cube.extract(constraint)
+
+
+
 
 def concatenate(cubes):
     """
