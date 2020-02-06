@@ -237,7 +237,7 @@ from collections.abc import Iterable
                 _add_categorical(cubes, categorical, coord, season, seasons)
         return cubes
     else:
-        if isinstance(cubes, iris.cube.CubeList) or isinstance(cubes, list):
+        if isinstance(cubes, Iterable):
             for cube in cubes:
                 _add_categorical(cube, cater_name, coord, season, seasons)
             return cubes
