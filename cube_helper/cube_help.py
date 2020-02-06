@@ -216,7 +216,7 @@ def add_categorical(cubes, cater_name, coord='time', season='djf',
 
     Args:
         cubes: A list of Loaded Cubes or a CubeList.
-        cater_name: A string specifying the catergorisation you wish to add.
+        cater_name: A string specifying the categorisation you wish to add.
         coords: the coordinate you wish to add a catergoisation to. Set
         to 'time' by default.
         season: The season you need for the catergorisation (where required).
