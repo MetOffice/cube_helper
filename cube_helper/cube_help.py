@@ -214,6 +214,24 @@ def add_categorical(cubes, categorical, coord='time', season='djf',
     """
     Adds a coordinate categorisation(s) to the iterable of iris Cubes.
 
+    Currently this function provides a wrapper for the following
+    standalone and compound categoricals:
+
+    day_of_month: Add a day-of-month coordinate, vals 1-31.
+    day_of_year: Add a day-of-year coordinate, vals 1-365 (366 in leap years).
+    month: Add a month coordinate, vals ‘Jan’-’Dec’.
+    month_fullname: Add a month coordinate, vals ‘January’-’December’.
+    month_number: Add a month coordinate, vals 1-12.
+    season: Add a season-of-year coordinate, with specified seasons.
+    season_membership: Add a season membership coordinate for a specified season.
+    season_number: Add a season-of-year coordinate, values 0..(N-1)
+    where N is the number of user specified seasons.
+    season_year: Add a categorical year-of-season coordinate, with specified seasons.
+    weekday: Add a weekday coordinate, vals ‘Mon’-’Sun’.
+    weekday_fullname: Add a weekday coordinate, vals ‘Monday’-’Sunday’.
+    weekday_number: Add a weekday coordinate, vals 0-6 [0=Monday].
+    year: Add a calendar-year coordinate.
+
     Args:
         cubes: A cube, a list of Loaded Cubes or a CubeList.
         categorical: A string or list of strings specifying
@@ -253,7 +271,8 @@ def aggregate_categorical(cube, categorical, coord='time', season='djf',
                           seasons=('djf', 'mam', 'jja', 'son')):
     """
     Adds a coordinate categorisation(s) to the iterable of iris Cubes, then
-    aggregates them by the given categoricals.
+    aggregates them by the given categoricals. Categoricals used are the
+    same as the ones suppourted by add_categorical().
 
     Args:
         cubes: A cube, a list of Loaded Cubes or a CubeList.
@@ -280,7 +299,9 @@ def extract_categorical(cube, categorical, constraint, coord='time', season='djf
                         seasons=('djf', 'mam', 'jja', 'son')):
     """
     Adds a coordinate categorical, aggregates by said catgorical,
-    then extracts the given contraint.
+    then extracts the given contraint. Categoricals used are the
+    same as the ones suppourted by add_categorical() and
+    aggregate_categorical().
 
     Args:
         cubes: A cube, a list of Loaded Cubes or a CubeList.
