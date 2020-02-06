@@ -73,8 +73,6 @@ def test_aggregate_categorical():
     abs_path = os.path.dirname(os.path.abspath(__file__))
     glob_path = abs_path + '/test_data/realistic_3d_time' + '/*.nc'
     filepaths = glob(glob_path)
-    test_constraint = iris.Constraint(grid_longitude=lambda cell: cell > 0,
-                                      grid_latitude=lambda cell: cell > 0)
     test_cube_a = ch.load(filepaths)
     test_cube_b = ch.load(filepaths)
     test_cube_a = ch.aggregate_categorical(test_cube_a,
