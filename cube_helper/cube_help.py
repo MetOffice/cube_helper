@@ -229,7 +229,8 @@ def add_categorical(cubes, cater_name, coord='time', season='djf',
     """
     if isinstance(cater_name, list):
         for categorical in cater_name:
-            if isinstance(cubes, iris.cube.CubeList) or isinstance(cubes, list):
+from collections.abc import Iterable
+            if isinstance(cubes, Iterable):
                 for cube in cubes:
                     _add_categorical(cube, categorical, coord, season, seasons)
             else:
