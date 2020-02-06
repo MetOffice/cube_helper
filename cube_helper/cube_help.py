@@ -229,15 +229,15 @@ def add_categorical(cubes, cater_name, coord='time', season='djf',
     """
     if isinstance(cater_name, list):
         for categorical in cater_name:
-from collections.abc import Iterable
-            if isinstance(cubes, Iterable):
+
+            if isinstance(cubes, list) or isinstance(cubes, iris.cube.CubeList):
                 for cube in cubes:
                     _add_categorical(cube, categorical, coord, season, seasons)
             else:
                 _add_categorical(cubes, categorical, coord, season, seasons)
         return cubes
     else:
-        if isinstance(cubes, Iterable):
+        if isinstance(cubes, list) or isinstance(cubes, iris.cube.CubeList):
             for cube in cubes:
                 _add_categorical(cube, cater_name, coord, season, seasons)
             return cubes
@@ -248,17 +248,13 @@ from collections.abc import Iterable
 
 
 
-def extract_categorical(cube, cater_name, constraint,
-                        coord='time', season='djf',
-                        seasons=('djf', 'mam', 'jja', 'son')):
+def aggregate_categorical(cube, cater_name, coord='time', season='djf',
+                          seasons=('djf', 'mam', 'jja', 'son')):
 
     cube = add_categorical(cube, cater_name, coord, season,
                     seasons)
     cube = cube.aggregated_by(cater_name, iris.analysis.MEAN)
-    if isinstance(constraint, iris.Constraint):
-        return cube.extract(constraint)
-    else:
-        raise NameError("No constraint given")
+    return cube
 
 def concatenate(cubes):
     """
