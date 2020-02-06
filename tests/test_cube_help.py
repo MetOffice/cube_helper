@@ -78,8 +78,7 @@ def test_aggregate_categorical():
     test_cube_a = ch.load(filepaths)
     test_cube_b = ch.load(filepaths)
     test_cube_a = ch.aggregate_categorical(test_cube_a,
-                                           ["clim_season", 'season_year'],
-                                           test_constraint)
+                                           ["clim_season", 'season_year'])
     assert isinstance(test_cube_a, iris.cube.Cube)
     iris.coord_categorisation.add_season(test_cube_b, 'time', name='clim_season')
     iris.coord_categorisation.add_season_year(test_cube_b, 'time', name='season_year')
