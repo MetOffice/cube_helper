@@ -170,13 +170,20 @@ def _hour(**kwargs):
         name='hour')
 
 
+def _annual_seasonal_mean(**kwargs):
+    _clim_season(**kwargs)
+    _season_year(**kwargs)
+
+
 def _add_categorical(cube, categorical, coord, season, seasons):
-    cater_dict = {'season_year':
+    categorical_dict = {'season_year':
                       _season_year,
                   'season_membership':
                       _season_membership,
                   'season_number':
                       _season_number,
+                  'annual_seasonal_mean':
+                      _annual_seasonal_mean,
                   'number':
                       _season_number,
                   'clim_season':
@@ -204,7 +211,7 @@ def _add_categorical(cube, categorical, coord, season, seasons):
                   'hour':
                       _hour}
 
-    cater_dict.get(categorical)(cube=cube, cater_name=categorical,
+    categorical_dict.get(categorical)(cube=cube, cater_name=categorical,
                                 coord=coord, season=season,
                                 seasons=seasons)
 
@@ -280,8 +287,10 @@ def add_categorical(cubes, categorical, coord='time', season='djf',
             return cubes
 
 
-def aggregate_categorical(cube, categorical, coord='time', season='djf',
-                          seasons=('djf', 'mam', 'jja', 'son')):
+def aggregate_categorical(cube, categorical,
+                          coord='time', season='djf',
+                          seasons=('djf', 'mam', 'jja', 'son'),
+                          agg_method=iris.analysis.MEAN):
     """
     Adds a coordinate categorisation(s) to the iterable of iris Cubes, then
     aggregates them by the given categoricals. Categoricals used are the
@@ -302,9 +311,14 @@ def aggregate_categorical(cube, categorical, coord='time', season='djf',
         cubes: A cube, a list of loaded Cubes, or an iris CubeList
         aggregated by a given categorical.
     """
+    compound_dict = {'annual_seasonal_mean':['clim_season',
+                                             'season_year']}
+    compound_list = list(compound_dict.keys())
     cube = add_categorical(cube, categorical, coord=coord, season=season,
                            seasons=seasons)
-    cube = cube.aggregated_by(categorical, iris.analysis.MEAN)
+    if categorical in compound_list:
+        categorical = compound_dict[categorical]
+    cube = cube.aggregated_by(categorical, agg_method)
     return cube
 
 
