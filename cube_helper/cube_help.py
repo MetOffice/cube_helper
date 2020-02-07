@@ -313,13 +313,17 @@ def aggregate_categorical(cube, categorical,
     """
     compound_dict = {'annual_seasonal_mean':['clim_season',
                                              'season_year']}
-    compound_list = list(compound_dict.keys())
     cube = add_categorical(cube, categorical, coord=coord, season=season,
                            seasons=seasons)
-    if categorical in compound_list:
-        categorical = compound_dict[categorical]
-    cube = cube.aggregated_by(categorical, agg_method)
-    return cube
+    if not isinstance(categorical, list):
+        try:
+            categorical = compound_dict[categorical]
+        except KeyError:
+            cube = cube.aggregated_by(categorical, agg_method)
+            return cube
+    else:
+        cube = cube.aggregated_by(categorical, agg_method)
+        return cube
 
 
 def extract_categorical(cube, categorical, constraint, coord='time', season='djf',
