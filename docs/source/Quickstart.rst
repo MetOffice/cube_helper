@@ -20,10 +20,10 @@ Loading a cube with constraints
    >>> longitude_constraint = iris.Constraint(longitude = lamda cell : cell > 0 and cell < 180)
    >>> cube = ch.load('/path/to/cmip/data/HadGEM3-GC31-LL/piControl/r1i1p1f1/Amon/tasmin/gn/v20190628', constraints=longitude_constraint)
 
-
 Loading a cube from a list of files
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 To load from a list of fname strings. Useful when combining datasets.
+
 .. code-block:: python
 
    >>> from glob import glob
@@ -33,6 +33,7 @@ To load from a list of fname strings. Useful when combining datasets.
 Concatenating a cube
 ^^^^^^^^^^^^^^^^^^^^
 If you are dealing with cubes that have already been loaded, for CubeLists and list of loaaded cubes.
+
 .. code-block:: python
 
    >>> cubes
@@ -52,10 +53,13 @@ If you are dealing with cubes that have already been loaded, for CubeLists and l
 
    >>> cube
    <iris 'Cube' of air_temperature / (K) (time: 6000; latitude: 144; longitude: 192)>
+
 Adding a categorical to a cube
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Add a categorical coordinate to an iterable of iris cubes or a standalone cube.
+
 .. code-block:: python
+
    >>> cube
    <iris 'Cube' of air_temperature / (K) (time: 1919; latitude: 160; longitude: 320)>
    >>> cube = ch.add_categorical(cube, 'clim_season')
@@ -99,9 +103,11 @@ Add a categorical coordinate to an iterable of iris cubes or a standalone cube.
              title: EC-EARTH model output prepared for CMIP5 historical
         Cell methods:
              mean: time (3 hours)
+
 Adding multiple categoricals to a cube
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 .. code-block:: python
+
    >>> cube
    <iris 'Cube' of air_temperature / (K) (time: 1919; latitude: 160; longitude: 320)>
    >>> cube = ch.add_categorical(cube, ['clim_season', 'season_year'])
@@ -146,10 +152,13 @@ Adding multiple categoricals to a cube
              title: EC-EARTH model output prepared for CMIP5 historical
         Cell methods:
              mean: time (3 hours)
+
 Adding a compound categorical to a cube
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 If the categoricals you are adding are part of a compound categorical, you can use special calls such as:
+
 .. code-block:: python
+
    >>> cube
    <iris 'Cube' of air_temperature / (K) (time: 1919; latitude: 160; longitude: 320)>
    >>> annual_seasonal_mean = ch.add_categorical(cube, 'annual_seasonal_mean')
@@ -194,10 +203,13 @@ If the categoricals you are adding are part of a compound categorical, you can u
              title: EC-EARTH model output prepared for CMIP5 historical
         Cell methods:
              mean: time (3 hours)
+
 Aggregating by categoricals
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Returns an aggregated cube.
+
 .. code-block:: python
+
    >>> cube
    <iris 'Cube' of air_temperature / (K) (time: 1919; latitude: 160; longitude: 320)>
    >>> cube = ch.aggregate_categorical(cube, 'clim_season')
@@ -242,10 +254,13 @@ Returns an aggregated cube.
         Cell methods:
              mean: time (3 hours)
              mean: clim_season
+
 Extracting categoricals
 ^^^^^^^^^^^^^^^^^^^^^^^
 Aggregates and extracts with a given constraint.
+
 .. code-block:: python
+
    >>> cube
    <iris 'Cube' of air_temperature / (K) (time: 1919; latitude: 160; longitude: 320)>
    >>> tdelta_3mth = datetime.timedelta(hours=3*28*24.0)
