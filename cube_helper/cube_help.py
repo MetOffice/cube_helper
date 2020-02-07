@@ -355,8 +355,6 @@ def extract_categorical(cube, categorical, constraint, coord='time', season='djf
         return cube.extract(constraint)
 
 
-
-
 def concatenate(cubes):
     """
     Concatentates a list of iris Cubes. Equalises the list of cubes first
