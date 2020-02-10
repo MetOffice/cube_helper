@@ -53,7 +53,7 @@ def test_parse_directory():
                                           'realistic_3d/' \
                                           'realistic_3d_0.nc/'
 
-
+#No filepaths needed, REFRACTOR:
 def test_sort_by_earliest_date():
     abs_path = os.path.dirname(os.path.abspath(__file__))
     glob_path = abs_path + '/test_data/realistic_3d_time' + '/*.nc'

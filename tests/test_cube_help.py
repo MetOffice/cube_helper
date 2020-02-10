@@ -8,6 +8,7 @@ import cube_helper as ch
 from glob import glob
 import os
 
+#No filepaths needed, REFRACTOR:
 def test_concatenate():
     abs_path = os.path.dirname(os.path.abspath(__file__))
     glob_path = abs_path + '/test_data/realistic_3d_time' + '/*.nc'
@@ -37,7 +38,7 @@ def test_load():
                                                      " 00:00:00"
     assert test_case_b.dim_coords[0].units.calendar == "gregorian"
 
-
+#No filepaths needed, REFRACTOR:
 def test_add_categorical():
     abs_path = os.path.dirname(os.path.abspath(__file__))
     glob_path = abs_path + '/test_data/realistic_3d_time' + '/*.nc'
@@ -68,7 +69,7 @@ def test_add_categorical():
     assert test_case_a.coord("clim_season")
     assert test_case_a.coord("season_year")
 
-
+#No filepaths needed, REFRACTOR:
 def test_aggregate_categorical():
     abs_path = os.path.dirname(os.path.abspath(__file__))
     glob_path = abs_path + '/test_data/realistic_3d_time' + '/*.nc'
