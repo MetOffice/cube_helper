@@ -18,7 +18,7 @@ from cube_helper.cube_equaliser import (equalise_attributes,
                                         compare_cubes,
                                         equalise_all)
 
-
+#No filepaths needed, REFRACTOR:
 def test_equalise_attributes():
     abs_path = os.path.dirname(os.path.abspath(__file__))
     glob_path = abs_path + '/test_data/realistic_3d' + '/*.nc'
@@ -28,7 +28,7 @@ def test_equalise_attributes():
     for cubes in test_load:
         assert cubes.attributes == test_load[0].attributes
 
-
+#No filepaths needed, REFRACTOR:
 def test_equalise_time_units():
     abs_path = os.path.dirname(os.path.abspath(__file__))
     glob_path = abs_path + '/test_data/realistic_3d' + '/*.nc'
@@ -41,7 +41,7 @@ def test_equalise_time_units():
                 assert cube[index].units.calendar == \
                        cube[index-1].units.calendar
 
-
+#No filepaths needed, REFRACTOR:
 def test_remove_attributes():
     abs_path = os.path.dirname(os.path.abspath(__file__))
     glob_path = abs_path +'/test_data/realistic_3d' + '/*.nc'
@@ -53,7 +53,7 @@ def test_remove_attributes():
         for key in keys:
             assert cube.attributes[key] == ''
 
-
+#No filepaths needed, REFRACTOR:
 def test_equalise_data_type():
     abs_path = os.path.dirname(os.path.abspath(__file__))
     glob_path = abs_path + '/test_data/realistic_3d' + '/*.nc'
@@ -72,7 +72,7 @@ def test_equalise_data_type():
     for cube in test_load:
         assert cube.dtype == 'int64'
 
-
+#No filepaths needed, REFRACTOR:
 def test_equalise_dim_coords():
     abs_path = os.path.dirname(os.path.abspath(__file__))
     glob_path = abs_path + '/test_data/realistic_3d' + '/*.nc'
@@ -83,7 +83,7 @@ def test_equalise_dim_coords():
         assert cube.dim_coords[0].name() == 'time'
         assert cube.dim_coords[1].name() == 'grid_latitude'
 
-
+#No filepaths needed, REFRACTOR:
 def test_equalise_aux_coords():
     abs_path = os.path.dirname(os.path.abspath(__file__))
     glob_path = abs_path + '/test_data/realistic_3d_aux' + '/*.nc'
@@ -94,7 +94,7 @@ def test_equalise_aux_coords():
         coords_list = [c.name() for c in cube.coords()]
         assert 'height' in coords_list
 
-
+#No filepaths needed, REFRACTOR:
 def test_compare_cubes():
     abs_path = os.path.dirname(os.path.abspath(__file__))
     glob_path = abs_path + '/test_data/realistic_3d_aux' + '/*.nc'
@@ -119,7 +119,7 @@ cube dim coordinates differ:
 
     assert output == expected_output
 
-
+#No filepaths needed, REFRACTOR:
 def test_equalise_all():
     abs_path = os.path.dirname(os.path.abspath(__file__))
     glob_path = abs_path + '/test_data/realistic_3d_attributes' + '/*.nc'
