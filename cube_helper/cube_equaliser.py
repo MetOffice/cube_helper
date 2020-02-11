@@ -4,9 +4,9 @@
 # See LICENSE in the root of the repository for full licensing details.
 
 from __future__ import (absolute_import, division, print_function)
-from iris.util import unify_time_units
 import sys
 import numpy as np
+from iris.util import unify_time_units
 from collections import namedtuple
 from itertools import combinations
 
@@ -32,11 +32,17 @@ def equalise_attributes(cubes, comp_only=False):
     uncommon_keys = set()
     attribute_dict = {}
     for key, value in cubes[0].attributes.items():
-        attribute_dict[key] = set({value})
+        if isinstance(value, np.ndarray):
+            attribute_dict[key] = set({str(value)})
+        else:
+            attribute_dict[key] = set({value})
     for cube in cubes[1:]:
         for key, value in cube.attributes.items():
             if key in attribute_dict:
-                attribute_dict[key].add(value)
+                if isinstance(value, np.ndarray):
+                    attribute_dict[key].add(str(value))
+                else:
+                    attribute_dict[key].add(value)
             else:
                 uncommon_keys.add(key)
                 break
