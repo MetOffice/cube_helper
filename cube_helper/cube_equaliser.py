@@ -30,25 +30,21 @@ def equalise_attributes(cubes, comp_only=False):
 
     """
     uncommon_keys = set()
-    attribute_dict = {}
-    for key, value in cubes[0].attributes.items():
-        if isinstance(value, np.ndarray):
-            attribute_dict[key] = set({str(value)})
-        else:
-            attribute_dict[key] = set({value})
-    for cube in cubes[1:]:
+    attr_dict_list = []
+    attr_dict = {}
+    for cube in cubes:
         for key, value in cube.attributes.items():
-            if key in attribute_dict:
-                if isinstance(value, np.ndarray):
-                    attribute_dict[key].add(str(value))
-                else:
-                    attribute_dict[key].add(value)
+            if isinstance(value, np.ndarray):
+                value = str(value)
+                attr_dict.update({key:value})
             else:
-                uncommon_keys.add(key)
-                break
-    for key in attribute_dict:
-        if len(attribute_dict[key]) > 1:
-            uncommon_keys.add(key)
+                attr_dict.update({key: value})
+        attr_dict_list.append(attr_dict.items())
+        attr_dict = {}
+    combs = list(combinations(attr_dict_list, 2))
+    for element in combs:
+        for key in (element[0] ^ element[1]):
+            uncommon_keys.add(key[0])
     for key in uncommon_keys:
         if not comp_only:
             for cube in cubes:
