@@ -315,13 +315,11 @@ def aggregate_categorical(cube, categorical,
                                              'season_year']}
     cube = add_categorical(cube, categorical, coord=coord, season=season,
                            seasons=seasons)
-    if not isinstance(categorical, list):
-        try:
-            categorical = compound_dict[categorical]
-        except KeyError:
-            cube = cube.aggregated_by(categorical, agg_method)
-            return cube
-    else:
+    try:
+        categorical = compound_dict[categorical]
+        cube = cube.aggregated_by(categorical, agg_method)
+        return cube
+    except KeyError:
         cube = cube.aggregated_by(categorical, agg_method)
         return cube
 
