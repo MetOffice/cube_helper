@@ -96,20 +96,91 @@ class TestCubeHelp(unittest.TestCase):
         self.assertTrue(test_case_a.coord("season_year"))
 
 
-    def test_aggregate_categorical_compound(self):
+    def test_add_categorical_compound(self):
+        glob_path = self.tmp_dir_time + '*.nc'
+        filepaths = glob(glob_path)
+        test_case_a = ch.load(filepaths)
+        test_case_a = ch.add_categorical(test_case_a, 'annual_seasonal_mean')
+        self.assertTrue(test_case_a.coord('season_year'))
+        self.assertTrue(test_case_a.coord('clim_season'))
+
+
+    def test_aggregate_categorical_compounds(self):
         glob_path = self.tmp_dir_time + '*.nc'
         filepaths = glob(glob_path)
         test_cube_a = ch.load(filepaths)
         test_cube_a = ch.aggregate_categorical(test_cube_a,
                                                'annual_seasonal_mean')
-        self.assertIsInstance(test_cube_a, iris.cube.Cube)
+        self.assertIsNotNone(test_cube_a)
         self.assertEqual(test_cube_a.coord('time').bounds[0][0],
                          394200.0)
         self.assertEqual(test_cube_a.coord('time').bounds[0][1],
                          394236.0)
         self.assertEqual(test_cube_a.coord('time').points[0],
                          394218.0)
+        self.assertEqual(test_cube_a.coord('clim_season').points[0],
+                         'djf')
+        self.assertEqual(test_cube_a.coord('season_year').points[0],
+                         2015)
 
+
+    def test_aggregate_categorical(self):
+        glob_path = self.tmp_dir_time + '*.nc'
+        filepaths = glob(glob_path)
+        test_cube_a = ch.load(filepaths)
+        test_cube_a = ch.aggregate_categorical(test_cube_a,
+                                               'weekday')
+        self.assertIsNotNone(test_cube_a)
+        self.assertEqual(test_cube_a.coord('weekday').points[0],
+                         'Sun')
+        self.assertEqual(test_cube_a.coord('weekday').points[1],
+                         'Mon')
+        test_cube_a = ch.load(filepaths)
+        test_cube_a = ch.aggregate_categorical(test_cube_a,
+                                               'weekday_fullname')
+        self.assertIsNotNone(test_cube_a)
+        self.assertEqual(test_cube_a.coord('weekday_fullname').points[0],
+                         'Sunday')
+        self.assertEqual(test_cube_a.coord('weekday_fullname').points[1],
+                         'Monday')
+        test_cube_a = ch.load(filepaths)
+        test_cube_a = ch.aggregate_categorical(test_cube_a,
+                                               'weekday_number')
+        self.assertIsNotNone(test_cube_a)
+        self.assertEqual(test_cube_a.coord('weekday_number').points[0],
+                         6)
+        self.assertEqual(test_cube_a.coord('weekday_number').points[1],
+                         0)
+        test_cube_a = ch.load(filepaths)
+        test_cube_a = ch.aggregate_categorical(test_cube_a,
+                                               'month')
+        self.assertIsNotNone(test_cube_a)
+        self.assertEqual(test_cube_a.coord('month').points[0],
+                         'Dec')
+        test_cube_a = ch.load(filepaths)
+        test_cube_a = ch.aggregate_categorical(test_cube_a,
+                                               'month_fullname')
+        self.assertIsNotNone(test_cube_a)
+        self.assertEqual(test_cube_a.coord('month_fullname').points[0],
+                         'December')
+        test_cube_a = ch.load(filepaths)
+        test_cube_a = ch.aggregate_categorical(test_cube_a,
+                                               'month_number')
+        self.assertIsNotNone(test_cube_a)
+        self.assertEqual(test_cube_a.coord('month_number').points[0],
+                         12)
+        test_cube_a = ch.load(filepaths)
+        test_cube_a = ch.aggregate_categorical(test_cube_a,
+                                               'year')
+        self.assertIsNotNone(test_cube_a)
+        self.assertEqual(test_cube_a.coord('year').points[0],
+                         2014)
+        test_cube_a = ch.load(filepaths)
+        test_cube_a = ch.aggregate_categorical(test_cube_a,
+                                               'season_year')
+        self.assertIsNotNone(test_cube_a)
+        self.assertEqual(test_cube_a.coord('season_year').points[0],
+                         2015)
 
     def tearDown(self):
         super(TestCubeHelp, self).tearDown()
