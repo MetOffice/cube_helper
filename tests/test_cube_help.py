@@ -28,7 +28,7 @@ class TestCubeHelp(unittest.TestCase):
         cube_2.dim_coords[0].convert_units(new_time)
         new_time = cf_units.Unit('hours since 1990-01-01 00:00:00',
                                  'gregorian')
-        cube_2.dim_coords[0].convert_units(new_time)
+        cube_3.dim_coords[0].convert_units(new_time)
         self.temp_1_time = 'temp_1_time.nc'
         self.temp_2_time = 'temp_2_time.nc'
         self.temp_3_time = 'temp_3_time.nc'
