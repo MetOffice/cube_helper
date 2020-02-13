@@ -96,13 +96,12 @@ class TestCubeHelp(unittest.TestCase):
         self.assertTrue(test_case_a.coord("season_year"))
 
 
-    def test_aggregate_categorical(self):
+    def test_aggregate_categorical_compound(self):
         glob_path = self.tmp_dir_time + '*.nc'
         filepaths = glob(glob_path)
         test_cube_a = ch.load(filepaths)
         test_cube_a = ch.aggregate_categorical(test_cube_a,
-                                               ["clim_season",
-                                                'season_year'])
+                                               'annual_seasonal_mean')
         self.assertIsInstance(test_cube_a, iris.cube.Cube)
         self.assertEqual(test_cube_a.coord('time').bounds[0][0],
                          394200.0)
