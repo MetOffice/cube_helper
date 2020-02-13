@@ -71,7 +71,7 @@ class TestCubeEqualiser(unittest.TestCase):
 		iris.save(cube_3, self.tmp_dir_aux + self.temp_3_aux)
 
 
-	#No filepaths needed, REFRACTOR:
+
 	def test_equalise_attributes(self):
 		abs_path = os.path.dirname(os.path.abspath(__file__))
 		glob_path = self.tmp_dir_attr + '*.nc'
@@ -82,7 +82,7 @@ class TestCubeEqualiser(unittest.TestCase):
 		for cubes in test_load:
 			self.assertEqual(cubes.attributes, test_load[0].attributes)
 
-	#No filepaths needed, REFRACTOR:
+
 	def test_equalise_time_units(self):
 		abs_path = os.path.dirname(os.path.abspath(__file__))
 		glob_path = self.tmp_dir + '*.nc'
@@ -96,7 +96,7 @@ class TestCubeEqualiser(unittest.TestCase):
 					self.assertEqual(cube[index].units.calendar,
 									 cube[index-1].units.calendar)
 
-	#No filepaths needed, REFRACTOR:
+
 	def test_remove_attributes(self):
 		abs_path = os.path.dirname(os.path.abspath(__file__))
 		glob_path = self.tmp_dir + '*.nc'
@@ -109,7 +109,7 @@ class TestCubeEqualiser(unittest.TestCase):
 			for key in keys:
 				self.assertEqual(cube.attributes[key],'')
 
-	#No filepaths needed, REFRACTOR:
+
 	def test_equalise_data_type(self):
 		abs_path = os.path.dirname(os.path.abspath(__file__))
 		glob_path = self.tmp_dir + '*.nc'
@@ -128,7 +128,7 @@ class TestCubeEqualiser(unittest.TestCase):
 		for cube in test_load:
 			self.assertEqual(cube.dtype, 'int64')
 
-	#No filepaths needed, REFRACTOR:
+
 	def test_equalise_dim_coords(self):
 		abs_path = os.path.dirname(os.path.abspath(__file__))
 		glob_path = self.tmp_dir + '*.nc'
@@ -139,7 +139,7 @@ class TestCubeEqualiser(unittest.TestCase):
 			self.assertEqual(cube.dim_coords[0].name(), 'time')
 			self.assertEqual(cube.dim_coords[1].name(), 'grid_latitude')
 
-	#No filepaths needed, REFRACTOR:
+
 	def test_equalise_aux_coords(self):
 		abs_path = os.path.dirname(os.path.abspath(__file__))
 		glob_path = self.tmp_dir_aux + '*.nc'
@@ -150,7 +150,7 @@ class TestCubeEqualiser(unittest.TestCase):
 			coords_list = [c.name() for c in cube.coords()]
 			self.assertIn('height', coords_list)
 
-	#No filepaths needed, REFRACTOR:
+
 	def test_compare_cubes(self):
 		abs_path = os.path.dirname(os.path.abspath(__file__))
 		glob_path = self.tmp_dir_aux + '*.nc'
@@ -176,9 +176,8 @@ cube dim coordinates differ:
 
 		self.assertEqual(output, expected_output)
 
-	#No filepaths needed, REFRACTOR:
+
 	def test_equalise_all(self):
-		abs_path = os.path.dirname(os.path.abspath(__file__))
 		glob_path = self.tmp_dir_attr + '*.nc'
 		filepaths = glob(glob_path)
 		test_cubes = [iris.load_cube(cube) for cube in filepaths]
@@ -187,6 +186,7 @@ cube dim coordinates differ:
 		self.assertNotIn('creation_date', test_attr)
 		self.assertNotIn('history', test_attr)
 		self.assertNotIn('tracking_id', test_attr)
+
 
 	def tearDown(self):
 		super(TestCubeEqualiser, self).tearDown()
@@ -211,6 +211,7 @@ cube dim coordinates differ:
 		os.removedirs(self.tmp_dir)
 		os.removedirs(self.tmp_dir_aux)
 		os.removedirs(self.tmp_dir_attr)
+
 
 if __name__ == '__main__':
 	unittest.main()
