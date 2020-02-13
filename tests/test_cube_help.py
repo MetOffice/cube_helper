@@ -65,7 +65,7 @@ class TestCubeHelp(unittest.TestCase):
         self.assertEqual(test_case_b.dim_coords[0].units.calendar,
                          "gregorian")
 
-    #No filepaths needed, REFRACTOR:
+
     def test_add_categorical(self):
         glob_path = self.tmp_dir_time + '*.nc'
         filepaths = glob(glob_path)
@@ -95,7 +95,7 @@ class TestCubeHelp(unittest.TestCase):
         self.assertTrue(test_case_a.coord("clim_season"))
         self.assertTrue(test_case_a.coord("season_year"))
 
-    #No filepaths needed, REFRACTOR:
+
     def test_aggregate_categorical(self):
         glob_path = self.tmp_dir_time + '*.nc'
         filepaths = glob(glob_path)
