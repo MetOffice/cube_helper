@@ -100,16 +100,17 @@ class TestCubeHelp(unittest.TestCase):
         glob_path = self.tmp_dir_time + '*.nc'
         filepaths = glob(glob_path)
         test_cube_a = ch.load(filepaths)
-        test_cube_b = ch.load(filepaths)
         test_cube_a = ch.aggregate_categorical(test_cube_a,
-                                               ["clim_season", 'season_year'])
+                                               ["clim_season",
+                                                'season_year'])
         self.assertIsInstance(test_cube_a, iris.cube.Cube)
-        iris.coord_categorisation.add_season(test_cube_b, 'time', name='clim_season')
-        iris.coord_categorisation.add_season_year(test_cube_b, 'time', name='season_year')
-        test_cube_b = test_cube_b.aggregated_by(["season_year",
-                                                 'clim_season'],
-                                                iris.analysis.MEAN)
-        self.assertTrue((test_cube_a == test_cube_b).all())
+        self.assertEqual(test_cube_a.coord('time').bounds[0][0],
+                         394200.0)
+        self.assertEqual(test_cube_a.coord('time').bounds[0][1],
+                         394236.0)
+        self.assertEqual(test_cube_a.coord('time').points[0],
+                         394218.0)
+
 
     def tearDown(self):
         super(TestCubeHelp, self).tearDown()
