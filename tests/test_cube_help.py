@@ -184,6 +184,14 @@ class TestCubeHelp(unittest.TestCase):
                          'Mon')
         self.assertEqual(test_cube_a.coord('weekday').points[6],
                          'Wed')
+        self.assertEqual(test_cube_a.coord('time').points[0],
+                         3496.5)
+        self.assertEqual(test_cube_a.coord('time').points[2],
+                         3498.5)
+        self.assertEqual(test_cube_a.coord('time').points[4],
+                         3500.5)
+        self.assertEqual(test_cube_a.coord('time').points[6],
+                         3502.5)
 
 
     def test_aggregate_categorical_weekday_fullname(self):
@@ -199,6 +207,14 @@ class TestCubeHelp(unittest.TestCase):
                          'Monday')
         self.assertEqual(test_cube_a.coord('weekday_fullname').points[6],
                          'Wednesday')
+        self.assertEqual(test_cube_a.coord('time').points[0],
+                         3496.5)
+        self.assertEqual(test_cube_a.coord('time').points[2],
+                         3498.5)
+        self.assertEqual(test_cube_a.coord('time').points[4],
+                         3500.5)
+        self.assertEqual(test_cube_a.coord('time').points[6],
+                         3502.5)
 
 
     def test_aggregate_categorical_weekday_number(self):
@@ -214,6 +230,14 @@ class TestCubeHelp(unittest.TestCase):
                          0)
         self.assertEqual(test_cube_a.coord('weekday_number').points[6],
                          2)
+        self.assertEqual(test_cube_a.coord('time').points[0],
+                         3496.5)
+        self.assertEqual(test_cube_a.coord('time').points[2],
+                         3498.5)
+        self.assertEqual(test_cube_a.coord('time').points[4],
+                         3500.5)
+        self.assertEqual(test_cube_a.coord('time').points[6],
+                         3502.5)
 
 
     def test_aggregate_categorical_month(self):
@@ -229,6 +253,14 @@ class TestCubeHelp(unittest.TestCase):
                          'Oct')
         self.assertEqual(test_cube_a.coord('month').points[11],
                          'Dec')
+        self.assertEqual(test_cube_a.coord('time').points[0],
+                         3485.0)
+        self.assertEqual(test_cube_a.coord('time').points[4],
+                         3422.5)
+        self.assertEqual(test_cube_a.coord('time').points[9],
+                         3575.5)
+        self.assertEqual(test_cube_a.coord('time').points[11],
+                         3636.5)
 
 
     def test_aggregate_categorical_month_fullname(self):
@@ -244,6 +276,14 @@ class TestCubeHelp(unittest.TestCase):
                          'October')
         self.assertEqual(test_cube_a.coord('month_fullname').points[11],
                          'December')
+        self.assertEqual(test_cube_a.coord('time').points[0],
+                         3485.0)
+        self.assertEqual(test_cube_a.coord('time').points[4],
+                         3422.5)
+        self.assertEqual(test_cube_a.coord('time').points[9],
+                         3575.5)
+        self.assertEqual(test_cube_a.coord('time').points[11],
+                         3636.5)
 
 
     def test_aggregate_categorical_month_number(self):
@@ -259,6 +299,14 @@ class TestCubeHelp(unittest.TestCase):
                          10)
         self.assertEqual(test_cube_a.coord('month_number').points[11],
                          12)
+        self.assertEqual(test_cube_a.coord('time').points[0],
+                         3485.0)
+        self.assertEqual(test_cube_a.coord('time').points[4],
+                         3422.5)
+        self.assertEqual(test_cube_a.coord('time').points[9],
+                         3575.5)
+        self.assertEqual(test_cube_a.coord('time').points[11],
+                         3636.5)
 
 
     def test_aggregate_categorical_year(self):
@@ -274,6 +322,14 @@ class TestCubeHelp(unittest.TestCase):
                          1979)
         self.assertEqual(test_cube_a.coord('year').points[14],
                          1984)
+        self.assertEqual(test_cube_a.coord('time').points[0],
+                         182.0)
+        self.assertEqual(test_cube_a.coord('time').points[4],
+                         1643.0)
+        self.assertEqual(test_cube_a.coord('time').points[9],
+                         3469.0)
+        self.assertEqual(test_cube_a.coord('time').points[14],
+                         5295.5)
 
 
     def test_aggregate_categorical_season_year(self):
@@ -289,6 +345,14 @@ class TestCubeHelp(unittest.TestCase):
                          1979)
         self.assertEqual(test_cube_a.coord('season_year').points[14],
                          1984)
+        self.assertEqual(test_cube_a.coord('time').points[0],
+                         166.5)
+        self.assertEqual(test_cube_a.coord('time').points[4],
+                         1612.0)
+        self.assertEqual(test_cube_a.coord('time').points[9],
+                         3438.0)
+        self.assertEqual(test_cube_a.coord('time').points[14],
+                         5264.5)
 
 
     def test_aggregate_categorical_clim_season(self):
@@ -304,6 +368,14 @@ class TestCubeHelp(unittest.TestCase):
                          'jja')
         self.assertEqual(test_cube_a.coord('clim_season').points[3],
                          'son')
+        self.assertEqual(test_cube_a.coord('time').points[0],
+                         3499.0)
+        self.assertEqual(test_cube_a.coord('time').points[1],
+                         3529.0)
+        self.assertEqual(test_cube_a.coord('time').points[2],
+                         3484.0)
+        self.assertEqual(test_cube_a.coord('time').points[3],
+                         3575.5)
 
     def test_aggregate_categorical_season(self):
         test_cube_a = self._generate_extended_cube()
@@ -318,6 +390,14 @@ class TestCubeHelp(unittest.TestCase):
                          'jja')
         self.assertEqual(test_cube_a.coord('season').points[3],
                          'son')
+        self.assertEqual(test_cube_a.coord('time').points[0],
+                         3499.0)
+        self.assertEqual(test_cube_a.coord('time').points[1],
+                         3529.0)
+        self.assertEqual(test_cube_a.coord('time').points[2],
+                         3484.0)
+        self.assertEqual(test_cube_a.coord('time').points[3],
+                         3575.5)
 
     def test_aggregate_categorical_season_membership(self):
         test_cube_a = self._generate_extended_cube()
@@ -340,6 +420,14 @@ class TestCubeHelp(unittest.TestCase):
                          134)
         self.assertEqual(test_cube_a.coord('day_of_year').points[260],
                          261)
+        self.assertEqual(test_cube_a.coord('time').points[0],
+                         3470.0)
+        self.assertEqual(test_cube_a.coord('time').points[47],
+                         3517.0)
+        self.assertEqual(test_cube_a.coord('time').points[133],
+                         3420.0)
+        self.assertEqual(test_cube_a.coord('time').points[260],
+                         3547.0)
 
 
     def test_aggregate_categorical_day_of_month(self):
@@ -358,6 +446,14 @@ class TestCubeHelp(unittest.TestCase):
                          21)
         self.assertEqual(test_cube_a.coord('day_of_month').points[25],
                          26)
+        self.assertEqual(test_cube_a.coord('time').points[0],
+                         3499.5)
+        self.assertEqual(test_cube_a.coord('time').points[5],
+                         3490.5)
+        self.assertEqual(test_cube_a.coord('time').points[10],
+                         3495.5)
+        self.assertEqual(test_cube_a.coord('time').points[15],
+                         3500.5)
 
 
     def tearDown(self):
