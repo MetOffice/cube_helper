@@ -1,6 +1,7 @@
 # (C) Crown Copyright, Met Office. All rights reserved.
 #
-# This file is part of cube_helper and is released under the BSD 3-Clause license.
+# This file is part of cube_helper and is released under the
+# BSD 3-Clause license.
 # See LICENSE in the root of the repository for full licensing details.
 
 import unittest
@@ -13,6 +14,7 @@ import cf_units
 import iris.coords as icoords
 from iris.coord_systems import GeogCS, RotatedGeogCS
 import numpy as np
+
 
 class TestCubeHelp(unittest.TestCase):
 
@@ -84,7 +86,6 @@ class TestCubeHelp(unittest.TestCase):
         iris.save(cube_2, self.tmp_dir_time + self.temp_2_time)
         iris.save(cube_3, self.tmp_dir_time + self.temp_3_time)
 
-
     def test_concatenate(self):
         glob_path = self.tmp_dir_time + '*.nc'
         filepaths = glob(glob_path)
@@ -94,8 +95,6 @@ class TestCubeHelp(unittest.TestCase):
         test_case_b = ch.concatenate(test_load)
         self.assertIsInstance(test_case_a, iris.cube.Cube)
         self.assertIsInstance(test_case_b, iris.cube.Cube)
-
-
 
     def test_load(self):
         glob_path = self.tmp_dir_time + '*.nc'
@@ -113,19 +112,25 @@ class TestCubeHelp(unittest.TestCase):
         self.assertEqual(test_case_b.dim_coords[0].units.calendar,
                          "gregorian")
 
-
     def test_add_categorical(self):
         glob_path = self.tmp_dir_time + '*.nc'
         filepaths = glob(glob_path)
         test_case_a = ch.load(filepaths)
         test_case_b = [iris.load_cube(cube) for cube in filepaths]
-        test_categoricals = ["season_year", "season_number",
-                              "season_membership", "season",
-                              "year", "month_number",
-                              "month_fullname", "month",
-                              "day_of_month", "day_of_year",
-                              "weekday_number", "weekday_fullname",
-                              "weekday", "hour"]
+        test_categoricals = ["season_year",
+                             "season_number",
+                             "season_membership",
+                             "season",
+                             "year",
+                             "month_number",
+                             "month_fullname",
+                             "month",
+                             "day_of_month",
+                             "day_of_year",
+                             "weekday_number",
+                             "weekday_fullname",
+                             "weekday",
+                             "hour"]
         for categorical in test_categoricals:
             test_case_a = ch.add_categorical(test_case_a, categorical)
             self.assertTrue(test_case_a.coord(categorical))
@@ -143,7 +148,6 @@ class TestCubeHelp(unittest.TestCase):
         self.assertTrue(test_case_a.coord("clim_season"))
         self.assertTrue(test_case_a.coord("season_year"))
 
-
     def test_add_categorical_compound(self):
         glob_path = self.tmp_dir_time + '*.nc'
         filepaths = glob(glob_path)
@@ -152,7 +156,6 @@ class TestCubeHelp(unittest.TestCase):
                                          'annual_seasonal_mean')
         self.assertTrue(test_case_a.coord('season_year'))
         self.assertTrue(test_case_a.coord('clim_season'))
-
 
     def test_aggregate_categorical_compounds(self):
         test_cube_a = self._generate_extended_cube()
@@ -169,7 +172,6 @@ class TestCubeHelp(unittest.TestCase):
                          'djf')
         self.assertEqual(test_cube_a.coord('season_year').points[0],
                          1970)
-
 
     def test_aggregate_categorical_weekday(self):
         test_cube_a = self._generate_extended_cube()
@@ -193,7 +195,6 @@ class TestCubeHelp(unittest.TestCase):
         self.assertEqual(test_cube_a.coord('time').points[6],
                          3502.5)
 
-
     def test_aggregate_categorical_weekday_fullname(self):
         test_cube_a = self._generate_extended_cube()
         test_cube_a = ch.aggregate_categorical(test_cube_a,
@@ -215,7 +216,6 @@ class TestCubeHelp(unittest.TestCase):
                          3500.5)
         self.assertEqual(test_cube_a.coord('time').points[6],
                          3502.5)
-
 
     def test_aggregate_categorical_weekday_number(self):
         test_cube_a = self._generate_extended_cube()
@@ -239,7 +239,6 @@ class TestCubeHelp(unittest.TestCase):
         self.assertEqual(test_cube_a.coord('time').points[6],
                          3502.5)
 
-
     def test_aggregate_categorical_month(self):
         test_cube_a = self._generate_extended_cube()
         test_cube_a = ch.aggregate_categorical(test_cube_a,
@@ -261,7 +260,6 @@ class TestCubeHelp(unittest.TestCase):
                          3575.5)
         self.assertEqual(test_cube_a.coord('time').points[11],
                          3636.5)
-
 
     def test_aggregate_categorical_month_fullname(self):
         test_cube_a = self._generate_extended_cube()
@@ -285,7 +283,6 @@ class TestCubeHelp(unittest.TestCase):
         self.assertEqual(test_cube_a.coord('time').points[11],
                          3636.5)
 
-
     def test_aggregate_categorical_month_number(self):
         test_cube_a = self._generate_extended_cube()
         test_cube_a = ch.aggregate_categorical(test_cube_a,
@@ -307,7 +304,6 @@ class TestCubeHelp(unittest.TestCase):
                          3575.5)
         self.assertEqual(test_cube_a.coord('time').points[11],
                          3636.5)
-
 
     def test_aggregate_categorical_year(self):
         test_cube_a = self._generate_extended_cube()
@@ -331,7 +327,6 @@ class TestCubeHelp(unittest.TestCase):
         self.assertEqual(test_cube_a.coord('time').points[14],
                          5295.5)
 
-
     def test_aggregate_categorical_season_year(self):
         test_cube_a = self._generate_extended_cube()
         test_cube_a = ch.aggregate_categorical(test_cube_a,
@@ -353,7 +348,6 @@ class TestCubeHelp(unittest.TestCase):
                          3438.0)
         self.assertEqual(test_cube_a.coord('time').points[14],
                          5264.5)
-
 
     def test_aggregate_categorical_clim_season(self):
         test_cube_a = self._generate_extended_cube()
@@ -407,7 +401,6 @@ class TestCubeHelp(unittest.TestCase):
         self.assertEqual(test_cube_a.coord('season_membership').points[0],
                          True)
 
-
     def test_aggregate_categorical_day_of_year(self):
         test_cube_a = self._generate_extended_cube()
         test_cube_a = ch.aggregate_categorical(test_cube_a,
@@ -428,7 +421,6 @@ class TestCubeHelp(unittest.TestCase):
                          3420.0)
         self.assertEqual(test_cube_a.coord('time').points[260],
                          3547.0)
-
 
     def test_aggregate_categorical_day_of_month(self):
         test_cube_a = self._generate_extended_cube()
@@ -455,12 +447,11 @@ class TestCubeHelp(unittest.TestCase):
         self.assertEqual(test_cube_a.coord('time').points[15],
                          3500.5)
 
-
     def test_extract_categorical_compounds(self):
         test_cube_a = self._generate_extended_cube()
-        constraint = iris.Constraint(clim_season = 'djf',
+        constraint = iris.Constraint(clim_season='djf',
                                      season_year=lambda cell:
-                                     cell >= 1970 and cell <=1980)
+                                     cell >= 1970 and cell <= 1980)
         test_cube_a = ch.extract_categorical(test_cube_a,
                                              'annual_seasonal_mean',
                                              constraint=constraint)
@@ -476,12 +467,11 @@ class TestCubeHelp(unittest.TestCase):
         self.assertEqual(test_cube_a.coord('season_year').points[0],
                          1970)
 
-
     def test_extract_categorical_weekday(self):
         test_cube_a = self._generate_extended_cube()
         constraint = iris.Constraint(weekday='Sat')
         test_cube_a = ch.extract_categorical(test_cube_a,
-                                               'weekday',
+                                             'weekday',
                                              constraint=constraint)
         self.assertIsNotNone(test_cube_a)
         self.assertEqual(test_cube_a.coord('weekday').points[0],
@@ -489,12 +479,11 @@ class TestCubeHelp(unittest.TestCase):
         self.assertEqual(test_cube_a.coord('time').points[0],
                          3498.5)
 
-
     def test_extract_categorical_weekday_fullname(self):
         test_cube_a = self._generate_extended_cube()
         constraint = iris.Constraint(weekday_fullname='Saturday')
         test_cube_a = ch.extract_categorical(test_cube_a,
-                                               'weekday_fullname',
+                                             'weekday_fullname',
                                              constraint=constraint)
         self.assertIsNotNone(test_cube_a)
         self.assertEqual(test_cube_a.coord('weekday_fullname').points[0],
@@ -502,19 +491,17 @@ class TestCubeHelp(unittest.TestCase):
         self.assertEqual(test_cube_a.coord('time').points[0],
                          3498.5)
 
-
     def test_extract_categorical_weekday_number(self):
         test_cube_a = self._generate_extended_cube()
         constraint = iris.Constraint(weekday_number=5)
         test_cube_a = ch.extract_categorical(test_cube_a,
-                                               'weekday_number',
-                                               constraint=constraint)
+                                             'weekday_number',
+                                             constraint=constraint)
         self.assertIsNotNone(test_cube_a)
         self.assertEqual(test_cube_a.coord('weekday_number').points[0],
                          5)
         self.assertEqual(test_cube_a.coord('time').points[0],
                          3498.5)
-
 
     def test_extract_categorical_month(self):
         test_cube_a = self._generate_extended_cube()
@@ -528,19 +515,17 @@ class TestCubeHelp(unittest.TestCase):
         self.assertEqual(test_cube_a.coord('time').points[0],
                          3636.5)
 
-
     def test_extract_categorical_month_fullname(self):
         test_cube_a = self._generate_extended_cube()
         constraint = iris.Constraint(month_fullname='December')
         test_cube_a = ch.extract_categorical(test_cube_a,
-                                               'month_fullname',
-                                               constraint=constraint)
+                                             'month_fullname',
+                                             constraint=constraint)
         self.assertIsNotNone(test_cube_a)
         self.assertEqual(test_cube_a.coord('month_fullname').points[0],
                          'December')
         self.assertEqual(test_cube_a.coord('time').points[0],
                          3636.5)
-
 
     def test_extract_categorical_month_number(self):
         test_cube_a = self._generate_extended_cube()
@@ -554,14 +539,12 @@ class TestCubeHelp(unittest.TestCase):
         self.assertEqual(test_cube_a.coord('time').points[0],
                          3636.5)
 
-
     def test_extract_categorical_year(self):
         test_cube_a = self._generate_extended_cube()
-        constraint = iris.Constraint(year = lambda cell:
-        cell > 1970 and cell < 1976)
+        const = iris.Constraint(year=lambda cell: cell > 1970 and cell < 1976)
         test_cube_a = ch.extract_categorical(test_cube_a,
-                                               'year',
-                                               constraint=constraint)
+                                             'year',
+                                             constraint=const)
         self.assertIsNotNone(test_cube_a)
         self.assertEqual(test_cube_a.coord('year').points[0],
                          1971)
@@ -572,14 +555,13 @@ class TestCubeHelp(unittest.TestCase):
         self.assertEqual(test_cube_a.coord('time').points[4],
                          2008.0)
 
-
     def test_extract_categorical_season_year(self):
         test_cube_a = self._generate_extended_cube()
-        constraint = iris.Constraint(season_year = lambda cell:
-        cell > 1970 and cell < 1976)
+        const = iris.Constraint(
+            season_year=lambda cell: cell > 1970 and cell < 1976)
         test_cube_a = ch.extract_categorical(test_cube_a,
-                                               'season_year',
-                                               constraint=constraint)
+                                             'season_year',
+                                             constraint=const)
         self.assertIsNotNone(test_cube_a)
         self.assertEqual(test_cube_a.coord('season_year').points[0],
                          1971)
@@ -589,7 +571,6 @@ class TestCubeHelp(unittest.TestCase):
                          516.0)
         self.assertEqual(test_cube_a.coord('time').points[4],
                          1977.0)
-
 
     def test_extract_categorical_clim_season(self):
         test_cube_a = self._generate_extended_cube()
@@ -603,7 +584,6 @@ class TestCubeHelp(unittest.TestCase):
         self.assertEqual(test_cube_a.coord('time').points[0],
                          3575.5)
 
-
     def test_extract_categorical_season(self):
         test_cube_a = self._generate_extended_cube()
         constraint = iris.Constraint(season='son')
@@ -615,7 +595,6 @@ class TestCubeHelp(unittest.TestCase):
                          'son')
         self.assertEqual(test_cube_a.coord('time').points[0],
                          3575.5)
-
 
     def test_extract_categorical_day_of_year(self):
         test_cube_a = self._generate_extended_cube()
@@ -629,14 +608,13 @@ class TestCubeHelp(unittest.TestCase):
         self.assertEqual(test_cube_a.coord('time').points[0],
                          3420.0)
 
-
     def test_extract_categorical_day_of_month(self):
         test_cube_a = self._generate_extended_cube()
-        constraint = iris.Constraint(day_of_month = lambda cell:
-        cell > 0 and cell < 17)
+        constraint = iris.Constraint(
+            day_of_month=lambda cell cell > 0 and cell < 17)
         test_cube_a = ch.extract_categorical(test_cube_a,
-                                               'day_of_month',
-                                               constraint=constraint)
+                                             'day_of_month',
+                                             constraint=constraint)
         self.assertEqual(test_cube_a.coord('day_of_month').points[0],
                          1)
         self.assertEqual(test_cube_a.coord('day_of_month').points[5],
@@ -654,7 +632,6 @@ class TestCubeHelp(unittest.TestCase):
         self.assertEqual(test_cube_a.coord('time').points[15],
                          3500.5)
 
-
     def tearDown(self):
         super(TestCubeHelp, self).tearDown()
         if os.path.exists(self.tmp_dir_time + self.temp_1_time):
@@ -664,6 +641,7 @@ class TestCubeHelp(unittest.TestCase):
         if os.path.exists(self.tmp_dir_time + self.temp_3_time):
             os.remove(self.tmp_dir_time + self.temp_3_time)
         os.removedirs(self.tmp_dir_time)
+
 
 if __name__ == '__main__':
     unittest.main()
