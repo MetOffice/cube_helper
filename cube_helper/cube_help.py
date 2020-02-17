@@ -1,6 +1,7 @@
 # (C) Crown Copyright, Met Office. All rights reserved.
 #
-# This file is part of cube_helper and is released under the BSD 3-Clause license.
+# This file is part of cube_helper and is released under the
+# BSD 3-Clause license.
 # See LICENSE in the root of the repository for full licensing details.
 
 from __future__ import (absolute_import, division, print_function)
@@ -84,12 +85,14 @@ def _season_number(**kwargs):
         name='season_number',
         seasons=kwargs.get('seasons'))
 
+
 def _season(**kwargs):
     iris.coord_categorisation.add_season(
         kwargs.get('cube'),
         kwargs.get('coord'),
         name='season',
         seasons=kwargs.get('seasons'))
+
 
 def _clim_season(**kwargs):
     iris.coord_categorisation.add_season(
@@ -176,44 +179,30 @@ def _annual_seasonal_mean(**kwargs):
 
 
 def _add_categorical(cube, categorical, coord, season, seasons):
-    categorical_dict = {'season_year':
-                      _season_year,
-                  'season_membership':
-                      _season_membership,
-                  'season_number':
-                      _season_number,
-                  'annual_seasonal_mean':
-                      _annual_seasonal_mean,
-                  'number':
-                      _season_number,
-                  'clim_season':
-                      _clim_season,
-                  'season':
-                      _season,
-                  'year':
-                      _year,
-                  'month_number':
-                      _month_number,
-                  'month_fullname':
-                      _month_fullname,
-                  'month':
-                      _month,
-                  'day_of_month':
-                      _day_of_month,
-                  'day_of_year':
-                      _day_of_year,
-                  'weekday_number':
-                      _weekday_number,
-                  'weekday_fullname':
-                      _weekday_fullname,
-                  'weekday':
-                      _weekday,
-                  'hour':
-                      _hour}
+    categorical_dict = {'season_year': _season_year,
+                        'season_membership': _season_membership,
+                        'season_number': _season_number,
+                        'annual_seasonal_mean': _annual_seasonal_mean,
+                        'number': _season_number,
+                        'clim_season': _clim_season,
+                        'season': _season,
+                        'year': _year,
+                        'month_number': _month_number,
+                        'month_fullname': _month_fullname,
+                        'month': _month,
+                        'day_of_month': _day_of_month,
+                        'day_of_year': _day_of_year,
+                        'weekday_number': _weekday_number,
+                        'weekday_fullname': _weekday_fullname,
+                        'weekday': _weekday,
+                        'hour': _hour
+                        }
 
-    categorical_dict.get(categorical)(cube=cube, cater_name=categorical,
-                                coord=coord, season=season,
-                                seasons=seasons)
+    categorical_dict.get(categorical)(cube=cube,
+                                      cater_name=categorical,
+                                      coord=coord,
+                                      season=season,
+                                      seasons=seasons)
 
 
 def add_categorical(cubes, categorical, coord='time', season='djf',
@@ -270,7 +259,8 @@ def add_categorical(cubes, categorical, coord='time', season='djf',
     if isinstance(categorical, list):
         for categorical in categorical:
 
-            if isinstance(cubes, list) or isinstance(cubes, iris.cube.CubeList):
+            if isinstance(cubes, list) or isinstance(cubes,
+                                                     iris.cube.CubeList):
                 for cube in cubes:
                     _add_categorical(cube, categorical, coord, season, seasons)
             else:
@@ -311,8 +301,8 @@ def aggregate_categorical(cube, categorical,
         cubes: A cube, a list of loaded Cubes, or an iris CubeList
         aggregated by a given categorical.
     """
-    compound_dict = {'annual_seasonal_mean':['clim_season',
-                                             'season_year']}
+    compound_dict = {'annual_seasonal_mean': ['clim_season',
+                                              'season_year']}
     cube = add_categorical(cube, categorical, coord=coord, season=season,
                            seasons=seasons)
     try:
@@ -324,7 +314,11 @@ def aggregate_categorical(cube, categorical,
         return cube
 
 
-def extract_categorical(cube, categorical, constraint, coord='time', season='djf',
+def extract_categorical(cube,
+                        categorical,
+                        constraint,
+                        coord='time',
+                        season='djf',
                         seasons=('djf', 'mam', 'jja', 'son')):
     """
     Adds a coordinate categorical, aggregates by said catgorical,
@@ -352,7 +346,10 @@ def extract_categorical(cube, categorical, constraint, coord='time', season='djf
         raise NameError("No constraint given")
 
     else:
-        cube = aggregate_categorical(cube, categorical, coord=coord, season=season,
+        cube = aggregate_categorical(cube,
+                                     categorical,
+                                     coord=coord,
+                                     season=season,
                                      seasons=seasons)
         return cube.extract(constraint)
 
