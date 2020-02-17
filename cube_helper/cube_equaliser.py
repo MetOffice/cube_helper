@@ -1,6 +1,7 @@
 # (C) Crown Copyright, Met Office. All rights reserved.
 #
-# This file is part of cube_helper and is released under the BSD 3-Clause license.
+# This file is part of cube_helper and is released under the
+# BSD 3-Clause license.
 # See LICENSE in the root of the repository for full licensing details.
 
 from __future__ import (absolute_import, division, print_function)
@@ -36,7 +37,7 @@ def equalise_attributes(cubes, comp_only=False):
         for key, value in cube.attributes.items():
             if isinstance(value, np.ndarray):
                 value = str(value)
-                attr_dict.update({key:value})
+                attr_dict.update({key: value})
             else:
                 attr_dict.update({key: value})
         attr_dict_list.append(attr_dict.items())
@@ -87,7 +88,8 @@ def equalise_time_units(cubes, comp_only=False):
                         comp_messages.add("\ttime start date inconsistent\n")
                 else:
                     if origin != time_coord.units.origin:
-                        change_messages.add("New time origin set to {}\n".format(origin))
+                        change_messages.add("New time origin set to "
+                                            "{}\n".format(origin))
                         unify_time_units(cubes)
     if comp_messages:
         for message in comp_messages:
@@ -97,6 +99,7 @@ def equalise_time_units(cubes, comp_only=False):
             print(message)
 
     return cubes
+
 
 def equalise_data_type(cubes, data_type='float32'):
     """
@@ -147,14 +150,14 @@ def equalise_dim_coords(cubes, comp_only=False):
             if comp_only:
                 coord = dim_coord.name()
                 if dim_coord.standard_name != coord:
-                    comp_messages.add("\t{} coords standard_name inconsistent\n".
-                                      format(coord))
+                    comp_messages.add("\t{} coords standard_name "
+                                      "inconsistent\n".format(coord))
                 if dim_coord.long_name != coord:
-                    comp_messages.add("\t{} coords long_name inconsistent\n".
-                                      format(coord))
+                    comp_messages.add("\t{} coords long_name "
+                                      "inconsistent\n".format(coord))
                 if dim_coord.var_name != coord:
-                    comp_messages.add("\t{} coords var_name inconsistent\n".
-                                      format(coord))
+                    comp_messages.add("\t{} coords var_name "
+                                      "inconsistent\n".format(coord))
             else:
                 coord = dim_coord.name()
                 dim_coord.standard_name = coord
@@ -186,8 +189,8 @@ def equalise_aux_coords(cubes, comp_only=False):
     change_messages = set({})
     cube_combs = list(combinations(cubes, 2))
     for combs in cube_combs:
-        cube_a_dict = {c.name():c for c in combs[0].aux_coords}
-        cube_b_dict = {c.name():c for c in combs[1].aux_coords}
+        cube_a_dict = {c.name(): c for c in combs[0].aux_coords}
+        cube_b_dict = {c.name(): c for c in combs[1].aux_coords}
         cube_a_coords = {c for c in cube_a_dict}
         cube_b_coords = {c for c in cube_b_dict}
         for coord in list(cube_a_coords):
