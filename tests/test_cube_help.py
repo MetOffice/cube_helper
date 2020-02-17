@@ -611,7 +611,7 @@ class TestCubeHelp(unittest.TestCase):
     def test_extract_categorical_day_of_month(self):
         test_cube_a = self._generate_extended_cube()
         constraint = iris.Constraint(
-            day_of_month=lambda cell cell > 0 and cell < 17)
+            day_of_month=lambda cell: cell > 0 and cell < 17)
         test_cube_a = ch.extract_categorical(test_cube_a,
                                              'day_of_month',
                                              constraint=constraint)
