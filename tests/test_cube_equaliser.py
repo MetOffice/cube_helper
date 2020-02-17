@@ -147,11 +147,11 @@ class TestCubeEqualiser(unittest.TestCase):
                           "cube dim coordinates differ: \n\n\t" + \
                           "grid_latitude coords long_name " + \
                           "inconsistent\n\n\t" + \
-                          "grid_longitude coords long_name inconsistent\n\n\t" + \
+                          "grid_longitude coords " + \
+                          "long_name inconsistent\n\n\t" + \
                           "time coords long_name inconsistent"
 
         self.assertEqual(output, expected_output)
-
 
     def test_equalise_all(self):
         glob_path = self.tmp_dir_attr + '*.nc'
@@ -190,4 +190,3 @@ class TestCubeEqualiser(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-
