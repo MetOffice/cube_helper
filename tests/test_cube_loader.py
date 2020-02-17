@@ -1,6 +1,7 @@
 # (C) Crown Copyright, Met Office. All rights reserved.
 #
-# This file is part of cube_helper and is released under the BSD 3-Clause license.
+# This file is part of cube_helper and is released under the
+# BSD 3-Clause license.
 # See LICENSE in the root of the repository for full licensing details.
 import unittest
 import os
@@ -68,7 +69,6 @@ class TestCubeLoader(unittest.TestCase):
             self.assertIsInstance(name, str)
             self.assertTrue(os.path.exists(name))
 
-
     def test_load_from_dir(self):
         test_load, test_names = load_from_dir(self.tmp_dir, '.nc')
         self.assertIsInstance(test_load, list)
@@ -79,12 +79,10 @@ class TestCubeLoader(unittest.TestCase):
             self.assertIsInstance(name, str)
             self.assertTrue(os.path.exists(name))
 
-
     def test_parse_directory(self):
         directory = 'test_data/realistic_3d/realistic_3d_0.nc'
         self.assertEqual(_parse_directory(directory),
                          '/test_data/realistic_3d/realistic_3d_0.nc/')
-
 
     def test_sort_by_earliest_date(self):
         glob_path = self.tmp_dir_time + '*.nc'
@@ -99,7 +97,6 @@ class TestCubeLoader(unittest.TestCase):
         self.assertEqual(test_load[2].dim_coords[0].units.origin,
                          "hours since 1990-01-01 00:00:00")
 
-
     def test_file_sort_by_earliest_date(self):
         glob_path = self.tmp_dir_time + '*.nc'
         filepaths = glob(glob_path)
@@ -111,7 +108,6 @@ class TestCubeLoader(unittest.TestCase):
                          "hours since 1980-01-01 00:00:00")
         self.assertEqual(test_load[2].dim_coords[0].units.origin,
                          "hours since 1990-01-01 00:00:00")
-
 
     def tearDown(self):
         super(TestCubeLoader, self).tearDown()
