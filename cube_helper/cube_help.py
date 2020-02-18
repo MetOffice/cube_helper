@@ -296,7 +296,7 @@ def aggregate_categorical(cube, categorical,
     same as the ones suppourted by add_categorical().
 
     Args:
-        cubes: A cube, a list of Loaded Cubes or a CubeList.
+        cubes: A cube, a list of loaded Cubes or a CubeList.
 
         categorical: A string or list of strings specifying
         the categorisation you wish to add. Additionally a compound
