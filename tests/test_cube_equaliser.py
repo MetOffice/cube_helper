@@ -6,6 +6,7 @@
 
 import unittest
 import iris
+import cf_units
 from glob import glob
 import os
 from iris.tests import stock
@@ -22,13 +23,31 @@ class TestCubeEqualiser(unittest.TestCase):
         self.tmp_dir = abs_path + '/' + 'tmp_dir/'
         self.tmp_dir_aux = abs_path + '/' + 'tmp_dir_aux/'
         self.tmp_dir_attr = abs_path + '/' + 'tmp_dir_attr/'
+        self.tmp_dir_time = abs_path + '/' + 'tmp_dir_time/'
         if not os.path.exists(self.tmp_dir):
             os.mkdir(self.tmp_dir)
         if not os.path.exists(self.tmp_dir_attr):
             os.mkdir(self.tmp_dir_attr)
         if not os.path.exists(self.tmp_dir_aux):
             os.mkdir(self.tmp_dir_aux)
+        if not os.path.exists(self.tmp_dir_time):
+            os.mkdir(self.tmp_dir_time)
         base_cube = stock.realistic_3d()
+        cube_1 = base_cube[0:2]
+        cube_2 = base_cube[2:4]
+        cube_3 = base_cube[4:]
+        new_time = cf_units.Unit('hours since 1980-01-01 00:00:00',
+                                 'gregorian')
+        cube_2.dim_coords[0].convert_units(new_time)
+        new_time = cf_units.Unit('hours since 1990-01-01 00:00:00',
+                                 'gregorian')
+        cube_3.dim_coords[0].convert_units(new_time)
+        self.temp_1_time = 'temp_1_time.nc'
+        self.temp_2_time = 'temp_2_time.nc'
+        self.temp_3_time = 'temp_3_time.nc'
+        iris.save(cube_1, self.tmp_dir_time + self.temp_1_time)
+        iris.save(cube_2, self.tmp_dir_time + self.temp_2_time)
+        iris.save(cube_3, self.tmp_dir_time + self.temp_3_time)
         cube_1 = base_cube[0:2]
         cube_2 = base_cube[2:4]
         cube_3 = base_cube[4:]
@@ -76,7 +95,7 @@ class TestCubeEqualiser(unittest.TestCase):
             self.assertEqual(cubes.attributes, test_load[0].attributes)
 
     def test_equalise_time_units(self):
-        glob_path = self.tmp_dir + '*.nc'
+        glob_path = self.tmp_dir_time + '*.nc'
         print(glob_path)
         filepaths = glob(glob_path)
         test_load = [iris.load_cube(cube) for cube in filepaths]
