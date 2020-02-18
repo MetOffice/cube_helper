@@ -11,9 +11,9 @@ cube\_helper module
     :show-inheritance:
 
 Submodules
-^^^^^^^^^^
+----------
 cube\_equaliser module
------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^
 
 .. automodule:: cube_helper.cube_equaliser
     :members:
@@ -21,7 +21,7 @@ cube\_equaliser module
     :show-inheritance:
 
 cube\_loader module
---------------------------------
+^^^^^^^^^^^^^^^^^^^
 
 .. automodule:: cube_helper.cube_loader
     :members:
