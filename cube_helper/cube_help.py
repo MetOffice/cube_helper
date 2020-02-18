@@ -208,7 +208,7 @@ def _add_categorical(cube, categorical, coord, season, seasons):
 def add_categorical(cubes, categorical, coord='time', season='djf',
                     seasons=('djf', 'mam', 'jja', 'son')):
     """
-    Adds a coordinate categorisation(s) to the iterable of iris Cubes.
+    Adds a coordinate categorisation(s) to the iterable of Iris Cubes.
 
     Currently this function provides a wrapper for the following
     standalone and compound categoricals:
