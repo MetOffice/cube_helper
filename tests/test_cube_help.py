@@ -86,32 +86,6 @@ class TestCubeHelp(unittest.TestCase):
         iris.save(cube_2, self.tmp_dir_time + self.temp_2_time)
         iris.save(cube_3, self.tmp_dir_time + self.temp_3_time)
 
-    def test_concatenate(self):
-        glob_path = self.tmp_dir_time + '*.nc'
-        filepaths = glob(glob_path)
-        test_load = [iris.load_cube(cube) for cube in filepaths]
-        test_case_a = ch.concatenate(test_load)
-        test_load = iris.cube.CubeList(test_load)
-        test_case_b = ch.concatenate(test_load)
-        self.assertIsInstance(test_case_a, iris.cube.Cube)
-        self.assertIsInstance(test_case_b, iris.cube.Cube)
-
-    def test_load(self):
-        glob_path = self.tmp_dir_time + '*.nc'
-        filepaths = glob(glob_path)
-        directory = self.tmp_dir_time
-        test_case_a = ch.load(filepaths)
-        self.assertIsInstance(test_case_a, iris.cube.Cube)
-        self.assertEqual(test_case_a.dim_coords[0].units.origin,
-                         "hours since 1970-01-01 00:00:00")
-        self.assertEqual(test_case_a.dim_coords[0].units.calendar,
-                         "gregorian")
-        test_case_b = ch.load(directory)
-        self.assertEqual(test_case_b.dim_coords[0].units.origin,
-                         "hours since 1970-01-01 00:00:00")
-        self.assertEqual(test_case_b.dim_coords[0].units.calendar,
-                         "gregorian")
-
     def test_add_categorical(self):
         glob_path = self.tmp_dir_time + '*.nc'
         filepaths = glob(glob_path)
@@ -141,12 +115,32 @@ class TestCubeHelp(unittest.TestCase):
                 cube = ch.add_categorical(cube, categorical)
                 self.assertTrue(cube.coord(categorical))
                 cube.remove_coord(categorical)
+
+    def test_concatenate(self):
+        glob_path = self.tmp_dir_time + '*.nc'
+        filepaths = glob(glob_path)
+        test_load = [iris.load_cube(cube) for cube in filepaths]
+        test_case_a = ch.concatenate(test_load)
+        test_load = iris.cube.CubeList(test_load)
+        test_case_b = ch.concatenate(test_load)
+        self.assertIsInstance(test_case_a, iris.cube.Cube)
+        self.assertIsInstance(test_case_b, iris.cube.Cube)
+
+    def test_load(self):
+        glob_path = self.tmp_dir_time + '*.nc'
+        filepaths = glob(glob_path)
+        directory = self.tmp_dir_time
         test_case_a = ch.load(filepaths)
-        test_case_a = ch.add_categorical(test_case_a,
-                                         ["clim_season",
-                                          "season_year"])
-        self.assertTrue(test_case_a.coord("clim_season"))
-        self.assertTrue(test_case_a.coord("season_year"))
+        self.assertIsInstance(test_case_a, iris.cube.Cube)
+        self.assertEqual(test_case_a.dim_coords[0].units.origin,
+                         "hours since 1970-01-01 00:00:00")
+        self.assertEqual(test_case_a.dim_coords[0].units.calendar,
+                         "gregorian")
+        test_case_b = ch.load(directory)
+        self.assertEqual(test_case_b.dim_coords[0].units.origin,
+                         "hours since 1970-01-01 00:00:00")
+        self.assertEqual(test_case_b.dim_coords[0].units.calendar,
+                         "gregorian")
 
     def test_add_categorical_compound(self):
         glob_path = self.tmp_dir_time + '*.nc'

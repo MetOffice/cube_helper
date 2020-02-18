@@ -16,18 +16,18 @@ from cube_helper.cube_equaliser import (compare_cubes,
 
 def load(directory, filetype='.nc', constraints=None):
     """
-    A function that loads and concatenates iris Cubes.
+    A function that loads and concatenates Iris Cubes.
 
     Args:
         directory: A String specifying the directory or filename of the Cubes
         you wish to concatenate. Accepts either directory location or a list
         or glob object of individual Cubes.
 
-        filetype: Extension of iris Cubes to Load. set to '.nc' by default.
+        filetype: Extension of Iris Cubes to Load. set to '.nc' by default.
         constraints: Any constraints to be applied to Cubes on load.
 
     Returns:
-        result: A concatenated iris Cube.
+        result: A concatenated Iris Cube.
     """
     if isinstance(directory, string_types):
         loaded_cubes, cube_files = load_from_dir(
@@ -199,7 +199,7 @@ def _add_categorical(cube, categorical, coord, season, seasons):
                         }
 
     categorical_dict.get(categorical)(cube=cube,
-                                      cater_name=categorical,
+                                      categorical=categorical,
                                       coord=coord,
                                       season=season,
                                       seasons=seasons)
@@ -253,7 +253,7 @@ def add_categorical(cubes, categorical, coord='time', season='djf',
         the categorisation you wish to add. Additionally a compound
         categorisation can be added. E.g 'annual_seasonal_mean'.
 
-        coords: the coordinate you wish to add a categorisation to. Set
+        coords: The coordinate you wish to add a categorisation to. Set
         to 'time' by default.
 
         season: The season you need for the categorisation (where required).
@@ -263,7 +263,7 @@ def add_categorical(cubes, categorical, coord='time', season='djf',
 
     Returns:
         cubes: An iterable of Cubes, either a list of loaded Cubes
-        or an iris CubeList.
+        or an Iris CubeList.
     """
     if isinstance(categorical, list):
         for categorical in categorical:
@@ -291,7 +291,7 @@ def aggregate_categorical(cube, categorical,
                           seasons=('djf', 'mam', 'jja', 'son'),
                           agg_method=iris.analysis.MEAN):
     """
-    Adds a coordinate categorisation(s) to the iterable of iris Cubes, then
+    Adds a coordinate categorisation(s) to the iterable of Iris Cubes, then
     aggregates them by the given categoricals. Categoricals used are the
     same as the ones suppourted by add_categorical().
 
@@ -302,7 +302,7 @@ def aggregate_categorical(cube, categorical,
         the categorisation you wish to add. Additionally a compound
         categorisation can be added. E.g 'annual_seasonal_mean'.
 
-        coords: the coordinate you wish to add a categoisation to. Set
+        coords: The coordinate you wish to add a categoisation to. Set
         to 'time' by default.
 
         season: The season you need for the categorisation (where required).
@@ -310,8 +310,10 @@ def aggregate_categorical(cube, categorical,
 
         seasons: The seasons required for categorisation.
 
+        agg_method: An Iris aggregator object, e.g ``iris.analysis.MEAN``,
+
     Returns:
-        cubes: A cube, a list of loaded Cubes, or an iris CubeList
+        cubes: A cube, a list of loaded Cubes, or an Iris CubeList
         aggregated by a given categorical.
     """
     compound_dict = {'annual_seasonal_mean': ['clim_season',
@@ -335,6 +337,7 @@ def extract_categorical(cube,
                         seasons=('djf', 'mam', 'jja', 'son')):
     """
     Adds a coordinate categorical, aggregates by said categorical,
+    then extracts the given contraint. The categoricals used are the
     then extracts the given contraint. Categoricals used are the
     same as the ones suppourted by add_categorical() and
     aggregate_categorical().
@@ -346,26 +349,26 @@ def extract_categorical(cube,
         the categorisation you wish to add. Additionally a compound
         categorisation can be added. E.g 'annual_seasonal_mean'.
 
-        constraint: an iris constraint you wish to extract.
+        constraint: An Iris constraint you wish to extract.
 
-        coords: the coordinate you wish to add a categoisation to. Set
+        coords: The coordinate you wish to add a categoisation to. Set
         to 'time' by default.
 
         season: The season you need for the categorisation (where required).
         set to 'djf' by default.
-        
+
         seasons: The seasons required for categorisation.
 
     Returns:
-        cubes: A cube, a list of loaded Cubes, or an iris CubeList
+        cubes: A cube, a list of loaded Cubes, or an Iris CubeList
         extracted from a given constraint.
     """
     if not isinstance(constraint, iris.Constraint):
         raise NameError("No constraint given")
 
     else:
-        cube = aggregate_categorical(cube,
-                                     categorical,
+        cube = aggregate_categorical(cube=cube,
+                                     categorical=categorical,
                                      coord=coord,
                                      season=season,
                                      seasons=seasons)
@@ -374,15 +377,15 @@ def extract_categorical(cube,
 
 def concatenate(cubes):
     """
-    Concatentates a list of iris Cubes. Equalises the list of cubes first
+    Concatentates a list of Iris Cubes. Equalises the list of cubes first
     then concatenates.
 
     Args:
-         cubes: An iterable of iris Cubes to concatenate, either list of
+         cubes: An iterable of Iris Cubes to concatenate, either list of
          loaded cubes or a CubeList
 
     Returns:
-        cube: A concatenated iris Cube.
+        cube: A concatenated Iris Cube.
     """
     cubes = equalise_all(cubes)
     cube_list = iris.cube.CubeList(equalise_all(cubes))
