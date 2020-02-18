@@ -296,7 +296,7 @@ def aggregate_categorical(cube, categorical,
     same as the ones suppourted by add_categorical().
 
     Args:
-        cubes: A cube, a list of Loaded Cubes or a CubeList.
+        cubes: A cube, a list of loaded Cubes or a CubeList.
 
         categorical: A string or list of strings specifying
         the categorisation you wish to add. Additionally a compound
@@ -336,8 +336,8 @@ def extract_categorical(cube,
                         season='djf',
                         seasons=('djf', 'mam', 'jja', 'son')):
     """
-    Adds a coordinate categorical, aggregates by said catgorical,
-    then extracts the given contraint. Categoricals used are the
+    Adds a coordinate categorical, aggregates by said categorical,
+    then extracts the given contraint. The categoricals used are the
     same as the ones suppourted by add_categorical() and
     aggregate_categorical().
 
