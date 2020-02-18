@@ -253,7 +253,7 @@ def add_categorical(cubes, categorical, coord='time', season='djf',
         the categorisation you wish to add. Additionally a compound
         categorisation can be added. E.g 'annual_seasonal_mean'.
 
-        coords: the coordinate you wish to add a categorisation to. Set
+        coords: The coordinate you wish to add a categorisation to. Set
         to 'time' by default.
 
         season: The season you need for the categorisation (where required).
@@ -302,13 +302,15 @@ def aggregate_categorical(cube, categorical,
         the categorisation you wish to add. Additionally a compound
         categorisation can be added. E.g 'annual_seasonal_mean'.
 
-        coords: the coordinate you wish to add a categoisation to. Set
+        coords: The coordinate you wish to add a categoisation to. Set
         to 'time' by default.
 
         season: The season you need for the categorisation (where required).
         set to 'djf' by default.
 
         seasons: The seasons required for categorisation.
+
+        agg_method: An Iris aggregator object, e.g `iris.analysis.MEAN`,
 
     Returns:
         cubes: A cube, a list of loaded Cubes, or an iris CubeList
@@ -346,14 +348,14 @@ def extract_categorical(cube,
         the categorisation you wish to add. Additionally a compound
         categorisation can be added. E.g 'annual_seasonal_mean'.
 
-        constraint: an iris constraint you wish to extract.
+        constraint: An iris constraint you wish to extract.
 
-        coords: the coordinate you wish to add a categoisation to. Set
+        coords: The coordinate you wish to add a categoisation to. Set
         to 'time' by default.
 
         season: The season you need for the categorisation (where required).
         set to 'djf' by default.
-        
+
         seasons: The seasons required for categorisation.
 
     Returns:
