@@ -225,6 +225,9 @@ def add_categorical(cubes, categorical, coord='time', season='djf',
         Add a month coordinate, vals 1-12.
     season:
         Add a season-of-year coordinate, with specified seasons.
+    clim_season:
+        Add a climatalogical season-of-year coordinate, with
+        specified seasons.
     season_membership:
         Add a season membership coordinate for a specified season.
     season_number:
@@ -240,16 +243,22 @@ def add_categorical(cubes, categorical, coord='time', season='djf',
         Add a weekday coordinate, vals 0-6 [0=Monday].
     year:
         Add a calendar-year coordinate.
+    annual_seasonal_mean:
+        Add a clim_season and a season_year coordinate.
 
     Args:
         cubes: A cube, a list of Loaded Cubes or a CubeList.
+
         categorical: A string or list of strings specifying
         the categorisation you wish to add. Additionally a compound
         categorisation can be added. E.g 'annual_seasonal_mean'.
-        coords: the coordinate you wish to add a categoisation to. Set
+
+        coords: the coordinate you wish to add a categorisation to. Set
         to 'time' by default.
+
         season: The season you need for the categorisation (where required).
         set to 'djf' by default.
+
         seasons: The seasons required for categorisation.
 
     Returns:
@@ -288,13 +297,17 @@ def aggregate_categorical(cube, categorical,
 
     Args:
         cubes: A cube, a list of Loaded Cubes or a CubeList.
+
         categorical: A string or list of strings specifying
         the categorisation you wish to add. Additionally a compound
         categorisation can be added. E.g 'annual_seasonal_mean'.
+
         coords: the coordinate you wish to add a categoisation to. Set
         to 'time' by default.
+
         season: The season you need for the categorisation (where required).
         set to 'djf' by default.
+
         seasons: The seasons required for categorisation.
 
     Returns:
@@ -328,14 +341,19 @@ def extract_categorical(cube,
 
     Args:
         cubes: A cube, a list of Loaded Cubes or a CubeList.
+
         categorical: A string or list of strings specifying
         the categorisation you wish to add. Additionally a compound
         categorisation can be added. E.g 'annual_seasonal_mean'.
+
         constraint: an iris constraint you wish to extract.
+
         coords: the coordinate you wish to add a categoisation to. Set
         to 'time' by default.
+
         season: The season you need for the categorisation (where required).
         set to 'djf' by default.
+        
         seasons: The seasons required for categorisation.
 
     Returns:
