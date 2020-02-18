@@ -10,21 +10,3 @@ cube\_helper module
     :undoc-members:
     :show-inheritance:
 
-Submodules
-----------
-cube\_equaliser module
-^^^^^^^^^^^^^^^^^^^^^^
-
-.. automodule:: cube_helper.cube_equaliser
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-cube\_loader module
-^^^^^^^^^^^^^^^^^^^
-
-.. automodule:: cube_helper.cube_loader
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
