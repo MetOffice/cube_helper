@@ -334,7 +334,7 @@ def extract_categorical(cube,
                         season='djf',
                         seasons=('djf', 'mam', 'jja', 'son')):
     """
-    Adds a coordinate categorical, aggregates by said catgorical,
+    Adds a coordinate categorical, aggregates by said categorical,
     then extracts the given contraint. Categoricals used are the
     same as the ones suppourted by add_categorical() and
     aggregate_categorical().
