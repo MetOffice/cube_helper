@@ -112,42 +112,6 @@ class TestCubeHelp(unittest.TestCase):
         self.assertEqual(test_case_b.dim_coords[0].units.calendar,
                          "gregorian")
 
-    def test_add_categorical(self):
-        glob_path = self.tmp_dir_time + '*.nc'
-        filepaths = glob(glob_path)
-        test_case_a = ch.load(filepaths)
-        test_case_b = [iris.load_cube(cube) for cube in filepaths]
-        test_categoricals = ["season_year",
-                             "season_number",
-                             "season_membership",
-                             "season",
-                             "year",
-                             "month_number",
-                             "month_fullname",
-                             "month",
-                             "day_of_month",
-                             "day_of_year",
-                             "weekday_number",
-                             "weekday_fullname",
-                             "weekday",
-                             "hour"]
-        for categorical in test_categoricals:
-            test_case_a = ch.add_categorical(test_case_a, categorical)
-            self.assertTrue(test_case_a.coord(categorical))
-            test_case_a.remove_coord(categorical)
-
-        for categorical in test_categoricals:
-            for cube in test_case_b:
-                cube = ch.add_categorical(cube, categorical)
-                self.assertTrue(cube.coord(categorical))
-                cube.remove_coord(categorical)
-        test_case_a = ch.load(filepaths)
-        test_case_a = ch.add_categorical(test_case_a,
-                                         ["clim_season",
-                                          "season_year"])
-        self.assertTrue(test_case_a.coord("clim_season"))
-        self.assertTrue(test_case_a.coord("season_year"))
-
     def test_add_categorical_compound(self):
         glob_path = self.tmp_dir_time + '*.nc'
         filepaths = glob(glob_path)

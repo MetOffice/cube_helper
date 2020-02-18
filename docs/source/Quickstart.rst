@@ -32,7 +32,7 @@ To load from a list of fname strings. Useful when combining datasets.
 
 Concatenating a cube
 ^^^^^^^^^^^^^^^^^^^^
-If you are dealing with cubes that have already been loaded, for CubeLists and list of loaaded cubes.
+If you are dealing with cubes that have already been loaded, for CubeLists and list of loaded cubes.
 
 .. code-block:: python
 
