@@ -334,7 +334,8 @@ def extract_categorical(cube,
                         constraint,
                         coord='time',
                         season='djf',
-                        seasons=('djf', 'mam', 'jja', 'son')):
+                        seasons=('djf', 'mam', 'jja', 'son'),
+                        agg_method=iris.analysis.MEAN):
     """
     Adds a coordinate categorical, aggregates by said categorical,
     then extracts the given contraint. The categoricals used are the
@@ -367,11 +368,12 @@ def extract_categorical(cube,
         raise NameError("No constraint given")
 
     else:
-        cube = aggregate_categorical(cube=cube,
-                                     categorical=categorical,
-                                     coord=coord,
-                                     season=season,
-                                     seasons=seasons)
+        cube = aggregate_categorical(cube,
+                                     categorical,
+                                     coord,
+                                     season,
+                                     seasons,
+                                     agg_method)
         return cube.extract(constraint)
 
 
@@ -388,6 +390,6 @@ def concatenate(cubes):
         cube: A concatenated Iris Cube.
     """
     cubes = equalise_all(cubes)
-    cube_list = iris.cube.CubeList(equalise_all(cubes))
+    cube_list = iris.cube.CubeList(cubes)
     cube = cube_list.concatenate_cube()
     return cube
