@@ -7,8 +7,6 @@
 import os
 import iris
 import glob
-import re
-from datetime import datetime
 from iris.exceptions import MergeError, ConstraintMismatchError
 from six import string_types
 
