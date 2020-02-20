@@ -1,2 +1,8 @@
-cfunits
-numpy
+cartopy>=0.12
+cf-units>=2
+cftime
+dask[array]>=2
+matplotlib
+netcdf4
+numpy>=1.14
+scipy
