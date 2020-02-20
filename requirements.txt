@@ -1,4 +1,5 @@
-cartopy>=0.12
+geos
+cartopy
 cf-units>=2
 cftime
 dask[array]>=2
