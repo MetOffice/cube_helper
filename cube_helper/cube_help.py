@@ -324,7 +324,7 @@ def aggregate_categorical(cube, categorical,
         categorical = compound_dict[categorical]
         cube = cube.aggregated_by(categorical, agg_method)
         return cube
-    except KeyError:
+    except:
         cube = cube.aggregated_by(categorical, agg_method)
         return cube
 
