@@ -1,40 +1,26 @@
-name: Python application
+name: cube_helper CI 
 
 on: [push]
 
 jobs:
-  test:
+  build:
 
     runs-on: linux
+    strategy:
+      matrix:
+        python-version: [2.7, 3.5, 3.6, 3.7, 3.8]
 
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Python 3.8
+    - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v1
       with:
-        python-version: 3.6
+        python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-    - name: Test cube_helper
+    - name: Test with pytest
       run: |
-        python tests/test_cube_equaliser.py
-        python tests/test_cube_loader.py
-        python tests/test_cube_help.py
-        
-    - uses: actions/checkout@v2
-    - name: Set up Python 3.8
-      uses: actions/setup-python@v1
-      with:
-        python-version: 2.7
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-    - name: Test cube_helper
-      run: |
-        python tests/test_cube_equaliser.py
-        python tests/test_cube_loader.py
-        python tests/test_cube_help.py
-
+        pip install pytest
+        pytest
