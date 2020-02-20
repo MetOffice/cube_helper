@@ -1,9 +1,3 @@
-geos
-cartopy
-cf-units>=2
-cftime
-dask[array]>=2
-matplotlib
-netcdf4
+cf-units
 numpy>=1.14
-scipy
+
