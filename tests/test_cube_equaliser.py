@@ -184,21 +184,28 @@ class TestCubeEqualiser(unittest.TestCase):
             os.remove(self.tmp_dir_aux + self.temp_1_aux)
         if os.path.exists(self.tmp_dir_attr + self.temp_1_attr):
             os.remove(self.tmp_dir_attr + self.temp_1_attr)
+        if os.path.exists(self.tmp_dir_time + self.temp_1_time):
+            os.remove(self.tmp_dir_time + self.temp_1_time)
         if os.path.exists(self.tmp_dir + self.temp_2):
             os.remove(self.tmp_dir + self.temp_2)
         if os.path.exists(self.tmp_dir_aux + self.temp_2_aux):
             os.remove(self.tmp_dir_aux + self.temp_2_aux)
         if os.path.exists(self.tmp_dir_attr + self.temp_2_attr):
             os.remove(self.tmp_dir_attr + self.temp_2_attr)
+        if os.path.exists(self.tmp_dir_time + self.temp_2_time):
+            os.remove(self.tmp_dir_time + self.temp_2_time)
         if os.path.exists(self.tmp_dir + self.temp_3):
             os.remove(self.tmp_dir + self.temp_3)
         if os.path.exists(self.tmp_dir_aux + self.temp_3_aux):
             os.remove(self.tmp_dir_aux + self.temp_3_aux)
         if os.path.exists(self.tmp_dir_attr + self.temp_3_attr):
             os.remove(self.tmp_dir_attr + self.temp_3_attr)
+        if os.path.exists(self.tmp_dir_time + self.temp_3_time):
+            os.remove(self.tmp_dir_time + self.temp_3_time)
         os.removedirs(self.tmp_dir)
         os.removedirs(self.tmp_dir_aux)
         os.removedirs(self.tmp_dir_attr)
+        os.removedirs(self.tmp_dir_time)
 
 
 if __name__ == '__main__':
