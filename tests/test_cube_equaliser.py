@@ -162,13 +162,7 @@ class TestCubeEqualiser(unittest.TestCase):
             ch.compare_cubes(test_load)
         output = out.getvalue().strip()
         expected_output = "cube aux coordinates differ: " + \
-                          "\n\n\theight coords inconsistent\n\n\n" + \
-                          "cube dim coordinates differ: \n\n\t" + \
-                          "grid_latitude coords long_name " + \
-                          "inconsistent\n\n\t" + \
-                          "grid_longitude coords " + \
-                          "long_name inconsistent\n\n\t" + \
-                          "time coords long_name inconsistent"
+                          "\n\n\theight coords inconsistent"
 
         self.assertEqual(output, expected_output)
 
