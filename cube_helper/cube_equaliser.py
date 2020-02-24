@@ -144,26 +144,37 @@ def equalise_dim_coords(cubes, comp_only=False):
     Returns:
         Cubes equalised across dimension coordinates.
     """
-    comp_messages = set({})
+    comp_messages = set()
+    coord_dict = {}
     for cube in cubes:
-        for dim_coord in cube.dim_coords:
+        for coord in cube.dim_coords:
+            coord_dict.update({coord.name():
+                                  {'long_name': coord.long_name,
+                                   'standard_name': coord.standard_name,
+                                   'var_name': coord.var_name}})
+
+    for coord in coord_dict:
+        for cube in cubes:
             if comp_only:
-                coord = dim_coord.name()
-                if dim_coord.standard_name != coord:
+                if cube.coord(coord).standard_name != coord_dict[coord]['standard_name']:
+                    comp_messages.add("\ncube dim coordinates differ: \n")
                     comp_messages.add("\t{} coords standard_name "
                                       "inconsistent\n".format(coord))
-                if dim_coord.long_name != coord:
+                if cube.coord(coord).long_name != coord_dict[coord]['long_name']:
+                    comp_messages.add("\ncube dim coordinates differ: \n")
                     comp_messages.add("\t{} coords long_name "
                                       "inconsistent\n".format(coord))
-                if dim_coord.var_name != coord:
+                if cube.coord(coord).var_name != coord_dict[coord]['var_name']:
+                    comp_messages.add("\ncube dim coordinates differ: \n")
                     comp_messages.add("\t{} coords var_name "
                                       "inconsistent\n".format(coord))
             else:
-                coord = dim_coord.name()
-                dim_coord.standard_name = coord
-                dim_coord.long_name = coord
-                dim_coord.var_name = coord
-
+                try:
+                    cube.coord(coord).standard_name = coord_dict[coord]['standard_name']
+                    cube.coord(coord).long_name = coord_dict[coord]['long_name']
+                    cube.coord(coord).var_name = coord_dict[coord]['var_name']
+                except ValueError:
+                    pass
     if comp_messages:
         comp_messages = sorted(comp_messages)
         for message in comp_messages:
@@ -313,7 +324,6 @@ def compare_cubes(cubes):
         equalise_aux_coords(cubes, comp_only=True)
 
     if uneq_dim_coords:
-        print("\ncube dim coordinates differ: \n")
         equalise_dim_coords(cubes, comp_only=True)
 
     if uneq_attr:
