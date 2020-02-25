@@ -5,17 +5,77 @@
 # See LICENSE in the root of the repository for full licensing details.
 
 import unittest
-import iris
 import cf_units
 from glob import glob
 import os
+import iris
 from iris.tests import stock
 import contextlib
 from io import StringIO
 import cube_helper as ch
+import numpy as np
+import cf_units
+import iris.coords as icoords
 
 
 class TestCubeEqualiser(unittest.TestCase):
+
+    def _generate_ocean_cube(self):
+        """
+        Returns a realistic 3d cube with an extended time range.
+        """
+        cube_list = []
+        lower_bound = 0
+        upper_bound = 70
+        period = 70
+        for i in range(0, 100):
+            data = np.arange(70 * 9 * 11).reshape((70, 9, 11))
+            lat_pts = np.linspace(-4, 4, 9)
+            lon_pts = np.linspace(-5, 5, 11)
+            time_pts = np.linspace(lower_bound, upper_bound - 1, 70)
+            cell_index_first = np.linspace(-4, 4, 9)
+            cell_index_second = np.linspace(-5, 5, 11)
+            # ll_cs = RotatedGeogCS(37.5, 177.5, ellipsoid=GeogCS(6371229.0))
+
+            lat = icoords.DimCoord(
+                lat_pts,
+                standard_name="grid_latitude",
+                units="degrees",
+            )
+            lon = icoords.DimCoord(
+                lon_pts,
+                standard_name="grid_longitude",
+                units="degrees",
+            )
+            time = icoords.DimCoord(
+                time_pts, standard_name="time",
+                units="days since 1970-01-01 00:00:00"
+            )
+            cell_index_first = icoords.DimCoord(
+                cell_index_first, units=cf_units.Unit('1'),
+                long_name='cell index along first dimension', var_name='i'
+            )
+
+            cell_index_second = icoords.DimCoord(
+                cell_index_second, units=cf_units.Unit('1'),
+                long_name='cell index along second dimension', var_name='j'
+            )
+
+            cube = iris.cube.Cube(
+                data,
+                standard_name='surface_downward_mass_flux_of_carbon_dioxide_expressed_as_carbon',
+                units=cf_units.Unit('kg m-2 s-1'),
+                dim_coords_and_dims=[(time, 0), (cell_index_first, 1), (cell_index_second, 2)],
+                aux_coords_and_dims=[(lat, 1), (lon, 2)],
+                attributes={"source": "Iris test case"},
+            )
+            lower_bound = lower_bound + 70
+            upper_bound = upper_bound + 70
+            period = period + 70
+            cube_list.append(cube)
+        cube_list = iris.cube.CubeList(cube_list)
+        return cube_list
+
 
     def setUp(self):
         super(TestCubeEqualiser, self).setUp()
@@ -143,6 +203,16 @@ class TestCubeEqualiser(unittest.TestCase):
             self.assertEqual(cube.dim_coords[0].name(), 'time')
             self.assertEqual(cube.dim_coords[1].name(), 'grid_latitude')
 
+    def test_equalise_dim_coords_ocean(self):
+        test_load = self._generate_ocean_cube()
+        test_load = ch.equalise_dim_coords(test_load)
+        for cube in test_load:
+            self.assertEqual(cube.dim_coords[0].name(), 'time')
+            self.assertEqual(cube.dim_coords[1].name(),
+                             'cell index along first dimension')
+            self.assertEqual(cube.dim_coords[2].name(),
+                             'cell index along second dimension')
+
     def test_equalise_aux_coords(self):
         glob_path = self.tmp_dir_aux + '*.nc'
         filepaths = glob(glob_path)
@@ -164,6 +234,15 @@ class TestCubeEqualiser(unittest.TestCase):
         expected_output = "cube aux coordinates differ: " + \
                           "\n\n\theight coords inconsistent"
 
+        self.assertEqual(output, expected_output)
+
+    def test_compare_cubes_ocean(self):
+        test_load = self._generate_ocean_cube()
+        out = StringIO()
+        with contextlib.redirect_stdout(out):
+            ch.compare_cubes(test_load)
+        output = out.getvalue().strip()
+        expected_output = ""
         self.assertEqual(output, expected_output)
 
     def test_equalise_all(self):
