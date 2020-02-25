@@ -69,6 +69,9 @@ class TestCubeHelp(unittest.TestCase):
         self.tmp_dir_time = abs_path + '/' + 'tmp_dir_time/'
         if not os.path.exists(self.tmp_dir_time):
             os.mkdir(self.tmp_dir_time)
+        self.tmp_dir_ocean = abs_path + '/' + 'tmp_dir_ocean/'
+        if not os.path.exists(self.tmp_dir_ocean):
+            os.mkdir(self.tmp_dir_ocean)
         base_cube = stock.realistic_3d()
         cube_1 = base_cube[0:2]
         cube_2 = base_cube[2:4]
@@ -85,6 +88,16 @@ class TestCubeHelp(unittest.TestCase):
         iris.save(cube_1, self.tmp_dir_time + self.temp_1_time)
         iris.save(cube_2, self.tmp_dir_time + self.temp_2_time)
         iris.save(cube_3, self.tmp_dir_time + self.temp_3_time)
+        base_ocean_cube = self._generate_ocean_cube()
+        cube_1 = base_cube[0:10]
+        cube_2 = base_cube[10:15]
+        cube_3 = base_cube[15:]
+        self.temp_1_ocean = 'temp_1_ocean.nc'
+        self.temp_2_ocean = 'temp_2_ocean.nc'
+        self.temp_3_ocean = 'temp_3_ocean.nc'
+        iris.save(cube_1, self.tmp_dir_ocean + self.temp_1_ocean)
+        iris.save(cube_2, self.tmp_dir_ocean+ self.temp_2_ocean)
+        iris.save(cube_3, self.tmp_dir_ocean + self.temp_3_ocean)
 
     def test_add_categorical(self):
         glob_path = self.tmp_dir_time + '*.nc'
@@ -141,6 +154,18 @@ class TestCubeHelp(unittest.TestCase):
                          "hours since 1970-01-01 00:00:00")
         self.assertEqual(test_case_b.dim_coords[0].units.calendar,
                          "gregorian")
+
+    def test_load_ocean(self):
+        glob_path = self.tmp_dir_ocean + '*.nc'
+        filepaths = glob(glob_path)
+        directory = self.tmp_dir_ocean
+        test_case_a = ch.load(filepaths)
+        self.assertIsInstance(test_case_a, iris.cube.Cube)
+        self.assertEqual(test_case_a.dim_coords[0].units.origin,
+                         "hours since 1970-01-01 00:00:00")
+        test_case_b = ch.load(directory)
+        self.assertEqual(test_case_b.dim_coords[0].units.origin,
+                         "hours since 1970-01-01 00:00:00")
 
     def test_add_categorical_compound(self):
         glob_path = self.tmp_dir_time + '*.nc'
