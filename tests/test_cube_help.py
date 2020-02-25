@@ -71,7 +71,8 @@ class TestCubeHelp(unittest.TestCase):
             period = period + 70
             cube_list.append(cube)
         cube_list = iris.cube.CubeList(cube_list)
-        return cube_list
+        cube = cube_list.concatenate_cube()
+        return cube
 
     def _generate_extended_cube(self):
         cube_list = []
@@ -144,9 +145,9 @@ class TestCubeHelp(unittest.TestCase):
         iris.save(cube_2, self.tmp_dir_time + self.temp_2_time)
         iris.save(cube_3, self.tmp_dir_time + self.temp_3_time)
         base_ocean_cube = self._generate_ocean_cube()
-        cube_1 = base_cube[0:10]
-        cube_2 = base_cube[10:15]
-        cube_3 = base_cube[15:]
+        cube_1 = base_ocean_cube[0:10]
+        cube_2 = base_ocean_cube[10:15]
+        cube_3 = base_ocean_cube[15:]
         self.temp_1_ocean = 'temp_1_ocean.nc'
         self.temp_2_ocean = 'temp_2_ocean.nc'
         self.temp_3_ocean = 'temp_3_ocean.nc'
@@ -217,10 +218,10 @@ class TestCubeHelp(unittest.TestCase):
         test_case_a = ch.load(filepaths)
         self.assertIsInstance(test_case_a, iris.cube.Cube)
         self.assertEqual(test_case_a.dim_coords[0].units.origin,
-                         "hours since 1970-01-01 00:00:00")
+                         "days since 1970-01-01 00:00:00")
         test_case_b = ch.load(directory)
         self.assertEqual(test_case_b.dim_coords[0].units.origin,
-                         "hours since 1970-01-01 00:00:00")
+                         "days since 1970-01-01 00:00:00")
 
     def test_add_categorical_compound(self):
         glob_path = self.tmp_dir_time + '*.nc'
