@@ -14,7 +14,6 @@ import contextlib
 from io import StringIO
 import cube_helper as ch
 import numpy as np
-import cf_units
 import iris.coords as icoords
 
 
