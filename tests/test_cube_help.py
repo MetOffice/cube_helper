@@ -715,6 +715,13 @@ class TestCubeHelp(unittest.TestCase):
             os.remove(self.tmp_dir_time + self.temp_2_time)
         if os.path.exists(self.tmp_dir_time + self.temp_3_time):
             os.remove(self.tmp_dir_time + self.temp_3_time)
+        if os.path.exists(self.tmp_dir_ocean + self.temp_1_ocean):
+            os.remove(self.tmp_dir_ocean + self.temp_1_ocean)
+        if os.path.exists(self.tmp_dir_ocean + self.temp_2_ocean):
+            os.remove(self.tmp_dir_ocean + self.temp_2_ocean)
+        if os.path.exists(self.tmp_dir_ocean + self.temp_3_ocean):
+            os.remove(self.tmp_dir_ocean + self.temp_3_ocean)
+        os.removedirs(self.tmp_dir_ocean)
         os.removedirs(self.tmp_dir_time)
 
 
