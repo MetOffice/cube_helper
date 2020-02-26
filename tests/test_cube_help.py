@@ -11,7 +11,7 @@ import cube_helper as ch
 from glob import glob
 import os
 import cf_units
-import common #import _generate_ocean_cube, _generate_extended_cube
+import common
 
 
 class TestCubeHelp(unittest.TestCase):
