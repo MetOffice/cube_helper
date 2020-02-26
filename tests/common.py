@@ -15,18 +15,19 @@ def _generate_ocean_cube(self):
     period = 70
     for i in range(0, 100):
         data = np.arange(70 * 9 * 11).reshape((70, 9, 11))
-        lat_pts = np.linspace(-4, 4, 9)
-        lon_pts = np.linspace(-5, 5, 11)
-        time_pts = np.linspace(lower_bound, upper_bound - 1, 70)
-        cell_index_first = np.linspace(-4, 4, 9)
-        cell_index_second = np.linspace(-5, 5, 11)
+        lat_pts = np.arange(9*11).reshape(9,11)
+        lon_pts = np.arange(9*11).reshape(9,11)
 
-        lat = icoords.DimCoord(
+        time_pts = np.linspace(lower_bound, upper_bound - 1, 70)
+        cell_index_first = np.linspace(0, 8, 9)
+        cell_index_second = np.linspace(0, 10, 11)
+
+        lat = icoords.AuxCoord(
             lat_pts,
             standard_name="grid_latitude",
             units="degrees",
         )
-        lon = icoords.DimCoord(
+        lon = icoords.AuxCoord(
             lon_pts,
             standard_name="grid_longitude",
             units="degrees",
@@ -50,7 +51,7 @@ def _generate_ocean_cube(self):
             standard_name='surface_downward_mass_flux_of_carbon_dioxide_expressed_as_carbon',
             units=cf_units.Unit('kg m-2 s-1'),
             dim_coords_and_dims=[(time, 0), (cell_index_first, 1), (cell_index_second, 2)],
-            aux_coords_and_dims=[(lat, 1), (lon, 2)],
+            aux_coords_and_dims=[(lat, (1, 2)), (lon, (1, 2))],
             attributes={"source": "Iris test case"},
         )
         lower_bound = lower_bound + 70
