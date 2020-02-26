@@ -34,7 +34,6 @@ class TestCubeEqualiser(unittest.TestCase):
             time_pts = np.linspace(lower_bound, upper_bound - 1, 70)
             cell_index_first = np.linspace(-4, 4, 9)
             cell_index_second = np.linspace(-5, 5, 11)
-            # ll_cs = RotatedGeogCS(37.5, 177.5, ellipsoid=GeogCS(6371229.0))
 
             lat = icoords.DimCoord(
                 lat_pts,
