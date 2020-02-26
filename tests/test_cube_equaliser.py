@@ -5,14 +5,15 @@
 # See LICENSE in the root of the repository for full licensing details.
 
 import unittest
-import iris
 import cf_units
 from glob import glob
 import os
+import iris
 from iris.tests import stock
 import contextlib
 from io import StringIO
 import cube_helper as ch
+from common import _generate_ocean_cube
 
 
 class TestCubeEqualiser(unittest.TestCase):
@@ -143,6 +144,16 @@ class TestCubeEqualiser(unittest.TestCase):
             self.assertEqual(cube.dim_coords[0].name(), 'time')
             self.assertEqual(cube.dim_coords[1].name(), 'grid_latitude')
 
+    def test_equalise_dim_coords_ocean(self):
+        test_load = _generate_ocean_cube(self)
+        test_load = ch.equalise_dim_coords(test_load)
+        for cube in test_load:
+            self.assertEqual(cube.dim_coords[0].name(), 'time')
+            self.assertEqual(cube.dim_coords[1].name(),
+                             'cell index along first dimension')
+            self.assertEqual(cube.dim_coords[2].name(),
+                             'cell index along second dimension')
+
     def test_equalise_aux_coords(self):
         glob_path = self.tmp_dir_aux + '*.nc'
         filepaths = glob(glob_path)
@@ -164,6 +175,15 @@ class TestCubeEqualiser(unittest.TestCase):
         expected_output = "cube aux coordinates differ: " + \
                           "\n\n\theight coords inconsistent"
 
+        self.assertEqual(output, expected_output)
+
+    def test_compare_cubes_ocean(self):
+        test_load = _generate_ocean_cube(self)
+        out = StringIO()
+        with contextlib.redirect_stdout(out):
+            ch.compare_cubes(test_load)
+        output = out.getvalue().strip()
+        expected_output = ""
         self.assertEqual(output, expected_output)
 
     def test_equalise_all(self):
