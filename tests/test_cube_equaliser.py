@@ -145,7 +145,8 @@ class TestCubeEqualiser(unittest.TestCase):
             self.assertEqual(cube.dim_coords[1].name(), 'grid_latitude')
 
     def test_equalise_dim_coords_ocean(self):
-        test_load = _generate_ocean_cube(self)
+        test_load = _generate_ocean_cube()
+        test_load[10].coord('time').var_name = 'bananas'
         test_load = ch.equalise_dim_coords(test_load)
         for cube in test_load:
             self.assertEqual(cube.dim_coords[0].name(), 'time')
@@ -178,7 +179,7 @@ class TestCubeEqualiser(unittest.TestCase):
         self.assertEqual(output, expected_output)
 
     def test_compare_cubes_ocean(self):
-        test_load = _generate_ocean_cube(self)
+        test_load = _generate_ocean_cube()
         out = StringIO()
         with contextlib.redirect_stdout(out):
             ch.compare_cubes(test_load)
