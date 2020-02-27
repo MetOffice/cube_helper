@@ -10,6 +10,7 @@ import numpy as np
 from iris.util import unify_time_units
 from collections import namedtuple
 from itertools import combinations
+from cube_helper.logger import log_module
 
 
 def equalise_attributes(cubes, comp_only=False):
@@ -30,6 +31,7 @@ def equalise_attributes(cubes, comp_only=False):
         Equalised cube_dataset to the CubeHelp class
 
     """
+    root = log_module()
     uncommon_keys = set()
     attr_dict_list = []
     attr_dict = {}
@@ -53,9 +55,10 @@ def equalise_attributes(cubes, comp_only=False):
                     del cube.attributes[key]
                 except KeyError:
                     pass
-            print("Deleting {} attribute from cubes\n".format(key))
+
+            root.info("Deleting {} attribute from cubes\n".format(key))
         else:
-            print("\t{} attribute inconsistent\n".format(key))
+            root.info("\t{} attribute inconsistent\n".format(key))
     return cubes
 
 
@@ -74,6 +77,7 @@ def equalise_time_units(cubes, comp_only=False):
     Returns:
         cubes with time coordinates unified.
     """
+    root = log_module()
     comp_messages = set()
     change_messages = set()
     calendar = cubes[0].coord('time').units.calendar
@@ -93,10 +97,10 @@ def equalise_time_units(cubes, comp_only=False):
                         unify_time_units(cubes)
     if comp_messages:
         for message in comp_messages:
-            print(message)
+            root.info(message)
     if change_messages:
         for message in change_messages:
-            print(message)
+            root.info(message)
 
     return cubes
 
@@ -144,6 +148,7 @@ def equalise_dim_coords(cubes, comp_only=False):
     Returns:
         Cubes equalised across dimension coordinates.
     """
+    root = log_module()
     comp_messages = set()
     coord_dict = {}
     for cube in cubes:
@@ -178,7 +183,7 @@ def equalise_dim_coords(cubes, comp_only=False):
     if comp_messages:
         comp_messages = sorted(comp_messages)
         for message in comp_messages:
-            print(message)
+            root.info(message)
     return cubes
 
 
@@ -196,6 +201,7 @@ def equalise_aux_coords(cubes, comp_only=False):
     Returns:
         Cubes equalised across auxillary coordinates.
     """
+    root = log_module()
     comp_messages = set({})
     change_messages = set({})
     cube_combs = list(combinations(cubes, 2))
@@ -224,11 +230,11 @@ def equalise_aux_coords(cubes, comp_only=False):
                     combs[0].add_aux_coord(cube_b_dict[coord])
     if comp_messages:
         for message in comp_messages:
-            print(message)
+            root.info(message)
 
     if change_messages:
         for message in change_messages:
-            print(message)
+            root.info(message)
 
     return cubes
 
@@ -283,6 +289,7 @@ def compare_cubes(cubes):
     Returns:
         A printed string detailing the inconsistencies in the cubes.
     """
+    root = log_module()
     uneq_aux_coords = False
     uneq_dim_coords = False
     uneq_attr = False
@@ -315,23 +322,23 @@ def compare_cubes(cubes):
             break
 
     if uneq_ndim:
-        print("\n Number of dimensions for cubes differ,"
+        root.info("\n Number of dimensions for cubes differ,"
               "please load cubes of matching ndim")
         sys.exit(2)
 
     if uneq_aux_coords:
-        print("\ncube aux coordinates differ: \n")
+        root.info("\ncube aux coordinates differ: \n")
         equalise_aux_coords(cubes, comp_only=True)
 
     if uneq_dim_coords:
         equalise_dim_coords(cubes, comp_only=True)
 
     if uneq_attr:
-        print("cube attributes differ: \n")
+        root.info("cube attributes differ: \n")
         equalise_attributes(cubes, comp_only=True)
 
     if uneq_time_coords:
-        print("cube time coordinates differ: \n")
+        root.info("cube time coordinates differ: \n")
         equalise_time_units(cubes, comp_only=True)
 
 
@@ -348,6 +355,7 @@ def examine_dim_bounds(cubes, cube_files):
     Returns:
         A printed string detailing any overlap in the time bounds.
     """
+    root = log_module()
     Range = namedtuple('Range', ['start', 'end'])
     for i, cube_a in enumerate(cubes):
         for j, cube_b in enumerate(cubes):
@@ -361,8 +369,8 @@ def examine_dim_bounds(cubes, cube_files):
                 delta = earliest_end - latest_start
                 overlap = max(0, delta)
                 if overlap > 0:
-                    print("\nThe time coordinates overlap at cube {}"
+                    root.info("\nThe time coordinates overlap at cube {}"
                           " and cube {}".format(i, j))
-                    print("\nThese cubes are: \n\t{}\n\t{}".
+                    root.info("\nThese cubes are: \n\t{}\n\t{}".
                           format(cube_files[i], cube_files[j]))
                     break
