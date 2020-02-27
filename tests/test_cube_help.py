@@ -42,7 +42,7 @@ class TestCubeHelp(unittest.TestCase):
         iris.save(cube_1, self.tmp_dir_time + self.temp_1_time)
         iris.save(cube_2, self.tmp_dir_time + self.temp_2_time)
         iris.save(cube_3, self.tmp_dir_time + self.temp_3_time)
-        base_ocean_cube = common._generate_ocean_cube(self)
+        base_ocean_cube = common._generate_ocean_cube()
         base_ocean_cube = base_ocean_cube.concatenate_cube()
         cube_1 = base_ocean_cube[0:10]
         cube_2 = base_ocean_cube[10:15]
@@ -132,7 +132,7 @@ class TestCubeHelp(unittest.TestCase):
         self.assertTrue(test_case_a.coord('clim_season'))
 
     def test_aggregate_categorical_compounds(self):
-        test_cube_a = common._generate_extended_cube(self)
+        test_cube_a = common._generate_extended_cube()
         test_cube_a = ch.aggregate_categorical(test_cube_a,
                                                'annual_seasonal_mean')
         self.assertIsNotNone(test_cube_a)
@@ -148,7 +148,7 @@ class TestCubeHelp(unittest.TestCase):
                          1970)
 
     def test_aggregate_categorical_weekday(self):
-        test_cube_a = common._generate_extended_cube(self)
+        test_cube_a = common._generate_extended_cube()
         test_cube_a = ch.aggregate_categorical(test_cube_a,
                                                'weekday')
         self.assertIsNotNone(test_cube_a)
@@ -170,7 +170,7 @@ class TestCubeHelp(unittest.TestCase):
                          3502.5)
 
     def test_aggregate_categorical_weekday_fullname(self):
-        test_cube_a = common._generate_extended_cube(self)
+        test_cube_a = common._generate_extended_cube()
         test_cube_a = ch.aggregate_categorical(test_cube_a,
                                                'weekday_fullname')
         self.assertIsNotNone(test_cube_a)
@@ -192,7 +192,7 @@ class TestCubeHelp(unittest.TestCase):
                          3502.5)
 
     def test_aggregate_categorical_weekday_number(self):
-        test_cube_a = common._generate_extended_cube(self)
+        test_cube_a = common._generate_extended_cube()
         test_cube_a = ch.aggregate_categorical(test_cube_a,
                                                'weekday_number')
         self.assertIsNotNone(test_cube_a)
@@ -214,7 +214,7 @@ class TestCubeHelp(unittest.TestCase):
                          3502.5)
 
     def test_aggregate_categorical_month(self):
-        test_cube_a = common._generate_extended_cube(self)
+        test_cube_a = common._generate_extended_cube()
         test_cube_a = ch.aggregate_categorical(test_cube_a,
                                                'month')
         self.assertIsNotNone(test_cube_a)
@@ -236,7 +236,7 @@ class TestCubeHelp(unittest.TestCase):
                          3636.5)
 
     def test_aggregate_categorical_month_fullname(self):
-        test_cube_a = common._generate_extended_cube(self)
+        test_cube_a = common._generate_extended_cube()
         test_cube_a = ch.aggregate_categorical(test_cube_a,
                                                'month_fullname')
         self.assertIsNotNone(test_cube_a)
@@ -258,7 +258,7 @@ class TestCubeHelp(unittest.TestCase):
                          3636.5)
 
     def test_aggregate_categorical_month_number(self):
-        test_cube_a = common._generate_extended_cube(self)
+        test_cube_a = common._generate_extended_cube()
         test_cube_a = ch.aggregate_categorical(test_cube_a,
                                                'month_number')
         self.assertIsNotNone(test_cube_a)
@@ -280,7 +280,7 @@ class TestCubeHelp(unittest.TestCase):
                          3636.5)
 
     def test_aggregate_categorical_year(self):
-        test_cube_a = common._generate_extended_cube(self)
+        test_cube_a = common._generate_extended_cube()
         test_cube_a = ch.aggregate_categorical(test_cube_a,
                                                'year')
         self.assertIsNotNone(test_cube_a)
@@ -302,7 +302,7 @@ class TestCubeHelp(unittest.TestCase):
                          5295.5)
 
     def test_aggregate_categorical_season_year(self):
-        test_cube_a = common._generate_extended_cube(self)
+        test_cube_a = common._generate_extended_cube()
         test_cube_a = ch.aggregate_categorical(test_cube_a,
                                                'season_year')
         self.assertIsNotNone(test_cube_a)
@@ -324,7 +324,7 @@ class TestCubeHelp(unittest.TestCase):
                          5264.5)
 
     def test_aggregate_categorical_clim_season(self):
-        test_cube_a = common._generate_extended_cube(self)
+        test_cube_a = common._generate_extended_cube()
         test_cube_a = ch.aggregate_categorical(test_cube_a,
                                                'clim_season')
         self.assertIsNotNone(test_cube_a)
@@ -346,7 +346,7 @@ class TestCubeHelp(unittest.TestCase):
                          3575.5)
 
     def test_aggregate_categorical_season(self):
-        test_cube_a = common._generate_extended_cube(self)
+        test_cube_a = common._generate_extended_cube()
         test_cube_a = ch.aggregate_categorical(test_cube_a,
                                                'season')
         self.assertIsNotNone(test_cube_a)
@@ -368,7 +368,7 @@ class TestCubeHelp(unittest.TestCase):
                          3575.5)
 
     def test_aggregate_categorical_season_membership(self):
-        test_cube_a = common._generate_extended_cube(self)
+        test_cube_a = common._generate_extended_cube()
         test_cube_a = ch.aggregate_categorical(test_cube_a,
                                                'season_membership')
         self.assertIsNotNone(test_cube_a)
@@ -376,7 +376,7 @@ class TestCubeHelp(unittest.TestCase):
                          True)
 
     def test_aggregate_categorical_day_of_year(self):
-        test_cube_a = common._generate_extended_cube(self)
+        test_cube_a = common._generate_extended_cube()
         test_cube_a = ch.aggregate_categorical(test_cube_a,
                                                'day_of_year')
         self.assertEqual(test_cube_a.coord('day_of_year').points[0],
@@ -397,7 +397,7 @@ class TestCubeHelp(unittest.TestCase):
                          3547.0)
 
     def test_aggregate_categorical_day_of_month(self):
-        test_cube_a = common._generate_extended_cube(self)
+        test_cube_a = common._generate_extended_cube()
         test_cube_a = ch.aggregate_categorical(test_cube_a,
                                                'day_of_month')
         self.assertEqual(test_cube_a.coord('day_of_month').points[0],
@@ -422,7 +422,7 @@ class TestCubeHelp(unittest.TestCase):
                          3500.5)
 
     def test_extract_categorical_compounds(self):
-        test_cube_a = common._generate_extended_cube(self)
+        test_cube_a = common._generate_extended_cube()
         constraint = iris.Constraint(clim_season='djf',
                                      season_year=lambda cell:
                                      cell >= 1970 and cell <= 1980)
@@ -442,7 +442,7 @@ class TestCubeHelp(unittest.TestCase):
                          1970)
 
     def test_extract_categorical_weekday(self):
-        test_cube_a = common._generate_extended_cube(self)
+        test_cube_a = common._generate_extended_cube()
         constraint = iris.Constraint(weekday='Sat')
         test_cube_a = ch.extract_categorical(test_cube_a,
                                              'weekday',
@@ -454,7 +454,7 @@ class TestCubeHelp(unittest.TestCase):
                          3498.5)
 
     def test_extract_categorical_weekday_fullname(self):
-        test_cube_a = common._generate_extended_cube(self)
+        test_cube_a = common._generate_extended_cube()
         constraint = iris.Constraint(weekday_fullname='Saturday')
         test_cube_a = ch.extract_categorical(test_cube_a,
                                              'weekday_fullname',
@@ -466,7 +466,7 @@ class TestCubeHelp(unittest.TestCase):
                          3498.5)
 
     def test_extract_categorical_weekday_number(self):
-        test_cube_a = common._generate_extended_cube(self)
+        test_cube_a = common._generate_extended_cube()
         constraint = iris.Constraint(weekday_number=5)
         test_cube_a = ch.extract_categorical(test_cube_a,
                                              'weekday_number',
@@ -478,7 +478,7 @@ class TestCubeHelp(unittest.TestCase):
                          3498.5)
 
     def test_extract_categorical_month(self):
-        test_cube_a = common._generate_extended_cube(self)
+        test_cube_a = common._generate_extended_cube()
         constraint = iris.Constraint(month='Dec')
         test_cube_a = ch.extract_categorical(test_cube_a,
                                              'month',
@@ -490,7 +490,7 @@ class TestCubeHelp(unittest.TestCase):
                          3636.5)
 
     def test_extract_categorical_month_fullname(self):
-        test_cube_a = common._generate_extended_cube(self)
+        test_cube_a = common._generate_extended_cube()
         constraint = iris.Constraint(month_fullname='December')
         test_cube_a = ch.extract_categorical(test_cube_a,
                                              'month_fullname',
@@ -502,7 +502,7 @@ class TestCubeHelp(unittest.TestCase):
                          3636.5)
 
     def test_extract_categorical_month_number(self):
-        test_cube_a = common._generate_extended_cube(self)
+        test_cube_a = common._generate_extended_cube()
         constraint = iris.Constraint(month_number=12)
         test_cube_a = ch.extract_categorical(test_cube_a,
                                              'month_number',
@@ -514,7 +514,7 @@ class TestCubeHelp(unittest.TestCase):
                          3636.5)
 
     def test_extract_categorical_year(self):
-        test_cube_a = common._generate_extended_cube(self)
+        test_cube_a = common._generate_extended_cube()
         const = iris.Constraint(year=lambda cell: cell > 1970 and cell < 1976)
         test_cube_a = ch.extract_categorical(test_cube_a,
                                              'year',
@@ -530,7 +530,7 @@ class TestCubeHelp(unittest.TestCase):
                          2008.0)
 
     def test_extract_categorical_season_year(self):
-        test_cube_a = common._generate_extended_cube(self)
+        test_cube_a = common._generate_extended_cube()
         const = iris.Constraint(
             season_year=lambda cell: cell > 1970 and cell < 1976)
         test_cube_a = ch.extract_categorical(test_cube_a,
@@ -547,7 +547,7 @@ class TestCubeHelp(unittest.TestCase):
                          1977.0)
 
     def test_extract_categorical_clim_season(self):
-        test_cube_a = common._generate_extended_cube(self)
+        test_cube_a = common._generate_extended_cube()
         constraint = iris.Constraint(clim_season='son')
         test_cube_a = ch.extract_categorical(test_cube_a,
                                              'clim_season',
@@ -559,7 +559,7 @@ class TestCubeHelp(unittest.TestCase):
                          3575.5)
 
     def test_extract_categorical_season(self):
-        test_cube_a = common._generate_extended_cube(self)
+        test_cube_a = common._generate_extended_cube()
         constraint = iris.Constraint(season='son')
         test_cube_a = ch.extract_categorical(test_cube_a,
                                              'season',
@@ -571,7 +571,7 @@ class TestCubeHelp(unittest.TestCase):
                          3575.5)
 
     def test_extract_categorical_day_of_year(self):
-        test_cube_a = common._generate_extended_cube(self)
+        test_cube_a = common._generate_extended_cube()
         constraint = iris.Constraint(day_of_year=134)
         test_cube_a = ch.extract_categorical(test_cube_a,
                                              'day_of_year',
@@ -583,7 +583,7 @@ class TestCubeHelp(unittest.TestCase):
                          3420.0)
 
     def test_extract_categorical_day_of_month(self):
-        test_cube_a = common._generate_extended_cube(self)
+        test_cube_a = common._generate_extended_cube()
         constraint = iris.Constraint(
             day_of_month=lambda cell: cell > 0 and cell < 17)
         test_cube_a = ch.extract_categorical(test_cube_a,

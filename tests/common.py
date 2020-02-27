@@ -5,7 +5,7 @@ from iris.coord_systems import GeogCS, RotatedGeogCS
 import numpy as np
 
 
-def _generate_ocean_cube(self):
+def _generate_ocean_cube():
     """
     Returns a realistic 3d ocean cube with an extended time range.
     """
@@ -61,8 +61,8 @@ def _generate_ocean_cube(self):
     return cube_list
 
 
-def _generate_extended_cube(self):
-    cube_list = []
+def _generate_extended_cube():
+    cube_list = iris.cube.CubeList()
     lower_bound = 0
     upper_bound = 70
     period = 70
@@ -102,6 +102,5 @@ def _generate_extended_cube(self):
         upper_bound = upper_bound + 70
         period = period + 70
         cube_list.append(cube)
-    cube_list = iris.cube.CubeList(cube_list)
     cube = cube_list.concatenate_cube()
     return cube
