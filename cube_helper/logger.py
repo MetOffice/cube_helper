@@ -7,7 +7,7 @@ def log_module():
     if not getattr(logger, 'handler_set', None):
         logger.setLevel(logging.INFO)
         handler = logging.StreamHandler(sys.stdout)
-        formatter = logging.Formatter('cube_helper:\t%(message)s')
+        formatter = logging.Formatter('%(message)s')
         handler.setFormatter(formatter)
         logger.addHandler(handler)
         logger.setLevel(logging.INFO)
