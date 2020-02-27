@@ -3,7 +3,7 @@ import sys
 
 
 def log_module():
-    logger = logging.getLogger('cube_helper')
+    logger = logging.getLogger(__name__)
     if not getattr(logger, 'handler_set', None):
         logger.setLevel(logging.INFO)
         handler = logging.StreamHandler(sys.stdout)
