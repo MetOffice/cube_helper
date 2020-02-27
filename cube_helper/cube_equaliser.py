@@ -31,7 +31,7 @@ def equalise_attributes(cubes, comp_only=False):
         Equalised cube_dataset to the CubeHelp class
 
     """
-    root = log_module()
+    logger = log_module()
     uncommon_keys = set()
     attr_dict_list = []
     attr_dict = {}
@@ -56,9 +56,9 @@ def equalise_attributes(cubes, comp_only=False):
                 except KeyError:
                     pass
 
-            root.info("Deleting {} attribute from cubes\n".format(key))
+            logger.info("Deleting {} attribute from cubes\n".format(key))
         else:
-            root.info("\t{} attribute inconsistent\n".format(key))
+            logger.info("\t{} attribute inconsistent\n".format(key))
     return cubes
 
 
@@ -77,7 +77,7 @@ def equalise_time_units(cubes, comp_only=False):
     Returns:
         cubes with time coordinates unified.
     """
-    root = log_module()
+    logger = log_module()
     comp_messages = set()
     change_messages = set()
     calendar = cubes[0].coord('time').units.calendar
@@ -97,10 +97,10 @@ def equalise_time_units(cubes, comp_only=False):
                         unify_time_units(cubes)
     if comp_messages:
         for message in comp_messages:
-            root.info(message)
+            logger.info(message)
     if change_messages:
         for message in change_messages:
-            root.info(message)
+            logger.info(message)
 
     return cubes
 
@@ -148,7 +148,7 @@ def equalise_dim_coords(cubes, comp_only=False):
     Returns:
         Cubes equalised across dimension coordinates.
     """
-    root = log_module()
+    logger = log_module()
     comp_messages = set()
     coord_dict = {}
     for cube in cubes:
@@ -183,7 +183,7 @@ def equalise_dim_coords(cubes, comp_only=False):
     if comp_messages:
         comp_messages = sorted(comp_messages)
         for message in comp_messages:
-            root.info(message)
+            logger.info(message)
     return cubes
 
 
@@ -201,7 +201,7 @@ def equalise_aux_coords(cubes, comp_only=False):
     Returns:
         Cubes equalised across auxillary coordinates.
     """
-    root = log_module()
+    logger = log_module()
     comp_messages = set({})
     change_messages = set({})
     cube_combs = list(combinations(cubes, 2))
@@ -230,11 +230,11 @@ def equalise_aux_coords(cubes, comp_only=False):
                     combs[0].add_aux_coord(cube_b_dict[coord])
     if comp_messages:
         for message in comp_messages:
-            root.info(message)
+            logger.info(message)
 
     if change_messages:
         for message in change_messages:
-            root.info(message)
+            logger.info(message)
 
     return cubes
 
@@ -289,7 +289,7 @@ def compare_cubes(cubes):
     Returns:
         A printed string detailing the inconsistencies in the cubes.
     """
-    root = log_module()
+    logger = log_module()
     uneq_aux_coords = False
     uneq_dim_coords = False
     uneq_attr = False
@@ -322,23 +322,23 @@ def compare_cubes(cubes):
             break
 
     if uneq_ndim:
-        root.info("\n Number of dimensions for cubes differ,"
+        logger.info("\n Number of dimensions for cubes differ,"
               "please load cubes of matching ndim")
         sys.exit(2)
 
     if uneq_aux_coords:
-        root.info("\ncube aux coordinates differ: \n")
+        logger.info("\ncube aux coordinates differ: \n")
         equalise_aux_coords(cubes, comp_only=True)
 
     if uneq_dim_coords:
         equalise_dim_coords(cubes, comp_only=True)
 
     if uneq_attr:
-        root.info("cube attributes differ: \n")
+        logger.info("cube attributes differ: \n")
         equalise_attributes(cubes, comp_only=True)
 
     if uneq_time_coords:
-        root.info("cube time coordinates differ: \n")
+        logger.info("cube time coordinates differ: \n")
         equalise_time_units(cubes, comp_only=True)
 
 

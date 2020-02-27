@@ -30,7 +30,7 @@ def load(directory, filetype='.nc', constraints=None):
     Returns:
         result: A concatenated Iris Cube.
     """
-    root = log_module()
+    logger = log_module()
     if isinstance(directory, string_types):
         loaded_cubes, cube_files = load_from_dir(
             directory, filetype, constraints)
@@ -43,7 +43,7 @@ def load(directory, filetype='.nc', constraints=None):
             try:
                 result = result.concatenate_cube()
             except iris.exceptions.ConcatenateError:
-                root.info("\nOops, there was an error in concatenation\n")
+                logger.info("\nOops, there was an error in concatenation\n")
                 examine_dim_bounds(result, cube_files)
             return result
 
@@ -60,7 +60,7 @@ def load(directory, filetype='.nc', constraints=None):
             try:
                 result = result.concatenate_cube()
             except iris.exceptions.ConcatenateError:
-                root.info("\nOops, there was an error in concatenation\n")
+                logger.info("\nOops, there was an error in concatenation\n")
                 examine_dim_bounds(result, cube_files)
             return result
 
