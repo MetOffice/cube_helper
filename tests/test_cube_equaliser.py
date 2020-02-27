@@ -174,8 +174,8 @@ class TestCubeEqualiser(unittest.TestCase):
         with contextlib.redirect_stdout(out):
             ch.compare_cubes(test_load)
         output = out.getvalue().strip()
-        expected_output = "cube_helper:\t\ncube aux coordinates differ: " + \
-                          "\n\ncube_helper:\t\theight coords inconsistent"
+        expected_output = "cube aux coordinates differ: " + \
+                          "\n\n\theight coords inconsistent"
         self.assertEqual(output, expected_output)
 
     def test_compare_cubes_ocean(self):
