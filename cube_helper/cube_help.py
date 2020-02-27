@@ -8,6 +8,7 @@ from __future__ import (absolute_import, division, print_function)
 import iris
 import iris.coord_categorisation
 from six import string_types
+from cube_helper.logger import log_module
 from cube_helper.cube_loader import load_from_filelist, load_from_dir
 from cube_helper.cube_equaliser import (compare_cubes,
                                         examine_dim_bounds,
@@ -29,6 +30,7 @@ def load(directory, filetype='.nc', constraints=None):
     Returns:
         result: A concatenated Iris Cube.
     """
+    root = log_module()
     if isinstance(directory, string_types):
         loaded_cubes, cube_files = load_from_dir(
             directory, filetype, constraints)
@@ -41,7 +43,7 @@ def load(directory, filetype='.nc', constraints=None):
             try:
                 result = result.concatenate_cube()
             except iris.exceptions.ConcatenateError:
-                print("\nOops, there was an error in concatenation\n")
+                root.info("\nOops, there was an error in concatenation\n")
                 examine_dim_bounds(result, cube_files)
             return result
 
@@ -58,7 +60,7 @@ def load(directory, filetype='.nc', constraints=None):
             try:
                 result = result.concatenate_cube()
             except iris.exceptions.ConcatenateError:
-                print("\nOops, there was an error in concatenation\n")
+                root.info("\nOops, there was an error in concatenation\n")
                 examine_dim_bounds(result, cube_files)
             return result
 
