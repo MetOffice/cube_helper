@@ -42,7 +42,9 @@ def load(directory, filetype='.nc', constraints=None):
                 result = result.concatenate_cube()
             except iris.exceptions.ConcatenateError:
                 print("\nOops, there was an error in concatenation\n")
-                examine_dim_bounds(result, cube_files)
+                msg = examine_dim_bounds(result, cube_files, print_only=False)
+                print(msg)
+                #raise Exception(msg)
             return result
 
     elif isinstance(directory, list):
@@ -59,7 +61,9 @@ def load(directory, filetype='.nc', constraints=None):
                 result = result.concatenate_cube()
             except iris.exceptions.ConcatenateError:
                 print("\nOops, there was an error in concatenation\n")
-                examine_dim_bounds(result, cube_files)
+                msg = examine_dim_bounds(result, cube_files, print_only=False)
+                print(msg)
+                #raise Exception(msg)
             return result
 
 
