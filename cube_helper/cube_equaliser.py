@@ -335,24 +335,19 @@ def compare_cubes(cubes):
         equalise_time_units(cubes, comp_only=True)
 
 
-def examine_dim_bounds(cubes, cube_files, print_only=True):
+def examine_dim_bounds(cubes, cube_files):
     """
     Examines the dimensional bounds of time should concatenate fail.
     Cycles through cubes and determines if the times are contiguous.
 
     Args:
          cubes: Iris cubes to examine the time bounds of
-
          cube_files: the respective files of cubes, to give users
          info as to what cubes are causing problems with concatentation.
-
-         print_only: Indicates whether to print info or return info as
-         string.
 
     Returns:
         A printed string detailing any overlap in the time bounds.
     """
-    msg = ''
     Range = namedtuple('Range', ['start', 'end'])
     for i, cube_a in enumerate(cubes):
         for j, cube_b in enumerate(cubes):
@@ -366,15 +361,8 @@ def examine_dim_bounds(cubes, cube_files, print_only=True):
                 delta = earliest_end - latest_start
                 overlap = max(0, delta)
                 if overlap > 0:
-                    if print_only == True:
-                        print("\nThe time coordinates overlap at cube {}"
-                              " and cube {}".format(i, j))
-                        print("\nThese cubes are: \n\t{}\n\t{}".
-                              format(cube_files[i], cube_files[j]))
-                    else:
-                        msg.join("\nThe time coordinates overlap at cube {}"
-                              " and cube {}".format(i, j))
-                        msg.join("\nThese cubes are: \n\t{}\n\t{}".
-                              format(cube_files[i], cube_files[j]))
-                        return msg
+                    print("\nThe time coordinates overlap at cube {}"
+                          " and cube {}".format(i, j))
+                    print("\nThese cubes are: \n\t{}\n\t{}".
+                          format(cube_files[i], cube_files[j]))
                     break
