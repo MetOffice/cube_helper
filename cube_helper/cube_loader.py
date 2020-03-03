@@ -55,11 +55,12 @@ def _sort_by_date(time_coord):
     """
     time_origin = time_coord.units.num2date(0)
     if not isinstance(time_origin, datetime):
-        time_origin = time_origin._to_real_datetime()
-    if not isinstance(time_origin, datetime):
-        time_origin = datetime(time_origin.year,
-                               time_origin.month,
-                               time_origin.day)
+        if time_origin.datetime_compatible:
+            time_origin = time_origin._to_real_datetime()
+        else:
+            time_origin = datetime(time_origin.year,
+                                   time_origin.month,
+                                   time_origin.day)
     return time_origin
 
 
