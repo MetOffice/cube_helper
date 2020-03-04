@@ -1,4 +1,7 @@
 ## Cube Helper
+
+![Tests](https://github.com/MetOffice/cube_helper/workflows/Tests/badge.svg)
+
 Cube Helper is a package to make equalisation, concatenation, and analysis of 
 [iris](https://scitools.org.uk/iris/docs/latest/)
 cubes easier. It is written with reasearchers in mind and provides a good degree of
