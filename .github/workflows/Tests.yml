@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [2.7, 3.5, 3.6, 3.7, 3.8]
+        python-version: [2.7, 3.6, 3.7, 3.8]
 
     steps:
     - uses: actions/checkout@v2
@@ -28,8 +28,8 @@ jobs:
         conda update -q conda
         conda create -q -n test_environment python=${{ matrix.python-version }} iris
         source activate test_environment
-        pip install pytest
-        pip install filelock
-        pip install mock
+        conda install pytest
+        conda install filelock
+        conda install mock
         export PYTHONPATH=.
         pytest -vv
