@@ -1,9 +1,10 @@
+import sys
 import cf_units
 import iris
 import iris.coords as icoords
 from iris.coord_systems import GeogCS, RotatedGeogCS
 import numpy as np
-
+import contextlib
 
 def _generate_ocean_cube():
     """
@@ -104,3 +105,10 @@ def _generate_extended_cube():
         cube_list.append(cube)
     cube = cube_list.concatenate_cube()
     return cube
+
+@contextlib.contextmanager
+def _redirect_stdout(target):
+    original = sys.stdout
+    sys.stdout = target
+    yield
+    sys.stdout = original

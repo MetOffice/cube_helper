@@ -44,7 +44,7 @@ def equalise_attributes(cubes, comp_only=False):
         attr_dict = {}
     combs = list(combinations(attr_dict_list, 2))
     for element in combs:
-        for key in (element[0] ^ element[1]):
+        for key in set(element[0]) ^ set(element[1]):
             uncommon_keys.add(key[0])
     for key in uncommon_keys:
         if not comp_only:
