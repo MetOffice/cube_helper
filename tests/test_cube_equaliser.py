@@ -11,10 +11,13 @@ from glob import glob
 import os
 import iris
 from iris.tests import stock
-import contextlib
-from io import StringIO
+import platform
+if float(platform.python_version()[0:3]) <= 2.7:
+    from io import BytesIO as IO
+else:
+    from io import StringIO as IO
 import cube_helper as ch
-from common import _generate_ocean_cube
+from common import _generate_ocean_cube, _redirect_stdout
 
 
 class TestCubeEqualiser(unittest.TestCase):
@@ -98,7 +101,6 @@ class TestCubeEqualiser(unittest.TestCase):
 
     def test_equalise_time_units(self):
         glob_path = self.tmp_dir_time + '*.nc'
-        print(glob_path)
         filepaths = glob(glob_path)
         test_load = [iris.load_cube(cube) for cube in filepaths]
         test_load = ch.equalise_time_units(test_load)
@@ -110,7 +112,6 @@ class TestCubeEqualiser(unittest.TestCase):
 
     def test_remove_attributes(self):
         glob_path = self.tmp_dir + '*.nc'
-        print(glob_path)
         filepaths = glob(glob_path)
         test_load = [iris.load_cube(cube) for cube in filepaths]
         ch.remove_attributes(test_load)
@@ -167,11 +168,10 @@ class TestCubeEqualiser(unittest.TestCase):
 
     def test_compare_cubes(self):
         glob_path = self.tmp_dir_aux + '*.nc'
-        print(glob_path)
         filepaths = glob(glob_path)
         test_load = [iris.load_cube(cube) for cube in filepaths]
-        out = StringIO()
-        with contextlib.redirect_stdout(out):
+        out = IO()
+        with _redirect_stdout(out):
             ch.compare_cubes(test_load)
         output = out.getvalue().strip()
         expected_output = "cube aux coordinates differ: " + \
@@ -180,8 +180,8 @@ class TestCubeEqualiser(unittest.TestCase):
 
     def test_compare_cubes_ocean(self):
         test_load = _generate_ocean_cube()
-        out = StringIO()
-        with contextlib.redirect_stdout(out):
+        out = IO()
+        with _redirect_stdout(out):
             ch.compare_cubes(test_load)
         output = out.getvalue().strip()
         expected_output = ""
