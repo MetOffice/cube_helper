@@ -7,9 +7,10 @@
 import os
 import iris
 import glob
+import cf_units
 from iris.exceptions import MergeError, ConstraintMismatchError
 from six import string_types
-
+from datetime import datetime
 
 def _parse_directory(directory):
     """
@@ -52,7 +53,14 @@ def _sort_by_date(time_coord):
         time_origin: The time origin to sort cubes
         by, as a specific start date e.g 1850.
     """
-    time_origin = time_coord.units.num2date(time_coord.points[0])
+    time_origin = time_coord.units.num2date(0)
+    if not isinstance(time_origin, datetime):
+        if time_origin.datetime_compatible:
+            time_origin = time_origin._to_real_datetime()
+        else:
+            time_origin = datetime(time_origin.year,
+                                   time_origin.month,
+                                   time_origin.day)
     return time_origin
 
 
