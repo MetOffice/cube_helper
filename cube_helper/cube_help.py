@@ -12,7 +12,8 @@ from cube_helper.logger import log_module
 from cube_helper.cube_loader import load_from_filelist, load_from_dir
 from cube_helper.cube_equaliser import (compare_cubes,
                                         examine_dim_bounds,
-                                        equalise_all)
+                                        equalise_all,
+                                        _examine_dim_bounds)
 
 
 def load(directory, filetype='.nc', constraints=None):
@@ -42,10 +43,13 @@ def load(directory, filetype='.nc', constraints=None):
             result = iris.cube.CubeList(result)
             try:
                 result = result.concatenate_cube()
+                return result.concatenate_cube()
             except iris.exceptions.ConcatenateError:
-                logger.info("\nOops, there was an error in concatenation\n")
-                examine_dim_bounds(result, cube_files)
-            return result
+                logger.info("\nThere was an error in concatenation\n")
+                err_msg = _examine_dim_bounds(result, cube_files)
+                logger.error(err_msg)
+                raise
+
 
     elif isinstance(directory, list):
         loaded_cubes, cube_files = load_from_filelist(
@@ -59,10 +63,13 @@ def load(directory, filetype='.nc', constraints=None):
             result = iris.cube.CubeList(result)
             try:
                 result = result.concatenate_cube()
+                return result
             except iris.exceptions.ConcatenateError:
-                logger.info("\nOops, there was an error in concatenation\n")
-                examine_dim_bounds(result, cube_files)
-            return result
+                logger.info("\nThere was an error in concatenation\n")
+                err_msg = _examine_dim_bounds(result, cube_files)
+                logger.error(err_msg)
+                raise
+
 
 
 def _season_year(**kwargs):
