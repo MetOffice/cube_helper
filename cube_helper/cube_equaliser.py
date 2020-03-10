@@ -341,6 +341,27 @@ def compare_cubes(cubes):
         logger.info("cube time coordinates differ: \n")
         equalise_time_units(cubes, comp_only=True)
 
+def _examine_dim_bounds(cubes, cube_files):
+    Range = namedtuple('Range', ['start', 'end'])
+    msg = ''
+    for i, cube_a in enumerate(cubes):
+        for j, cube_b in enumerate(cubes):
+            if i != j:
+                range_a = Range(start=cube_a.coord('time').bounds[0][0],
+                                end=cube_a.coord('time').bounds[-1][-1])
+                range_b = Range(start=cube_b.coord('time').bounds[0][0],
+                                end=cube_b.coord('time').bounds[-1][-1])
+                latest_start = max(range_a.start, range_b.start)
+                earliest_end = min(range_a.end, range_b.end)
+                delta = earliest_end - latest_start
+                overlap = max(0, delta)
+                if overlap > 0:
+                    msg = msg + "\nThe time coordinates overlap at cube {}" \
+                          " and cube {}".format(i, j)
+                    msg = msg + "\nThese cubes are: \n\t{}\n\t{}". \
+                          format(cube_files[i], cube_files[j])
+                    break
+    return msg
 
 def examine_dim_bounds(cubes, cube_files):
     """
@@ -355,22 +376,7 @@ def examine_dim_bounds(cubes, cube_files):
     Returns:
         A printed string detailing any overlap in the time bounds.
     """
-    root = log_module()
-    Range = namedtuple('Range', ['start', 'end'])
-    for i, cube_a in enumerate(cubes):
-        for j, cube_b in enumerate(cubes):
-            if i != j:
-                range_a = Range(start=cube_a.coord('time').bounds[0][0],
-                                end=cube_a.coord('time').bounds[-1][-1])
-                range_b = Range(start=cube_b.coord('time').bounds[0][0],
-                                end=cube_b.coord('time').bounds[-1][-1])
-                latest_start = max(range_a.start, range_b.start)
-                earliest_end = min(range_a.end, range_b.end)
-                delta = earliest_end - latest_start
-                overlap = max(0, delta)
-                if overlap > 0:
-                    root.info("\nThe time coordinates overlap at cube {}"
-                          " and cube {}".format(i, j))
-                    root.info("\nThese cubes are: \n\t{}\n\t{}".
-                          format(cube_files[i], cube_files[j]))
-                    break
+    logger = log_module()
+    msg = _examine_dim_bounds(cubes, cube_files)
+    logger.info(msg)
+
