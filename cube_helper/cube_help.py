@@ -44,7 +44,7 @@ def load(directory, filetype='.nc', constraints=None):
             result = iris.cube.CubeList(result)
             try:
                 result = result.concatenate_cube()
-                return result.concatenate_cube()
+                return result
             except iris.exceptions.ConcatenateError:
                 logger.info("\nThere was an error in concatenation\n")
                 err_msg = _examine_dim_bounds(result, cube_files)
