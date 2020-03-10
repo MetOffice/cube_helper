@@ -158,15 +158,19 @@ def equalise_dim_coords(cubes, comp_only=False):
         for cube in cubes:
             if comp_only:
                 if cube.coord(coord).standard_name != coord_dict[coord]['standard_name']:
+                    comp_msg.add("\ncube dim coordinates differ: \n")
                     comp_msg.add("\t{} coords standard_name "
                                       "inconsistent\n".format(coord))
                 if cube.coord(coord).long_name != coord_dict[coord]['long_name']:
+                    comp_msg.add("\ncube dim coordinates differ: \n")
                     comp_msg.add("\t{} coords long_name "
                                       "inconsistent\n".format(coord))
                 if cube.coord(coord).var_name != coord_dict[coord]['var_name']:
+                    comp_msg.add("\ncube dim coordinates differ: \n")
                     comp_msg.add("\t{} coords var_name "
                                       "inconsistent\n".format(coord))
                 if cube.coord(coord).attributes != coord_dict[coord]['attributes']:
+                    comp_msg.add("\ncube dim coordinates differ: \n")
                     comp_msg.add("\t{} coords attributes "
                                       "inconsistent\n".format(coord))
             else:
@@ -179,7 +183,6 @@ def equalise_dim_coords(cubes, comp_only=False):
                     pass
     if comp_msg:
         comp_msg = sorted(comp_msg)
-        print("\ncube dim coordinates differ: \n")
         for message in comp_msg:
             print(message)
     return cubes
