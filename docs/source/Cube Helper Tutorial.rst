@@ -309,25 +309,24 @@ And then we try to load it again:
 
 
 .. parsed-literal::
+ 
+    cube dim coordinates differ:
 
-    
-cube dim coordinates differ:
+        time coords long_name inconsistent
 
-	time coords long_name inconsistent
+    cube attributes differ:
 
-cube attributes differ:
+        parent_experiment_id, history, parent_experiment, source, CDI, experiment_id, tracking_id, grid_type, associated_files, experiment, title, creation_date, branch_time, and CDO attibutes inconsistent
 
-	parent_experiment_id, history, parent_experiment, source, CDI, experiment_id, tracking_id, grid_type, associated_files, experiment, title, creation_date, branch_time, and CDO attibutes inconsistent
+    cube time coordinates differ:
 
-cube time coordinates differ:
+        time start date inconsistent
 
-	time start date inconsistent
+    Adding height coords to cube
 
-Adding height coords to cube
+    Deleting parent_experiment_id, history, parent_experiment, source, CDI, experiment_id, tracking_id, grid_type, associated_files, experiment, title, creation_date, branch_time, and CDO attributes from cubes
 
-Deleting parent_experiment_id, history, parent_experiment, source, CDI, experiment_id, tracking_id, grid_type, associated_files, experiment, title, creation_date, branch_time, and CDO attributes from cubes
-
-New time origin set to days since 1850-01-01 00:00:00
+    New time origin set to days since 1850-01-01 00:00:00
     
 
 
