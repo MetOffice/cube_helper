@@ -14,6 +14,7 @@ def log_module():
         logger.handler_set = True
     return logger
 
+
 def log_inconsistent(component_list, metadata_component):
     if not component_list:
         pass
@@ -29,6 +30,7 @@ def log_inconsistent(component_list, metadata_component):
                 msg = msg + "and {} ".format(comp)
         msg = "\t" + msg + metadata_component + " inconsistent\n"
         logger.info(msg)
+
 
 def log_coord_remove(component_list, metadata_component):
     if not component_list:

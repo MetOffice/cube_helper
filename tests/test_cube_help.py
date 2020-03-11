@@ -16,7 +16,6 @@ import common
 
 class TestCubeHelp(unittest.TestCase):
 
-
     def setUp(self):
         super(TestCubeHelp, self).setUp()
         abs_path = os.path.dirname(os.path.abspath(__file__))
@@ -51,7 +50,7 @@ class TestCubeHelp(unittest.TestCase):
         self.temp_2_ocean = 'temp_2_ocean.nc'
         self.temp_3_ocean = 'temp_3_ocean.nc'
         iris.save(cube_1, self.tmp_dir_ocean + self.temp_1_ocean)
-        iris.save(cube_2, self.tmp_dir_ocean+ self.temp_2_ocean)
+        iris.save(cube_2, self.tmp_dir_ocean + self.temp_2_ocean)
         iris.save(cube_3, self.tmp_dir_ocean + self.temp_3_ocean)
 
     def test_add_categorical(self):

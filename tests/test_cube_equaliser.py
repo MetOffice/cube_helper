@@ -4,7 +4,8 @@
 # BSD 3-Clause license.
 # See LICENSE in the root of the repository for full licensing details.
 
-import sys
+import cube_helper as ch
+from common import _generate_ocean_cube, _redirect_stdout
 import unittest
 import cf_units
 from glob import glob
@@ -16,8 +17,6 @@ if float(platform.python_version()[0:3]) <= 2.7:
     from io import BytesIO as IO
 else:
     from io import StringIO as IO
-import cube_helper as ch
-from common import _generate_ocean_cube, _redirect_stdout
 
 
 class TestCubeEqualiser(unittest.TestCase):

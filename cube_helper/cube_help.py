@@ -51,7 +51,6 @@ def load(directory, filetype='.nc', constraints=None):
                 logger.error(err_msg)
                 raise
 
-
     elif isinstance(directory, list):
         loaded_cubes, cube_files = load_from_filelist(
             directory, filetype, constraints)
@@ -70,7 +69,6 @@ def load(directory, filetype='.nc', constraints=None):
                 err_msg = _examine_dim_bounds(result, cube_files)
                 logger.error(err_msg)
                 raise
-
 
 
 def _season_year(**kwargs):
@@ -334,7 +332,7 @@ def aggregate_categorical(cube, categorical,
         categorical = compound_dict[categorical]
         cube = cube.aggregated_by(categorical, agg_method)
         return cube
-    except:
+    except KeyError:
         cube = cube.aggregated_by(categorical, agg_method)
         return cube
 
