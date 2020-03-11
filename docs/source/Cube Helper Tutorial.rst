@@ -309,7 +309,7 @@ And then we try to load it again:
 
 
 .. parsed-literal::
- 
+
     cube dim coordinates differ:
 
         time coords long_name inconsistent

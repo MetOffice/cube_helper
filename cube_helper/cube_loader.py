@@ -12,6 +12,7 @@ from iris.exceptions import MergeError, ConstraintMismatchError
 from six import string_types
 from datetime import datetime
 
+
 def _parse_directory(directory):
     """
     Parses the string representing the directory, makes sure a '/'
