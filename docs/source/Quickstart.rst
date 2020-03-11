@@ -44,11 +44,7 @@ If you are dealing with cubes that have already been loaded, for CubeLists and l
    <iris 'Cube' of air_temperature / (K) (time: 1200; latitude: 144; longitude: 192)>]
 
    >>> cube = ch.concatenate(cubes)
-   Deleting creation_date attribute from cubes
-
-   Deleting history attribute from cubes
-
-   Deleting tracking_id attribute from cubes
+   Deleting history, creation_date, and tracking_id attributes from cubes
 
 
    >>> cube
