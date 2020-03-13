@@ -41,5 +41,6 @@ class TestLogger(unittest.TestCase):
                           'and history attributes'
         self.assertEqual(output, expected_output)
 
+
 if __name__ == '__main__':
     unittest.main()
