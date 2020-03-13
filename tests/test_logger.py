@@ -2,7 +2,7 @@ from cube_helper.logger import log_module, log_inconsistent, _to_comma_and_str
 from common import _redirect_stdout, _redirect_stderr
 import unittest
 import platform
-if float(platform.python_version()[0:3]) <= 2.7:
+if float(platform.python_version()[0:3]) <= 2.8:
     from io import BytesIO as IO
 else:
     from io import StringIO as IO
