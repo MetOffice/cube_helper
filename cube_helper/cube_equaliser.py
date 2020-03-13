@@ -116,6 +116,7 @@ def equalise_data_type(cubes, data_type='float32'):
     Returns:
         cubes: Cubes with their data types identical.
     """
+    logger = log_module()
     if data_type == 'float32':
         for cube in cubes:
             cube.data = np.float32(cube.data)
@@ -129,7 +130,7 @@ def equalise_data_type(cubes, data_type='float32'):
         for cube in cubes:
             cube.data = np.int64(cube.data)
     else:
-        print("invalid data type")
+        logger.error("invalid data type")
 
 
 def equalise_dim_coords(cubes, comp_only=False):

@@ -1,3 +1,8 @@
+# (C) Crown Copyright, Met Office. All rights reserved.
+#
+# This file is part of cube_helper and is released under the
+# BSD 3-Clause license.
+# See LICENSE in the root of the repository for full licensing details.
 import logging
 import sys
 
@@ -9,16 +14,14 @@ def log_module():
         handler = logging.StreamHandler(sys.stdout)
         formatter = logging.Formatter('%(message)s')
         handler.setFormatter(formatter)
+        handler.setLevel(logging.INFO)
         logger.addHandler(handler)
-        logger.setLevel(logging.INFO)
         logger.handler_set = True
     return logger
 
 
 def log_inconsistent(component_list, metadata_component):
-    if not component_list:
-        pass
-    else:
+    if component_list:
         logger = log_module()
         msg = ""
         for comp in component_list:
@@ -33,9 +36,7 @@ def log_inconsistent(component_list, metadata_component):
 
 
 def log_coord_remove(component_list, metadata_component):
-    if not component_list:
-        pass
-    else:
+    if component_list:
         logger = log_module()
         msg = ""
         for comp in component_list:
