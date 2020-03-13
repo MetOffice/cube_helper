@@ -42,8 +42,8 @@ def log_inconsistent(component_list, metadata_component):
 
 
 def log_coord_remove(component_list, metadata_component):
+    logger = log_module()
     if component_list:
-        logger = log_module()
         msg = ""
         for comp in component_list:
             if len(component_list) == 1:
