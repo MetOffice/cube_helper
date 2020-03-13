@@ -20,18 +20,24 @@ def log_module():
     return logger
 
 
-def log_inconsistent(component_list, metadata_component):
-    if component_list:
-        logger = log_module()
+def _to_comma_and_str(component_list, metadata_component):
+    if len(component_list) > 1:
+        msg = ", ".join(component_list[:-1]) + " and " + component_list[-1]
+        return msg + ' ' + metadata_component
+    elif len(component_list) == 1:
+        msg = component_list[0]
+        return msg + ' ' + metadata_component
+    else:
         msg = ""
-        for comp in component_list:
-            if len(component_list) == 1:
-                msg = "{} ".format(comp)
-            elif comp != component_list[-1]:
-                msg = msg + "{}, ".format(comp)
-            else:
-                msg = msg + "and {} ".format(comp)
-        msg = "\t" + msg + metadata_component + " inconsistent\n"
+        return msg + metadata_component
+
+
+def log_inconsistent(component_list, metadata_component):
+    logger = log_module()
+    if component_list:
+        msg = "\t" + \
+              _to_comma_and_str(component_list, metadata_component) + \
+              " inconsistent\n"
         logger.info(msg)
 
 
@@ -46,5 +52,7 @@ def log_coord_remove(component_list, metadata_component):
                 msg = msg + "{}, ".format(comp)
             else:
                 msg = msg + "and {} ".format(comp)
-        msg = "Deleting " + msg + metadata_component + " from cubes\n"
+        msg = "Deleting " + \
+              _to_comma_and_str(component_list, metadata_component) + \
+              " from cubes\n"
         logger.info(msg)

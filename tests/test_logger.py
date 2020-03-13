@@ -1,4 +1,4 @@
-from cube_helper.logger import log_module, log_inconsistent
+from cube_helper.logger import log_module, log_inconsistent, _to_comma_and_str
 from common import _redirect_stdout, _redirect_stderr
 import unittest
 import platform
@@ -9,23 +9,6 @@ else:
 
 
 class TestLogger(unittest.TestCase):
-
-    def test_log_module_logging(self):
-        logger = log_module()
-        with self.assertLogs('cube_helper.logger', level='INFO') \
-                as cm:
-            logger.info('info message')
-            logger.warning('warning message')
-            logger.critical('critical message')
-            logger.error('error message')
-            self.assertIn('INFO:cube_helper.logger:info message',
-                          cm.output)
-            self.assertIn('WARNING:cube_helper.logger:warning message',
-                          cm.output)
-            self.assertIn('CRITICAL:cube_helper.logger:critical message',
-                          cm.output)
-            self.assertIn('ERROR:cube_helper.logger:error message',
-                          cm.output)
 
     def test_log_module_singleton(self):
         logger = log_module()
@@ -47,6 +30,16 @@ class TestLogger(unittest.TestCase):
         output = out.getvalue().strip()
         self.assertEqual(output, 'Message on stdout and stderr')
 
+    def test_to_comma_and_str(self):
+        component_list = ['creation_date',
+                          'tracking_id',
+                          'history']
+        metadata_component = 'attributes'
+        output = _to_comma_and_str(component_list,
+                                   metadata_component)
+        expected_output = 'creation_date, tracking_id ' \
+                          'and history attributes'
+        self.assertEqual(output, expected_output)
 
 if __name__ == '__main__':
     unittest.main()
