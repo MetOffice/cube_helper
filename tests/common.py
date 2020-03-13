@@ -123,10 +123,10 @@ def _redirect_stdout(target):
     yield
     sys.stdout = original
 
+
 @contextlib.contextmanager
 def _redirect_stderr(target):
     original = sys.stderr
     sys.stderr = target
     yield
     sys.stderr = original
-
