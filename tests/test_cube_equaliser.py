@@ -3,7 +3,6 @@
 # This file is part of cube_helper and is released under the
 # BSD 3-Clause license.
 # See LICENSE in the root of the repository for full licensing details.
-
 import cube_helper as ch
 from common import _generate_ocean_cube, _redirect_stdout
 import unittest
