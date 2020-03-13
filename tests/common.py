@@ -1,3 +1,8 @@
+# (C) Crown Copyright, Met Office. All rights reserved.
+#
+# This file is part of cube_helper and is released under the
+# BSD 3-Clause license.
+# See LICENSE in the root of the repository for full licensing details.
 import sys
 import cf_units
 import iris
@@ -117,3 +122,11 @@ def _redirect_stdout(target):
     sys.stdout = target
     yield
     sys.stdout = original
+
+@contextlib.contextmanager
+def _redirect_stderr(target):
+    original = sys.stderr
+    sys.stderr = target
+    yield
+    sys.stderr = original
+
