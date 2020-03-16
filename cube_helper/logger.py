@@ -29,7 +29,7 @@ def _to_comma_and_str(component_list, metadata_component):
         return msg + ' ' + metadata_component
     else:
         msg = ""
-        return msg + metadata_component
+        return str(msg + metadata_component)
 
 
 def log_inconsistent(component_list, metadata_component):
@@ -38,7 +38,7 @@ def log_inconsistent(component_list, metadata_component):
         msg = "\t" + \
               _to_comma_and_str(component_list, metadata_component) + \
               " inconsistent\n"
-        logger.info(msg)
+        logger.info(str(msg))
 
 
 def log_coord_remove(component_list, metadata_component):
@@ -55,4 +55,4 @@ def log_coord_remove(component_list, metadata_component):
         msg = "Deleting " + \
               _to_comma_and_str(component_list, metadata_component) + \
               " from cubes\n"
-        logger.info(msg)
+        logger.info(str(msg))
