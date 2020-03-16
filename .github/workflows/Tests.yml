@@ -26,7 +26,7 @@ jobs:
         conda config --add channels conda-forge
         conda config --set channel_priority strict
         conda update -q conda
-        conda create -q -n test_environment python=${{ matrix.python-version }} iris
+        conda create -q -n test_environment python=${{ matrix.python-version }} iris=2.2.0
         source activate test_environment
         conda install pytest
         conda install filelock
