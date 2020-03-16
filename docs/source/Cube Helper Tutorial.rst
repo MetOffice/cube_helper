@@ -51,29 +51,12 @@ Here we load a HadGEM3 model, and ``load`` takes care of the rest:
 .. parsed-literal::
 
     
-    cube dim coordinates differ: 
-    
-    	latitude coords inconsistent
-    
-    	longitude coords inconsistent
-    
-    cube attributes differ: 
-    
-    	creation_date attribute inconsistent
-    
-    	history attribute inconsistent
-    
-    	tracking_id attribute inconsistent
-    
-    Deleting creation_date attribute from cubes
-    
-    Deleting history attribute from cubes
-    
-    Deleting tracking_id attribute from cubes
-    
-    New time origin set to days since 1850-01-01
-    
-    New time calender set to 360_day
+    cube attributes differ:
+
+        creation_date, history, and tracking_id attibutes inconsistent
+
+    Deleting creation_date, history, and tracking_id attributes from cubes
+
     
 
 
@@ -140,7 +123,7 @@ iris cube:
               product: model-output
               realization_index: 1
               realm: atmos
-              source: HadGEM3-GC31-LL (2016): 
+              source: HadGEM3-GC31-LL (2016):
     aerosol: UKCA-GLOMAP-mode
     atmos: MetUM-HadGEM3-GA7.1...
               source_id: HadGEM3-GC31-LL
@@ -175,63 +158,18 @@ iris cube:
 .. parsed-literal::
 
     
-    cube dim coordinates differ: 
-    
-    	latitude coords inconsistent
-    
-    	longitude coords inconsistent
-    
-    	time coords inconsistent
-    
-    cube attributes differ: 
-    
-    	history attribute inconsistent
-    
-    	experiment_id attribute inconsistent
-    
-    	parent_experiment_id attribute inconsistent
-    
-    	branch_time attribute inconsistent
-    
-    	tracking_id attribute inconsistent
-    
-    	experiment attribute inconsistent
-    
-    	creation_date attribute inconsistent
-    
-    	title attribute inconsistent
-    
-    	parent_experiment attribute inconsistent
-    
-    	associated_files attribute inconsistent
-    
-    cube time coordinates differ: 
-    
-    	time start date inconsistent
-    
-    Deleting history attribute from cubes
-    
-    Deleting experiment_id attribute from cubes
-    
-    Deleting parent_experiment_id attribute from cubes
-    
-    Deleting branch_time attribute from cubes
-    
-    Deleting tracking_id attribute from cubes
-    
-    Deleting experiment attribute from cubes
-    
-    Deleting creation_date attribute from cubes
-    
-    Deleting title attribute from cubes
-    
-    Deleting parent_experiment attribute from cubes
-    
-    Deleting associated_files attribute from cubes
-    
+    cube attributes differ:
+
+        parent_experiment_id, history, parent_experiment, experiment_id, tracking_id, associated_files, experiment, title, creation_date, and branch_time attibutes inconsistent
+
+    cube time coordinates differ:
+
+        time start date inconsistent
+
+    Deleting parent_experiment_id, history, parent_experiment, experiment_id, tracking_id, associated_files, experiment, title, creation_date, and branch_time attributes from cubes
+
     New time origin set to days since 1850-01-01 00:00:00
-    
-    New time calender set to gregorian
+
     
 
 
@@ -278,6 +216,7 @@ concatenated cube is returned which we can view:
               mean: time (3 hours)
 
 
+
 This version of ``cube_helper`` will try every possible action when
 trying to concatenate a cube, when it runs into a problem that is best
 to solve manually, it will print out a message. We can demonstrate this
@@ -306,102 +245,45 @@ incompatible:
 .. parsed-literal::
 
     
-    cube aux coordinates differ: 
-    
-    	height coords inconsistent
-    
-    
-    cube dim coordinates differ: 
-    
-    	latitude coords inconsistent
-    
-    	longitude coords inconsistent
-    
-    	time coords inconsistent
-    
-    cube attributes differ: 
-    
-    	CDI attribute inconsistent
-    
-    	history attribute inconsistent
-    
-    	experiment_id attribute inconsistent
-    
-    	parent_experiment_id attribute inconsistent
-    
-    	branch_time attribute inconsistent
-    
-    	tracking_id attribute inconsistent
-    
-    	experiment attribute inconsistent
-    
-    	creation_date attribute inconsistent
-    
-    	title attribute inconsistent
-    
-    	parent_experiment attribute inconsistent
-    
-    	CDO attribute inconsistent
-    
-    	associated_files attribute inconsistent
-    
-    	grid_type attribute inconsistent
-    
-    	source attribute inconsistent
-    
-    cube time coordinates differ: 
-    
-    	time start date inconsistent
-    
-    Removing height coords from cube
-    
-    Deleting CDI attribute from cubes
-    
-    Deleting history attribute from cubes
-    
-    Deleting experiment_id attribute from cubes
-    
-    Deleting parent_experiment_id attribute from cubes
-    
-    Deleting branch_time attribute from cubes
-    
-    Deleting tracking_id attribute from cubes
-    
-    Deleting experiment attribute from cubes
-    
-    Deleting creation_date attribute from cubes
-    
-    Deleting title attribute from cubes
-    
-    Deleting parent_experiment attribute from cubes
-    
-    Deleting CDO attribute from cubes
-    
-    Deleting associated_files attribute from cubes
-    
-    Deleting grid_type attribute from cubes
-    
-    Deleting source attribute from cubes
-    
+    cube dim coordinates differ:
+
+        time coords long_name inconsistent
+
+    cube attributes differ:
+
+        parent_experiment_id, history, parent_experiment, source, CDI, experiment_id, tracking_id, grid_type, associated_files, experiment, title, creation_date, branch_time, and CDO attibutes inconsistent
+
+    cube time coordinates differ:
+
+        time start date inconsistent
+
+    Adding height coords to cube
+
+    Deleting parent_experiment_id, history, parent_experiment, source, CDI, experiment_id, tracking_id, grid_type, associated_files, experiment, title, creation_date, branch_time, and CDO attributes from cubes
+
     New time origin set to days since 1850-01-01 00:00:00
-    
-    New time calender set to gregorian
-    
-    
-    Oops, there was an error in concatenation
-    
-    
+
+
+    There was an error in concatenation
+
+
     The time coordinates overlap at cube 15 and cube 16
-    
-    These cubes are: 
-    	/path/to/cmip/data/output1/ICHEC/EC-EARTH/historical/mon/atmos/Amon/r1i1p1/v20131231/tas/tas_Amon_EC-EARTH_historical_r1i1p1_200001-200911.nc
-    	/path/to/cmip/data/output1/ICHEC/EC-EARTH/rcp85/mon/atmos/Amon/r1i1p1/v20171115/tas/tas_Amon_EC-EARTH_rcp85_r1i1p1_200601-200912.nc
-    
+    These cubes are:
+        /path/to/cmip/data/output1/ICHEC/EC-EARTH/historical/mon/atmos/Amon/r1i1p1/v20131231/tas/tas_Amon_EC-EARTH_historical_r1i1p1_200001-200911.nc
+        /path/to/cmip/data/output1/ICHEC/EC-EARTH/rcp85/mon/atmos/Amon/r1i1p1/v20171115/tas/tas_Amon_EC-EARTH_rcp85_r1i1p1_200601-200912.nc
     The time coordinates overlap at cube 16 and cube 15
-    
-    These cubes are: 
-    	/path/to/cmip/data/output1/ICHEC/EC-EARTH/rcp85/mon/atmos/Amon/r1i1p1/v20171115/tas/tas_Amon_EC-EARTH_rcp85_r1i1p1_200601-200912.nc
-    	/path/to/cmip/data/output1/ICHEC/EC-EARTH/historical/mon/atmos/Amon/r1i1p1/v20131231/tas/tas_Amon_EC-EARTH_historical_r1i1p1_200001-200911.nc
+    These cubes are:
+        /path/to/cmip/data/output1/ICHEC/EC-EARTH/rcp85/mon/atmos/Amon/r1i1p1/v20171115/tas/tas_Amon_EC-EARTH_rcp85_r1i1p1_200601-200912.nc
+        /path/to/cmip/data/output1/ICHEC/EC-EARTH/historical/mon/atmos/Amon/r1i1p1/v20131231/tas/tas_Amon_EC-EARTH_historical_r1i1p1_200001-200911.nc
+    Traceback (most recent call last):
+      File "<stdin>", line 1, in <module>
+      File "/net/home/h01/jbedwell/Downloads/dev/cube_helper/cube_helper/cube_help.py", line 66, in load
+        result = result.concatenate_cube()
+      File "/opt/scitools/environments/default/2019_02_27/lib/python3.6/site-packages/iris/cube.py", line 511, in concatenate_cube
+        raise iris.exceptions.ConcatenateError(msgs)
+    iris.exceptions.ConcatenateError: failed to concatenate into a single cube.
+      An unexpected problem prevented concatenation.
+      Expected only a single cube, found 2.
 
 
 Here we see the time coordinates for cube 15 and 16 overlap, We can
@@ -428,87 +310,23 @@ And then we try to load it again:
 
 .. parsed-literal::
 
-    
-    cube aux coordinates differ: 
-    
-    	height coords inconsistent
-    
-    
-    cube dim coordinates differ: 
-    
-    	latitude coords inconsistent
-    
-    	longitude coords inconsistent
-    
-    	time coords inconsistent
-    
-    cube attributes differ: 
-    
-    	CDI attribute inconsistent
-    
-    	history attribute inconsistent
-    
-    	experiment_id attribute inconsistent
-    
-    	parent_experiment_id attribute inconsistent
-    
-    	branch_time attribute inconsistent
-    
-    	tracking_id attribute inconsistent
-    
-    	experiment attribute inconsistent
-    
-    	creation_date attribute inconsistent
-    
-    	title attribute inconsistent
-    
-    	parent_experiment attribute inconsistent
-    
-    	CDO attribute inconsistent
-    
-    	associated_files attribute inconsistent
-    
-    	grid_type attribute inconsistent
-    
-    	source attribute inconsistent
-    
-    cube time coordinates differ: 
-    
-    	time start date inconsistent
-    
-    Removing height coords from cube
-    
-    Deleting CDI attribute from cubes
-    
-    Deleting history attribute from cubes
-    
-    Deleting experiment_id attribute from cubes
-    
-    Deleting parent_experiment_id attribute from cubes
-    
-    Deleting branch_time attribute from cubes
-    
-    Deleting tracking_id attribute from cubes
-    
-    Deleting experiment attribute from cubes
-    
-    Deleting creation_date attribute from cubes
-    
-    Deleting title attribute from cubes
-    
-    Deleting parent_experiment attribute from cubes
-    
-    Deleting CDO attribute from cubes
-    
-    Deleting associated_files attribute from cubes
-    
-    Deleting grid_type attribute from cubes
-    
-    Deleting source attribute from cubes
-    
+    cube dim coordinates differ:
+
+        time coords long_name inconsistent
+
+    cube attributes differ:
+
+        parent_experiment_id, history, parent_experiment, source, CDI, experiment_id, tracking_id, grid_type, associated_files, experiment, title, creation_date, branch_time, and CDO attibutes inconsistent
+
+    cube time coordinates differ:
+
+        time start date inconsistent
+
+    Adding height coords to cube
+
+    Deleting parent_experiment_id, history, parent_experiment, source, CDI, experiment_id, tracking_id, grid_type, associated_files, experiment, title, creation_date, branch_time, and CDO attributes from cubes
+
     New time origin set to days since 1850-01-01 00:00:00
-    
-    New time calender set to gregorian
     
 
 
@@ -526,6 +344,8 @@ This now seems to have worked, Lets have a look:
               time                           x               -               -
               latitude                       -               x               -
               longitude                      -               -               x
+         Scalar coordinates:
+              height: 2.0 m
          Attributes:
               Conventions: CF-1.4
               cmor_version: 2.8.0
@@ -548,6 +368,5 @@ This now seems to have worked, Lets have a look:
               table_id: Table Amon (26 July 2011) b26379e76858ab98b927917878a63d01
          Cell methods:
               mean: time (3 hours)
-
 
 Success!

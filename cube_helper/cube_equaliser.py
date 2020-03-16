@@ -10,6 +10,7 @@ import numpy as np
 from iris.util import unify_time_units
 from collections import namedtuple
 from itertools import combinations
+from cube_helper.logger import log_module, log_inconsistent, log_coord_remove
 
 
 def equalise_attributes(cubes, comp_only=False):
@@ -46,16 +47,17 @@ def equalise_attributes(cubes, comp_only=False):
     for element in combs:
         for key in set(element[0]) ^ set(element[1]):
             uncommon_keys.add(key[0])
-    for key in uncommon_keys:
-        if not comp_only:
+
+    if not comp_only:
+        for key in uncommon_keys:
             for cube in cubes:
                 try:
                     del cube.attributes[key]
                 except KeyError:
                     pass
-            print("Deleting {} attribute from cubes\n".format(key))
-        else:
-            print("\t{} attribute inconsistent\n".format(key))
+        log_coord_remove(list(uncommon_keys), 'attributes')
+    else:
+        log_inconsistent(list(uncommon_keys), 'attibutes')
     return cubes
 
 
@@ -74,6 +76,7 @@ def equalise_time_units(cubes, comp_only=False):
     Returns:
         cubes with time coordinates unified.
     """
+    logger = log_module()
     comp_messages = set()
     change_messages = set()
     calendar = cubes[0].coord('time').units.calendar
@@ -93,10 +96,10 @@ def equalise_time_units(cubes, comp_only=False):
                         unify_time_units(cubes)
     if comp_messages:
         for message in comp_messages:
-            print(message)
+            logger.info(message)
     if change_messages:
         for message in change_messages:
-            print(message)
+            logger.info(message)
 
     return cubes
 
@@ -113,6 +116,7 @@ def equalise_data_type(cubes, data_type='float32'):
     Returns:
         cubes: Cubes with their data types identical.
     """
+    logger = log_module()
     if data_type == 'float32':
         for cube in cubes:
             cube.data = np.float32(cube.data)
@@ -126,7 +130,7 @@ def equalise_data_type(cubes, data_type='float32'):
         for cube in cubes:
             cube.data = np.int64(cube.data)
     else:
-        print("invalid data type")
+        logger.error("invalid data type")
 
 
 def equalise_dim_coords(cubes, comp_only=False):
@@ -144,47 +148,57 @@ def equalise_dim_coords(cubes, comp_only=False):
     Returns:
         Cubes equalised across dimension coordinates.
     """
-    comp_msg = set()
+    logger = log_module()
+    inconsistency_sn = set()
+    inconsistency_ln = set()
+    inconsistency_vn = set()
+    inconsistency_attr = set()
     coord_dict = {}
     for cube in cubes:
         for coord in cube.dim_coords:
-            coord_dict.update({coord.name():
-                                  {'long_name': coord.long_name,
-                                   'standard_name': coord.standard_name,
-                                   'var_name': coord.var_name,
-                                   'attributes': coord.attributes}})
+            coord_dict.update(
+                {coord.name(): {'long_name': coord.long_name,
+                                'standard_name': coord.standard_name,
+                                'var_name': coord.var_name,
+                                'attributes': coord.attributes}})
 
     for coord in coord_dict:
         for cube in cubes:
             if comp_only:
-                if cube.coord(coord).standard_name != coord_dict[coord]['standard_name']:
-                    comp_msg.add("\ncube dim coordinates differ: \n")
-                    comp_msg.add("\t{} coords standard_name "
-                                      "inconsistent\n".format(coord))
-                if cube.coord(coord).long_name != coord_dict[coord]['long_name']:
-                    comp_msg.add("\ncube dim coordinates differ: \n")
-                    comp_msg.add("\t{} coords long_name "
-                                      "inconsistent\n".format(coord))
-                if cube.coord(coord).var_name != coord_dict[coord]['var_name']:
-                    comp_msg.add("\ncube dim coordinates differ: \n")
-                    comp_msg.add("\t{} coords var_name "
-                                      "inconsistent\n".format(coord))
-                if cube.coord(coord).attributes != coord_dict[coord]['attributes']:
-                    comp_msg.add("\ncube dim coordinates differ: \n")
-                    comp_msg.add("\t{} coords attributes "
-                                      "inconsistent\n".format(coord))
+                if cube.coord(coord).standard_name != \
+                        coord_dict[coord]['standard_name']:
+                    inconsistency_sn.add(coord)
+                if cube.coord(coord).long_name != \
+                        coord_dict[coord]['long_name']:
+                    inconsistency_ln.add(coord)
+                if cube.coord(coord).var_name != \
+                        coord_dict[coord]['var_name']:
+                    inconsistency_vn.add(coord)
+                if cube.coord(coord).attributes != \
+                        coord_dict[coord]['attributes']:
+                    inconsistency_attr.add(coord)
             else:
                 try:
-                    cube.coord(coord).standard_name = coord_dict[coord]['standard_name']
-                    cube.coord(coord).long_name = coord_dict[coord]['long_name']
-                    cube.coord(coord).var_name = coord_dict[coord]['var_name']
-                    cube.coord(coord).attributes = coord_dict[coord]['attributes']
+                    cube.coord(coord).standard_name = \
+                        coord_dict[coord]['standard_name']
+                    cube.coord(coord).long_name = \
+                        coord_dict[coord]['long_name']
+                    cube.coord(coord).var_name = \
+                        coord_dict[coord]['var_name']
+                    cube.coord(coord).attributes = \
+                        coord_dict[coord]['attributes']
                 except ValueError:
                     pass
-    if comp_msg:
-        comp_msg = sorted(comp_msg)
-        for message in comp_msg:
-            print(message)
+    if any([inconsistency_sn,
+            inconsistency_ln,
+            inconsistency_vn,
+            inconsistency_attr]):
+        logger.info("\ncube dim coordinates differ: \n")
+    if comp_only:
+        log_inconsistent(list(inconsistency_sn), 'coords standard_name')
+        log_inconsistent(list(inconsistency_ln), 'coords long_name')
+        log_inconsistent(list(inconsistency_vn), 'coords var_name')
+        log_inconsistent(list(inconsistency_attr), 'coords attributes')
     return cubes
 
 
@@ -202,7 +216,8 @@ def equalise_aux_coords(cubes, comp_only=False):
     Returns:
         Cubes equalised across auxillary coordinates.
     """
-    comp_messages = set({})
+    logger = log_module()
+    inconsistencies = set({})
     change_messages = set({})
     cube_combs = list(combinations(cubes, 2))
     for combs in cube_combs:
@@ -213,8 +228,7 @@ def equalise_aux_coords(cubes, comp_only=False):
         for coord in list(cube_a_coords):
             if coord not in cube_b_coords:
                 if comp_only:
-                    comp_messages.add("\t{} coords inconsistent\n".
-                                      format(coord))
+                    inconsistencies.add(coord)
                 elif coord == 'height':
                     change_messages.add("Adding {} coords to cube\n".
                                         format(coord))
@@ -222,19 +236,18 @@ def equalise_aux_coords(cubes, comp_only=False):
         for coord in list(cube_b_coords):
             if coord not in cube_a_coords:
                 if comp_only:
-                    comp_messages.add("\t{} coords inconsistent\n".
-                                      format(coord))
+                    inconsistencies.add(coord)
                 elif coord == 'height':
                     change_messages.add("Adding {} coords to cube\n".
                                         format(coord))
                     combs[0].add_aux_coord(cube_b_dict[coord])
-    if comp_messages:
-        for message in comp_messages:
-            print(message)
+    if inconsistencies:
+        inconsistencies = list(inconsistencies)
+        log_inconsistent(inconsistencies, 'coords')
 
     if change_messages:
         for message in change_messages:
-            print(message)
+            logger.info(message)
 
     return cubes
 
@@ -289,6 +302,7 @@ def compare_cubes(cubes):
     Returns:
         A printed string detailing the inconsistencies in the cubes.
     """
+    logger = log_module()
     uneq_aux_coords = False
     uneq_dim_coords = False
     uneq_attr = False
@@ -321,24 +335,47 @@ def compare_cubes(cubes):
             break
 
     if uneq_ndim:
-        print("\n Number of dimensions for cubes differ,"
-              "please load cubes of matching ndim")
+        logger.info("\n Number of dimensions for cubes differ,"
+                    " please load cubes of matching ndim")
         sys.exit(2)
 
     if uneq_aux_coords:
-        print("\ncube aux coordinates differ: \n")
+        logger.info("\ncube aux coordinates differ: \n")
         equalise_aux_coords(cubes, comp_only=True)
 
     if uneq_dim_coords:
         equalise_dim_coords(cubes, comp_only=True)
 
     if uneq_attr:
-        print("cube attributes differ: \n")
+        logger.info("cube attributes differ: \n")
         equalise_attributes(cubes, comp_only=True)
 
     if uneq_time_coords:
-        print("cube time coordinates differ: \n")
+        logger.info("cube time coordinates differ: \n")
         equalise_time_units(cubes, comp_only=True)
+
+
+def _examine_dim_bounds(cubes, cube_files):
+    Range = namedtuple('Range', ['start', 'end'])
+    msg = ''
+    for i, cube_a in enumerate(cubes):
+        for j, cube_b in enumerate(cubes):
+            if i != j:
+                range_a = Range(start=cube_a.coord('time').bounds[0][0],
+                                end=cube_a.coord('time').bounds[-1][-1])
+                range_b = Range(start=cube_b.coord('time').bounds[0][0],
+                                end=cube_b.coord('time').bounds[-1][-1])
+                latest_start = max(range_a.start, range_b.start)
+                earliest_end = min(range_a.end, range_b.end)
+                delta = earliest_end - latest_start
+                overlap = max(0, delta)
+                if overlap > 0:
+                    msg = msg + "\nThe time coordinates overlap at cube {}" \
+                                " and cube {}".format(i, j)
+                    msg = msg + "\nThese cubes are: \n\t{}\n\t{}"\
+                        .format(cube_files[i], cube_files[j])
+                    break
+    return msg
 
 
 def examine_dim_bounds(cubes, cube_files):
@@ -354,21 +391,6 @@ def examine_dim_bounds(cubes, cube_files):
     Returns:
         A printed string detailing any overlap in the time bounds.
     """
-    Range = namedtuple('Range', ['start', 'end'])
-    for i, cube_a in enumerate(cubes):
-        for j, cube_b in enumerate(cubes):
-            if i != j:
-                range_a = Range(start=cube_a.coord('time').bounds[0][0],
-                                end=cube_a.coord('time').bounds[-1][-1])
-                range_b = Range(start=cube_b.coord('time').bounds[0][0],
-                                end=cube_b.coord('time').bounds[-1][-1])
-                latest_start = max(range_a.start, range_b.start)
-                earliest_end = min(range_a.end, range_b.end)
-                delta = earliest_end - latest_start
-                overlap = max(0, delta)
-                if overlap > 0:
-                    print("\nThe time coordinates overlap at cube {}"
-                          " and cube {}".format(i, j))
-                    print("\nThese cubes are: \n\t{}\n\t{}".
-                          format(cube_files[i], cube_files[j]))
-                    break
+    logger = log_module()
+    msg = _examine_dim_bounds(cubes, cube_files)
+    logger.info(msg)

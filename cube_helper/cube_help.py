@@ -4,15 +4,15 @@
 # This file is part of cube_helper and is released under the
 # BSD 3-Clause license.
 # See LICENSE in the root of the repository for full licensing details.
-
 from __future__ import (absolute_import, division, print_function)
 import iris
 import iris.coord_categorisation
 from six import string_types
+from cube_helper.logger import log_module
 from cube_helper.cube_loader import load_from_filelist, load_from_dir
 from cube_helper.cube_equaliser import (compare_cubes,
-                                        examine_dim_bounds,
-                                        equalise_all)
+                                        equalise_all,
+                                        _examine_dim_bounds)
 
 
 def load(directory, filetype='.nc', constraints=None):
@@ -30,6 +30,7 @@ def load(directory, filetype='.nc', constraints=None):
     Returns:
         result: A concatenated Iris Cube.
     """
+    logger = log_module()
     if isinstance(directory, string_types):
         loaded_cubes, cube_files = load_from_dir(
             directory, filetype, constraints)
@@ -41,10 +42,12 @@ def load(directory, filetype='.nc', constraints=None):
             result = iris.cube.CubeList(result)
             try:
                 result = result.concatenate_cube()
+                return result
             except iris.exceptions.ConcatenateError:
-                print("\nOops, there was an error in concatenation\n")
-                examine_dim_bounds(result, cube_files)
-            return result
+                logger.info("\nThere was an error in concatenation\n")
+                err_msg = _examine_dim_bounds(result, cube_files)
+                logger.error(err_msg)
+                raise
 
     elif isinstance(directory, list):
         loaded_cubes, cube_files = load_from_filelist(
@@ -58,10 +61,12 @@ def load(directory, filetype='.nc', constraints=None):
             result = iris.cube.CubeList(result)
             try:
                 result = result.concatenate_cube()
+                return result
             except iris.exceptions.ConcatenateError:
-                print("\nOops, there was an error in concatenation\n")
-                examine_dim_bounds(result, cube_files)
-            return result
+                logger.info("\nThere was an error in concatenation\n")
+                err_msg = _examine_dim_bounds(result, cube_files)
+                logger.error(err_msg)
+                raise
 
 
 def _season_year(**kwargs):
@@ -325,7 +330,7 @@ def aggregate_categorical(cube, categorical,
         categorical = compound_dict[categorical]
         cube = cube.aggregated_by(categorical, agg_method)
         return cube
-    except:
+    except KeyError:
         cube = cube.aggregated_by(categorical, agg_method)
         return cube
 
