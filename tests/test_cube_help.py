@@ -68,9 +68,6 @@ class TestCubeHelp(unittest.TestCase):
                              "month",
                              "day_of_month",
                              "day_of_year",
-                             "weekday_number",
-                             "weekday_fullname",
-                             "weekday",
                              "hour"]
         for categorical in test_categoricals:
             test_case_a = ch.add_categorical(test_case_a, categorical)
@@ -146,71 +143,71 @@ class TestCubeHelp(unittest.TestCase):
         self.assertEqual(test_cube_a.coord('season_year').points[0],
                          1970)
 
-    def test_aggregate_categorical_weekday(self):
-        test_cube_a = common._generate_extended_cube()
-        test_cube_a = ch.aggregate_categorical(test_cube_a,
-                                               'weekday')
-        self.assertIsNotNone(test_cube_a)
-        self.assertEqual(test_cube_a.coord('weekday').points[0],
-                         'Thu')
-        self.assertEqual(test_cube_a.coord('weekday').points[2],
-                         'Sat')
-        self.assertEqual(test_cube_a.coord('weekday').points[4],
-                         'Mon')
-        self.assertEqual(test_cube_a.coord('weekday').points[6],
-                         'Wed')
-        self.assertEqual(test_cube_a.coord('time').points[0],
-                         3496.5)
-        self.assertEqual(test_cube_a.coord('time').points[2],
-                         3498.5)
-        self.assertEqual(test_cube_a.coord('time').points[4],
-                         3500.5)
-        self.assertEqual(test_cube_a.coord('time').points[6],
-                         3502.5)
-
-    def test_aggregate_categorical_weekday_fullname(self):
-        test_cube_a = common._generate_extended_cube()
-        test_cube_a = ch.aggregate_categorical(test_cube_a,
-                                               'weekday_fullname')
-        self.assertIsNotNone(test_cube_a)
-        self.assertEqual(test_cube_a.coord('weekday_fullname').points[0],
-                         'Thursday')
-        self.assertEqual(test_cube_a.coord('weekday_fullname').points[2],
-                         'Saturday')
-        self.assertEqual(test_cube_a.coord('weekday_fullname').points[4],
-                         'Monday')
-        self.assertEqual(test_cube_a.coord('weekday_fullname').points[6],
-                         'Wednesday')
-        self.assertEqual(test_cube_a.coord('time').points[0],
-                         3496.5)
-        self.assertEqual(test_cube_a.coord('time').points[2],
-                         3498.5)
-        self.assertEqual(test_cube_a.coord('time').points[4],
-                         3500.5)
-        self.assertEqual(test_cube_a.coord('time').points[6],
-                         3502.5)
-
-    def test_aggregate_categorical_weekday_number(self):
-        test_cube_a = common._generate_extended_cube()
-        test_cube_a = ch.aggregate_categorical(test_cube_a,
-                                               'weekday_number')
-        self.assertIsNotNone(test_cube_a)
-        self.assertEqual(test_cube_a.coord('weekday_number').points[0],
-                         3)
-        self.assertEqual(test_cube_a.coord('weekday_number').points[2],
-                         5)
-        self.assertEqual(test_cube_a.coord('weekday_number').points[4],
-                         0)
-        self.assertEqual(test_cube_a.coord('weekday_number').points[6],
-                         2)
-        self.assertEqual(test_cube_a.coord('time').points[0],
-                         3496.5)
-        self.assertEqual(test_cube_a.coord('time').points[2],
-                         3498.5)
-        self.assertEqual(test_cube_a.coord('time').points[4],
-                         3500.5)
-        self.assertEqual(test_cube_a.coord('time').points[6],
-                         3502.5)
+    # def test_aggregate_categorical_weekday(self):
+    #     test_cube_a = common._generate_extended_cube()
+    #     test_cube_a = ch.aggregate_categorical(test_cube_a,
+    #                                            'weekday')
+    #     self.assertIsNotNone(test_cube_a)
+    #     self.assertEqual(test_cube_a.coord('weekday').points[0],
+    #                      'Thu')
+    #     self.assertEqual(test_cube_a.coord('weekday').points[2],
+    #                      'Sat')
+    #     self.assertEqual(test_cube_a.coord('weekday').points[4],
+    #                      'Mon')
+    #     self.assertEqual(test_cube_a.coord('weekday').points[6],
+    #                      'Wed')
+    #     self.assertEqual(test_cube_a.coord('time').points[0],
+    #                      3496.5)
+    #     self.assertEqual(test_cube_a.coord('time').points[2],
+    #                      3498.5)
+    #     self.assertEqual(test_cube_a.coord('time').points[4],
+    #                      3500.5)
+    #     self.assertEqual(test_cube_a.coord('time').points[6],
+    #                      3502.5)
+    #
+    # def test_aggregate_categorical_weekday_fullname(self):
+    #     test_cube_a = common._generate_extended_cube()
+    #     test_cube_a = ch.aggregate_categorical(test_cube_a,
+    #                                            'weekday_fullname')
+    #     self.assertIsNotNone(test_cube_a)
+    #     self.assertEqual(test_cube_a.coord('weekday_fullname').points[0],
+    #                      'Thursday')
+    #     self.assertEqual(test_cube_a.coord('weekday_fullname').points[2],
+    #                      'Saturday')
+    #     self.assertEqual(test_cube_a.coord('weekday_fullname').points[4],
+    #                      'Monday')
+    #     self.assertEqual(test_cube_a.coord('weekday_fullname').points[6],
+    #                      'Wednesday')
+    #     self.assertEqual(test_cube_a.coord('time').points[0],
+    #                      3496.5)
+    #     self.assertEqual(test_cube_a.coord('time').points[2],
+    #                      3498.5)
+    #     self.assertEqual(test_cube_a.coord('time').points[4],
+    #                      3500.5)
+    #     self.assertEqual(test_cube_a.coord('time').points[6],
+    #                      3502.5)
+    #
+    # def test_aggregate_categorical_weekday_number(self):
+    #     test_cube_a = common._generate_extended_cube()
+    #     test_cube_a = ch.aggregate_categorical(test_cube_a,
+    #                                            'weekday_number')
+    #     self.assertIsNotNone(test_cube_a)
+    #     self.assertEqual(test_cube_a.coord('weekday_number').points[0],
+    #                      3)
+    #     self.assertEqual(test_cube_a.coord('weekday_number').points[2],
+    #                      5)
+    #     self.assertEqual(test_cube_a.coord('weekday_number').points[4],
+    #                      0)
+    #     self.assertEqual(test_cube_a.coord('weekday_number').points[6],
+    #                      2)
+    #     self.assertEqual(test_cube_a.coord('time').points[0],
+    #                      3496.5)
+    #     self.assertEqual(test_cube_a.coord('time').points[2],
+    #                      3498.5)
+    #     self.assertEqual(test_cube_a.coord('time').points[4],
+    #                      3500.5)
+    #     self.assertEqual(test_cube_a.coord('time').points[6],
+    #                      3502.5)
 
     def test_aggregate_categorical_month(self):
         test_cube_a = common._generate_extended_cube()
