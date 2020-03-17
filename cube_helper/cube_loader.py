@@ -7,7 +7,6 @@
 import os
 import iris
 import glob
-import cf_units
 from iris.exceptions import MergeError, ConstraintMismatchError
 from six import string_types
 from datetime import datetime
