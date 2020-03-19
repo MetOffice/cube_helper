@@ -14,7 +14,7 @@ The package is written entirely in Python, and provides a number of reusable met
 Please ensure you have the following dependencies installed:  
 `cf_units`  
 `iris`  
-`numpy`  
+`numpy`
 
 
 ## Usage
