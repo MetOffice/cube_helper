@@ -176,6 +176,14 @@ class TestCubeEqualiser(unittest.TestCase):
                           "\n\n\theight coords inconsistent"
         self.assertEqual(output, expected_output)
 
+    def test_compare_cubes_incompatible(self):
+        test_case_a = stock.simple_2d()
+        test_case_b = stock.simple_3d()
+        test_cubes = [test_case_a, test_case_b]
+        self.assertRaises(OSError,
+                          ch.compare_cubes,
+                          test_cubes)
+
     def test_compare_cubes_ocean(self):
         test_load = _generate_ocean_cube()
         out = IO()
