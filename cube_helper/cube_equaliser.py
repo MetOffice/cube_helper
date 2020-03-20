@@ -336,7 +336,7 @@ def compare_cubes(cubes):
 
     if uneq_ndim:
         logger.error("\n Number of dimensions for cubes differ,"
-                    " please load cubes of matching ndim")
+                     " please load cubes of matching ndim")
         raise OSError
 
     if uneq_aux_coords:
