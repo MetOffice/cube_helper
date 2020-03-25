@@ -11,7 +11,7 @@ Environment to the new ``cube_helper`` module:
 
 .. code:: ipython3
 
-    !export PYTHONPATH=/path/to/cube/helper
+    !export PYTHONPATH=$PYTHONPATH:/path/to/cube/helper
 
 Next, import the new ``cube_helper`` methods.
 
