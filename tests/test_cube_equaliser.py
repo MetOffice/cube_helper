@@ -102,11 +102,15 @@ class TestCubeEqualiser(unittest.TestCase):
         filepaths = glob(glob_path)
         test_load = [iris.load_cube(cube) for cube in filepaths]
         test_load = ch.equalise_time_units(test_load)
-        for index, cube in enumerate(test_load):
+        test_calendar = test_load[0].dim_coords[0].units.calendar
+        test_origin = test_load[0].dim_coords[0].units.origin
+        for cube in test_load:
             for time_coords in cube.coords():
                 if time_coords.units.is_time_reference():
-                    self.assertEqual(cube[index].units.calendar,
-                                     cube[index-1].units.calendar)
+                    self.assertEqual(test_calendar,
+                                     time_coords.units.calendar)
+                    self.assertEqual(test_origin,
+                                     time_coords.units.origin)
 
     def test_remove_attributes(self):
         glob_path = self.tmp_dir + '*.nc'
