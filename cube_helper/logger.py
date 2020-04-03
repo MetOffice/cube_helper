@@ -7,11 +7,21 @@ import logging
 import sys
 
 
+class CapturableHandler(logging.StreamHandler):
+
+    @property
+    def stream(self):
+        return sys.stdout
+
+    @stream.setter
+    def stream(self, value):
+        pass
+
 def log_module():
     logger = logging.getLogger(__name__)
     if not getattr(logger, 'handler_set', None):
         logger.setLevel(logging.INFO)
-        handler = logging.StreamHandler(sys.stdout)
+        handler = CapturableHandler()
         formatter = logging.Formatter('%(message)s')
         handler.setFormatter(formatter)
         handler.setLevel(logging.INFO)

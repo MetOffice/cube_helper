@@ -19,14 +19,16 @@ class TestLogger(unittest.TestCase):
         self.assertEqual(looger_a_keys, looger_b_keys)
         self.assertEqual(looger_a_vals, looger_b_vals)
 
-    def test_log_module_stout(self):
+    def test_log_module_redirect(self):
+        logger = log_module()
         out = IO()
         with _redirect_stdout(out):
-            print('Message on stdout and stderr')
+            logger.info('Message on stdout and stderr')
         output = out.getvalue().strip()
         self.assertEqual(output, 'Message on stdout and stderr')
+        out = IO()
         with _redirect_stderr(out):
-            print('Message on stdout and stderr')
+            logger.info('Message on stdout and stderr')
         output = out.getvalue().strip()
         self.assertEqual(output, 'Message on stdout and stderr')
 
