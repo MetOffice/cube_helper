@@ -26,11 +26,6 @@ class TestLogger(unittest.TestCase):
             logger.info('Message on stdout and stderr')
         output = out.getvalue().strip()
         self.assertEqual(output, 'Message on stdout and stderr')
-        out = IO()
-        with _redirect_stderr(out):
-            logger.info('Message on stdout and stderr')
-        output = out.getvalue().strip()
-        self.assertEqual(output, 'Message on stdout and stderr')
 
     def test_to_comma_and_str(self):
         component_list = ['creation_date',
