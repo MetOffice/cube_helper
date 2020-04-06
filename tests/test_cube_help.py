@@ -12,6 +12,11 @@ from glob import glob
 import os
 import cf_units
 import common
+import platform
+if float(platform.python_version()[0:3]) <= 2.8:
+    from io import BytesIO as IO
+else:
+    from io import StringIO as IO
 
 
 class TestCubeHelp(unittest.TestCase):
@@ -97,17 +102,56 @@ class TestCubeHelp(unittest.TestCase):
         glob_path = self.tmp_dir_time + '*.nc'
         filepaths = glob(glob_path)
         directory = self.tmp_dir_time
-        test_case_a = ch.load(filepaths)
+        out = IO()
+        with common._redirect_stdout(out):
+            test_case_a = ch.load(filepaths)
+        output = out.getvalue().strip()
         self.assertIsInstance(test_case_a, iris.cube.Cube)
         self.assertEqual(test_case_a.dim_coords[0].units.origin,
                          "hours since 1970-01-01 00:00:00")
         self.assertEqual(test_case_a.dim_coords[0].units.calendar,
                          "gregorian")
-        test_case_b = ch.load(directory)
+        expected_output = "cube aux coordinates differ: " \
+                          "\n\ncube time coordinates differ: " \
+                          "\n\n\ttime start date inconsistent" \
+                          "\n\nNew time origin set to hours since " \
+                          "1970-01-01 00:00:00"
+        self.assertEqual(output, expected_output)
+        out = IO()
+        with common._redirect_stdout(out):
+            test_case_b = ch.load(directory)
+        self.assertIsInstance(test_case_a, iris.cube.Cube)
         self.assertEqual(test_case_b.dim_coords[0].units.origin,
                          "hours since 1970-01-01 00:00:00")
         self.assertEqual(test_case_b.dim_coords[0].units.calendar,
                          "gregorian")
+        self.assertEqual(output, expected_output)
+
+    def test_load_silent(self):
+        glob_path = self.tmp_dir_time + '*.nc'
+        filepaths = glob(glob_path)
+        directory = self.tmp_dir_time
+        out = IO()
+        with common._redirect_stdout(out):
+            test_case_a = ch.load(filepaths)
+        output = out.getvalue().strip()
+        self.assertIsInstance(test_case_a, iris.cube.Cube)
+        self.assertEqual(test_case_a.dim_coords[0].units.origin,
+                         "hours since 1970-01-01 00:00:00")
+        self.assertEqual(test_case_a.dim_coords[0].units.calendar,
+                         "gregorian")
+        expected_output = ""
+
+        self.assertEqual(output, expected_output)
+        out = IO()
+        with common._redirect_stdout(out):
+            test_case_b = ch.load(directory)
+        self.assertIsInstance(test_case_a, iris.cube.Cube)
+        self.assertEqual(test_case_b.dim_coords[0].units.origin,
+                         "hours since 1970-01-01 00:00:00")
+        self.assertEqual(test_case_b.dim_coords[0].units.calendar,
+                         "gregorian")
+        self.assertEqual(output, expected_output)
 
     def test_load_ocean(self):
         glob_path = self.tmp_dir_ocean + '*.nc'

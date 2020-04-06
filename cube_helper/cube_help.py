@@ -15,7 +15,8 @@ from cube_helper.cube_equaliser import (compare_cubes,
                                         _examine_dim_bounds)
 
 
-def load(directory, filetype='.nc', constraints=None):
+def load(directory, filetype='.nc', constraints=None,
+         silent=True):
     """
     A function that loads and concatenates Iris Cubes.
 
