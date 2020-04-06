@@ -17,6 +17,7 @@ class CapturableHandler(logging.StreamHandler):
     def stream(self, value):
         pass
 
+
 def log_module():
     logger = logging.getLogger(__name__)
     if not getattr(logger, 'handler_set', None):
