@@ -8,7 +8,7 @@ from __future__ import (absolute_import, division, print_function)
 import iris
 import iris.coord_categorisation
 from six import string_types
-from cube_helper.logger import log_module
+from cube_helper.logger import log_module, muffle_logger, reset_logger
 from cube_helper.cube_loader import load_from_filelist, load_from_dir
 from cube_helper.cube_equaliser import (compare_cubes,
                                         equalise_all,
@@ -16,7 +16,7 @@ from cube_helper.cube_equaliser import (compare_cubes,
 
 
 def load(directory, filetype='.nc', constraints=None,
-         silent=True):
+         silent=False):
     """
     A function that loads and concatenates Iris Cubes.
 
@@ -31,11 +31,15 @@ def load(directory, filetype='.nc', constraints=None,
     Returns:
         result: A concatenated Iris Cube.
     """
+    if silent:
+        muffle_logger()
     logger = log_module()
     if isinstance(directory, string_types):
         loaded_cubes, cube_files = load_from_dir(
             directory, filetype, constraints)
         if not loaded_cubes:
+            if silent:
+                reset_logger()
             raise OSError("No cubes loaded")
         else:
             compare_cubes(loaded_cubes)
@@ -43,11 +47,15 @@ def load(directory, filetype='.nc', constraints=None,
             result = iris.cube.CubeList(result)
             try:
                 result = result.concatenate_cube()
+                if silent:
+                    reset_logger()
                 return result
             except iris.exceptions.ConcatenateError:
                 logger.info("\nThere was an error in concatenation\n")
                 err_msg = _examine_dim_bounds(result, cube_files)
                 logger.error(err_msg)
+                if silent:
+                    reset_logger()
                 raise
 
     elif isinstance(directory, list):
@@ -55,6 +63,8 @@ def load(directory, filetype='.nc', constraints=None,
             directory, filetype, constraints)
 
         if not loaded_cubes:
+            if silent:
+                reset_logger()
             raise OSError("No cubes loaded")
         else:
             compare_cubes(loaded_cubes)
@@ -62,11 +72,15 @@ def load(directory, filetype='.nc', constraints=None,
             result = iris.cube.CubeList(result)
             try:
                 result = result.concatenate_cube()
+                if silent:
+                    reset_logger()
                 return result
             except iris.exceptions.ConcatenateError:
                 logger.info("\nThere was an error in concatenation\n")
                 err_msg = _examine_dim_bounds(result, cube_files)
                 logger.error(err_msg)
+                if silent:
+                    reset_logger()
                 raise
 
 

@@ -18,18 +18,55 @@ class CapturableHandler(logging.StreamHandler):
         pass
 
 
+class SilentHandler(logging.StreamHandler):
+
+    @property
+    def stream(self):
+        return sys.stderr
+
+    @stream.setter
+    def stream(self, value):
+        pass
+
+
+def _add_handler(logger, level, handler):
+    logger.setLevel(level)
+    handler = handler
+    formatter = logging.Formatter('%(message)s')
+    handler.setFormatter(formatter)
+    handler.setLevel(level)
+    logger.addHandler(handler)
+    logger.handler_set = True
+
+def _remove_handler(logger):
+    logger.handlers.pop()
+    logger.handler_set = False
+
+
 def log_module():
     logger = logging.getLogger(__name__)
+    handler = CapturableHandler()
     if not getattr(logger, 'handler_set', None):
-        logger.setLevel(logging.INFO)
-        handler = CapturableHandler()
-        formatter = logging.Formatter('%(message)s')
-        handler.setFormatter(formatter)
-        handler.setLevel(logging.INFO)
-        logger.addHandler(handler)
-        logger.handler_set = True
+        _add_handler(logger, logging.INFO, handler)
     return logger
 
+def muffle_logger():
+    logger = logging.getLogger(__name__)
+    handler = SilentHandler()
+    if getattr(logger, 'handler_set', None):
+        _remove_handler(logger)
+        _add_handler(logger, logging.ERROR, handler)
+    else:
+        _add_handler(logger, logging.ERROR, handler)
+
+def reset_logger():
+    logger = logging.getLogger(__name__)
+    handler = CapturableHandler()
+    if getattr(logger, 'handler_set', None):
+        _remove_handler(logger)
+        _add_handler(logger, logging.INFO, handler)
+    else:
+        _add_handler(logger, logging.INFO, handler)
 
 def _to_comma_and_str(component_list, metadata_component):
     if len(component_list) > 1:

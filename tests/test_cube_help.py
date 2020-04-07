@@ -133,7 +133,7 @@ class TestCubeHelp(unittest.TestCase):
         directory = self.tmp_dir_time
         out = IO()
         with common._redirect_stdout(out):
-            test_case_a = ch.load(filepaths)
+            test_case_a = ch.load(filepaths, silent=True)
         output = out.getvalue().strip()
         self.assertIsInstance(test_case_a, iris.cube.Cube)
         self.assertEqual(test_case_a.dim_coords[0].units.origin,
@@ -141,16 +141,31 @@ class TestCubeHelp(unittest.TestCase):
         self.assertEqual(test_case_a.dim_coords[0].units.calendar,
                          "gregorian")
         expected_output = ""
-
         self.assertEqual(output, expected_output)
         out = IO()
         with common._redirect_stdout(out):
-            test_case_b = ch.load(directory)
+            test_case_b = ch.load(directory, silent=True)
+        output = out.getvalue().strip()
         self.assertIsInstance(test_case_a, iris.cube.Cube)
         self.assertEqual(test_case_b.dim_coords[0].units.origin,
                          "hours since 1970-01-01 00:00:00")
         self.assertEqual(test_case_b.dim_coords[0].units.calendar,
                          "gregorian")
+        self.assertEqual(output, expected_output)
+        out = IO()
+        with common._redirect_stdout(out):
+            test_case_switch = ch.load(filepaths)
+        output = out.getvalue().strip()
+        self.assertIsInstance(test_case_switch, iris.cube.Cube)
+        self.assertEqual(test_case_switch.dim_coords[0].units.origin,
+                         "hours since 1970-01-01 00:00:00")
+        self.assertEqual(test_case_switch.dim_coords[0].units.calendar,
+                         "gregorian")
+        expected_output = "cube aux coordinates differ: " \
+                          "\n\ncube time coordinates differ: " \
+                          "\n\n\ttime start date inconsistent" \
+                          "\n\nNew time origin set to hours since " \
+                          "1970-01-01 00:00:00"
         self.assertEqual(output, expected_output)
 
     def test_load_ocean(self):
