@@ -38,6 +38,7 @@ def _add_handler(logger, level, handler):
     logger.addHandler(handler)
     logger.handler_set = True
 
+
 def _remove_handler(logger):
     logger.handlers.pop()
     logger.handler_set = False
@@ -50,6 +51,7 @@ def log_module():
         _add_handler(logger, logging.INFO, handler)
     return logger
 
+
 def muffle_logger():
     logger = logging.getLogger(__name__)
     handler = SilentHandler()
@@ -59,6 +61,7 @@ def muffle_logger():
     else:
         _add_handler(logger, logging.ERROR, handler)
 
+
 def reset_logger():
     logger = logging.getLogger(__name__)
     handler = CapturableHandler()
@@ -67,6 +70,7 @@ def reset_logger():
         _add_handler(logger, logging.INFO, handler)
     else:
         _add_handler(logger, logging.INFO, handler)
+
 
 def _to_comma_and_str(component_list, metadata_component):
     if len(component_list) > 1:
