@@ -132,8 +132,9 @@ class TestCubeHelp(unittest.TestCase):
         filepaths = glob(glob_path)
         directory = self.tmp_dir_time
         out = IO()
+        ch.muffle_logger()
         with common._redirect_stdout(out):
-            test_case_a = ch.load(filepaths, silent=True)
+            test_case_a = ch.load(filepaths)
         output = out.getvalue().strip()
         self.assertIsInstance(test_case_a, iris.cube.Cube)
         self.assertEqual(test_case_a.dim_coords[0].units.origin,
@@ -144,7 +145,7 @@ class TestCubeHelp(unittest.TestCase):
         self.assertEqual(output, expected_output)
         out = IO()
         with common._redirect_stdout(out):
-            test_case_b = ch.load(directory, silent=True)
+            test_case_b = ch.load(directory)
         output = out.getvalue().strip()
         self.assertIsInstance(test_case_a, iris.cube.Cube)
         self.assertEqual(test_case_b.dim_coords[0].units.origin,
@@ -153,6 +154,7 @@ class TestCubeHelp(unittest.TestCase):
                          "gregorian")
         self.assertEqual(output, expected_output)
         out = IO()
+        ch.reset_logger()
         with common._redirect_stdout(out):
             test_case_switch = ch.load(filepaths)
         output = out.getvalue().strip()

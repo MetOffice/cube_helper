@@ -1,6 +1,8 @@
-from cube_helper.logger import log_module, log_inconsistent, _to_comma_and_str
+from cube_helper.logger import log_module, log_inconsistent,\
+    _to_comma_and_str, muffle_logger, reset_logger
 from common import _redirect_stdout, _redirect_stderr
 import unittest
+import sys
 import platform
 if float(platform.python_version()[0:3]) <= 2.8:
     from io import BytesIO as IO
@@ -19,6 +21,29 @@ class TestLogger(unittest.TestCase):
         self.assertEqual(looger_a_keys, looger_b_keys)
         self.assertEqual(looger_a_vals, looger_b_vals)
 
+    def test_log_module(self):
+        logger = log_module()
+        handler = logger.handlers[0]
+        self.assertEqual(len(logger.handlers), 1)
+        self.assertEqual(logger.name, 'cube_helper.logger')
+        self.assertEqual(handler.stream, sys.stdout)
+
+    def test_muffle_logger(self):
+        muffle_logger()
+        logger = log_module()
+        handler = logger.handlers[0]
+        self.assertEqual(len(logger.handlers), 1)
+        self.assertEqual(logger.name, 'cube_helper.logger')
+        self.assertEqual(handler.stream, sys.stderr)
+
+    def test_reset_logger(self):
+        reset_logger()
+        logger = log_module()
+        handler = logger.handlers[0]
+        self.assertEqual(len(logger.handlers), 1)
+        self.assertEqual(logger.name, 'cube_helper.logger')
+        self.assertEqual(handler.stream, sys.stdout)
+
     def test_log_module_redirect(self):
         logger = log_module()
         out = IO()
@@ -26,6 +51,8 @@ class TestLogger(unittest.TestCase):
             logger.info('Message on stdout and stderr')
         output = out.getvalue().strip()
         self.assertEqual(output, 'Message on stdout and stderr')
+
+
 
     def test_to_comma_and_str(self):
         component_list = ['creation_date',
