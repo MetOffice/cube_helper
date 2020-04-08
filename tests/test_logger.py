@@ -52,8 +52,6 @@ class TestLogger(unittest.TestCase):
         output = out.getvalue().strip()
         self.assertEqual(output, 'Message on stdout and stderr')
 
-
-
     def test_to_comma_and_str(self):
         component_list = ['creation_date',
                           'tracking_id',
