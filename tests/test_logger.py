@@ -34,7 +34,9 @@ class TestLogger(unittest.TestCase):
         handler = logger.handlers[0]
         self.assertEqual(len(logger.handlers), 1)
         self.assertEqual(logger.name, 'cube_helper.logger')
-        self.assertEqual(handler.stream, sys.stderr)
+        self.assertEqual(logger.level, 40)
+        self.assertEqual(handler.level, 40)
+        self.assertEqual(handler.stream, sys.stdout)
 
     def test_reset_logger(self):
         reset_logger()
@@ -42,15 +44,22 @@ class TestLogger(unittest.TestCase):
         handler = logger.handlers[0]
         self.assertEqual(len(logger.handlers), 1)
         self.assertEqual(logger.name, 'cube_helper.logger')
+        self.assertEqual(logger.level, 20)
+        self.assertEqual(handler.level, 20)
         self.assertEqual(handler.stream, sys.stdout)
 
     def test_log_module_redirect(self):
         logger = log_module()
         out = IO()
         with _redirect_stdout(out):
-            logger.info('Message on stdout and stderr')
+            logger.info('Message on stdout')
         output = out.getvalue().strip()
-        self.assertEqual(output, 'Message on stdout and stderr')
+        self.assertEqual(output, 'Message on stdout')
+        out = IO()
+        with _redirect_stdout(out):
+            logger.info('Message on stderr')
+        output = out.getvalue().strip()
+        self.assertEqual(output, 'Message on stderr')
 
     def test_to_comma_and_str(self):
         component_list = ['creation_date',

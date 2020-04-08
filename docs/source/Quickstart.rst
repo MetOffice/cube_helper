@@ -30,10 +30,11 @@ To load from a list of fname strings. Useful when combining datasets.
    >>> fnames = glob('/path/to/cmip/data/output1/ICHEC/EC-EARTH/historical/mon/atmos/Amon/r1i1p1/v20131231/tas/*.nc')
    >>> cube = ch.load(fnames)
 
-Loading a cube with silent mode
+Loading a cube without output
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The output of some larger cubes can be overwhelming. You can load cubes and suppress
-Output like so:
+Output with the ``ch.muffle_logger()``, and reset the logging settings with
+``ch.reset_logger()``
 
 .. code-block:: python
 
@@ -49,9 +50,21 @@ Output like so:
    Deleting tracking_id, history and creation_date attributes from cubes
 
    New time origin set to days since 1850-01-01 00:00:00
-   >>>#^^To load without all this output:
+   >>> ch.muffle_logger()
    >>> cube = ch.load('/path/to/cmip/data/output1/ICHEC/EC-EARTH/historical/mon/atmos/Amon/r1i1p1/v20131231/tas/', silent=True)
-   >>>
+   >>> ch.reset_logger()
+   >>> cube = ch.load('/path/to/cmip/data/output1/ICHEC/EC-EARTH/historical/mon/atmos/Amon/r1i1p1/v20131231/tas/')
+   cube attributes differ:
+
+           tracking_id, history and creation_date attibutes inconsistent
+
+   cube time coordinates differ:
+
+           time start date inconsistent
+
+   Deleting tracking_id, history and creation_date attributes from cubes
+
+   New time origin set to days since 1850-01-01 00:00:00
 
 Concatenating a cube
 ^^^^^^^^^^^^^^^^^^^^

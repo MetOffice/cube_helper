@@ -18,17 +18,6 @@ class CapturableHandler(logging.StreamHandler):
         pass
 
 
-class SilentHandler(logging.StreamHandler):
-
-    @property
-    def stream(self):
-        return sys.stderr
-
-    @stream.setter
-    def stream(self, value):
-        pass
-
-
 def _add_handler(logger, level, handler):
     logger.setLevel(level)
     handler = handler
@@ -54,7 +43,7 @@ def log_module():
 
 def muffle_logger():
     logger = logging.getLogger(__name__)
-    handler = SilentHandler()
+    handler = CapturableHandler()
     if getattr(logger, 'handler_set', None):
         _remove_handler(logger)
         _add_handler(logger, logging.ERROR, handler)
