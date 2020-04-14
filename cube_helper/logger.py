@@ -43,9 +43,9 @@ def log_module():
 
 def muffle_logger():
     """
-    A function that switches the level to ``Error`` or higher, thereby
-    suppressing all output other than error messages. As this
-    option oscures the user to changes made to cubes on load
+    A function that switches the logging level to ``ERROR`` or higher, thereby
+    muffling all output other than error messages. As this
+    option obscures the user to changes made to cubes on load
     (as well as inconsistencies) it is advised not to use this
     function unless absolutely necessary.
     """
