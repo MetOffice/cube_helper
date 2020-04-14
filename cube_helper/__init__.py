@@ -22,3 +22,5 @@ from cube_helper.cube_equaliser import (examine_dim_bounds,
                                         equalise_all,
                                         remove_attributes,
                                         compare_cubes)
+from cube_helper.logger import (muffle_logger,
+                                reset_logger)

@@ -18,17 +18,59 @@ class CapturableHandler(logging.StreamHandler):
         pass
 
 
+def _add_handler(logger, level, handler):
+    logger.setLevel(level)
+    handler = handler
+    formatter = logging.Formatter('%(message)s')
+    handler.setFormatter(formatter)
+    handler.setLevel(level)
+    logger.addHandler(handler)
+    logger.handler_set = True
+
+
+def _remove_handler(logger):
+    logger.handlers.pop()
+    logger.handler_set = False
+
+
 def log_module():
     logger = logging.getLogger(__name__)
+    handler = CapturableHandler()
     if not getattr(logger, 'handler_set', None):
-        logger.setLevel(logging.INFO)
-        handler = CapturableHandler()
-        formatter = logging.Formatter('%(message)s')
-        handler.setFormatter(formatter)
-        handler.setLevel(logging.INFO)
-        logger.addHandler(handler)
-        logger.handler_set = True
+        _add_handler(logger, logging.INFO, handler)
     return logger
+
+
+def muffle_logger():
+    """
+    A function that switches the logging level to ``ERROR`` or higher, thereby
+    muffling all output other than error messages. As this
+    option obscures the user to changes made to cubes on load
+    (as well as inconsistencies) it is advised not to use this
+    function unless absolutely necessary.
+    """
+    logger = logging.getLogger(__name__)
+    handler = CapturableHandler()
+    if getattr(logger, 'handler_set', None):
+        _remove_handler(logger)
+        _add_handler(logger, logging.ERROR, handler)
+    else:
+        _add_handler(logger, logging.ERROR, handler)
+
+
+def reset_logger():
+    """
+    A function that switches the level to ``INFO`` or higher, allowing
+    ``cube_helper``'s logger to detail changes and inconsistencies as
+    usual
+    """
+    logger = logging.getLogger(__name__)
+    handler = CapturableHandler()
+    if getattr(logger, 'handler_set', None):
+        _remove_handler(logger)
+        _add_handler(logger, logging.INFO, handler)
+    else:
+        _add_handler(logger, logging.INFO, handler)
 
 
 def _to_comma_and_str(component_list, metadata_component):
