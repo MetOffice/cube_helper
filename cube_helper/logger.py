@@ -42,6 +42,13 @@ def log_module():
 
 
 def muffle_logger():
+    """
+    A function that switches the level to ``Error`` or higher, thereby
+    suppressing all output other than error messages. As this
+    option oscures the user to changes made to cubes on load
+    (as well as inconsistencies) it is advised not to use this
+    function unless absolutely necessary.
+    """
     logger = logging.getLogger(__name__)
     handler = CapturableHandler()
     if getattr(logger, 'handler_set', None):
@@ -52,6 +59,11 @@ def muffle_logger():
 
 
 def reset_logger():
+    """
+    A function that switches the level to ``INFO`` or higher, allowing
+    ``cube_helper``'s logger to detail changes and inconsistencies as
+    usual
+    """
     logger = logging.getLogger(__name__)
     handler = CapturableHandler()
     if getattr(logger, 'handler_set', None):
