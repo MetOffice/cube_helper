@@ -32,8 +32,8 @@ To load from a list of fname strings. Useful when combining datasets.
 
 Loading a cube without output
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-The output of some larger cubes can be overwhelming. You can load cubes and suppress
-Output with the ``ch.muffle_logger()``, and reset the logging settings with
+Sometimes, in production systems you may not need the full output from cube_helper. You can load cubes and suppress
+output with ``ch.muffle_logger()``. You can reset to the default logging settings with
 ``ch.reset_logger()``
 
 .. code-block:: python
@@ -301,4 +301,3 @@ Aggregates and extracts with a given constraint.
    >>> annual_seasonal_mean = ch.extract_categorical(cube, 'annual_seasonal_mean', three_months_bound)
    >>> annual_seasonal_mean
    <iris 'Cube' of air_temperature / (K) (time: 639; latitude: 160; longitude: 320)>
-
