@@ -20,16 +20,6 @@ Loading a cube with constraints
    >>> longitude_constraint = iris.Constraint(longitude = lambda cell : cell > 0 and cell < 180)
    >>> cube = ch.load('/path/to/cmip/data/HadGEM3-GC31-LL/piControl/r1i1p1f1/Amon/tasmin/gn/v20190628', constraints=longitude_constraint)
 
-Loading a cube from a list of files
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-To load from a list of fname strings. Useful when combining datasets.
-
-.. code-block:: python
-
-   >>> from glob import glob
-   >>> fnames = glob('/path/to/cmip/data/output1/ICHEC/EC-EARTH/historical/mon/atmos/Amon/r1i1p1/v20131231/tas/*.nc')
-   >>> cube = ch.load(fnames)
-
 Loading a cube without output
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Sometimes, in production systems you may not need the full output from cube_helper. You can load cubes and suppress
@@ -301,3 +291,14 @@ Aggregates and extracts with a given constraint.
    >>> annual_seasonal_mean = ch.extract_categorical(cube, 'annual_seasonal_mean', three_months_bound)
    >>> annual_seasonal_mean
    <iris 'Cube' of air_temperature / (K) (time: 639; latitude: 160; longitude: 320)>
+
+Loading a cube from a list of files
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+To load from a list of fname strings. Useful when combining datasets.
+
+.. code-block:: python
+
+   >>> from glob import glob
+   >>> fnames = glob('/path/to/cmip/data/output1/ICHEC/EC-EARTH/historical/mon/atmos/Amon/r1i1p1/v20131231/tas/*.nc')
+   >>> cube = ch.load(fnames)
+

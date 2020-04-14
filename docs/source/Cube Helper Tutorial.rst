@@ -30,42 +30,12 @@ Here we load a HadGEM3 model, and ``load`` takes care of the rest:
 
 .. parsed-literal::
 
-    /opt/scitools/environments/default/current/lib/python3.6/site-packages/iris/fileformats/cf.py:798: UserWarning: Missing CF-netCDF measure variable 'areacella', referenced by netCDF variable 'tasmin'
-      warnings.warn(message % (variable_name, nc_var_name))
-    /opt/scitools/environments/default/current/lib/python3.6/site-packages/iris/fileformats/cf.py:798: UserWarning: Missing CF-netCDF measure variable 'areacella', referenced by netCDF variable 'tasmin'
-      warnings.warn(message % (variable_name, nc_var_name))
-    /opt/scitools/environments/default/current/lib/python3.6/site-packages/iris/fileformats/cf.py:798: UserWarning: Missing CF-netCDF measure variable 'areacella', referenced by netCDF variable 'tasmin'
-      warnings.warn(message % (variable_name, nc_var_name))
-    /opt/scitools/environments/default/current/lib/python3.6/site-packages/iris/fileformats/cf.py:798: UserWarning: Missing CF-netCDF measure variable 'areacella', referenced by netCDF variable 'tasmin'
-      warnings.warn(message % (variable_name, nc_var_name))
-    /opt/scitools/environments/default/current/lib/python3.6/site-packages/iris/fileformats/cf.py:798: UserWarning: Missing CF-netCDF measure variable 'areacella', referenced by netCDF variable 'tasmin'
-      warnings.warn(message % (variable_name, nc_var_name))
-    /opt/scitools/environments/default/current/lib/python3.6/site-packages/iris/fileformats/cf.py:798: UserWarning: Missing CF-netCDF measure variable 'areacella', referenced by netCDF variable 'tasmin'
-      warnings.warn(message % (variable_name, nc_var_name))
-    /opt/scitools/environments/default/current/lib/python3.6/site-packages/iris/fileformats/cf.py:798: UserWarning: Missing CF-netCDF measure variable 'areacella', referenced by netCDF variable 'tasmin'
-      warnings.warn(message % (variable_name, nc_var_name))
-    /opt/scitools/environments/default/current/lib/python3.6/site-packages/iris/fileformats/cf.py:798: UserWarning: Missing CF-netCDF measure variable 'areacella', referenced by netCDF variable 'tasmin'
-      warnings.warn(message % (variable_name, nc_var_name))
-
-
-.. parsed-literal::
-
     
     cube attributes differ:
 
         creation_date, history, and tracking_id attibutes inconsistent
 
     Deleting creation_date, history, and tracking_id attributes from cubes
-
-    
-
-
-.. parsed-literal::
-
-    /opt/scitools/environments/default/current/lib/python3.6/site-packages/iris/fileformats/cf.py:798: UserWarning: Missing CF-netCDF measure variable 'areacella', referenced by netCDF variable 'tasmin'
-      warnings.warn(message % (variable_name, nc_var_name))
-    /opt/scitools/environments/default/current/lib/python3.6/site-packages/iris/fileformats/cf.py:798: UserWarning: Missing CF-netCDF measure variable 'areacella', referenced by netCDF variable 'tasmin'
-      warnings.warn(message % (variable_name, nc_var_name))
 
 
 Here we see some output describing the process it's going through. The
@@ -236,14 +206,6 @@ incompatible:
 
 .. parsed-literal::
 
-    /opt/scitools/environments/default/current/lib/python3.6/site-packages/iris/fileformats/cf.py:798: UserWarning: Missing CF-netCDF measure variable 'areacella', referenced by netCDF variable 'tas'
-      warnings.warn(message % (variable_name, nc_var_name))
-    /opt/scitools/environments/default/current/lib/python3.6/site-packages/iris/fileformats/cf.py:798: UserWarning: Missing CF-netCDF measure variable 'areacella', referenced by netCDF variable 'tas'
-      warnings.warn(message % (variable_name, nc_var_name))
-
-
-.. parsed-literal::
-
     
     cube dim coordinates differ:
 
@@ -298,14 +260,6 @@ And then we try to load it again:
 .. code:: ipython3
 
     cube = ch.load(filenames)
-
-
-.. parsed-literal::
-
-    /opt/scitools/environments/default/current/lib/python3.6/site-packages/iris/fileformats/cf.py:798: UserWarning: Missing CF-netCDF measure variable 'areacella', referenced by netCDF variable 'tas'
-      warnings.warn(message % (variable_name, nc_var_name))
-    /opt/scitools/environments/default/current/lib/python3.6/site-packages/iris/fileformats/cf.py:798: UserWarning: Missing CF-netCDF measure variable 'areacella', referenced by netCDF variable 'tas'
-      warnings.warn(message % (variable_name, nc_var_name))
 
 
 .. parsed-literal::
@@ -380,52 +334,12 @@ This should only be used when it is absolutely necessary.
     cube = ch.load('/path/to/cmip/data/HadGEM3-GC31-LL/piControl/r1i1p1f1/Amon/tasmin/gn/v20190628')
 
 
-.. parsed-literal::
-
-    /opt/scitools/environments/default/current/lib/python3.6/site-packages/iris/fileformats/cf.py:798: UserWarning: Missing CF-netCDF measure variable 'areacella', referenced by netCDF variable 'tasmin'
-      warnings.warn(message % (variable_name, nc_var_name))
-    /opt/scitools/environments/default/current/lib/python3.6/site-packages/iris/fileformats/cf.py:798: UserWarning: Missing CF-netCDF measure variable 'areacella', referenced by netCDF variable 'tasmin'
-      warnings.warn(message % (variable_name, nc_var_name))
-    /opt/scitools/environments/default/current/lib/python3.6/site-packages/iris/fileformats/cf.py:798: UserWarning: Missing CF-netCDF measure variable 'areacella', referenced by netCDF variable 'tasmin'
-      warnings.warn(message % (variable_name, nc_var_name))
-    /opt/scitools/environments/default/current/lib/python3.6/site-packages/iris/fileformats/cf.py:798: UserWarning: Missing CF-netCDF measure variable 'areacella', referenced by netCDF variable 'tasmin'
-      warnings.warn(message % (variable_name, nc_var_name))
-    /opt/scitools/environments/default/current/lib/python3.6/site-packages/iris/fileformats/cf.py:798: UserWarning: Missing CF-netCDF measure variable 'areacella', referenced by netCDF variable 'tasmin'
-      warnings.warn(message % (variable_name, nc_var_name))
-    /opt/scitools/environments/default/current/lib/python3.6/site-packages/iris/fileformats/cf.py:798: UserWarning: Missing CF-netCDF measure variable 'areacella', referenced by netCDF variable 'tasmin'
-      warnings.warn(message % (variable_name, nc_var_name))
-    /opt/scitools/environments/default/current/lib/python3.6/site-packages/iris/fileformats/cf.py:798: UserWarning: Missing CF-netCDF measure variable 'areacella', referenced by netCDF variable 'tasmin'
-      warnings.warn(message % (variable_name, nc_var_name))
-    /opt/scitools/environments/default/current/lib/python3.6/site-packages/iris/fileformats/cf.py:798: UserWarning: Missing CF-netCDF measure variable 'areacella', referenced by netCDF variable 'tasmin'
-      warnings.warn(message % (variable_name, nc_var_name))
-
-
 This can be undone at any time using the ``reset_logger()`` funtion.
 
 .. code:: ipython3
 
     ch.reset_logger()
     cube = ch.load('/path/to/cmip/data/HadGEM3-GC31-LL/piControl/r1i1p1f1/Amon/tasmin/gn/v20190628')
-
-
-.. parsed-literal::
-
-    /opt/scitools/environments/default/current/lib/python3.6/site-packages/iris/fileformats/cf.py:798: UserWarning: Missing CF-netCDF measure variable 'areacella', referenced by netCDF variable 'tasmin'
-      warnings.warn(message % (variable_name, nc_var_name))
-    /opt/scitools/environments/default/current/lib/python3.6/site-packages/iris/fileformats/cf.py:798: UserWarning: Missing CF-netCDF measure variable 'areacella', referenced by netCDF variable 'tasmin'
-      warnings.warn(message % (variable_name, nc_var_name))
-    /opt/scitools/environments/default/current/lib/python3.6/site-packages/iris/fileformats/cf.py:798: UserWarning: Missing CF-netCDF measure variable 'areacella', referenced by netCDF variable 'tasmin'
-      warnings.warn(message % (variable_name, nc_var_name))
-    /opt/scitools/environments/default/current/lib/python3.6/site-packages/iris/fileformats/cf.py:798: UserWarning: Missing CF-netCDF measure variable 'areacella', referenced by netCDF variable 'tasmin'
-      warnings.warn(message % (variable_name, nc_var_name))
-    /opt/scitools/environments/default/current/lib/python3.6/site-packages/iris/fileformats/cf.py:798: UserWarning: Missing CF-netCDF measure variable 'areacella', referenced by netCDF variable 'tasmin'
-      warnings.warn(message % (variable_name, nc_var_name))
-    /opt/scitools/environments/default/current/lib/python3.6/site-packages/iris/fileformats/cf.py:798: UserWarning: Missing CF-netCDF measure variable 'areacella', referenced by netCDF variable 'tasmin'
-      warnings.warn(message % (variable_name, nc_var_name))
-    /opt/scitools/environments/default/current/lib/python3.6/site-packages/iris/fileformats/cf.py:798: UserWarning: Missing CF-netCDF measure variable 'areacella', referenced by netCDF variable 'tasmin'
-      warnings.warn(message % (variable_name, nc_var_name))
-    /opt/scitools/environments/default/current/lib/python3.6/site-packages/iris/fileformats/cf.py:798: UserWarning: Missing CF-netCDF measure variable 'areacella', referenced by netCDF variable 'tasmin'
-      warnings.warn(message % (variable_name, nc_var_name))
 
 
 .. parsed-literal::
