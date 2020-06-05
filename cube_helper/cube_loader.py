@@ -156,11 +156,11 @@ def load_from_dir(directory, filetype, constraint=None):
         loaded_cubes = []
         cube_files = []
         directory = _parse_directory(directory)
-        cube_filepaths = glob.glob(directory + '*' + filetype)
-        if _constraint_compatible(constraint, iris.load_cube(cube_filepaths[0])):
+        cube_paths = glob.glob(directory + '*' + filetype)
+        if _constraint_compatible(constraint, iris.load_cube(cube_paths[0])):
             pass
-            #do something with the constraints
-        for path in cube_filepaths:
+            # do something with the constraints
+        for path in cube_paths:
             try:
                 loaded_cubes.append(iris.load_cube(path, constraint))
                 cube_files.append(path)
