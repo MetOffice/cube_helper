@@ -12,6 +12,14 @@ from six import string_types
 from datetime import datetime
 
 
+def _constraint_compatible(constraint, cube):
+    try:
+        constraint.extract(cube)
+        return True
+    except TypeError:
+        return False
+
+
 def _parse_directory(directory):
     """
     Parses the string representing the directory, makes sure a '/'
@@ -148,7 +156,11 @@ def load_from_dir(directory, filetype, constraint=None):
         loaded_cubes = []
         cube_files = []
         directory = _parse_directory(directory)
-        for path in glob.glob(directory + '*' + filetype):
+        cube_filepaths = glob.glob(directory + '*' + filetype)
+        if _constraint_compatible(constraint, iris.load_cube(cube_filepaths[0])):
+            pass
+            #do something with the constraints
+        for path in cube_filepaths:
             try:
                 loaded_cubes.append(iris.load_cube(path, constraint))
                 cube_files.append(path)
