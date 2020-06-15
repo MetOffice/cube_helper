@@ -11,6 +11,35 @@ from iris.exceptions import MergeError, ConstraintMismatchError
 from six import string_types
 from datetime import datetime
 
+def _fix_partial_datetime(constraint):
+    if isinstance(constraint._coord_values['time'], iris.time.PartialDateTime):
+        part_datetime = constraint._coord_values['time']
+        if part_datetime.year:
+            cell_lambda = lambda cell: \
+                cell.point.year == part_datetime.year
+        if part_datetime.month:
+            cell_lambda = lambda cell: \
+                cell.point.month == part_datetime.month
+        if part_datetime.day:
+            cell_lambda = lambda cell: \
+                cell.point.day == part_datetime.day
+        if part_datetime.hour:
+            cell_lambda = lambda cell: \
+                cell.point.hour == part_datetime.hour
+        if part_datetime.minute:
+            cell_lambda = lambda cell: \
+                cell.point.minute == part_datetime.minute
+        if part_datetime.second:
+            cell_lambda = lambda cell: \
+                cell.point.second == part_datetime.second
+        if part_datetime.microsecond:
+            cell_lambda = lambda cell: \
+                cell.point.microsecond == part_datetime.microsecond
+
+        new_constraint = iris.Constraint(time = cell_lambda)
+        return new_constraint
+
+
 
 def _constraint_compatible(constraint, cube):
     try:
