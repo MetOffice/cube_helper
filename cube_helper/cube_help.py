@@ -8,8 +8,16 @@ from __future__ import (absolute_import, division, print_function)
 import iris
 import iris.coord_categorisation
 from six import string_types
+<<<<<<< HEAD
 from cube_helper.logger import log_module, muffle_logger, reset_logger
 from cube_helper.cube_loader import load_from_filelist, load_from_dir
+=======
+from cube_helper.logger import log_module
+from cube_helper.cube_loader import (load_from_filelist,
+                                     load_from_dir,
+                                     _constraint_compatible,
+                                     _fix_partial_datetime)
+>>>>>>> Add initial functions
 from cube_helper.cube_equaliser import (compare_cubes,
                                         equalise_all,
                                         _examine_dim_bounds)
@@ -385,7 +393,7 @@ def extract_categorical(cube,
 
 def concatenate(cubes):
     """
-    Concatentates a list of Iris Cubes. Equalises the list of cubes first
+    Concatenates a list of Iris Cubes. Equalises the list of cubes first
     then concatenates.
 
     Args:
@@ -399,3 +407,38 @@ def concatenate(cubes):
     cube_list = iris.cube.CubeList(cubes)
     cube = cube_list.concatenate_cube()
     return cube
+
+
+def extract(cube, constraint):
+    """
+    Extracts a constraint on an Iris cube, and will fix common issues
+    associated with time_constraints and partial datetimes.
+
+    Note: This function will not be able to rectify constraints using
+    lambda functions. It is recommended where appropriate the user use
+    the extract bounds function.
+
+    Args:
+        cube: A cube or a CubeList.
+        constraint: A constraint to extract.
+
+    Returns:
+        the cube or CubeList extract along the constraint.
+    """
+    if not _constraint_compatible(cube, constraint):
+        new_constraint = _fix_partial_datetime(constraint)
+        return cube.extract(new_constraint)
+    else:
+        return cube.extract(constraint)
+
+def extract_bounds(cube, upper_bound, lower_bound):
+    """
+    Extracts the cube between two time points on the cube.
+    Note: For now this function only extracts time bounds.
+
+    Args:
+        cube: A cube or CubeList
+    """
+    constraint = iris.Constraint(
+        time=lambda cell: lower_bound >= cell.point <= upper_bound)
+    return extract(cube, constraint)
