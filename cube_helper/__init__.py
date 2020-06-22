@@ -10,7 +10,7 @@ from cube_helper.cube_help import (load,
                                    extract_categorical,
                                    concatenate,
                                    extract,
-                                   extract_boundries)
+                                   extract_bounds)
 from cube_helper.cube_loader import (load_from_dir,
                                      load_from_filelist,
                                      sort_by_earliest_date,

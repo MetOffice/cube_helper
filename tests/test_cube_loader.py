@@ -14,7 +14,9 @@ from cube_helper.cube_loader import (load_from_dir,
                                      _parse_directory,
                                      _sort_by_date,
                                      file_sort_by_earliest_date,
-                                     sort_by_earliest_date)
+                                     sort_by_earliest_date,
+                                     _constraint_compatible,
+                                     _fix_partial_datetime)
 
 
 class TestCubeLoader(unittest.TestCase):
@@ -108,6 +110,25 @@ class TestCubeLoader(unittest.TestCase):
                          "hours since 1980-01-01 00:00:00")
         self.assertEqual(test_load[2].dim_coords[0].units.origin,
                          "hours since 1990-01-01 00:00:00")
+
+    def test_constraint_compatible(self):
+        glob_path = self.tmp_dir_time + '*.nc'
+        filepath = glob(glob_path)[0]
+        test_cube = iris.load_cube(filepath)
+        test_cube_bounds = test_cube.copy()
+        test_cube_bounds.coord('time').guess_bounds()
+        test_constr_point = iris.Constraint(
+            time=lambda cell: cell.point.month==2)
+        test_constr_pdt = iris.Constraint(
+            time=iris.time.PartialDateTime(month=2))
+        self.assertTrue(_constraint_compatible(test_cube,
+                                               test_constr_point))
+        self.assertTrue(_constraint_compatible(test_cube,
+                                               test_constr_pdt))
+        self.assertTrue(_constraint_compatible(test_cube_bounds,
+                                               test_constr_point))
+        self.assertFalse(_constraint_compatible(test_cube_bounds,
+                                                test_constr_pdt))
 
     def tearDown(self):
         super(TestCubeLoader, self).tearDown()

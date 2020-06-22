@@ -42,11 +42,11 @@ def _fix_partial_datetime(constraint):
 
 
 
-def _constraint_compatible(constraint, cube):
+def _constraint_compatible(cube, constraint):
     try:
         constraint.extract(cube)
         return True
-    except TypeError:
+    except Exception:
         return False
 
 
