@@ -39,6 +39,8 @@ def _fix_partial_datetime(constraint):
             raise OSError("Constraint could not be rectified")
         new_constraint = iris.Constraint(time = cell_lambda)
         return new_constraint
+    else:
+        return constraint
 
 
 

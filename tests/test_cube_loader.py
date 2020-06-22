@@ -130,6 +130,23 @@ class TestCubeLoader(unittest.TestCase):
         self.assertFalse(_constraint_compatible(test_cube_bounds,
                                                 test_constr_pdt))
 
+    def test_fix_partial_datetime(self):
+        glob_path = self.tmp_dir_time + '*.nc'
+        filepath = glob(glob_path)[0]
+        test_cube = iris.load_cube(filepath)
+        test_cube_bounds = test_cube.copy()
+        test_cube_bounds.coord('time').guess_bounds()
+        test_constr_point = iris.Constraint(
+            time=lambda cell: cell.point.month == 2)
+        test_constr_pdt = iris.Constraint(
+            time=iris.time.PartialDateTime(month=2))
+        fixed_constr_point = _fix_partial_datetime(test_constr_point)
+        fixed_constr_pdt = _fix_partial_datetime(test_constr_pdt)
+        self.assertNotIsInstance(fixed_constr_pdt._coord_values['time'],
+                                 iris.time.PartialDateTime)
+        self.assertNotIsInstance(fixed_constr_point._coord_values['time'],
+                                 iris.time.PartialDateTime)
+
     def tearDown(self):
         super(TestCubeLoader, self).tearDown()
         if os.path.exists(self.tmp_dir + self.temp_1):
