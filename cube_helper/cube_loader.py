@@ -11,37 +11,43 @@ from iris.exceptions import MergeError, ConstraintMismatchError
 from six import string_types
 from datetime import datetime
 
+
 def _fix_partial_datetime(constraint):
     if isinstance(constraint._coord_values['time'], iris.time.PartialDateTime):
         part_datetime = constraint._coord_values['time']
         if part_datetime.year:
-            cell_lambda = lambda cell: \
-                cell.point.year == part_datetime.year
+            new_constraint = iris.Constraint(
+                time=lambda cell:
+                cell.point.year == part_datetime.year)
         elif part_datetime.month:
-            cell_lambda = lambda cell: \
-                cell.point.month == part_datetime.month
-        elif part_datetime.day:
-            cell_lambda = lambda cell: \
-                cell.point.day == part_datetime.day
-        elif part_datetime.hour:
-            cell_lambda = lambda cell: \
-                cell.point.hour == part_datetime.hour
-        elif part_datetime.minute:
-            cell_lambda = lambda cell: \
-                cell.point.minute == part_datetime.minute
-        elif part_datetime.second:
-            cell_lambda = lambda cell: \
-                cell.point.second == part_datetime.second
-        elif part_datetime.microsecond:
-            cell_lambda = lambda cell: \
-                cell.point.microsecond == part_datetime.microsecond
+            new_constraint = iris.Constraint(
+                time=lambda cell:
+                cell.point.month == part_datetime.month)
+        elif part_datetime.month:
+            new_constraint = iris.Constraint(
+                time=lambda cell:
+                cell.point.day == part_datetime.day)
+        elif part_datetime.month:
+            new_constraint = iris.Constraint(
+                time=lambda cell:
+                cell.point.hour == part_datetime.hour)
+        elif part_datetime.month:
+            new_constraint = iris.Constraint(
+                time=lambda cell:
+                cell.point.minute == part_datetime.minute)
+        elif part_datetime.month:
+            new_constraint = iris.Constraint(
+                time=lambda cell:
+                cell.point.second == part_datetime.second)
+        elif part_datetime.month:
+            new_constraint = iris.Constraint(
+                time=lambda cell:
+                cell.point.microsecond == part_datetime.microsecond)
         else:
             raise OSError("Constraint could not be rectified")
-        new_constraint = iris.Constraint(time = cell_lambda)
         return new_constraint
     else:
         return constraint
-
 
 
 def _constraint_compatible(cube, constraint):

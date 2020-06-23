@@ -118,7 +118,7 @@ class TestCubeLoader(unittest.TestCase):
         test_cube_bounds = test_cube.copy()
         test_cube_bounds.coord('time').guess_bounds()
         test_constr_point = iris.Constraint(
-            time=lambda cell: cell.point.month==2)
+            time=lambda cell: cell.point.month == 2)
         test_constr_pdt = iris.Constraint(
             time=iris.time.PartialDateTime(month=2))
         self.assertTrue(_constraint_compatible(test_cube,

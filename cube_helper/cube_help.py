@@ -431,6 +431,7 @@ def extract(cube, constraint):
     else:
         return cube.extract(constraint)
 
+
 def extract_bounds(cube, upper_bound, lower_bound):
     """
     Extracts the cube between two time points on the cube.
