@@ -8,16 +8,13 @@ from __future__ import (absolute_import, division, print_function)
 import iris
 import iris.coord_categorisation
 from six import string_types
-<<<<<<< HEAD
 from cube_helper.logger import log_module, muffle_logger, reset_logger
 from cube_helper.cube_loader import load_from_filelist, load_from_dir
-=======
 from cube_helper.logger import log_module
 from cube_helper.cube_loader import (load_from_filelist,
                                      load_from_dir,
                                      _constraint_compatible,
                                      _fix_partial_datetime)
->>>>>>> Add initial functions
 from cube_helper.cube_equaliser import (compare_cubes,
                                         equalise_all,
                                         _examine_dim_bounds)
