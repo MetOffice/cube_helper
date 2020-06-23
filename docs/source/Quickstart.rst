@@ -292,7 +292,6 @@ Aggregates and extracts with a given constraint.
    >>> annual_seasonal_mean
    <iris 'Cube' of air_temperature / (K) (time: 639; latitude: 160; longitude: 320)>
 
-<<<<<<< HEAD
 Loading a cube from a list of files
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 To load from a list of fname strings. Useful when combining datasets.
@@ -302,7 +301,7 @@ To load from a list of fname strings. Useful when combining datasets.
    >>> from glob import glob
    >>> fnames = glob('/path/to/cmip/data/output1/ICHEC/EC-EARTH/historical/mon/atmos/Amon/r1i1p1/v20131231/tas/*.nc')
    >>> cube = ch.load(fnames)
-=======
+
 Extacting constraints
 ^^^^^^^^^^^^^^^^^^^^^
 Extracts a constraint from a cube.
@@ -315,5 +314,4 @@ Extracts a constraint from a cube.
    >>> extracted_cube = ch.extract(cube, constraint)
    >>> extracted_cube
    <iris 'Cube' of air_temperature / (K) (time: 146; latitude: 145; longitude: 192)>
->>>>>>> added documentation on Quickstart
 
