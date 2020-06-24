@@ -409,7 +409,7 @@ def concatenate(cubes):
 def extract(cube, constraint):
     """
     Extracts a constraint on an Iris cube, and will fix common issues
-    associated with time_constraints and partial datetimes.
+    associated with time constraints and partial datetimes.
 
     Note: This function will not be able to rectify constraints using
     lambda functions. It is recommended where appropriate the user use
