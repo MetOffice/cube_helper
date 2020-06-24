@@ -196,7 +196,8 @@ def load_from_dir(directory, filetype, constraint=None):
         cube_files = []
         directory = _parse_directory(directory)
         cube_paths = glob.glob(directory + '*' + filetype)
-        if not _constraint_compatible(constraint, iris.load_cube(cube_paths[0])):
+        if not _constraint_compatible(constraint,
+                                      iris.load_cube(cube_paths[0])):
             constraint = _fix_partial_datetime(constraint)
         for path in cube_paths:
             try:
@@ -250,7 +251,8 @@ def load_from_filelist(paths, filetype, constraint=None):
                         cube_files.append(filename)
 
         else:
-            if not _constraint_compatible(constraint, iris.load_cube(paths[0])):
+            if not _constraint_compatible(constraint,
+                                          iris.load_cube(paths[0])):
                 constraint = _fix_partial_datetime(constraint)
             try:
                 loaded_cubes.append(iris.load_cube(filename, constraint))
