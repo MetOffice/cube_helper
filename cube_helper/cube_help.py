@@ -425,21 +425,3 @@ def extract(cube, constraint):
         return cube.extract(new_constraint)
     else:
         return cube.extract(constraint)
-
-
-def extract_bounds(cube, lower_bound, upper_bound):
-    """
-    Extracts the cube between two time points on the cube.
-    Note: For now this function only extracts time bounds.
-
-    Args:
-        cube: A cube or CubeList
-        lower_bound: Lower time bound of period to extract
-        upper_bound: Lower time bound of period to extract
-
-    Returns:
-        the cube or CubeList extract from the specified period
-    """
-    constraint = iris.Constraint(
-        time=lambda cell: lower_bound >= cell.point <= upper_bound)
-    return extract(cube, constraint)
