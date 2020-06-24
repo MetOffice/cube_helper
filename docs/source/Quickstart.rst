@@ -304,7 +304,7 @@ To load from a list of fname strings. Useful when combining datasets.
 
 Extacting constraints
 ^^^^^^^^^^^^^^^^^^^^^
-Extracts a constraint from a cube.
+Extracts a constraint from a cube. Time constraints work irrespective of whether the cube's time coordinate has bounds or not.
 
 .. code-block:: python
 
@@ -314,4 +314,3 @@ Extracts a constraint from a cube.
    >>> extracted_cube = ch.extract(cube, constraint)
    >>> extracted_cube
    <iris 'Cube' of air_temperature / (K) (time: 146; latitude: 145; longitude: 192)>
-

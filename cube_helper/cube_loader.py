@@ -178,8 +178,7 @@ def load_from_dir(directory, filetype, constraint=None):
         loaded_cubes = []
         cube_files = []
         directory = _parse_directory(directory)
-        cube_paths = glob.glob(directory + '*' + filetype)
-        for path in cube_paths:
+        for path in glob.glob(directory + '*' + filetype):
             try:
                 loaded_cubes.append(iris.load_cube(path))
                 cube_files.append(path)
@@ -196,8 +195,9 @@ def load_from_dir(directory, filetype, constraint=None):
         cube_files = []
         directory = _parse_directory(directory)
         cube_paths = glob.glob(directory + '*' + filetype)
-        if not _constraint_compatible(constraint, iris.load_cube(cube_paths[0])):
-            constraint = _fix_partial_datetime(constraint)
+        if _constraint_compatible(constraint, iris.load_cube(cube_paths[0])):
+            pass
+            # do something with the constraints
         for path in cube_paths:
             try:
                 loaded_cubes.append(iris.load_cube(path, constraint))
@@ -212,14 +212,14 @@ def load_from_dir(directory, filetype, constraint=None):
         return loaded_cubes, cube_files
 
 
-def load_from_filelist(paths, filetype, constraint=None):
+def load_from_filelist(data_filelist, filetype, constraint=None):
     """
     Loads the specified files. Individual files are
     returned in a
     CubeList.
 
     Args:
-        paths: a chosen list of filenames to operate on.
+        data_filelist: a chosen list of filenames to operate on.
 
         filetype (optional): a string specifying the expected type
         Of files found in the dataset
@@ -234,11 +234,11 @@ def load_from_filelist(paths, filetype, constraint=None):
     """
     loaded_cubes = []
     cube_files = []
-    for filename in paths:
+    for filename in data_filelist:
         if not filename.endswith(filetype):
-            paths.remove(filename)
+            data_filelist.remove(filename)
 
-    for filename in paths:
+    for filename in data_filelist:
         if constraint is None:
             try:
                 loaded_cubes.append(iris.load_cube(filename))
@@ -250,8 +250,6 @@ def load_from_filelist(paths, filetype, constraint=None):
                         cube_files.append(filename)
 
         else:
-            if not _constraint_compatible(constraint, iris.load_cube(paths[0])):
-                constraint = _fix_partial_datetime(constraint)
             try:
                 loaded_cubes.append(iris.load_cube(filename, constraint))
                 cube_files.append(filename)
