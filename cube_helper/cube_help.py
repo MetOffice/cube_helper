@@ -413,7 +413,7 @@ def extract(cube, constraint):
 
     Note: This function will not be able to rectify constraints using
     lambda functions. It is recommended where appropriate the user use
-    the extract bounds function.
+    the extract_bounds function.
 
     Args:
         cube: A cube or a CubeList.
