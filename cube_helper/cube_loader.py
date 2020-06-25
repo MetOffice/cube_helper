@@ -54,7 +54,7 @@ def _constraint_compatible(constraint, cube):
     try:
         cube.extract(constraint)
         return True
-    except Exception:
+    except (TypeError, ConstraintMismatchError):
         return False
 
 
