@@ -410,8 +410,8 @@ def extract(cube, constraint):
     associated with time constraints and partial datetimes.
 
     Note: This function will not be able to rectify constraints using
-    lambda functions. An extract_bounds function will be added 
-    to a future release of cube_helper to help with more complex 
+    lambda functions. An extract_bounds function will be added
+    to a future release of cube_helper to help with more complex
     time extractions.
 
     Args:
