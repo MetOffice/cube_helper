@@ -139,11 +139,12 @@ class TestCubeLoader(unittest.TestCase):
         test_constr_pdt = iris.Constraint(
             time=iris.time.PartialDateTime(day=22))
         test_constr_full_pdt = iris.Constraint(
-            time=iris.time.PartialDateTime(2014,12,22))
+            time=iris.time.PartialDateTime(2014, 12, 22))
         test_constr_full_point = iris.Constraint(
-            time=lambda cell: cell.point.year == 2014 and
-                              cell.point.month == 12 and
-                              cell.point.day == 22)
+            time=lambda cell:
+            cell.point.year == 2014 and
+            cell.point.month == 12 and
+            cell.point.day == 22)
         fixed_constr_point = _fix_partial_datetime(test_constr_point)
         fixed_constr_pdt = _fix_partial_datetime(test_constr_pdt)
         fixed_constr_full_pdt = _fix_partial_datetime(test_constr_full_pdt)
@@ -156,8 +157,10 @@ class TestCubeLoader(unittest.TestCase):
                                  iris.time.PartialDateTime)
         cube_constr_point = test_cube.extract(fixed_constr_point).coord('time')
         cube_constr_pdt = test_cube.extract(fixed_constr_pdt).coord('time')
-        cube_constr_full_pdt = test_cube.extract(fixed_constr_full_pdt).coord('time')
-        cube_constr_full_point = test_cube.extract(fixed_constr_full_point).coord('time')
+        cube_constr_full_pdt = test_cube.extract(
+            fixed_constr_full_pdt).coord('time')
+        cube_constr_full_point = test_cube.extract(
+            fixed_constr_full_point).coord('time')
         self.assertEqual(cube_constr_point.points[0],
                          cube_constr_pdt.points[0])
         self.assertEqual(cube_constr_point.points[1],

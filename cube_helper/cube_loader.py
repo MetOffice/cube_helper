@@ -12,39 +12,68 @@ from six import string_types
 from datetime import datetime
 
 
+def _check_pdt_year(cell, partial_datetime):
+    if partial_datetime.year:
+        return partial_datetime.year
+    else:
+        return cell.point.year
+
+
+def _check_pdt_month(cell, partial_datetime):
+    if partial_datetime.month:
+        return partial_datetime.month
+    else:
+        return cell.point.month
+
+
+def _check_pdt_day(cell, partial_datetime):
+    if partial_datetime.day:
+        return partial_datetime.day
+    else:
+        return cell.point.day
+
+
+def _check_pdt_hour(cell, partial_datetime):
+    if partial_datetime.hour:
+        return partial_datetime.hour
+    else:
+        return cell.point.hour
+
+
+def _check_pdt_minute(cell, partial_datetime):
+    if partial_datetime.minute:
+        return partial_datetime.minute
+    else:
+        return cell.point.minute
+
+
+def _check_pdt_second(cell, partial_datetime):
+    if partial_datetime.second:
+        return partial_datetime.second
+    else:
+        return cell.point.second
+
+
+def _check_pdt_microsecond(cell, partial_datetime):
+    if partial_datetime.microsecond:
+        return partial_datetime.microsecond
+    else:
+        return cell.point.microsecond
+
+
 def _fix_partial_datetime(constraint):
     if isinstance(constraint._coord_values['time'], iris.time.PartialDateTime):
         part_datetime = constraint._coord_values['time']
-        if part_datetime.year:
-            new_constraint = iris.Constraint(
-                time=lambda cell:
-                cell.point.year == part_datetime.year)
-        elif part_datetime.month:
-            new_constraint = iris.Constraint(
-                time=lambda cell:
-                cell.point.month == part_datetime.month)
-        elif part_datetime.day:
-            new_constraint = iris.Constraint(
-                time=lambda cell:
-                cell.point.day == part_datetime.day)
-        elif part_datetime.hour:
-            new_constraint = iris.Constraint(
-                time=lambda cell:
-                cell.point.hour == part_datetime.hour)
-        elif part_datetime.minute:
-            new_constraint = iris.Constraint(
-                time=lambda cell:
-                cell.point.minute == part_datetime.minute)
-        elif part_datetime.second:
-            new_constraint = iris.Constraint(
-                time=lambda cell:
-                cell.point.second == part_datetime.second)
-        elif part_datetime.microsecond:
-            new_constraint = iris.Constraint(
-                time=lambda cell:
-                cell.point.microsecond == part_datetime.microsecond)
-        else:
-            raise OSError("Constraint could not be rectified")
+        new_constraint = iris.Constraint(
+            time=lambda cell:
+            cell.point.year == _check_pdt_year(cell, part_datetime) and
+            cell.point.month == _check_pdt_month(cell, part_datetime) and
+            cell.point.day == _check_pdt_day(cell, part_datetime) and
+            cell.point.hour == _check_pdt_hour(cell, part_datetime) and
+            cell.point.minute == _check_pdt_minute(cell, part_datetime) and
+            cell.point.second == _check_pdt_second(cell, part_datetime) and
+            cell.point.microsecond ==
+            _check_pdt_microsecond(cell, part_datetime))
         return new_constraint
     else:
         return constraint
