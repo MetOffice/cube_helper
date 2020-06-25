@@ -23,23 +23,23 @@ def _fix_partial_datetime(constraint):
             new_constraint = iris.Constraint(
                 time=lambda cell:
                 cell.point.month == part_datetime.month)
-        elif part_datetime.month:
+        elif part_datetime.day:
             new_constraint = iris.Constraint(
                 time=lambda cell:
                 cell.point.day == part_datetime.day)
-        elif part_datetime.month:
+        elif part_datetime.hour:
             new_constraint = iris.Constraint(
                 time=lambda cell:
                 cell.point.hour == part_datetime.hour)
-        elif part_datetime.month:
+        elif part_datetime.minute:
             new_constraint = iris.Constraint(
                 time=lambda cell:
                 cell.point.minute == part_datetime.minute)
-        elif part_datetime.month:
+        elif part_datetime.second:
             new_constraint = iris.Constraint(
                 time=lambda cell:
                 cell.point.second == part_datetime.second)
-        elif part_datetime.month:
+        elif part_datetime.microsecond:
             new_constraint = iris.Constraint(
                 time=lambda cell:
                 cell.point.microsecond == part_datetime.microsecond)
