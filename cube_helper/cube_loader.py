@@ -50,9 +50,9 @@ def _fix_partial_datetime(constraint):
         return constraint
 
 
-def _constraint_compatible(cube, constraint):
+def _constraint_compatible(constraint, cube):
     try:
-        constraint.extract(cube)
+        cube.extract(constraint)
         return True
     except Exception:
         return False
