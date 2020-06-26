@@ -23,6 +23,8 @@ and set your Python environment to point to your copy, for example:
 `git clone https://github.com/MetOffice/cube_helper.git`  
 `export PYTHONPATH=<path/to/cube_helper>`  
 
+Alternatively, if you already have Iris installed then you can:
+`pip install cube_helper`
 
 ## Contributing  
 If you want to contribute to Cube Helper be sure to review the 

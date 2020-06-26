@@ -1,6 +1,7 @@
 .idea
 __pycache__
 *.pyc
+dist
 docs/build
 tests/test_data
 tests/data
