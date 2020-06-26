@@ -666,6 +666,31 @@ class TestCubeHelp(unittest.TestCase):
         self.assertEqual(test_cube_a.coord('time').points[15],
                          3500.5)
 
+    def test_extract(self):
+        test_cube = common._generate_extended_cube()
+        test_cube_bounds = common._generate_extended_cube()
+        test_cube_bounds.coord('time').guess_bounds()
+        lambda_constraint = iris.Constraint(
+            time=lambda cell: cell.point.month == 2)
+        constraint = iris.Constraint(
+            time=iris.time.PartialDateTime(month=2))
+        extracted_cube = ch.extract(test_cube, constraint)
+        extracted_cube_bounds = ch.extract(test_cube_bounds, constraint)
+        test_cube_coord = test_cube.extract(
+            lambda_constraint).coord('time')
+        extracted_cube_coord = extracted_cube.coord('time')
+        tc_bounds_coord = test_cube_bounds.extract(
+            lambda_constraint).coord('time')
+        ex_cube_bounds_coord = extracted_cube_bounds.coord('time')
+        self.assertEqual(test_cube_coord.points[5],
+                         extracted_cube_coord.points[5])
+        self.assertEqual(test_cube_coord.points[15],
+                         extracted_cube_coord.points[15])
+        self.assertEqual(tc_bounds_coord.points[5],
+                         ex_cube_bounds_coord.points[5])
+        self.assertEqual(tc_bounds_coord.points[15],
+                         ex_cube_bounds_coord.points[15])
+
     def tearDown(self):
         super(TestCubeHelp, self).tearDown()
         if os.path.exists(self.tmp_dir_time + self.temp_1_time):

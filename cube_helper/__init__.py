@@ -8,7 +8,8 @@ from cube_helper.cube_help import (load,
                                    add_categorical,
                                    aggregate_categorical,
                                    extract_categorical,
-                                   concatenate)
+                                   concatenate,
+                                   extract)
 from cube_helper.cube_loader import (load_from_dir,
                                      load_from_filelist,
                                      sort_by_earliest_date,

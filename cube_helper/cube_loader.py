@@ -12,6 +12,81 @@ from six import string_types
 from datetime import datetime
 
 
+def _check_pdt_year(cell, partial_datetime):
+    if partial_datetime.year:
+        return partial_datetime.year
+    else:
+        return cell.point.year
+
+
+def _check_pdt_month(cell, partial_datetime):
+    if partial_datetime.month:
+        return partial_datetime.month
+    else:
+        return cell.point.month
+
+
+def _check_pdt_day(cell, partial_datetime):
+    if partial_datetime.day:
+        return partial_datetime.day
+    else:
+        return cell.point.day
+
+
+def _check_pdt_hour(cell, partial_datetime):
+    if partial_datetime.hour:
+        return partial_datetime.hour
+    else:
+        return cell.point.hour
+
+
+def _check_pdt_minute(cell, partial_datetime):
+    if partial_datetime.minute:
+        return partial_datetime.minute
+    else:
+        return cell.point.minute
+
+
+def _check_pdt_second(cell, partial_datetime):
+    if partial_datetime.second:
+        return partial_datetime.second
+    else:
+        return cell.point.second
+
+
+def _check_pdt_microsecond(cell, partial_datetime):
+    if partial_datetime.microsecond:
+        return partial_datetime.microsecond
+    else:
+        return cell.point.microsecond
+
+
+def _fix_partial_datetime(constraint):
+    if isinstance(constraint._coord_values['time'], iris.time.PartialDateTime):
+        part_datetime = constraint._coord_values['time']
+        new_constraint = iris.Constraint(
+            time=lambda cell:
+            cell.point.year == _check_pdt_year(cell, part_datetime) and
+            cell.point.month == _check_pdt_month(cell, part_datetime) and
+            cell.point.day == _check_pdt_day(cell, part_datetime) and
+            cell.point.hour == _check_pdt_hour(cell, part_datetime) and
+            cell.point.minute == _check_pdt_minute(cell, part_datetime) and
+            cell.point.second == _check_pdt_second(cell, part_datetime) and
+            cell.point.microsecond ==
+            _check_pdt_microsecond(cell, part_datetime))
+        return new_constraint
+    else:
+        return constraint
+
+
+def _constraint_compatible(constraint, cube):
+    try:
+        cube.extract(constraint)
+        return True
+    except (TypeError, ConstraintMismatchError):
+        return False
+
+
 def _parse_directory(directory):
     """
     Parses the string representing the directory, makes sure a '/'
@@ -132,7 +207,8 @@ def load_from_dir(directory, filetype, constraint=None):
         loaded_cubes = []
         cube_files = []
         directory = _parse_directory(directory)
-        for path in glob.glob(directory + '*' + filetype):
+        cube_paths = glob.glob(directory + '*' + filetype)
+        for path in cube_paths:
             try:
                 loaded_cubes.append(iris.load_cube(path))
                 cube_files.append(path)
@@ -148,7 +224,11 @@ def load_from_dir(directory, filetype, constraint=None):
         loaded_cubes = []
         cube_files = []
         directory = _parse_directory(directory)
-        for path in glob.glob(directory + '*' + filetype):
+        cube_paths = glob.glob(directory + '*' + filetype)
+        if not _constraint_compatible(constraint,
+                                      iris.load_cube(cube_paths[0])):
+            constraint = _fix_partial_datetime(constraint)
+        for path in cube_paths:
             try:
                 loaded_cubes.append(iris.load_cube(path, constraint))
                 cube_files.append(path)
@@ -162,14 +242,14 @@ def load_from_dir(directory, filetype, constraint=None):
         return loaded_cubes, cube_files
 
 
-def load_from_filelist(data_filelist, filetype, constraint=None):
+def load_from_filelist(paths, filetype, constraint=None):
     """
     Loads the specified files. Individual files are
     returned in a
     CubeList.
 
     Args:
-        data_filelist: a chosen list of filenames to operate on.
+        paths: a chosen list of filenames to operate on.
 
         filetype (optional): a string specifying the expected type
         Of files found in the dataset
@@ -184,11 +264,11 @@ def load_from_filelist(data_filelist, filetype, constraint=None):
     """
     loaded_cubes = []
     cube_files = []
-    for filename in data_filelist:
+    for filename in paths:
         if not filename.endswith(filetype):
-            data_filelist.remove(filename)
+            paths.remove(filename)
 
-    for filename in data_filelist:
+    for filename in paths:
         if constraint is None:
             try:
                 loaded_cubes.append(iris.load_cube(filename))
@@ -200,6 +280,9 @@ def load_from_filelist(data_filelist, filetype, constraint=None):
                         cube_files.append(filename)
 
         else:
+            if not _constraint_compatible(constraint,
+                                          iris.load_cube(paths[0])):
+                constraint = _fix_partial_datetime(constraint)
             try:
                 loaded_cubes.append(iris.load_cube(filename, constraint))
                 cube_files.append(filename)
