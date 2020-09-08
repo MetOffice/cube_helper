@@ -98,7 +98,7 @@ def _parse_directory(directory):
 
     Returns:
         a string representing the directory, having been parsed if
-        cd docneeded.
+        needed.
     """
     if not directory.endswith('/'):
         directory = directory + '/'
