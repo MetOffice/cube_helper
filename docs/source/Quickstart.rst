@@ -302,8 +302,8 @@ To load from a list of fname strings. Useful when combining datasets.
    >>> fnames = glob('/path/to/cmip/data/output1/ICHEC/EC-EARTH/historical/mon/atmos/Amon/r1i1p1/v20131231/tas/*.nc')
    >>> cube = ch.load(fnames)
 
-Extacting constraints
-^^^^^^^^^^^^^^^^^^^^^
+Extracting constraints
+^^^^^^^^^^^^^^^^^^^^^^
 Extracts a constraint from a cube. Time constraints work irrespective of whether the cube's time coordinate has bounds or not.
 
 .. code-block:: python
@@ -314,3 +314,18 @@ Extracts a constraint from a cube. Time constraints work irrespective of whether
    >>> extracted_cube = ch.extract(cube, constraint)
    >>> extracted_cube
    <iris 'Cube' of air_temperature / (K) (time: 146; latitude: 145; longitude: 192)>
+
+Fixing known issues
+^^^^^^^^^^^^^^^^^^^
+There are some errors in CMIP data that are known about and can be fixed automatically. For details on the errors
+that can currently be fixed please see the :py:func:`cube_helper.fix_known_issues` documentation.
+
+.. code-block:: python
+
+   >>> cube = ch.load('/path/to/data/CMIP6/CMIP/CAS/FGOALS-f3-L/historical/r1i1p1f1/day/psl/gr/v20191019/')
+   >>> cube.coord('latitude').is_contiguous()
+   False
+   >>> ch.fix_known_issues(cube)
+   Applying FixCmip6CasFgoals
+   >>> cube.coord('latitude').is_contiguous()
+   True

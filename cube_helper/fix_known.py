@@ -114,10 +114,10 @@ def fix_known_issues(cube):
 
     The issues currently fixed are:
 
-    mip_era: CMIP6 institution_id: CAS source_id: FGOALS-f3-L
-        remove the latitude and longitude bounds, which are not contiguous and
-        use `iris.coords.Coord.guess_bounds()` to calculate new bounds for
-        these two coordinates.
+    **mip_era** `CMIP6` **institution_id** `CAS` **source_id** `FGOALS-f3-L`
+    remove the latitude and longitude bounds, which are not contiguous, and
+    use `iris.coords.Coord.guess_bounds()` to calculate new bounds for
+    these two coordinates.
 
     Args:
         cube: the iris.cube.Cube to fix
