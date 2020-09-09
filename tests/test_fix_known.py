@@ -25,13 +25,13 @@ class ExampleConcreteClass(
     """
     def __init__(self, cube):
         super(ExampleConcreteClass, self).__init__(cube)
-        self.attributes = {
+        self.cube_attributes_required = {
             'attrib_1': 'a',
             'attrib_2': 'b'
         }
 
     def fix_cube(self):
-        pass
+        super(ExampleConcreteClass, self).fix_cube()
 
 
 class TestIdentifyAttributesFixNeeded(TestCase):

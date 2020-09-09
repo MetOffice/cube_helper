@@ -36,9 +36,11 @@ class FixKnownIssue:
     @abstractmethod
     def fix_cube(self):
         """
-        Apply the fix to the object's cube.
+        Apply the fix to the object's cube and warn about the name of the fix
+        that has been applied.
         """
-        pass
+        log_message = 'Applying {}'.format(self.__class__.__name__)
+        self.logger.info(log_message)
 
 
 @six.add_metaclass(ABCMeta)
@@ -46,7 +48,8 @@ class FixKnownIssueIdentifyAttributes(FixKnownIssue):
     """
     An abstract base class to identify and fix known issues with data loaded
     into an `iris.cube.Cube`. A cube that needs this fix is identified by
-    the attributes key-value pairs being found in `cube.attributes`.
+    the class' `cube_attributes_required` attribute key-value pairs being
+    found in `cube.attributes`.
 
     Args:
         cube: the cube to check, and if necessary fix.
@@ -54,20 +57,21 @@ class FixKnownIssueIdentifyAttributes(FixKnownIssue):
     @abstractmethod
     def __init__(self, cube):
         super(FixKnownIssueIdentifyAttributes, self).__init__(cube)
-        self.attributes = {}
+        self.cube_attributes_required = {}
 
     def is_fix_needed(self):
         """
         Check if this fix applies to the object's cube by checking that all of
-        the key-value pairs in `self.attributes` occur in `cube.attributes`.
+        the key-value pairs in `self.cube_attributes_required` occur in
+        `cube.attributes`.
 
         Returns:
             True if this fix should be applied to the cube that it was
             instantiated with.
         """
-        for key in self.attributes:
+        for key, value in six.iteritems(self.cube_attributes_required):
             if key in self.cube.attributes:
-                if self.cube.attributes[key] != self.attributes[key]:
+                if self.cube.attributes[key] != value:
                     return False
             else:
                 return False
@@ -81,10 +85,13 @@ class FixCmip6CasFgoals(FixKnownIssueIdentifyAttributes):
     source_id: FGOALS-f3-L, which are not contiguous and use
     `iris.coords.Coord.guess_bounds()` to calculate new bounds for these two
     coordinates.
+
+    Args:
+        cube: the cube to check, and if necessary fix.
     """
     def __init__(self, cube):
         super(FixCmip6CasFgoals, self).__init__(cube)
-        self.attributes = {
+        self.cube_attributes_required = {
             'mip_era': 'CMIP6',
             'institution_id': 'CAS',
             'source_id': 'FGOALS-f3-L'
@@ -95,15 +102,15 @@ class FixCmip6CasFgoals(FixKnownIssueIdentifyAttributes):
         Delete the existing faulty bounds on the latitude and longitude
         coordinates and then calculate new bounds.
         """
-        log_message = 'Applying {}'.format(self.__class__.__name__)
-        self.logger.info(log_message)
-
+        super(FixCmip6CasFgoals, self).fix_cube()
         self.cube.coord('latitude').bounds = None
         self.cube.coord('latitude').guess_bounds()
         self.cube.coord('longitude').bounds = None
         self.cube.coord('longitude').guess_bounds()
 
 
+# List all concrete fixes that should be applied. They should also be
+# described in the docstring for `fix_known_issues()`
 ALL_FIXES = [FixCmip6CasFgoals]
 
 
