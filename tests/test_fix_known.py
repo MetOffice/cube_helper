@@ -8,12 +8,12 @@ if sys.version_info >= (3, 3):
     from unittest import mock
 else:
     import mock
-from unittest import TestCase
+from unittest import TestCase              # noqa: E402
 
-from iris.tests.stock import realistic_3d
-import numpy as np
+from iris.tests.stock import realistic_3d  # noqa: E402
+import numpy as np                         # noqa: E402
 
-import cube_helper as ch
+import cube_helper as ch                   # noqa: E402
 
 
 class ExampleConcreteClass(
@@ -126,12 +126,11 @@ class TestFixKnownIssue(TestCase):
             coord = cube.coord(coord_name)
             self.assertTrue(coord.is_contiguous())
 
-    def test_normal_is_not_contiguous(self):
+    def test_normal_cube_is_unchanged(self):
         cube = realistic_3d()
+        reference_cube = realistic_3d()
         ch.fix_known_issues(cube)
-        for coord_name in ['grid_latitude', 'grid_longitude']:
-            coord = cube.coord(coord_name)
-            self.assertFalse(coord.is_contiguous())
+        self.assertEqual(cube, reference_cube)
 
 
 def _make_fgoals_cube():
