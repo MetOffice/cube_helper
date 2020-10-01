@@ -83,10 +83,14 @@ class FixKnownIssueIdentifyAttributes(FixKnownIssue):
 
 class FixCmip6CasFgoals(FixKnownIssueIdentifyAttributes):
     """
-    Fix the latitude and longitude bounds in mip_era: CMIP6 institution_id: CAS
-    source_id: FGOALS-f3-L, which are not contiguous and use
-    `iris.coords.Coord.guess_bounds()` to calculate new bounds for these two
-    coordinates.
+    Fix the latitude and longitude bounds in
+
+    * mip_era: CMIP6
+    * institution_id: CAS
+    * source_id: FGOALS-f3-L
+
+    that are not contiguous and use `iris.coords.Coord.guess_bounds()` to
+    calculate new bounds for these two coordinates.
 
     Args:
         cube: the cube to check, and if necessary fix.
@@ -113,13 +117,18 @@ class FixCmip6CasFgoals(FixKnownIssueIdentifyAttributes):
 
 class FixCmip6FioqlnmFioesm20Historical(FixKnownIssueIdentifyAttributes):
     """
-    Fix the latitude and longitude bounds in mip_era: CMIP6 institution_id:
-    FIO-QLNM source_id: FIO-ESM-2-0 experiment: historical, which are different
-    to other FIO-ESM-2-0 experiments and are not monotonic, preventing latitude
-    from being a dimension coordinate. `iris.coords.Coord.guess_bounds()`
-    calculates bounds for these two coordinates that are identical to the
-    bounds in other experiments and allow latitude to be promoted to a
-    dimension coordinate.
+    Fix the latitude and longitude bounds in
+
+    * mip_era: CMIP6
+    * institution_id: FIO-QLNM
+    * source_id: FIO-ESM-2-0
+    * experiment: historical
+
+    which are different to other FIO-ESM-2-0 experiments and are not monotonic,
+    preventing latitude from being a dimension coordinate.
+    `iris.coords.Coord.guess_bounds()` calculates bounds for these two
+    coordinates that are identical to the bounds in other experiments and allow
+    latitude to be promoted to a dimension coordinate.
 
     Args:
         cube: the cube to check, and if necessary fix.
