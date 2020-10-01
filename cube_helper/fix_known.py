@@ -23,6 +23,7 @@ class FixKnownIssue:
     def __init__(self, cube):
         self.cube = cube
         self.logger = log_module()
+        self.message = ''
 
     @abstractmethod
     def is_fix_needed(self):
@@ -41,7 +42,8 @@ class FixKnownIssue:
         Apply the fix to the object's cube and warn about the name of the fix
         that has been applied.
         """
-        log_message = 'Applying {}'.format(self.__class__.__name__)
+        log_message = 'Applying {}. {}'.format(self.__class__.__name__,
+                                               self.message)
         self.logger.info(log_message)
 
 
@@ -105,6 +107,7 @@ class FixCmip6CasFgoals(FixKnownIssueIdentifyAttributes):
             'institution_id': 'CAS',
             'source_id': 'FGOALS-f3-L'
         }
+        self.message = 'Fixing latitude and longitude bounds.'
 
     def fix_cube(self):
         """
@@ -144,6 +147,8 @@ class FixCmip6FioqlnmFioesm20Historical(FixKnownIssueIdentifyAttributes):
             'source_id': 'FIO-ESM-2-0',
             'experiment_id': 'historical'
         }
+        self.message = ('Fixing latitude and longitude bounds and promoting '
+                        'latitude to a dimension coordinate.')
 
     def fix_cube(self):
         """

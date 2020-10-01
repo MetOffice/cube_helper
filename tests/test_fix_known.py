@@ -30,6 +30,7 @@ class ExampleConcreteClass(
             'attrib_1': 'a',
             'attrib_2': 'b'
         }
+        self.message = 'Message.'
 
     def fix_cube(self):
         super(ExampleConcreteClass, self).fix_cube()
@@ -91,7 +92,8 @@ class TestFixCmip6CasFgoals(TestCase):
     def test_log_message(self):
         fix = ch.fix_known.FixCmip6CasFgoals(self.cube)
         fix.fix_cube()
-        fix.logger.info.assert_called_with('Applying FixCmip6CasFgoals')
+        fix.logger.info.assert_called_with('Applying FixCmip6CasFgoals. Fixing'
+                                           ' latitude and longitude bounds.')
 
     def test_constructed_cube_not_contiguous(self):
         """Check that the constructed test cube coords are not contiguous"""
@@ -144,7 +146,10 @@ class TestFixCmip6FioqlnmFioesm20Historical(TestCase):
         fix = ch.fix_known.FixCmip6FioqlnmFioesm20Historical(self.cube)
         fix.fix_cube()
         fix.logger.info.assert_called_with('Applying FixCmip6FioqlnmFioesm20'
-                                           'Historical')
+                                           'Historical. Fixing latitude and '
+                                           'longitude bounds and promoting '
+                                           'latitude to a dimension '
+                                           'coordinate.')
 
     def test_constructed_cube_not_monotonic(self):
         """Check that the constructed test cube latitude is not monotonic"""
@@ -184,7 +189,9 @@ class TestFixKnownIssue(TestCase):
     def test_fgoals_message(self):
         cube = _make_fgoals_cube()
         ch.fix_known_issues(cube)
-        self.mock_logger.info.assert_called_with('Applying FixCmip6CasFgoals')
+        self.mock_logger.info.assert_called_with('Applying FixCmip6CasFgoals. '
+                                                 'Fixing latitude and '
+                                                 'longitude bounds.')
 
     def test_no_fix_required_message(self):
         cube = realistic_3d()
