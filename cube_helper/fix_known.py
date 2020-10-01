@@ -39,7 +39,7 @@ class FixKnownIssue:
     @abstractmethod
     def fix_cube(self):
         """
-        Apply the fix to the object's cube and warn about the name of the fix
+        Apply the fix to the object's cube and inform about the name of the fix
         that has been applied.
         """
         log_message = 'Applying {}. {}'.format(self.__class__.__name__,
