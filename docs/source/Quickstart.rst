@@ -326,6 +326,6 @@ that can currently be fixed please see the :py:func:`cube_helper.fix_known_issue
    >>> cube.coord('latitude').is_contiguous()
    False
    >>> ch.fix_known_issues(cube)
-   Applying FixCmip6CasFgoals
+   Applying FixCmip6CasFgoals. Fixing latitude and longitude bounds.
    >>> cube.coord('latitude').is_contiguous()
    True
