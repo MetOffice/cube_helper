@@ -183,7 +183,7 @@ def fix_known_issues(cube):
     Args:
         cube: the iris.cube.Cube to fix
     """
-    for klass in ALL_FIXES:
-        fix = klass(cube)
+    for fixer in ALL_FIXES:
+        fix = fixer(cube)
         if fix.is_fix_needed():
             fix.fix_cube()
