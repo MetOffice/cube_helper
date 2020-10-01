@@ -71,14 +71,17 @@ class FixKnownIssueIdentifyAttributes(FixKnownIssue):
             True if this fix should be applied to the cube that it was
             instantiated with.
         """
+        test_result = True
         for key, value in six.iteritems(self.cube_attributes_required):
             if key in self.cube.attributes:
                 if self.cube.attributes[key] != value:
-                    return False
+                    test_result = False
+                    break
             else:
-                return False
+                test_result = False
+                break
         # Haven't found anything that doesn't match
-        return True
+        return test_result
 
 
 class FixCmip6CasFgoals(FixKnownIssueIdentifyAttributes):
