@@ -172,7 +172,8 @@ class FixCmip6FioqlnmFioesm20Latitude(FixKnownIssueIdentifyAttributes):
     def fix_cube(self):
         """
         Delete the existing faulty bounds on the latitude and longitude
-        coordinates and then calculate new bounds.
+        coordinates, calculate new bounds and promote latitude to be a
+        dimension coordinate.
         """
         super(FixCmip6FioqlnmFioesm20Latitude, self).fix_cube()
         self.cube.coord('latitude').bounds = None
