@@ -82,7 +82,7 @@ class FixKnownIssueIdentifyAttributes(FixKnownIssue):
             else:
                 test_result = False
                 break
-        # Haven't found anything that doesn't match
+
         return test_result
 
 
@@ -121,41 +121,60 @@ class FixCmip6CasFgoals(FixKnownIssueIdentifyAttributes):
         self.cube.coord('longitude').guess_bounds()
 
 
-class FixCmip6FioqlnmFioesm20Historical(FixKnownIssueIdentifyAttributes):
+class FixCmip6FioqlnmFioesm20Latitude(FixKnownIssueIdentifyAttributes):
     """
     Fix the latitude and longitude bounds in
 
     * mip_era: CMIP6
     * institution_id: FIO-QLNM
     * source_id: FIO-ESM-2-0
-    * experiment: historical
+    * latitude is an auxiliary coordinate
 
-    which are different to other FIO-ESM-2-0 experiments and are not monotonic,
-    preventing latitude from being a dimension coordinate.
-    `iris.coords.Coord.guess_bounds()` calculates bounds for these two
-    coordinates that are identical to the bounds in other experiments and allow
-    latitude to be promoted to a dimension coordinate.
+    which are different to other FIO-ESM-2-0 experiments and have the wrong
+    bounds along with a latitude that is not monotonic, preventing latitude
+    from being a dimension coordinate. `iris.coords.Coord.guess_bounds()`
+    calculates bounds for these two coordinates that are identical to the
+    bounds in other experiments,  which also allows latitude to be promoted to
+    a dimension coordinate.
 
     Args:
         cube: the cube to check, and if necessary fix.
     """
     def __init__(self, cube):
-        super(FixCmip6FioqlnmFioesm20Historical, self).__init__(cube)
+        super(FixCmip6FioqlnmFioesm20Latitude, self).__init__(cube)
         self.cube_attributes_required = {
             'mip_era': 'CMIP6',
             'institution_id': 'FIO-QLNM',
             'source_id': 'FIO-ESM-2-0',
-            'experiment_id': 'historical'
         }
         self.message = ('Fixing latitude and longitude bounds and promoting '
                         'latitude to a dimension coordinate.')
+
+    def is_fix_needed(self):
+        """
+        Check if this fix applies to the object's cube by checking that all of
+        the key-value pairs in `self.cube_attributes_required` occur in
+        `cube.attributes` and that latitude is an auxiliary coordinate.
+
+        Returns:
+            True if this fix should be applied to the cube that it was
+            instantiated with.
+        """
+        attributes_check = super(FixCmip6FioqlnmFioesm20Latitude,
+                                 self).is_fix_needed()
+
+        aux_coord_names = [aux_coord.name()
+                           for aux_coord in self.cube.aux_coords]
+        aux_coord_check = 'latitude' in aux_coord_names
+
+        return attributes_check and aux_coord_check
 
     def fix_cube(self):
         """
         Delete the existing faulty bounds on the latitude and longitude
         coordinates and then calculate new bounds.
         """
-        super(FixCmip6FioqlnmFioesm20Historical, self).fix_cube()
+        super(FixCmip6FioqlnmFioesm20Latitude, self).fix_cube()
         self.cube.coord('latitude').bounds = None
         self.cube.coord('latitude').guess_bounds()
         self.cube.coord('longitude').bounds = None
@@ -165,7 +184,7 @@ class FixCmip6FioqlnmFioesm20Historical(FixKnownIssueIdentifyAttributes):
 
 # List all concrete fixes that should be applied. They should also be
 # described in the docstring for `fix_known_issues()`
-ALL_FIXES = [FixCmip6CasFgoals, FixCmip6FioqlnmFioesm20Historical]
+ALL_FIXES = [FixCmip6CasFgoals, FixCmip6FioqlnmFioesm20Latitude]
 
 
 def fix_known_issues(cube):
@@ -175,15 +194,15 @@ def fix_known_issues(cube):
 
     The issues currently fixed are:
 
-    **mip_era** `CMIP6` **institution_id** `CAS` **source_id** `FGOALS-f3-L`
-    remove the latitude and longitude bounds, which are not contiguous, and
-    use `iris.coords.Coord.guess_bounds()` to calculate new bounds for
-    these two coordinates.
+    **FixCmip6CasFgoals** *mip_era* `CMIP6` *institution_id* `CAS` *source_id*
+    `FGOALS-f3-L`: remove the latitude and longitude bounds, which are not
+    contiguous, and use `iris.coords.Coord.guess_bounds()` to calculate new
+    bounds for these two coordinates.
 
-    **mip_era** `CMIP6` **institution_id** `FIO-QLNM` **source_id**
-    `FIO-ESM-2-0` **experiment** `historical`
-    remove the latitude and longitude bounds, which are not monotonic, and
-    use `iris.coords.Coord.guess_bounds()` to calculate new bounds for
+    **FixCmip6FioqlnmFioesm20Latitude** *mip_era* `CMIP6` *institution_id*
+    `FIO-QLNM` *source_id* `FIO-ESM-2-0` *and* `latitude is an auxiliary
+    coordinate`: remove the latitude and longitude bounds, which are invalid,
+    and use `iris.coords.Coord.guess_bounds()` to calculate new bounds for
     these two coordinates, which are identical to the bounds in other
     `FIO-ESM-2-0` experiments. latitude is then promoted to a dimension
     coordinate.

@@ -109,44 +109,50 @@ class TestFixCmip6CasFgoals(TestCase):
             self.assertTrue(coord.is_contiguous())
 
 
-class TestFixCmip6FioqlnmFioesm20Historical(TestCase):
-    """Test cube_helper.fix_known.FixCmip6FioqlnmFioesm20Historical"""
+class TestFixCmip6FioqlnmFioesm20Latitude(TestCase):
+    """Test cube_helper.fix_known.FixCmip6FioqlnmFioesm20Latitude"""
     def setUp(self):
-        self.cube = _make_fioesm20_historical_cube()
+        self.cube = _make_fioesm20_cube()
 
         patch = mock.patch('cube_helper.fix_known.log_module')
         self.mock_logger = patch.start()
         self.addCleanup(patch.stop)
 
     def test_is_fix_needed(self):
-        fix = ch.fix_known.FixCmip6FioqlnmFioesm20Historical(self.cube)
+        fix = ch.fix_known.FixCmip6FioqlnmFioesm20Latitude(self.cube)
         self.assertTrue(fix.is_fix_needed())
 
     def test_is_fix_needed_fails_mip_era(self):
         self.cube.attributes['mip_era'] = 'ABCD'
-        fix = ch.fix_known.FixCmip6FioqlnmFioesm20Historical(self.cube)
+        fix = ch.fix_known.FixCmip6FioqlnmFioesm20Latitude(self.cube)
         self.assertFalse(fix.is_fix_needed())
 
     def test_is_fix_needed_fails_institution_id(self):
         del self.cube.attributes['institution_id']
-        fix = ch.fix_known.FixCmip6FioqlnmFioesm20Historical(self.cube)
+        fix = ch.fix_known.FixCmip6FioqlnmFioesm20Latitude(self.cube)
         self.assertFalse(fix.is_fix_needed())
 
     def test_is_fix_needed_fails_source_id(self):
         self.cube.attributes['source_id'] = '1234'
-        fix = ch.fix_known.FixCmip6FioqlnmFioesm20Historical(self.cube)
+        fix = ch.fix_known.FixCmip6FioqlnmFioesm20Latitude(self.cube)
         self.assertFalse(fix.is_fix_needed())
 
-    def test_is_fix_needed_fails_experiment_id(self):
-        self.cube.attributes['experiment_id'] = '1234'
-        fix = ch.fix_known.FixCmip6FioqlnmFioesm20Historical(self.cube)
+    def test_is_fix_needed_fails_latitude(self):
+        cube = realistic_3d()
+        cube.attributes['mip_era'] = 'CMIP6'
+        cube.attributes['institution_id'] = 'FIO-QLNM'
+        cube.attributes['source_id'] = 'FIO-ESM-2-0'
+        for coord_name in ['latitude', 'longitude']:
+            coord = cube.coord('grid_' + coord_name)
+            coord.standard_name = coord_name
+        fix = ch.fix_known.FixCmip6FioqlnmFioesm20Latitude(cube)
         self.assertFalse(fix.is_fix_needed())
 
     def test_log_message(self):
-        fix = ch.fix_known.FixCmip6FioqlnmFioesm20Historical(self.cube)
+        fix = ch.fix_known.FixCmip6FioqlnmFioesm20Latitude(self.cube)
         fix.fix_cube()
         fix.logger.info.assert_called_with('Applying FixCmip6FioqlnmFioesm20'
-                                           'Historical. Fixing latitude and '
+                                           'Latitude. Fixing latitude and '
                                            'longitude bounds and promoting '
                                            'latitude to a dimension '
                                            'coordinate.')
@@ -162,14 +168,14 @@ class TestFixCmip6FioqlnmFioesm20Historical(TestCase):
         expected_names = ['time', 'longitude']
         self.assertEqual(dim_coord_names, expected_names)
 
-    def test_bounds_monotonic(self):
-        fix = ch.fix_known.FixCmip6FioqlnmFioesm20Historical(self.cube)
+    def test_latitude_bounds_monotonic(self):
+        fix = ch.fix_known.FixCmip6FioqlnmFioesm20Latitude(self.cube)
         fix.fix_cube()
         coord = self.cube.coord('latitude')
         self.assertTrue(coord.is_monotonic())
 
     def test_dim_coords(self):
-        fix = ch.fix_known.FixCmip6FioqlnmFioesm20Historical(self.cube)
+        fix = ch.fix_known.FixCmip6FioqlnmFioesm20Latitude(self.cube)
         fix.fix_cube()
         dim_coords_names = [dim_coord.standard_name
                             for dim_coord in self.cube.dim_coords]
@@ -236,7 +242,7 @@ def _make_fgoals_cube():
     return cube
 
 
-def _make_fioesm20_historical_cube():
+def _make_fioesm20_cube():
     """
     Use an Iris test cube and modify the metadata and bounds to make it look
     like a CMIP6.CMIP.FIO-QLNM.FIO-ESM-2-0.historical cube, which has a
@@ -251,7 +257,6 @@ def _make_fioesm20_historical_cube():
     cube.attributes['mip_era'] = 'CMIP6'
     cube.attributes['institution_id'] = 'FIO-QLNM'
     cube.attributes['source_id'] = 'FIO-ESM-2-0'
-    cube.attributes['experiment_id'] = 'historical'
     for coord_name in ['latitude', 'longitude']:
         coord = cube.coord('grid_' + coord_name)
         coord.standard_name = coord_name
