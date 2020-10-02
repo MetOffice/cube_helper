@@ -28,6 +28,7 @@ def load(directory, filetype='.nc', constraints=None):
         or glob object of individual Cubes.
 
         filetype: Extension of Iris Cubes to Load. set to '.nc' by default.
+
         constraints: Any constraints to be applied to Cubes on load.
 
     Returns:
@@ -311,7 +312,7 @@ def aggregate_categorical(cube, categorical,
         the categorisation you wish to add. Additionally a compound
         categorisation can be added. E.g 'annual_seasonal_mean'.
 
-        coords: The coordinate you wish to add a categoisation to. Set
+        coord: The coordinate you wish to add a categorisation to. Set
         to 'time' by default.
 
         season: The season you need for the categorisation (where required).
@@ -416,6 +417,7 @@ def extract(cube, constraint):
 
     Args:
         cube: A cube or a CubeList.
+
         constraint: A constraint to extract.
 
     Returns:
