@@ -110,6 +110,7 @@ def equalise_data_type(cubes, data_type='float32'):
 
     Args:
         cubes: Cubes to have their datatypes equalised.
+
         data_type: String specifying datatype, default is float32.
 
 
@@ -385,6 +386,7 @@ def examine_dim_bounds(cubes, cube_files):
 
     Args:
          cubes: Iris cubes to examine the time bounds of
+
          cube_files: the respective files of cubes, to give users
          info as to what cubes are causing problems with concatentation.
 

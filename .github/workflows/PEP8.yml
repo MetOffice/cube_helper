@@ -1,5 +1,5 @@
 name: PEP8
-on: push
+on: [pull_request, push]
 jobs:
   autopep8:
     runs-on: ubuntu-latest
