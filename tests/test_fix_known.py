@@ -168,6 +168,11 @@ class TestFixCmip6FioqlnmFioesm20Latitude(TestCase):
         expected_names = ['time', 'longitude']
         self.assertEqual(dim_coord_names, expected_names)
 
+    def test_constructed_cube_no_longitude_bounds(self):
+        """Check that the constructed test cube has no longitude bounds"""
+        coord = self.cube.coord('longitude')
+        self.assertFalse(coord.has_bounds())
+
     def test_latitude_bounds_monotonic(self):
         fix = ch.fix_known.FixCmip6FioqlnmFioesm20Latitude(self.cube)
         fix.fix_cube()
@@ -181,6 +186,12 @@ class TestFixCmip6FioqlnmFioesm20Latitude(TestCase):
                             for dim_coord in self.cube.dim_coords]
         expected_names = ['time', 'latitude', 'longitude']
         self.assertEqual(dim_coords_names, expected_names)
+
+    def test_longitude_bounds(self):
+        fix = ch.fix_known.FixCmip6FioqlnmFioesm20Latitude(self.cube)
+        fix.fix_cube()
+        coord = self.cube.coord('longitude')
+        self.assertTrue(coord.has_bounds())
 
 
 class TestFixKnownIssue(TestCase):
