@@ -12,6 +12,20 @@ To load a cube from a directory of netCDF files:
    >>> import cube_helper as ch
    >>> cube = ch.load('/path/to/cmip/data/HadGEM3-GC31-LL/piControl/r1i1p1f1/Amon/tasmin/gn/v20190628')
 
+To load a cube from files that are matched by a pattern:
+
+.. code-block:: python
+
+   >>> import glob
+   >>> filenames = glob.glob('/path/to/cmip/data/tasmin*.nc')
+   >>> cube = ch.load(filenames)
+
+To load a cube from a single file (or files) then include the full path of each required file in a list:
+
+.. code-block:: python
+
+   >>> cube = ch.load(['/path/to/cmip/data/tasmin_Amon_HadGEM3-GC31-LL_piControl_r1i1p1f1_gn_185001-194912.nc'])
+
 Loading a cube with constraints
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 .. code-block:: python

@@ -1,7 +1,10 @@
 Cube Helper documentation
 =======================================
 
-``cube_helper`` is a software package designed to help users concatenate, equalise, and compare large datasets of Iris cubes. It provides a degree of abstraction from meta-data and coordinate information that prevents concatenation of cubes.
+``cube_helper`` is a software package designed to help users concatenate, equalise,
+and compare large datasets of `Iris <https://scitools-iris.readthedocs.io/>`_ cubes.
+It provides a degree of abstraction from meta-data and coordinate information
+that prevents concatenation of cubes.
 
 Guide
 ^^^^^

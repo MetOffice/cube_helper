@@ -3,9 +3,9 @@
 ![Tests](https://github.com/MetOffice/cube_helper/workflows/Tests/badge.svg) ![PEP8](https://github.com/MetOffice/cube_helper/workflows/PEP8/badge.svg) ![Licence](https://img.shields.io/github/license/MetOffice/cube_helper) [![Documentation Status](https://readthedocs.org/projects/cube-helper/badge/?version=latest)](https://cube-helper.readthedocs.io/en/latest/?badge=latest)
 
 Cube Helper is a package to make equalisation, concatenation, and analysis of 
-[iris](https://scitools.org.uk/iris/docs/latest/)
+[Iris](https://scitools-iris.readthedocs.io/)
 cubes easier. It is written with reasearchers in mind and provides a good degree of
-abstraction from many `iris` functions and methods.
+abstraction from many Iris. functions and methods.
  
 The package is written entirely in Python, and provides a number of reusable methods.
 

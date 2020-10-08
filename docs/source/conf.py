@@ -16,17 +16,18 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath('../..'))
 
+import cube_helper as ch                        # noqa: E402
 
 # -- Project information -----------------------------------------------------
 
 project = 'Cube Helper'
 copyright = '2020, Met Office'
-author = 'James Bedwell'
+author = 'Met Office'
 
 # The short X.Y version
-version = ''
+version = '.'.join(ch.__version__.split('.')[:2])
 # The full version, including alpha/beta/rc tags
-release = '2.0.5'
+release = ch.__version__
 
 
 # -- General configuration ---------------------------------------------------
@@ -130,7 +131,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'CubeHelper.tex', 'Cube Helper Documentation',
-     'James Bedwell', 'manual'),
+     'Met Office', 'manual'),
 ]
 
 
@@ -151,8 +152,9 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
     (master_doc, 'CubeHelper', 'Cube Helper Documentation',
-     author, 'CubeHelper', 'One line description of project.',
-     'Miscellaneous'),
+     author, 'CubeHelper', 'Cube Helper is a package to make equalisation, '
+                           'concatenation, and analysis of Iris cubes easier.',
+     'Iris'),
 ]
 
 
