@@ -3,7 +3,7 @@ License
 
 BSD 3-Clause License
 
-Copyright (c) 2019, Met Office
+Copyright (c) 2020, Met Office
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without

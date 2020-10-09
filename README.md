@@ -1,6 +1,12 @@
 ## Cube Helper
 
-![Tests](https://github.com/MetOffice/cube_helper/workflows/Tests/badge.svg) ![PEP8](https://github.com/MetOffice/cube_helper/workflows/PEP8/badge.svg) ![Licence](https://img.shields.io/github/license/MetOffice/cube_helper) [![Documentation Status](https://readthedocs.org/projects/cube-helper/badge/?version=latest)](https://cube-helper.readthedocs.io/en/latest/?badge=latest)
+![Tests](https://github.com/MetOffice/cube_helper/workflows/Tests/badge.svg) 
+![PEP8](https://github.com/MetOffice/cube_helper/workflows/PEP8/badge.svg) 
+[![Documentation Status](https://readthedocs.org/projects/cube-helper/badge/?version=latest)](https://cube-helper.readthedocs.io/en/latest/?badge=latest) 
+![Licence](https://img.shields.io/github/license/MetOffice/cube_helper) 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4073150.svg)](https://doi.org/10.5281/zenodo.4073150)
+
+
 
 Cube Helper is a package to make equalisation, concatenation, and analysis of 
 [Iris](https://scitools-iris.readthedocs.io/)
@@ -26,9 +32,10 @@ cube_helper is already installed at several sites. Please see their internal doc
 To install your own copy, then cube_helper is available via PyPI and conda-forge:
 
 `pip install cube-helper`
+
 `conda install -c conda-forge cube_helper`
 
-Alternatively, make sure all the requirements are installed, then clone the repository
+Alternatively, make sure that all of the requirements are installed, then clone the repository
 and set your Python environment to point to your copy, for example:  
 `git clone https://github.com/MetOffice/cube_helper.git`  
 `export PYTHONPATH=<path/to/cube_helper>`  

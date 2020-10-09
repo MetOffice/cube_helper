@@ -16,6 +16,7 @@ Guide
    Quickstart
    Cube Helper Tutorial
    Cube Helper Module
+   Installing
    license
    contributing
 
