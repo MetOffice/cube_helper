@@ -5,10 +5,13 @@
 Cube Helper is a package to make equalisation, concatenation, and analysis of 
 [Iris](https://scitools-iris.readthedocs.io/)
 cubes easier. It is written with reasearchers in mind and provides a good degree of
-abstraction from many Iris. functions and methods.
+abstraction from many Iris functions and methods.
  
-The package is written entirely in Python, and provides a number of reusable methods.
+The package is written entirely in Python and provides a number of reusable methods.
 
+## Documentation
+
+cube_helper's documentation is available from https://cube-helper.readthedocs.io/
  
 ## Requirements
 Please ensure you have the following dependencies installed:  
@@ -16,15 +19,19 @@ Please ensure you have the following dependencies installed:
 `iris`  
 `numpy`
 
+## Installing
 
-## Usage
-To get started make sure all the requirements are installed, then clone the repository
+cube_helper is already installed at several sites. Please see their internal documentation for details of how to access it there. 
+
+To install your own copy, then cube_helper is available via PyPI and conda-forge:
+
+`pip install cube-helper`
+`conda install -c conda-forge cube_helper`
+
+Alternatively, make sure all the requirements are installed, then clone the repository
 and set your Python environment to point to your copy, for example:  
 `git clone https://github.com/MetOffice/cube_helper.git`  
 `export PYTHONPATH=<path/to/cube_helper>`  
-
-Alternatively, if you already have Iris installed then you can:
-`pip install cube_helper`
 
 ## Contributing  
 If you want to contribute to Cube Helper be sure to review the 
@@ -32,4 +39,3 @@ If you want to contribute to Cube Helper be sure to review the
 
 ## License
 [BSD-3 License](https://github.com/MetOffice/cube_helper/blob/master/LICENSE)
-
