@@ -1,6 +1,12 @@
 ## Cube Helper
 
-![Tests](https://github.com/MetOffice/cube_helper/workflows/Tests/badge.svg) ![PEP8](https://github.com/MetOffice/cube_helper/workflows/PEP8/badge.svg) ![Licence](https://img.shields.io/github/license/MetOffice/cube_helper) [![Documentation Status](https://readthedocs.org/projects/cube-helper/badge/?version=latest)](https://cube-helper.readthedocs.io/en/latest/?badge=latest)
+![Tests](https://github.com/MetOffice/cube_helper/workflows/Tests/badge.svg) 
+![PEP8](https://github.com/MetOffice/cube_helper/workflows/PEP8/badge.svg) 
+[![Documentation Status](https://readthedocs.org/projects/cube-helper/badge/?version=latest)](https://cube-helper.readthedocs.io/en/latest/?badge=latest) 
+![Licence](https://img.shields.io/github/license/MetOffice/cube_helper) 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4073150.svg)](https://doi.org/10.5281/zenodo.4073150)
+
+
 
 Cube Helper is a package to make equalisation, concatenation, and analysis of 
 [Iris](https://scitools-iris.readthedocs.io/)
