@@ -5,6 +5,7 @@
 # See LICENSE in the root of the repository for full licensing details.
 
 import os
+import re
 import iris
 import glob
 from iris.exceptions import MergeError, ConstraintMismatchError
@@ -181,6 +182,62 @@ def sort_by_earliest_date(cube):
         if time_coord.units.is_time_reference():
             time_origin = _sort_by_date(time_coord)
             return time_origin
+
+
+def latest_version(filenames):
+    """
+    Filter a list of file paths in a DRS directory structure to only include
+    the latest version of each unique filename. It is assumed that the version
+    is in the form `vYYYYMMDD`.
+
+    The operation does not happen in-place and the original list is not
+    affected. The order of filenames in the output list may not be the same as
+    the order in the input list.
+
+    Apart from the filename and version all other parts of the DRS directory
+    structure are ignored and it's assumed that these other parts are
+    identical; the behaviour if there are any differences (for example two
+    institutions ran the same model with the same variant label) is not
+    defined.
+
+    Args:
+        filenames: A list of file path strings.
+
+    Returns:
+        A list of filenames containing only the latest version of each file.
+    """
+    unique_basenames = list(set([os.path.basename(filename) for filename in filenames]))
+    if len(filenames) > len(unique_basenames):
+        filtered = []
+        for unique_basename in unique_basenames:
+            filtered.append(
+                sorted(
+                    filter(lambda filename: unique_basename in filename, filenames),
+                    key=_get_drs_version_string
+                )[-1]
+            )
+        return_list = filtered
+    else:
+        return_list = filenames
+    return return_list
+
+
+def _get_drs_version_string(filepath):
+    """
+    Return the first DRS version string of the form vYYYYMMDD in the supplied
+    string.
+
+    Args:
+        filepath: The string to search
+
+    Returns:
+        The version string if found or else None.
+    """
+    cmpts = re.search(r'(v\d{8})', filepath)
+    if cmpts:
+        return cmpts.group(0)
+    else:
+        return None
 
 
 def load_from_dir(directory, filetype, constraint=None):

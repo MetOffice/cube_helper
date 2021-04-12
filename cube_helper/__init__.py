@@ -11,7 +11,8 @@ from cube_helper.cube_help import (load,
                                    extract_categorical,
                                    concatenate,
                                    extract)
-from cube_helper.cube_loader import (load_from_dir,
+from cube_helper.cube_loader import (latest_version,
+                                     load_from_dir,
                                      load_from_filelist,
                                      sort_by_earliest_date,
                                      file_sort_by_earliest_date)
