@@ -343,3 +343,14 @@ that can currently be fixed please see the :py:func:`cube_helper.fix_known_issue
    Applying FixCmip6CasFgoals. Fixing latitude and longitude bounds.
    >>> cube.coord('latitude').is_contiguous()
    True
+
+Loading latest version
+^^^^^^^^^^^^^^^^^^^^^^
+There can be multiple versions of a variable in the DRS directory structure. To just load the latest
+version then the :py:func:`cube_helper.latest_version` function can be used.
+
+.. code-block:: python
+
+   >>> filelist = glob.glob(path + "/Amon/tas/g*/v20??????/tas*nc")
+   >>> cube = ch.load(ch.latest_version(filelist))
+
