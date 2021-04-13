@@ -7,7 +7,10 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [2.7, 3.6, 3.7, 3.8]
+# Latest Iris release doesn't support Python 3.8
+# TODO enable support for Python 3.8 when Iris supports it
+#        python-version: [2.7, 3.6, 3.7, 3.8]
+        python-version: [2.7, 3.6, 3.7]
 
     steps:
     - uses: actions/checkout@v2
@@ -26,7 +29,7 @@ jobs:
         conda config --add channels conda-forge
         conda config --set channel_priority strict
         conda update -q conda
-        conda create -q -n test_environment python=${{ matrix.python-version }} iris cftime=1.0.4
+        conda create -q -n test_environment python=${{ matrix.python-version }} iris cftime=1.0.4 requests
         source activate test_environment
         conda install pytest
         conda install filelock

@@ -3,14 +3,16 @@
 # This file is part of cube_helper and is released under the
 # BSD 3-Clause license.
 # See LICENSE in the root of the repository for full licensing details.
+import copy
 import unittest
 import os
 import iris
 from iris.tests import stock
 import cf_units
-from datetime import datetime
 from glob import glob
-from cube_helper.cube_loader import (load_from_dir,
+from cube_helper.cube_loader import (latest_version,
+                                     _get_drs_version_string,
+                                     load_from_dir,
                                      load_from_filelist,
                                      _parse_directory,
                                      _sort_by_date,
@@ -63,7 +65,6 @@ class TestCubeLoader(unittest.TestCase):
                     self.tmp_dir + self.temp_1]
         test_load, test_names = load_from_filelist(filelist,
                                                    '.nc')
-        print(test_names)
         self.assertIsInstance(test_load, list)
         self.assertIsInstance(test_names, list)
         for cube in test_load:
@@ -186,6 +187,96 @@ class TestCubeLoader(unittest.TestCase):
             os.remove(self.tmp_dir_time + self.temp_3_time)
         os.removedirs(self.tmp_dir)
         os.removedirs(self.tmp_dir_time)
+
+
+class TestLatestVersion(unittest.TestCase):
+    """Test ch.latest_version()"""
+    def setUp(self):
+        # Display full diffs in event of failure
+        self.maxDiff = None
+
+    def test_one_var(self):
+        input = [
+            "/some/dir/CMIP6/CMIP/MOHC/HadGEM3-GC31-LL/amip/r1i1p1f3/Amon/hus/"
+            "gn/v20190617/hus_Amon_HadGEM3-GC31-LL_amip_r1i1p1f3_gn_197901-201412.nc",
+            "/some/dir/CMIP6/CMIP/MOHC/HadGEM3-GC31-LL/amip/r1i1p1f3/Amon/hus/"
+            "gn/v20210401/hus_Amon_HadGEM3-GC31-LL_amip_r1i1p1f3_gn_197901-201412.nc",
+        ]
+        actual = latest_version(input)
+        expected = [
+            "/some/dir/CMIP6/CMIP/MOHC/HadGEM3-GC31-LL/amip/r1i1p1f3/Amon/hus/"
+            "gn/v20210401/hus_Amon_HadGEM3-GC31-LL_amip_r1i1p1f3_gn_197901-201412.nc",
+        ]
+        self.assertEqual(expected, actual)
+
+    def test_one_var_three_versions(self):
+        input = [
+            "/some/dir/CMIP6/CMIP/MOHC/HadGEM3-GC31-LL/amip/r1i1p1f3/Amon/hus/"
+            "gn/v20190617/hus_Amon_HadGEM3-GC31-LL_amip_r1i1p1f3_gn_197901-201412.nc",
+            "/some/dir/CMIP6/CMIP/MOHC/HadGEM3-GC31-LL/amip/r1i1p1f3/Amon/hus/"
+            "gn/v20210401/hus_Amon_HadGEM3-GC31-LL_amip_r1i1p1f3_gn_197901-201412.nc",
+            "/some/dir/CMIP6/CMIP/MOHC/HadGEM3-GC31-LL/amip/r1i1p1f3/Amon/hus/"
+            "gn/v18500401/hus_Amon_HadGEM3-GC31-LL_amip_r1i1p1f3_gn_197901-201412.nc",
+        ]
+        actual = latest_version(input)
+        expected = [
+            "/some/dir/CMIP6/CMIP/MOHC/HadGEM3-GC31-LL/amip/r1i1p1f3/Amon/hus/"
+            "gn/v20210401/hus_Amon_HadGEM3-GC31-LL_amip_r1i1p1f3_gn_197901-201412.nc",
+        ]
+        self.assertEqual(expected, actual)
+
+    def test_two_vars(self):
+        input = [
+            "/some/dir/CMIP6/CMIP/MOHC/HadGEM3-GC31-LL/amip/r1i1p1f3/Amon/hus/"
+            "gn/v20190617/hus_Amon_HadGEM3-GC31-LL_amip_r1i1p1f3_gn_197901-201412.nc",
+            "/some/dir/CMIP6/CMIP/MOHC/HadGEM3-GC31-LL/amip/r1i1p1f3/Amon/hus/"
+            "gn/v20210401/hus_Amon_HadGEM3-GC31-LL_amip_r1i1p1f3_gn_197901-201412.nc",
+            "/some/dir/CMIP6/CMIP/MOHC/HadGEM3-GC31-LL/amip/r1i1p1f3/Amon/rlut/"
+            "gn/v20210401/rlut_Amon_HadGEM3-GC31-LL_amip_r1i1p1f3_gn_197901-201412.nc",
+        ]
+        actual = latest_version(input)
+        expected = [
+            "/some/dir/CMIP6/CMIP/MOHC/HadGEM3-GC31-LL/amip/r1i1p1f3/Amon/hus/"
+            "gn/v20210401/hus_Amon_HadGEM3-GC31-LL_amip_r1i1p1f3_gn_197901-201412.nc",
+            "/some/dir/CMIP6/CMIP/MOHC/HadGEM3-GC31-LL/amip/r1i1p1f3/Amon/rlut/"
+            "gn/v20210401/rlut_Amon_HadGEM3-GC31-LL_amip_r1i1p1f3_gn_197901-201412.nc",
+        ]
+        self.assertEqual(sorted(expected), sorted(actual))
+
+    def test_input_unchanged(self):
+        input = [
+            "/some/dir/CMIP6/CMIP/MOHC/HadGEM3-GC31-LL/amip/r1i1p1f3/Amon/hus/"
+            "gn/v20190617/hus_Amon_HadGEM3-GC31-LL_amip_r1i1p1f3_gn_197901-201412.nc",
+            "/some/dir/CMIP6/CMIP/MOHC/HadGEM3-GC31-LL/amip/r1i1p1f3/Amon/hus/"
+            "gn/v20210401/hus_Amon_HadGEM3-GC31-LL_amip_r1i1p1f3_gn_197901-201412.nc",
+        ]
+        original = copy.deepcopy(input)
+        _actual = latest_version(input)
+        self.assertEqual(original, input)
+
+
+class TestGetDrsVersionString(unittest.TestCase):
+    """Test cube_helper.cube_loader._get_drs_version_string()"""
+    def test_normal_path(self):
+        self.assertEqual(
+            'v20320229',
+            _get_drs_version_string('/some/path/CMIP8/var/v20320229/var.nc')
+        )
+
+    def test_get_version_on_own(self):
+        self.assertEqual('v20320229', _get_drs_version_string('v20320229'))
+
+    def test_first_of_two_versions(self):
+        self.assertEqual('v20320229',
+                         _get_drs_version_string('v20320229v20360229'))
+
+    def test_bad_version(self):
+        self.assertIsNone(
+            _get_drs_version_string('/some/path/CMIP8/var/Z20320229/var.nc')
+        )
+
+    def test_blank_path(self):
+        self.assertIsNone(_get_drs_version_string(''))
 
 
 if __name__ == '__main__':
