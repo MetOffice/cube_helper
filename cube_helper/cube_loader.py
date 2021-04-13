@@ -204,7 +204,8 @@ def latest_version(filenames):
         filenames: A list of file path strings.
 
     Returns:
-        A list of filenames containing only the latest version of each file.
+        A list of file path strings containing only the latest version of each
+        file.
     """
     unique_basenames = list(set([os.path.basename(filename) for filename in filenames]))
     if len(filenames) > len(unique_basenames):
