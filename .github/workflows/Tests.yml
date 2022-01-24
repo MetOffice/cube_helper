@@ -48,6 +48,6 @@ jobs:
       if: matrix.iris-version >= 3.0
     - name: Activate environment and run tests
       run: |
-        source activate test_environment
+        conda activate test_environment
         export PYTHONPATH=.
         pytest -vv
