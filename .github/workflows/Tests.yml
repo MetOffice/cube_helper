@@ -8,19 +8,19 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.6", "3.7", "3.9"]
-        iris-version: ["3.0.1", "3.1"]
+        python-version: [3.6, 3.7, 3.9]
+        iris-version: [3.0.1, 3.1]
         include:
           # Extra Iris 2.4 test for just Python 3.6
-          - python-version: "3.6"
-            iris-version: "2.4"
+          - python-version: 3.6
+            iris-version: 2.4
         exclude:
-          - python-version: "3.9"
-            iris-version: "3.0.1"
-          - python-version: "3.7"
-            iris-version: "3.0.1"
-          - python-version: "3.6"
-            iris-version: "3.1"
+          - python-version: 3.9
+            iris-version: 3.0.1
+          - python-version: 3.7
+            iris-version: 3.0.1
+          - python-version: 3.6
+            iris-version: 3.1
 
     steps:
     - uses: actions/checkout@v2
@@ -31,11 +31,11 @@ jobs:
     - name: Install Iris 2.4
       run: |
         $CONDA/bin/conda install -c conda-forge python=${{ matrix.python-version }} iris=${{ matrix.iris-version }} cftime=1.0.4 requests mock pytest filelock dask
-      if: matrix.iris-version == "2.4"
+      if: matrix.iris-version <= 2.5
     - name: Install Iris 3
       run: |
         $CONDA/bin/conda install -c conda-forge python=${{ matrix.python-version }} iris=${{ matrix.iris-version }} cftime requests mock pytest filelock
-      if: matrix.iris-version != "2.4"
+      if: matrix.iris-version > 2.5
     - name: Activate environment and run tests
       run: |
         export PYTHONPATH=.
