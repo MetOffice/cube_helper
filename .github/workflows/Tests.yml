@@ -32,10 +32,14 @@ jobs:
       run: |
         $CONDA/bin/conda install -c conda-forge python=${{ matrix.python-version }} iris=${{ matrix.iris-version }} cftime=1.0.4 requests mock pytest filelock dask
       if: matrix.iris-version == '2.4'
-    - name: Install Iris 3
+    - name: Install Iris 3.0.1
+      run: |
+        $CONDA/bin/conda install -c conda-forge python=${{ matrix.python-version }} iris=${{ matrix.iris-version }} cftime=1.2.1 requests mock pytest filelock dask
+      if: matrix.iris-version == '3.0.1'
+    - name: Install Iris 3.1
       run: |
         $CONDA/bin/conda install -c conda-forge python=${{ matrix.python-version }} iris=${{ matrix.iris-version }} cftime requests mock pytest filelock
-      if: matrix.iris-version != '2.4'
+      if: matrix.iris-version == '3.1'
     - name: Activate environment and run tests
       run: |
         export PYTHONPATH=.
