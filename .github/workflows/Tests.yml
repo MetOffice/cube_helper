@@ -11,9 +11,13 @@ jobs:
         iris-version: [2.4, 3.0.1, 3.1]
         exclude:
           - python-version: 3.9
-            iris-version: [2.4, 3.0.1]
+            iris-version: 2.4
+          - python-version: 3.9
+            iris-version: 3.0.1
           - python-version: 3.7
-            iris-version: [2.4, 3.0.1]
+            iris-version: 2.4
+          - python-version: 3.7
+            iris-version: 3.0.1
           - python-version: 3.6
             iris-version: 3.1
 
@@ -26,7 +30,7 @@ jobs:
     - name: Install iris and run tests
       run: |
         python -m pip install --upgrade pip
-        wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+        wget -q https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
         bash miniconda.sh -b -p $HOME/miniconda
         export PATH="$HOME/miniconda/bin:$PATH"
         hash -r
@@ -34,10 +38,7 @@ jobs:
         conda config --add channels conda-forge
         conda config --set channel_priority strict
         conda update -q conda
-        conda create -q -n test_environment python=${{ matrix.python-version }} iris cftime requests
+        conda create -q -n test_environment python=${{ matrix.python-version }} iris cftime requests mock pytest filelock dask
         source activate test_environment
-        conda install pytest
-        conda install filelock
-        conda install mock
         export PYTHONPATH=.
         pytest -vv
