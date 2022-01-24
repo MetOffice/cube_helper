@@ -6,16 +6,17 @@ jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         python-version: [3.6, 3.7, 3.9]
-        iris-version: [2.4, 3.0.1, 3.1]
+        iris-version: [3.0.1, 3.1]
+        include:
+          # Extra Iris 2.4 test for just Python 3.6
+          - python-version: 3.6
+            iris-version: 2.4
         exclude:
           - python-version: 3.9
-            iris-version: 2.4
-          - python-version: 3.9
             iris-version: 3.0.1
-          - python-version: 3.7
-            iris-version: 2.4
           - python-version: 3.7
             iris-version: 3.0.1
           - python-version: 3.6
@@ -27,9 +28,8 @@ jobs:
       uses: actions/setup-python@v1
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Install iris and run tests
+    - name: Install Conda
       run: |
-        python -m pip install --upgrade pip
         wget -q https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
         bash miniconda.sh -b -p $HOME/miniconda
         export PATH="$HOME/miniconda/bin:$PATH"
@@ -38,7 +38,16 @@ jobs:
         conda config --add channels conda-forge
         conda config --set channel_priority strict
         conda update -q conda
-        conda create -q -n test_environment python=${{ matrix.python-version }} iris cftime requests mock pytest filelock dask
+    - name: Install Iris 2.4
+      run: |
+        conda create -q -n test_environment python=${{ matrix.python-version }} iris cftime=1.0.4 requests mock pytest filelock dask
+     if: matrix.iris-version == 2.4
+    - name: Install Iris 3
+      run: |
+        conda create -q -n test_environment python=${{ matrix.python-version }} iris cftime requests mock pytest filelock
+     if: matrix.iris-version >= 3.0
+    - name: Activate environment and run tests
+      run: |
         source activate test_environment
         export PYTHONPATH=.
         pytest -vv
