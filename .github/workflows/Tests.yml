@@ -41,11 +41,11 @@ jobs:
     - name: Install Iris 2.4
       run: |
         conda create -q -n test_environment python=${{ matrix.python-version }} iris cftime=1.0.4 requests mock pytest filelock dask
-     if: matrix.iris-version == 2.4
+      if: matrix.iris-version == 2.4
     - name: Install Iris 3
       run: |
         conda create -q -n test_environment python=${{ matrix.python-version }} iris cftime requests mock pytest filelock
-     if: matrix.iris-version >= 3.0
+      if: matrix.iris-version >= 3.0
     - name: Activate environment and run tests
       run: |
         source activate test_environment
