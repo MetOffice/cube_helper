@@ -28,26 +28,21 @@ jobs:
       uses: actions/setup-python@v1
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Install Conda
+    - name: Configure Conda
       run: |
-        wget -q https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
-        bash miniconda.sh -b -p $HOME/miniconda
-        export PATH="$HOME/miniconda/bin:$PATH"
-        hash -r
-        conda config --set always_yes yes --set changeps1 no
-        conda config --add channels conda-forge
-        conda config --set channel_priority strict
-        conda update -q conda
+        $CONDA/bin/conda config --set always_yes yes --set changeps1 no
+        $CONDA/bin/conda config --add channels conda-forge
+        $CONDA/bin/conda config --set channel_priority strict
+        $CONDA/bin/conda update -q conda
     - name: Install Iris 2.4
       run: |
-        conda create -q -n test_environment python=${{ matrix.python-version }} iris cftime=1.0.4 requests mock pytest filelock dask
-      if: matrix.iris-version == 2.4
+        $CONDA/bin/conda install python=${{ matrix.python-version }} iris cftime=1.0.4 requests mock pytest filelock dask
+      if: matrix.iris-version < 2.5
     - name: Install Iris 3
       run: |
-        conda create -q -n test_environment python=${{ matrix.python-version }} iris cftime requests mock pytest filelock
-      if: matrix.iris-version >= 3.0
+        $CONDA/bin/conda install python=${{ matrix.python-version }} iris cftime requests mock pytest filelock
+      if: matrix.iris-version > 2.4
     - name: Activate environment and run tests
       run: |
-        conda activate test_environment
         export PYTHONPATH=.
-        pytest -vv
+        $CONDA/bin/pytest -vv
