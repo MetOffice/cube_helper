@@ -5,11 +5,15 @@
 # See LICENSE in the root of the repository for full licensing details.
 
 import os
-import iris
 import glob
-from iris.exceptions import MergeError, ConstraintMismatchError
-from six import string_types
+import iris
 from datetime import datetime
+
+import iris
+import iris.cube
+from iris.exceptions import MergeError, ConstraintMismatchError
+import iris.time
+from six import string_types
 
 
 def _check_pdt_year(cell, partial_datetime):

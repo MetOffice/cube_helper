@@ -3,7 +3,7 @@
 # This file is part of cube_helper and is released under the
 # BSD 3-Clause license.
 # See LICENSE in the root of the repository for full licensing details.
-__version__ = '2.1.1'
+__version__ = '2.2.0'
 
 from cube_helper.cube_help import (load,
                                    add_categorical,

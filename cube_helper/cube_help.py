@@ -6,7 +6,10 @@
 # See LICENSE in the root of the repository for full licensing details.
 from __future__ import (absolute_import, division, print_function)
 import iris
+import iris.analysis
 import iris.coord_categorisation
+import iris.cube
+import iris.exceptions
 from six import string_types
 from cube_helper.logger import log_module, muffle_logger, reset_logger
 from cube_helper.cube_loader import (load_from_filelist,

@@ -5,12 +5,12 @@
 # See LICENSE in the root of the repository for full licensing details.
 
 from __future__ import (absolute_import, division, print_function)
-import sys
 import numpy as np
-from iris.util import unify_time_units
 from collections import namedtuple
 from itertools import combinations
 from cube_helper.logger import log_module, log_inconsistent, log_coord_remove
+
+from iris.util import unify_time_units
 
 
 def equalise_attributes(cubes, comp_only=False):
