@@ -1,6 +1,11 @@
-from cube_helper.logger import log_module, log_inconsistent,\
-    _to_comma_and_str, muffle_logger, reset_logger
-from common import _redirect_stdout, _redirect_stderr
+# (C) Crown Copyright, Met Office. All rights reserved.
+#
+# This file is part of cube_helper and is released under the
+# BSD 3-Clause license.
+# See LICENSE in the root of the repository for full licensing details.
+from cube_helper.logger import (log_module, _to_comma_and_str, muffle_logger,
+                                reset_logger)
+from common import _redirect_stdout
 import unittest
 import sys
 import platform

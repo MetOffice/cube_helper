@@ -6,7 +6,6 @@
 
 import os
 import glob
-import iris
 from datetime import datetime
 
 import iris
@@ -121,8 +120,7 @@ def _parse_directory(directory):
 def _sort_by_date(time_coord):
     """
     Private sorting function used by _file
-    _sort_by_earliest_date() and sort_by_earl
-    iest_date().
+    _sort_by_earliest_date() and sort_by_earliest_date().
 
     Args:
         time_coord: Cube time coordinate for each cube
@@ -200,7 +198,7 @@ def load_from_dir(directory, filetype, constraint=None):
         filetype (optional): a string specifying the expected type
         Of files found in the dataset.
 
-        constraints (optional): a string specifying any constraints
+        constraint (optional): a string specifying any constraints
         You wish to load the dataset with.
 
     Returns:
@@ -258,7 +256,7 @@ def load_from_filelist(paths, filetype, constraint=None):
         filetype (optional): a string specifying the expected type
         Of files found in the dataset
 
-        constraints (optional): a string, iterable of strings or an
+        constraint (optional): a string, iterable of strings or an
         iris.Constraint specifying any constraints you wish to load
         the dataset with.
 

@@ -11,7 +11,7 @@ import iris.coord_categorisation
 import iris.cube
 import iris.exceptions
 from six import string_types
-from cube_helper.logger import log_module, muffle_logger, reset_logger
+from cube_helper.logger import log_module
 from cube_helper.cube_loader import (load_from_filelist,
                                      load_from_dir,
                                      _constraint_compatible,
@@ -266,7 +266,7 @@ def add_categorical(cubes, categorical, coord='time', season='djf',
         the categorisation you wish to add. Additionally a compound
         categorisation can be added. E.g 'annual_seasonal_mean'.
 
-        coords: The coordinate you wish to add a categorisation to. Set
+        coord: The coordinate you wish to add a categorisation to. Set
         to 'time' by default.
 
         season: The season you need for the categorisation (where required).
@@ -306,10 +306,10 @@ def aggregate_categorical(cube, categorical,
     """
     Adds a coordinate categorisation(s) to the iterable of Iris Cubes, then
     aggregates them by the given categoricals. Categoricals used are the
-    same as the ones suppourted by add_categorical().
+    same as the ones supported by add_categorical().
 
     Args:
-        cubes: A cube, a list of loaded Cubes or a CubeList.
+        cube: A cube, a list of loaded Cubes or a CubeList.
 
         categorical: A string or list of strings specifying
         the categorisation you wish to add. Additionally a compound
@@ -323,7 +323,7 @@ def aggregate_categorical(cube, categorical,
 
         seasons: The seasons required for categorisation.
 
-        agg_method: An Iris aggregator object, e.g ``iris.analysis.MEAN``,
+        agg_method: An Iris aggregator object, e.g ``iris.analysis.MEAN``
 
     Returns:
         cubes: A cube, a list of loaded Cubes, or an Iris CubeList
@@ -351,13 +351,13 @@ def extract_categorical(cube,
                         agg_method=iris.analysis.MEAN):
     """
     Adds a coordinate categorical, aggregates by said categorical,
-    then extracts the given contraint. The categoricals used are the
-    then extracts the given contraint. Categoricals used are the
-    same as the ones suppourted by add_categorical() and
+    then extracts the given constraint. The categoricals used are the
+    then extracts the given constraint. Categoricals used are the
+    same as the ones supported by add_categorical() and
     aggregate_categorical().
 
     Args:
-        cubes: A cube, a list of Loaded Cubes or a CubeList.
+        cube: A cube, a list of Loaded Cubes or a CubeList.
 
         categorical: A string or list of strings specifying
         the categorisation you wish to add. Additionally a compound
@@ -365,13 +365,15 @@ def extract_categorical(cube,
 
         constraint: An Iris constraint you wish to extract.
 
-        coords: The coordinate you wish to add a categoisation to. Set
+        coord: The coordinate you wish to add a categorisation to. Set
         to 'time' by default.
 
         season: The season you need for the categorisation (where required).
         set to 'djf' by default.
 
         seasons: The seasons required for categorisation.
+
+        agg_method: An Iris aggregator object, e.g ``iris.analysis.MEAN``.
 
     Returns:
         cubes: A cube, a list of loaded Cubes, or an Iris CubeList
