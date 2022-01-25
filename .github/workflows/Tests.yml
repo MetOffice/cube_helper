@@ -35,7 +35,7 @@ jobs:
     - name: Install Iris 3.0.1
       # Pin all relevant versions to match common community installations
       run: |
-        $CONDA/bin/conda install -c conda-forge python=3.6.6 iris=${{ matrix.iris-version }} cf_units=2.1.3 cftime=1.2.1 netCDF4=1.4.2 libnetcdf=4.6.1 numpy=1.19.2 udunits=2.2.27.6 requests mock pytest filelock dask
+        $CONDA/bin/conda install -c conda-forge python=3.6.6 iris=${{ matrix.iris-version }} cf-units=2.1.3 cftime=1.2.1 netCDF4=1.4.2 libnetcdf=4.6.1 numpy=1.19.2 udunits2=2.2.27.6 requests mock pytest filelock dask
       if: matrix.iris-version == '3.0.1'
     - name: Install Iris 3.1
       run: |
