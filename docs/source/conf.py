@@ -21,7 +21,7 @@ import cube_helper as ch                        # noqa: E402
 # -- Project information -----------------------------------------------------
 
 project = 'Cube Helper'
-copyright = '2020, Met Office'
+copyright = '2022, Met Office'
 author = 'Met Office'
 
 # The short X.Y version
