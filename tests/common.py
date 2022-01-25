@@ -7,6 +7,7 @@ import sys
 import cf_units
 import iris
 import iris.coords as icoords
+import iris.cube
 from iris.coord_systems import GeogCS, RotatedGeogCS
 import numpy as np
 import contextlib

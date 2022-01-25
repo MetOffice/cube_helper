@@ -11,7 +11,9 @@ else:
 from unittest import TestCase              # noqa: E402
 
 import iris                                # noqa: E402
+import iris.coords                         # noqa: E402
 from iris.tests.stock import realistic_3d  # noqa: E402
+import iris.util                           # noqa: E402
 import numpy as np                         # noqa: E402
 
 import cube_helper as ch                   # noqa: E402
@@ -236,7 +238,7 @@ def _make_fgoals_cube():
     contiguous.
 
     Returns:
-        An `Iris.cube.Cube` object that looks like a cube loaded from file
+        An `iris.cube.Cube` object that looks like a cube loaded from file
         for the CMIP6.CAS.FGOALS-f3-L model.
     """
     cube = realistic_3d()
@@ -261,7 +263,7 @@ def _make_fioesm20_cube():
     than a dimension coordinate.
 
     Returns:
-        An `Iris.cube.Cube` object that looks like a cube loaded from file
+        An `iris.cube.Cube` object that looks like a cube loaded from file
         for the CMIP6.CMIP.FIO-QLNM.FIO-ESM-2-0.historical experiment.
     """
     cube = realistic_3d()

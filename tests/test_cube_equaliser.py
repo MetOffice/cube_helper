@@ -10,6 +10,7 @@ import cf_units
 from glob import glob
 import os
 import iris
+import iris.coords
 from iris.tests import stock
 import platform
 if float(platform.python_version()[0:3]) <= 2.7:

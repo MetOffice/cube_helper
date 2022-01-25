@@ -7,6 +7,8 @@
 import unittest
 from iris.tests import stock
 import iris
+import iris.cube
+import iris.time
 import cube_helper as ch
 from glob import glob
 import os

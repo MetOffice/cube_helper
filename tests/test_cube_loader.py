@@ -3,13 +3,14 @@
 # This file is part of cube_helper and is released under the
 # BSD 3-Clause license.
 # See LICENSE in the root of the repository for full licensing details.
-import unittest
-import os
-import iris
-from iris.tests import stock
-import cf_units
-from datetime import datetime
 from glob import glob
+import os
+import unittest
+import iris
+import iris.cube
+from iris.tests import stock
+import iris.time
+import cf_units
 from cube_helper.cube_loader import (load_from_dir,
                                      load_from_filelist,
                                      _parse_directory,

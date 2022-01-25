@@ -5,12 +5,12 @@
 # See LICENSE in the root of the repository for full licensing details.
 
 from __future__ import (absolute_import, division, print_function)
-import sys
 import numpy as np
-from iris.util import unify_time_units
 from collections import namedtuple
 from itertools import combinations
 from cube_helper.logger import log_module, log_inconsistent, log_coord_remove
+
+from iris.util import unify_time_units
 
 
 def equalise_attributes(cubes, comp_only=False):
@@ -57,7 +57,7 @@ def equalise_attributes(cubes, comp_only=False):
                     pass
         log_coord_remove(list(uncommon_keys), 'attributes')
     else:
-        log_inconsistent(list(uncommon_keys), 'attibutes')
+        log_inconsistent(list(uncommon_keys), 'attributes')
     return cubes
 
 
@@ -205,7 +205,7 @@ def equalise_dim_coords(cubes, comp_only=False):
 
 def equalise_aux_coords(cubes, comp_only=False):
     """
-    Equalises auxillary coordinates of cubes.
+    Equalises auxiliary coordinates of cubes.
 
     Args:
         cubes: CubeList or list of Cubes to equalise.
@@ -215,7 +215,7 @@ def equalise_aux_coords(cubes, comp_only=False):
         but not equalise them.
 
     Returns:
-        Cubes equalised across auxillary coordinates.
+        Cubes equalised across auxiliary coordinates.
     """
     logger = log_module()
     inconsistencies = set({})
@@ -298,7 +298,7 @@ def compare_cubes(cubes):
 
     Args:
         cubes: An iterable of iris Cubes or CubeList to be compared
-        for inconsostencies.
+        for inconsistencies.
 
     Returns:
         A printed string detailing the inconsistencies in the cubes.
@@ -388,7 +388,7 @@ def examine_dim_bounds(cubes, cube_files):
          cubes: Iris cubes to examine the time bounds of
 
          cube_files: the respective files of cubes, to give users
-         info as to what cubes are causing problems with concatentation.
+         info as to what cubes are causing problems with concatenation.
 
     Returns:
         A printed string detailing any overlap in the time bounds.

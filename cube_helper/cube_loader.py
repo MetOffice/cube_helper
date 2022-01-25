@@ -5,11 +5,14 @@
 # See LICENSE in the root of the repository for full licensing details.
 
 import os
-import iris
 import glob
-from iris.exceptions import MergeError, ConstraintMismatchError
-from six import string_types
 from datetime import datetime
+
+import iris
+import iris.cube
+from iris.exceptions import MergeError, ConstraintMismatchError
+import iris.time
+from six import string_types
 
 
 def _check_pdt_year(cell, partial_datetime):
@@ -117,8 +120,7 @@ def _parse_directory(directory):
 def _sort_by_date(time_coord):
     """
     Private sorting function used by _file
-    _sort_by_earliest_date() and sort_by_earl
-    iest_date().
+    _sort_by_earliest_date() and sort_by_earliest_date().
 
     Args:
         time_coord: Cube time coordinate for each cube
@@ -196,7 +198,7 @@ def load_from_dir(directory, filetype, constraint=None):
         filetype (optional): a string specifying the expected type
         Of files found in the dataset.
 
-        constraints (optional): a string specifying any constraints
+        constraint (optional): a string specifying any constraints
         You wish to load the dataset with.
 
     Returns:
@@ -254,7 +256,7 @@ def load_from_filelist(paths, filetype, constraint=None):
         filetype (optional): a string specifying the expected type
         Of files found in the dataset
 
-        constraints (optional): a string, iterable of strings or an
+        constraint (optional): a string, iterable of strings or an
         iris.Constraint specifying any constraints you wish to load
         the dataset with.
 

@@ -7,6 +7,7 @@ from abc import ABCMeta, abstractmethod
 import six
 
 import iris
+import iris.util
 
 from cube_helper.logger import log_module
 

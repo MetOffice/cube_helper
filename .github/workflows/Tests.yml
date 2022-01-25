@@ -6,8 +6,21 @@ jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
-        python-version: [2.7, 3.6, 3.7, 3.8]
+        python-version: [3.6, 3.7, 3.9]
+        iris-version: [3.0.1, 3.1]
+        include:
+          # Extra Iris 2.4 test for just Python 3.6
+          - python-version: 3.6
+            iris-version: 2.4
+        exclude:
+          - python-version: 3.9
+            iris-version: 3.0.1
+          - python-version: 3.7
+            iris-version: 3.0.1
+          - python-version: 3.6
+            iris-version: 3.1
 
     steps:
     - uses: actions/checkout@v2
@@ -15,21 +28,20 @@ jobs:
       uses: actions/setup-python@v1
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Install iris and run tests
+    - name: Install Iris 2.4
       run: |
-        python -m pip install --upgrade pip
-        wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
-        bash miniconda.sh -b -p $HOME/miniconda
-        export PATH="$HOME/miniconda/bin:$PATH"
-        hash -r
-        conda config --set always_yes yes --set changeps1 no
-        conda config --add channels conda-forge
-        conda config --set channel_priority strict
-        conda update -q conda
-        conda create -q -n test_environment python=${{ matrix.python-version }} iris cftime=1.0.4
-        source activate test_environment
-        conda install pytest
-        conda install filelock
-        conda install mock
+        $CONDA/bin/conda install -c conda-forge python=${{ matrix.python-version }} iris=${{ matrix.iris-version }} cftime=1.0.4 requests mock pytest filelock dask
+      if: matrix.iris-version == '2.4'
+    - name: Install Iris 3.0.1
+      # Pin all relevant versions to match common community installations
+      run: |
+        $CONDA/bin/conda install -c conda-forge python=3.6.6 iris=${{ matrix.iris-version }} cf-units=2.1.3 cftime=1.2.1 netCDF4=1.4.2 libnetcdf=4.6.1 numpy=1.19.2 udunits2=2.2.27.6 requests mock pytest filelock dask
+      if: matrix.iris-version == '3.0.1'
+    - name: Install Iris 3.1
+      run: |
+        $CONDA/bin/conda install -c conda-forge python=${{ matrix.python-version }} iris=${{ matrix.iris-version }} cftime requests mock pytest filelock
+      if: matrix.iris-version == '3.1'
+    - name: Activate environment and run tests
+      run: |
         export PYTHONPATH=.
-        pytest -vv
+        $CONDA/bin/pytest -vv
