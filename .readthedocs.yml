@@ -1,7 +1,9 @@
 version: 2
 
 build:
-    image: latest
+    os: "ubuntu-22.04"
+    tools:
+        python: "mambaforge-22.9"
 
 conda:
     environment: .readthedocs_conda_env.yml
@@ -11,7 +13,6 @@ sphinx:
     fail_on_warning: false
 
 python:
-    version: 3.8
     install: 
         - method: setuptools
           path: .
